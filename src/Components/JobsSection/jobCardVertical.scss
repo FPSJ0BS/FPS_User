@@ -1,0 +1,141 @@
+.job-card-vertical {
+  margin-bottom: 30px;
+
+  cursor: pointer;
+  .job-listing {
+    // max-width: 800px;
+    // margin: auto;
+    border: 1px solid #e1e1e1;
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 14px;
+  }
+
+  .job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .school-name {
+    font-weight: bold;
+    font-size: 18px;
+  }
+
+  .job-actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  .btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+
+  .apply-btn {
+    background-color: var(--button);
+    color: white;
+  }
+
+  .save-btn {
+    background-color: transparent;
+    color: var(--button);
+    border: 1px solid var(--button);
+  }
+
+  .job-title {
+    font-weight: bold;
+    font-size: 15px;
+    margin-bottom: 10px;
+    color: var(--button);
+  }
+
+  .job-location {
+    color: #000;
+    font-size: 15px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+
+  .job-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .details {
+    color: #000;
+    font-size: 15px;
+  }
+
+  .type,
+  .qualifications {
+    background-color: #fff8e1;
+    color: #f0a30a;
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+
+  .job-description {
+    color: #000;
+    font-size: 15px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  .job-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .share-btn {
+    background-color: #f0f0f0;
+    color: black;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+  }
+
+  .applicants-info {
+    font-size: 14px;
+    color: #646464;
+    font-weight: 500;
+  }
+  .icon {
+    margin-right: 3px;
+  }
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .job-details {
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .job-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .applicants-info {
+      margin-top: 10px;
+    }
+  }
+  @media (min-width: 1280px) {
+    width: 48%;
+  }
+  @media (max-width: 1024px) {
+    width: 100%;
+  }
+}

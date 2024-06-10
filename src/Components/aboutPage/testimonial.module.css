@@ -1,0 +1,102 @@
+.container {
+  margin: auto;
+  display: grid !important;
+  grid-template-columns: 1fr 80px 1fr;
+  grid-template-rows: 40px 40px 1fr;
+  width: 400px;
+
+}
+
+.image {
+  --size: 80px;
+  height: var(--size);
+  width: var(--size);
+  aspect-ratio: 1/1;
+  max-width: 100%;
+  z-index: 10;
+  grid-column: 2 / 3;
+  grid-row: 1 / 3;
+  border-radius: 100%;
+  padding: 0.5em;
+  /* background: var(--primary-gradient); */
+}
+
+.maincontent {
+  padding: 50px;
+  height: 300px;
+  /* min-width: 360px; */
+  grid-row: 2 / -1 !important;
+  grid-column: 1/ -1 !important;
+  background-color: #eeeeee !important;
+  
+}
+
+.textcontent {
+  text-align: center;
+  position: relative;
+  overflow: hidden !important;
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 4 !important;
+  /* white-space: pre-line; */
+  overflow-y: auto;
+  overflow-x: hidden;
+  color: #474747;
+  font-size: 16px;
+  line-height: 2em;
+  font-weight: 400;
+}
+.line_Climp_none{
+overflow: visible;
+display: block;
+-webkit-box-orient: horizontal;
+-webkit-line-clamp: none;
+}
+
+.quote {
+  position: relative;
+}
+
+.quote.start::before {
+  content: "\201C";
+  position: absolute;
+  font-weight: bold;
+  font-size: 3em;
+  color: #a73358;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  top: -15px;
+  left: -30px;
+}
+
+.quote.end::after {
+  content: "\201D";
+  position: absolute;
+  font-weight: bold;
+  font-size: 3em;
+  color: #a73358;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  bottom: -35px;
+  right: -30px;
+}
+
+.poster {
+  text-align: center;
+}
+
+.credentials {
+  color: #a73358;
+}
+
+.author {
+  font-size: 1.3em;
+  background: var(--text-black);
+  margin-right: 2px;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.line_clamp_1 {
+  overflow: hidden !important;
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 3 !important;
+}

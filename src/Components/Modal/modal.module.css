@@ -1,0 +1,94 @@
+.modaloverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background-color: white;
+  border-radius: 8px;
+  width: 500px;
+  overflow: hidden;
+}
+
+.modalheader {
+  padding: 16px;
+  background: linear-gradient(84.42deg, #a73358 0%, #6255a4 100%);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modaltitle {
+  font-size: 18px;
+}
+
+.closebutton {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.modalbody {
+  padding: 16px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.socialicon {
+  width: 30%;
+  display: flex;
+  flex-direction: row;
+
+  align-items: center;
+  margin-bottom: 10px;
+  /* Placeholder styling for the icons, replace with actual icons */
+  padding: 8px;
+  background-color: #eaeaea;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.facebook{
+  background-color: #1877f2;
+  padding: 5px;
+  border-radius: 25px;
+}
+.whatsapp{
+  background-color: #12af0a;
+  padding: 5px;
+  border-radius: 25px;
+}
+.twitter{
+  background-color: #55acee;
+  padding: 5px;
+  border-radius: 25px;
+}
+.telegarm{
+  background-color: #2ca5e0;
+  padding: 5px;
+  border-radius: 25px;
+}
+.linkedin{
+  background-color: #007bb5;
+  padding: 5px;
+  border-radius: 25px;
+}
+.mail{
+  background-color: #0166ff;
+  padding: 5px;
+  border-radius: 25px;
+}

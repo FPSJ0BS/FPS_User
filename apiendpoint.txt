@@ -1,0 +1,300 @@
+@GET("v2/featuredJobs")
+    fun getJobListDashboard(
+        @Query("UID") UID: String
+    ): Call<FeaturedJobsResponse>
+ 
+ 
+    @GET("v2/allFavourite")
+    fun getallFavourite(
+        @Query("UID") UID: String
+    ): Call<FavouriteJobResponse>
+ 
+    @GET("v2/userDetail")
+    fun getProfileAPi(
+        @Query("UID") UID: String
+    ): Call<Profile_User_Response>
+
+
+@Multipart
+    @POST("Web_api_V3_test/signup")
+    fun postsignup(
+        @Part("name") name: RequestBody,
+        @Part("email") email: RequestBody,
+        @Part("mobile") mobile: RequestBody,
+        @Part("city") city: RequestBody,
+        @Part("job_function") job_function: RequestBody,
+        @Part("password") password: RequestBody,
+        @Part pdf: MultipartBody.Part
+    ): Call<SignupResponse>
+
+@GET("v2/mobileCheck")/done/
+    fun getmobileCheck(
+        @Query("mobile") mobile: String,
+        @Query("regToken") regToken: String,
+        @Query("device_type") device_type: String,
+    ): Call<MobileCheckResponse>
+ 
+ 
+    @GET("v2/sendotp")/done/
+    fun getLoginApi(
+        @Query("mobile") mobile: String,
+    ): Call<AuthResponse>
+ 
+    @GET("v2/otpCheck")/done/
+    fun getOtpCheckApi(
+        @Query("otp") otp: String,
+        @Query("UID") UID: String,
+        @Query("regToken") regToken: String,
+        @Query("device_type") device_type: String,
+        @Query("ip_address") ip_address:String
+    ): Call<OtpCheckResponse>
+ 
+ 
+    @FormUrlEncoded
+    @POST("login")
+    fun LoginwithEmail(
+        @Field("email") email: String,
+        @Field("password") password: String,
+        @Field("ip_address") ip_address: String
+    ): Call<LoginEmailResponse>
+ 
+    /*auth api done */
+ 
+ 
+    @GET("v2/banners")
+    fun getBannersApi(
+    ): Call<bannersfunctionsResponse>
+ 
+    @GET("v2/featuredJobs")
+    fun getJobListDashboard(
+        @Query("UID") UID: String
+    ): Call<FeaturedJobsResponse>
+ 
+    @GET("Web_api_V3_test/addFavourite")
+    fun getaddFavourite(
+       @Query("UID") UID: String,
+        @Query("jobID") jobID: String,
+    ): Call<AddFavListResponse>
+ 
+    @GET("v2/removeFavourite")
+    fun getRemoveFavourite(
+        @Query("UID") UID: String,
+        @Query("jobID") jobID: String,
+    ): Call<JobRemovedResponse>
+ 
+    @FormUrlEncoded
+    @POST("city-list")
+    fun getCityApi(
+        @Field("pageNo") pageNo: Int,
+        @Field("keyword") keyword: String
+    ): Call<OldCityResponse>
+ 
+ 
+    @GET("v2/bannersfunctions")
+    fun getCatInHome(
+    ): Call<HomeCatResponse>
+ 
+ 
+    @FormUrlEncoded
+    @POST("v2/Jobs")
+    fun subcatbyid(
+        @Field("UID") UID: String,
+        @Field("job_function") job_function: String,
+        @Field("title") title: String,
+        @Field("state") state: String,
+        @Field("city") city: String,
+        @Field("jobType") jobType: String
+    ): Call<SubItemIdJobResponse>
+ 
+ 
+    @GET("v2/appliedJobs")
+    fun getAppliedJobsApi(
+        @Query("UID") UID: String
+    ): Call<AppliedJobResponse>
+ 
+ 
+    @GET("v2/packages")
+    fun getpackages(
+        @Query("UID") UID: String
+    ): Call<packagesResponse>
+ 
+ 
+    @GET("v2/Notification")
+    fun getNotiFragmentApi(
+        @Query("UID") UID: String
+    ): Call<NewGetNotificationResponse>
+ 
+ 
+    @GET("v2/salaries")
+    fun getsalariesApi(
+    ): Call<SalaryLpaResponse>
+ 
+    @GET("v2/experiences")
+    fun getexperiencesApi(
+    ): Call<JobExperienxesResponse>
+
+
+    @GET("v2/Notification")
+    fun getNotiFragmentApi(
+        @Query("UID") UID: String
+    ): Call<NewGetNotificationResponse>
+    
+ 
+    @GET("v2/filter_city")
+    fun getOldfilter_cityApi(
+        @Query("limit") limit: String,
+        @Query("offset") offset: String
+    ): Call<OldCityItemResponces>
+ 
+ 
+    @FormUrlEncoded
+    @POST("v2/packUpdate")
+    fun packUpdate(
+        @Field("UID") UID: String,
+        @Field("packID") packID: String,
+        @Field("amount") amount: String,
+        @Field("type") type: String,
+        @Field("subscription_day") subscription_day: String,
+        @Field("transaction_id") transaction_id: String,
+        @Field("payment_type") payment_type: String,
+        @Field("payment_status") payment_status: String
+    ): Call<PaymentModel>
+ 
+ 
+    @GET("v2/cancelJob")
+    fun cancelJobs(
+        @Query("UID") UID: String,
+        @Query("jobID") jobID: String,
+    ): Call<CancelJobModel>
+ 
+ 
+    @GET("v2/applyJob")
+    fun applyJobs(
+        @Query("UID") UID: String,
+        @Query("jobID") jobID: String,
+        @Query("date1") date1: String,
+        @Query("date2") date2: String,
+        @Query("expected_joining_date") expectedJoiningDate: String
+    ): Call<JobAppliedResponse>
+ 
+ 
+    @GET("v2/packcancel")
+    fun cancelPackage(
+        @Query("UID") userID: String,
+        @Query("sid") sid: String,
+    ): Call<PackageCancelResponse>
+ 
+ 
+    @FormUrlEncoded
+    @POST("v2/Jobs_filter")
+    fun getJobsSearchFilter(
+        @Field("UID") UID: String,
+        @Field("job_function") jobFunction: String,
+        @Field("title") title: String,
+        @Field("state") state: String,
+        @Field("city") city: String,
+        @Field("jobType") jobType: String,
+        @Field("min_salary") minSalary: String,
+        @Field("max_salary") maxSalary: String,
+        @Field("min_experience") minExperience: String,
+        @Field("max_experience") maxExperience: String
+    ): Call<FilterByJobResponse>
+ 
+    @FormUrlEncoded
+    @POST("v2/Jobs_filter")
+    fun getJobsSearchFilterhome(
+        @Field("UID") UID: String,
+        @Field("job_function") jobFunction: String,
+        @Field("title") title: String,
+        @Field("state") state: String,
+        @Field("city") city: String,
+        @Field("jobType") jobType: String,
+        @Field("min_salary") minSalary: String,
+        @Field("max_salary") maxSalary: String,
+        @Field("min_experience") minExperience: String,
+        @Field("max_experience") maxExperience: String,
+        @Field("limit") limit: String,
+        @Field("pageNo") pageNo: Int,
+    ): Call<FilterByJobResponse>
+ 
+ 
+    @FormUrlEncoded
+    @POST("v2/Jobs_filter")
+    fun getJobsSearchFilterAll(
+        @Field("UID") UID: String,
+        @Field("pageNo") pageNo: Int,
+    ): Call<FilterByJobResponse>
+ 
+ 
+    @FormUrlEncoded
+    @POST("v2/profileUpdate?")
+    fun profileUpdate(
+        @Field("UID") UID: String,
+        @Field("email") email: String,
+        @Field("name") name: String,
+        @Field("state") state: String,
+        @Field("city") city: String,
+        @Field("job_function") skill: String,
+        @Field("qualification") qualification: String,
+        @Field("experience") experience: String,
+        @Field("salary") salary: String,
+        @Field("last_employer") last_employer: String,
+        @Field("university") university: String,
+        @Field("current_employer") current_employer: String,
+        @Field("dob") dob: String,
+        @Field("passing_year") passing_year: String,
+        @Field("demolecture") demolecture: String
+    ): Call<ProfileUpdateResponse>
+ 
+ 
+    @GET("v2/qualifications")
+    fun qualifications(
+    ): Call<QualificationsResponse>
+ 
+ 
+    @GET("v2/states")
+    fun states(
+    ): Call<StatesApiResponse>
+ 
+ 
+    @GET("v2/cities")
+    fun cities(
+        @Query("stateID") stateID: String,
+    ): Call<com.fpsapp.fpsapp.api.apiResponse.states.CityByIdResponse>
+ 
+    @GET("v2/rejectedJobs")
+    fun getRejectedJobsApi(
+        @Query("UID") UID: String
+    ): Call<RejectedJobResponse>
+ 
+ 
+    @GET("v2/jobDetail")
+    fun getJobDTApi(
+        @Query("jobID") jobID: String,
+        @Query("UID") UID: String
+    ): Call<GetJobDetailApiResponse>
+ 
+    @FormUrlEncoded
+    @POST("v2/contact_us")
+    fun ContactUSApi(
+        @Field("UID") UID: String,
+        @Field("name") name: String,
+        @Field("email") email: String,
+        @Field("message") message: String
+    ): Call<ContactUsResponse>
+ 
+ 
+    @Multipart
+    @POST("Web_api_V3_test/profileCv")
+    fun uploadProfileCv(
+        @Part("UID") UID: RequestBody,
+        @Part cvDoc: MultipartBody.Part
+    ): Call<CvResponse>
+ 
+ 
+    @Multipart
+    @POST("Web_api_V3_test/profileImage")
+    fun uploadProfileImage(
+        @Part("UID") UID: RequestBody,
+        @Part profilePic: MultipartBody.Part
+    ): Call<ProfileImageResponse>
