@@ -37,7 +37,7 @@ const Profile = () => {
         type={"Web Page"}
       />
 
-      <div className=" w-full h-full flex flex-col gap-3">
+      <div className=" w-full h-full flex flex-col gap-3 relative">
         <TopSection />
 
         <BottomSection />

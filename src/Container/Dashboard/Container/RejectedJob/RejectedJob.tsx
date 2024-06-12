@@ -23,6 +23,7 @@ const RejectedJob = () => {
         <h2 className="main-title m0">Rejected Job</h2>
       </div>
       <div className="wrapper flex-wrap">
+       
         <FlatList
           data={rejectedJob}
           renderItem={(item) => <List data={item} />}

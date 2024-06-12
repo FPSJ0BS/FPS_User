@@ -9,6 +9,7 @@ import { AppRoute } from "@Navigator/AppRoute";
 import TrackPopup from "./Container/Applied/Component/TrackPopup";
 import { useSelector, useDispatch } from "react-redux";
 import { closeModal, updateAppliedJobValues } from "@/Redux/appliedJobSlice";
+import EducationPost from "./Container/Profile/UI/EducationPost";
 const Dashboard = () => {
   const dispatch = useDispatch()
   const [show, setShow] = useState(false);
@@ -37,11 +38,12 @@ const Dashboard = () => {
   };
 
   return (
-    <div onClick={() => dispatch(closeModal())} className="dash-wrap">
+    <div onClick={() => dispatch(closeModal())} className="dash-wrap relative">
       <div className="main-page-wrapper">
         <Sidebar className={show} setShow={setShow} />
         {isModalShow && <DeleteAccountModal />}
         {modalOpen && <TrackPopup />}
+        <EducationPost />
         <div className="dashboard-body ">
           <div className="position-relative ">
             <Header setShow={setShow} show={show} />

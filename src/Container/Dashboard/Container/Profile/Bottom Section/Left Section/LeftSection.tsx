@@ -15,11 +15,11 @@ function LeftSection() {
 
     ]
   return (
-    <div className=" w-[25%] bg-white rounded-[20px] h-[410px] p-[10px] flex flex-col gap-3 border-1 border-solid border-gray-200">
+    <div  className=" sticky top-[500px] w-[25%] bg-white rounded-[20px] h-[410px] p-[10px] flex flex-col gap-3 border-1 border-solid border-gray-200 ">
 
         <h6 className=' font-semibold px-2 pt-1'>Quick Links</h6>
 
-        <div className='  flex flex-col gap-2'>
+        <div className=' flex flex-col gap-2 '>
             
             {Links.map(item => {
                 return (
