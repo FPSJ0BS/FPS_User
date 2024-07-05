@@ -120,6 +120,16 @@ export const doQualification = async () => {
   return res;
 };
 
+export const doResultType = async () => {
+  const res = await http.getRequest(`Faculity/resultType`);
+  return res;
+};
+
+export const doEducationType = async () => {
+  const res = await http.getRequest(`Faculity/educationType`);
+  return res;
+};
+
 export const getPackages = async (UID: string): Promise<Package[]> => {
   const res = await http.getRequest("v2/packages?UID=" + UID);
   return res as Package[];

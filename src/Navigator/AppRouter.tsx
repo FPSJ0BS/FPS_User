@@ -1,4 +1,4 @@
-import { Outlet, Route, Routes } from "react-router-dom";
+import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import { AppRoute } from "./AppRoute";
 import { useIsFetching, useIsMutating } from "@tanstack/react-query";
@@ -11,7 +11,22 @@ import AccptedJob from "@Container/Dashboard/Container/AccptedJob/AccptedJob";
 import Error from "@Container/Error/Error";
 import JobDetailsUpdate from "@Container/JobDetail/JobDetailsUpdate";
 import Nof from "@Components/Message";
+
 const BlogDetails = lazy(() => import("@Container/Blog/BlogDetails"));
+
+const ChooseTemplate = lazy(
+  () => import("@Container/Resume Builder/Choose Template/ChooseTemplate")
+);
+
+const ResumeDesignsOne = lazy(
+  () => import("@Container/Resume Builder/Resume Designs/Resume-one/ResumeDesignsOne")
+);
+const Info = lazy(() => import("@Container/Resume Builder/Info/Info"));
+
+const ResumeIndex = lazy(() => import("@Container/Resume Builder/ResumeIndex"));
+const ResumeMain = lazy(
+  () => import("@Container/Resume Builder/Resume Main/ResumeMain")
+);
 const Applied = lazy(
   () => import("@Container/Dashboard/Container/Applied/Applied")
 );
@@ -124,6 +139,32 @@ const AppRouter = () => {
               path={`${AppRoute.Find_Jobs}/:category/:subjects`}
               element={<JobListing />}
             />
+
+            <Route
+              path="/"
+              element={
+                <PrivateRoute>
+                  <Outlet />
+                </PrivateRoute>
+              }
+            >
+              <Route path={AppRoute.ResumeIndex} element={<ResumeIndex />}>
+                {/* Redirect to Info when accessing ResumeIndex */}
+                <Route
+                  index
+                  element={<Navigate to={AppRoute.Info} replace />}
+                />
+                <Route path={AppRoute.Info} element={<Info />} />
+                <Route
+                  path={AppRoute.ChooseTemplate}
+                  element={<ChooseTemplate />}
+                />
+                <Route path={AppRoute.ResumeMain} element={<ResumeMain />} />
+                <Route path={AppRoute.ResumeDesignOne} element={<ResumeDesignsOne />} />
+              </Route>
+              {/* Other private routes */}
+            </Route>
+
             <Route
               path="/"
               element={
@@ -133,6 +174,7 @@ const AppRouter = () => {
               }
             >
               <Route path={AppRoute.Thank_You} element={<Thankyou />} />
+
               <Route path={AppRoute.Dashboard} element={<DashboardLayout />}>
                 <Route path="*" element={<Error />} />
                 <Route path={AppRoute.Profile} element={<Profile />} />
@@ -172,6 +214,7 @@ const AppRouter = () => {
               }
             >
               <Route path={AppRoute.Login} element={<Login />} />
+
               <Route path={AppRoute.SignUp} element={<SignUp />} />
               <Route
                 path={AppRoute.Forgot_password}

@@ -18,4 +18,6 @@ export const Querykeys = {
   latestJobs: "latestJobs",
   blog:"blog",
   blogDetails:"blogDetails",
+  resultType:"resultType",
+  educationType:"educationType"
 };

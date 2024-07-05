@@ -20,10 +20,23 @@ export const doProfileUpdate = async (data) => {
   return res;
 };
 
+
+
+
 export const doContactUs = async (data) => {
   const res = await http.postRequestForm(`v2/contact_us`, data);
   return res;
 };
+
+
+export const doProfileEducation = async (data) => {
+  const res = await http.postRequestForm(`Faculity/faculity_education_save`, data);
+  return res;
+};
+
+
+
+
 export const doGetBlog = async (data) => {
   const res = await http.postRequestForm(`blog/blogs`, data);
   return res;
@@ -138,6 +151,13 @@ export const doPackUpdate = async (data: any) => {
   const res = await http.postRequest("v2/packUpdate", data);
   return res;
 };
+
+export const doResumeBuy = async (data: any) => {
+  const res = await http.postRequest("Faculity/purchasedResume", data);
+  return res;
+};
+
+
 export const doWorkStatus = async (data: any) => {
   const res = await http.postRequestForm("faculity/workStatus", data);
   return res;

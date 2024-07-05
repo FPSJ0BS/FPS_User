@@ -1,0 +1,101 @@
+import { useState, memo, useEffect } from "react";
+import Pen from "@Assets/Icons/pen.png";
+import Download from "@Assets/Icons/file.png";
+import Delete from "@Assets/Icons/delete.png";
+import { postUploadResume } from "@/api/api";
+import { useGlobalContext } from "@Context/GlobalContextProvider";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleRefetchProfile } from "@/Redux/Dashboard/MyProfile/Education/EducationSlice";
+import { Toast } from "@Utils/Toast";
+import ProgressBarHori from "./Bar";
+
+function ProgressBar() {
+  const { userData } = useGlobalContext();
+  const userId = userData?.UID;
+  const [buttonLoad, setButtonLoad] = useState(false);
+  const dispatch = useDispatch();
+
+  const { userDataArray } = useSelector(
+    (state) => state.myProfileEducationSlice
+  );
+
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+
+  const updateResume = async () => {
+    if (!selectedFile) {
+      console.error("No file selected");
+      return;
+    }
+
+    try {
+      setButtonLoad(true);
+      const formData = new FormData();
+      formData.append("UID", userId); // Append UID
+      formData.append("cvDoc", selectedFile); // Append selected file
+
+      const res = await postUploadResume(formData);
+
+      // Handle success response
+      if (res?.data?.status) {
+        setButtonLoad(false);
+        dispatch(toggleRefetchProfile());
+
+        Toast("success", res?.data?.message);
+      } else {
+        Toast("error", res?.data?.message);
+        setButtonLoad(false);
+      }
+
+      // Clear the selected file after upload
+      setSelectedFile(null);
+    } catch (error) {
+      console.error("Error uploading resume:", error);
+      // Handle error scenario
+    }
+  };
+
+  useEffect(() => {
+    updateResume();
+  }, [selectedFile]);
+
+  const downloadResume = (resumeUrl, name) => {
+    // Replace with actual URL or file path to download the resume file
+
+    fetch(resumeUrl)
+      .then((res) => res.blob())
+      .then((blob) => {
+        const url = window.URL.createObjectURL(new Blob([blob]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `${name}.pdf`); // Specify the file name to download
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      })
+      .catch((error) => console.error("Error downloading resume:", error));
+  };
+
+  return (
+    <div className="bg-[#e8f0fc] rounded-[20px] h-[150px] w-full flex">
+      <div className=" w-[20%]  h-[150px] "></div>
+
+      <div className=" w-[60%]  h-[150px]  flex flex-col  items-start justify-center gap-2">
+        <h5 className=" mb-0">Your Profile</h5>
+        <p className=" mb-0 leading-[1.4em] font-medium">
+          Complete atleast 85% of your profile to generate
+          <br /> customized resume for free!
+        </p>
+
+     <ProgressBarHori />
+      </div>
+
+      <div className=" w-[20%]  h-[150px] "></div>
+    </div>
+  );
+}
+
+export default memo(ProgressBar);

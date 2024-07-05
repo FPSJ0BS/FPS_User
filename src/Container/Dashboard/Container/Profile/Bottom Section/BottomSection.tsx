@@ -5,7 +5,7 @@ import RightSection from "./Right Section/RightSection";
 function BottomSection() {
   return <>
   
-  <div className=" flex gap-3 w-full ">
+  <div className=" flex justify-end gap-3 w-full ">
 
 
     <LeftSection />

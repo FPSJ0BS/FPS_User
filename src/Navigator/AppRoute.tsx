@@ -4,6 +4,10 @@ export const AppRoute = {
   Careers: "/careers",
   Membership: "membership",
   Login: "/login",
+  ResumeIndex: "/resume-builder",
+  ChooseTemplate:"choose-template",
+  ResumeMain:"resume-main",
+  Info:"info",
   SignUp: "/signup",
   Profile: "profile",
   Apply_job: "/apply-job",
@@ -25,5 +29,6 @@ export const AppRoute = {
   Accepted_Job: "accepted-job",
   Account_Setting: "account-setting",
   Forgot_password: "/forgot-password",
+  ResumeDesignOne:"resume-one"
   
 };

@@ -99,7 +99,7 @@ function Testimonial() {
             <div className="col-lg-12">
               <div className="tf-title style-2">
                 <div className="group-title">
-                  <h1>{dataBlock.title}</h1>
+                  <h1 className=" text-[30px]">{dataBlock.title}</h1>
                   <p>{dataBlock.text}</p>
                 </div>
               </div>
@@ -109,43 +109,37 @@ function Testimonial() {
                 {testimonialData?.map((item: any, index) => {
                   // const _data = item?.details.split(" ");
                   return (
-                    <div className={`${Style.container}`} key={index}>
+                    <div
+                      className={` flex flex-col  min-h-[250px] rounded-xl bg-[#1d212a] rotate-2 my-5`}
+                      key={index}
+                    >
                       <Imag
                         className={Style.image}
                         src={`${testimonial?.data?.base_url}${item?.image}`}
                         alt="author-image"
                       />
                       <div
-                        className={`${Style.maincontent} d-flex flex-column justify-content-between`}
+                        className={`flex flex-column justify-content-between px-5 gap-3`}
                       >
-                        <p
-                          className={`${Style.textcontent} d-flex flex-row ${
-                            !item?.isMore && "align-items-center"
-                          } `}
-                        >
-                          {/* {item?.isMore
-                            ? _data.slice(0, _data.length).join(" ")
-                            : _data.slice(0, 20).join(" ")} */}
-                          {item?.details}
-                        </p>
+                       <p className=" text-white line-clamp-5 pt-2">{item?.details}</p>
 
                         {/* <a
-                            className={`tf-button d-flex flex-row justify-content-end d-block`}
-                            style={{ color: "#a73358" }}
-                            onClick={() => {
-                              if (item?.isMore) {
-                                testimonialData[index].isMore = false;
-                              } else {
-                                testimonialData[index].isMore = true;
-                              }
-                              setTestimonialData([...testimonialData]);
-                            }}
-                          >
-                            {item?.isMore ? "Less..." : "More..."}
-                          </a> */}
+                          className={`tf-button d-flex flex-row justify-content-end d-block`}
+                          style={{ color: "#a73358" }}
+                          onClick={() => {
+                            if (item?.isMore) {
+                              testimonialData[index].isMore = false;
+                            } else {
+                              testimonialData[index].isMore = true;
+                            }
+                            setTestimonialData([...testimonialData]);
+                          }}
+                        >
+                          {item?.isMore ? "Less..." : "More..."}
+                        </a> */}
 
                         <div className={Style.poster}>
-                          <span className={Style.author}>{item?.name}</span>
+                          <span className='text-white pr-2 '>{item?.name}</span>
                           <span className={Style.credentials}>
                             {item?.designation}
                           </span>

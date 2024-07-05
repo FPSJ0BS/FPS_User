@@ -19,7 +19,7 @@ const Category = (props: IProps) => {
   const { data: Category } = useCategoryList({});
   const navigate = useNavigate();
   return (
-    <section className={className}>
+    <section className=' bg-[#ece8e4]'>
       <div className="container">
         <div className="row">
           <div className="col-md-12">
@@ -47,7 +47,7 @@ const Category = (props: IProps) => {
                   return (
                     <div
                       key={idx.id}
-                      className={`job-category-box`}
+                      className={`job-category-box border-t-[5px] border-solid border-[#dd4578] `}
                       onClick={() => {
                         navigate(
                           `/${idx?.category
@@ -68,7 +68,7 @@ const Category = (props: IProps) => {
                           </a>
                         </h1>
                       </div>
-                      <a className="btn-category-job">
+                      <a className="btn-category-job mt-[-20px]">
                         Explore Subjects{" "}
                         <span className="icon-keyboard_arrow_right"></span>
                       </a>
