@@ -18,7 +18,7 @@ import { useNavigate } from "react-router-dom";
 import useQualification from "@Hooks/Queries/useQualification";
 import Interview from "@Assets/interview.svg";
 
-const JobCardVertical = ({ jobIdSet = new Set(), job }: any) => {
+const JobCardVertical = ({ jobIdSet = new Set(), job,packType }: any) => {
   const { userData } = useGlobalContext();
   const queryClient = useQueryClient();
   const { data: Category } = useCategoryList({});
@@ -78,10 +78,10 @@ const JobCardVertical = ({ jobIdSet = new Set(), job }: any) => {
     >
       <div className="job-listing">
         <div className="job-header d-flex flex-row gap-2 align-items-center">
-          {job?.show_all === "1" ? (
+        {packType === "Prepaid" || job?.show_all === "1" ? (
             <h2 className="school-name">{job?.company_name}</h2>
           ) : (
-            <h2 className="school-name"> *********-IIT JEE NEET</h2>
+            <h2 className="school-name">*********-{job?.category_title}</h2>
           )}
           <div className="job-actions">
             <div

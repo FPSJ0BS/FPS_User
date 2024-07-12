@@ -3,7 +3,6 @@ import {
   FacebookShareButton,
   LinkedinShareButton,
   TwitterShareButton,
- 
 } from "react-share";
 import facebook from "@Assets/images/facebook.svg";
 import Twitter from "@Assets/images/Twitter.svg";
@@ -28,17 +27,22 @@ const JobDescription = ({ data, id }: any) => {
     { enabled: !!searchJob?.UID },
     searchJob
   );
+
+  
   const date = data?.created_at
     ? formatDistance(new Date(data?.created_at), new Date(), {
         addSuffix: true,
       })
     : "";
 
+
   const relatedJob =
     jobs?.jobs &&
     jobs?.jobs?.filter((item) => {
       return item?.catID === data?.catID && item?.slug !== id;
     });
+
+
   return (
     <div className="job-detail-outer">
       <div className="auto-container">

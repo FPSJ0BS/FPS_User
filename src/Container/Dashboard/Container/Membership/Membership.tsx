@@ -104,6 +104,7 @@ const Membership = () => {
           rzp1.open();
         });
       }
+      
       if (item?.type === "Postpaid") {
         if (confirm("Do you really want to choose postpaid package") === true) {
           packUpdate({

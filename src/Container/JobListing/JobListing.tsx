@@ -5,6 +5,7 @@ import { useGlobalContext } from "@Context/GlobalContextProvider";
 import useSearchJobsQuery from "@Hooks/Queries/useSearchJobsQuery";
 import { memo, useState } from "react";
 
+
 const JobListing = () => {
   const { userData} = useGlobalContext();
   const [searchJob, setSearchJob] = useState<any>({
@@ -12,6 +13,8 @@ const JobListing = () => {
     pageNo: 0,
     limit: 10,
   });
+
+  console.log('setSearchJobsetSearchJobsetSearchJob', searchJob);
 
   const { data: jobs } = useSearchJobsQuery(
     { enabled: !!searchJob?.UID },

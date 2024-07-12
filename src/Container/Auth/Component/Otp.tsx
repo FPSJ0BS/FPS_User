@@ -34,10 +34,10 @@ const Otp = ({
     cb(data);
   };
   return (
-    <div className="flex flex-col justify-center items-center">
-      <h6 className="fs-6 text-center mb-16 ">{label}</h6>
+    <div className="flex flex-col justify-center items-center ">
+      <h6 className="fs-6 text-center mb-16 text-white">{label}</h6>
       <form id="otp-form" className="w-100">
-        <div className="otpInputCon ">
+        <div className="otpInputCon text-white ">
           <Controller
             name={name}
             control={control}
@@ -54,7 +54,7 @@ const Otp = ({
                 OTPLength={digit}
                 disabled={false}
                 inputClassName={"otpInput"}
-                className={"flex flex-row justify-center"}
+                className={"flex flex-row justify-center text-white"}
               />
             )}
           />
@@ -82,18 +82,18 @@ const Otp = ({
         )}
 
         <div
-          className={`d-flex flex-row justify-content-center col-12 ${
+          className={`d-flex flex-row justify-content-center col-12 text-white ${
             !isResendOtp && "mt-10"
           }`}
         >
           <button
             onClick={handleSubmit(onSubmit)}
-            className={`text-white reg border-0 col-8 mt-[13px] ${
-              isPending && "d-flex flex-row justify-content-center"
+            className={`bg-black border-1 border-white border-solid col-8 mt-[13px] py-3 rounded-lg text-[17px] ${
+              isPending && "text-white d-flex flex-row justify-content-center "
             }`}
             disabled={isPending ? true : false}
           >
-            {isPending ? <div className="btn-loader"></div> : "Verify Otp"}
+            {isPending ? <div className="btn-loader text-white"></div> : "Verify Otp"}
           </button>
         </div>
       </form>

@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import Logo from "../../../public/fps-logo.webp";
+import Logo from "@Assets/Icons/tallento white (1).png";
 import AppleStore from "@Assets/images/AppleStore.webp";
 import GoogleAppleStore from "@Assets/images/GoogleAppleStore.webp";
 import { AppRoute } from "@Navigator/AppRoute";
@@ -12,7 +12,7 @@ import { memo } from "react";
 const Footer = () => {
   const { userData } = useGlobalContext();
   return (
-    <footer className="footer">
+    <footer className="footer bg-[#090c0f] ">
       <div className="top-footer">
         <div className="container">
           <div className="d-flex flex-row justify-content-between align-items-center flex-wrap">
@@ -27,10 +27,11 @@ const Footer = () => {
 
             <div>
               <div className="wd-social d-flex flex-col aln-start">
-                <span>Follow Us:</span>
+                <span className=" text-white">Follow Us:</span>
                 <ul className="list-social d-flex aln-center">
                   <li>
                     <NavLink
+                      className={`text-black`}
                       to={SocialMediaLinks.facebook}
                       aria-label={`Visit ${AppConst.LogoName} Facebook page`}
                       target="_blank"
@@ -90,7 +91,7 @@ const Footer = () => {
                     <h6>
                       <NavLink
                         to={`tel:${AppConst.MobileNumberSecond}`}
-                        className="fw-bolder"
+                        className="fw-bolder text-white"
                         target="_blank"
                       >
                         {AppConst.MobileNumberSecond}
@@ -99,7 +100,7 @@ const Footer = () => {
                     <h6>
                       <NavLink
                         to={`tel:${AppConst.MobileNumberOne}`}
-                        className="fw-bolder"
+                        className="fw-bolder text-white"
                         target="_blank"
                       >
                         {AppConst.MobileNumberOne}
@@ -107,10 +108,10 @@ const Footer = () => {
                     </h6>
                   </div>
                 </div>
-                <p>
-                  {` India's #1 Educational Job Portal. ${AppConst.LogoName} Is An
-                  Innovative Online Educational Job Portal That Came Into
-                  Existence.`}
+                <p className="text-white font-light text-[13px]">
+                  <p className="text-white font-extrabold text-[15px] mr-[-100px]">Find Jobs or Hire Candidates with Tallento.ai</p>
+                  {` 
+Discover Tallento.ai, the innovative online educational job portal for IIT JEE, NEET, schools, colleges, universities, and other educational institutes. Connect with top talent and premier educational opportunities effortlessly.`}
                 </p>
                 {/* <div className="ft-icon">
                   <i className="icon-map-pin"></i>
@@ -120,22 +121,33 @@ const Footer = () => {
             </div>
             <div className="col-lg-3 col-md-6 col-6">
               <div className="footer-cl-2">
-                <h6 className="ft-title">Company</h6>
-                <ul className="navigation-menu-footer">
+                <h6 className="ft-title text-white">Company</h6>
+                <ul className="navigation-menu-footer ">
                   <li>
-                    <NavLink to={AppRoute.Home}>Home</NavLink>
+                    <NavLink className={`text-white`} to={AppRoute.Home}>
+                      Home
+                    </NavLink>
                   </li>
                   <li>
-                    <NavLink to={AppRoute.About_Us}>About Us</NavLink>
+                    <NavLink className={`text-white`} to={AppRoute.About_Us}>
+                      About Us
+                    </NavLink>
                   </li>
                   <li>
-                    <NavLink to={AppRoute.Blog}>Blog</NavLink>
+                    <NavLink className={`text-white`} to={AppRoute.Blog}>
+                      Blog
+                    </NavLink>
                   </li>
                   <li>
-                    <NavLink to={AppRoute.Contact_Us}>Contact Us</NavLink>
+                    <NavLink className={`text-white`} to={AppRoute.Contact_Us}>
+                      Contact Us
+                    </NavLink>
                   </li>
                   <li>
-                    <NavLink to={"https://employer.fpsjob.com"}>
+                    <NavLink
+                      className={`text-white`}
+                      to={"https://employer.fpsjob.com"}
+                    >
                       Employer
                     </NavLink>
                   </li>
@@ -144,32 +156,49 @@ const Footer = () => {
             </div>
             <div className="col-lg-2 col-md-4 col-6">
               <div className="footer-cl-3">
-                <h6 className="ft-title">Quick Links</h6>
+                <h6 className="ft-title text-white">Quick Links</h6>
                 <ul className="navigation-menu-footer">
                   <li>
-                    <NavLink to={AppRoute.Faqs}>FAQS</NavLink>
+                    <NavLink className={`text-white`} to={AppRoute.Faqs}>
+                      FAQS
+                    </NavLink>
                   </li>
                   <li>
-                    <NavLink to={AppRoute.Terms_of_use}>
+                    <NavLink
+                      className={`text-white`}
+                      to={AppRoute.Terms_of_use}
+                    >
                       Terms Of Services
                     </NavLink>
                   </li>
                   <li>
-                    <NavLink to={AppRoute.Privacy_Policy}>
+                    <NavLink
+                      className={`text-white`}
+                      to={AppRoute.Privacy_Policy}
+                    >
                       Privacy Policy
                     </NavLink>
                   </li>
 
                   <li>
-                    <NavLink to={AppRoute.Refund_Policy}>Refund Policy</NavLink>
+                    <NavLink
+                      className={`text-white`}
+                      to={AppRoute.Refund_Policy}
+                    >
+                      Refund Policy
+                    </NavLink>
                   </li>
                   {!userData?.UID && (
                     <>
                       <li>
-                        <NavLink to={AppRoute.SignUp}>Sign Up</NavLink>
+                        <NavLink className={`text-white`} to={AppRoute.SignUp}>
+                          Sign Up
+                        </NavLink>
                       </li>
                       <li>
-                        <NavLink to={AppRoute.Login}>Sign In</NavLink>
+                        <NavLink className={`text-white`} to={AppRoute.Login}>
+                          Sign In
+                        </NavLink>
                       </li>
                     </>
                   )}
@@ -179,11 +208,15 @@ const Footer = () => {
 
             <div className="col-lg-2 col-md-4 col-12 ">
               <div className="footer-cl-5">
-                <h6 className="ft-title">Download App</h6>
+                <h6 className="ft-title text-white mr-[-100px]">Download Tallento App</h6>
                 <ul className="ft-download gap-2">
                   <li>
-                    <NavLink to={StorageConst.APP_STORE_LINK}>
-                      <Imag
+                    <NavLink
+                      className={`text-white `}
+                      to={StorageConst.APP_STORE_LINK}
+                    >
+                      <img
+                      className=" border-1 border-solid "
                         src={AppleStore}
                         alt="images"
                         // width={"106px"}
@@ -192,8 +225,11 @@ const Footer = () => {
                     </NavLink>
                   </li>
                   <li>
-                    <NavLink to={StorageConst.PLAY_STORE_LINK}>
-                      <Imag src={GoogleAppleStore} alt="images" />
+                    <NavLink
+                      className={`text-white`}
+                      to={StorageConst.PLAY_STORE_LINK}
+                    >
+                      <img className="border-1 border-solid" src={GoogleAppleStore} alt="images" />
                     </NavLink>
                   </li>
                 </ul>

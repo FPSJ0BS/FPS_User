@@ -81,7 +81,6 @@ function Testimonial() {
   const { data: testimonial } = useTestimonial({});
   const [testimonialData, setTestimonialData] = useState<any>([]);
   const [dataBlock] = useState({
-    title: "What our clients are saying",
     text: "Showing companies based on reviews and recent job openings",
   });
   useLayoutEffect(() => {
@@ -92,15 +91,30 @@ function Testimonial() {
   }, [testimonial]);
 
   return (
-    <section className="inner-testimonials-section">
+    <section className="inner-testimonials-section md:block hidden">
       <div className="wrap-testimonials over-flow-hidden ">
         <div className="container">
           <div className="row">
             <div className="col-lg-12">
               <div className="tf-title style-2">
-                <div className="group-title">
-                  <h1>{dataBlock.title}</h1>
-                  <p>{dataBlock.text}</p>
+                <div className="flex md:flex-row flex-col ">
+                  <h1 className="  pr-[100px] xl:text-[35px] 2xltext-[40px] leading-[1.4em] text-left text-black ">
+                    Check Out User
+                    <br /> Reviews About Our
+                    <br /> Platform!
+                  </h1>
+                  <div className=" flex flex-col items-start ">
+                    <p className=" text-left text-black font-medium">
+                      Tallento.ai is one of the largest platforms for the
+                      education sector, making it easy to find the jobs you
+                      want. Discover opportunities tailored to your skills and
+                      achieve your career goals effortlessly
+                    </p>
+                    {/* <div className=" flex gap-5 pt-5">
+                      <div className=" border-1 border-gray-500 border-solid w-[50px] h-[50px] flex justify-center items-center rounded-full text-[20px]">{"<"}</div>
+                      <div className=" border-1 border-gray-500 border-solid w-[50px] h-[50px] flex justify-center items-center rounded-full text-[20px]">{">"}</div>
+                    </div> */}
+                  </div>
                 </div>
               </div>
             </div>
@@ -109,43 +123,39 @@ function Testimonial() {
                 {testimonialData?.map((item: any, index) => {
                   // const _data = item?.details.split(" ");
                   return (
-                    <div className={`${Style.container}`} key={index}>
-                      <Imag
-                        className={Style.image}
+                    <div
+                      className={` flex flex-col  min-h-[250px] rounded-xl bg-[#1d212a] rotate-2 my-5`}
+                      key={index}
+                    >
+                      <img
+                        className={`rounded-full ml-2 mt-2 w-[70px] h-[70px] border-1 border-white border-solid flex justify-center items-center`}
                         src={`${testimonial?.data?.base_url}${item?.image}`}
                         alt="author-image"
                       />
                       <div
-                        className={`${Style.maincontent} d-flex flex-column justify-content-between`}
+                        className={`flex flex-column justify-content-between px-5 gap-3`}
                       >
-                        <p
-                          className={`${Style.textcontent} d-flex flex-row ${
-                            !item?.isMore && "align-items-center"
-                          } `}
-                        >
-                          {/* {item?.isMore
-                            ? _data.slice(0, _data.length).join(" ")
-                            : _data.slice(0, 20).join(" ")} */}
+                        <p className=" text-white line-clamp-5 pt-2">
                           {item?.details}
                         </p>
 
                         {/* <a
-                            className={`tf-button d-flex flex-row justify-content-end d-block`}
-                            style={{ color: "#a73358" }}
-                            onClick={() => {
-                              if (item?.isMore) {
-                                testimonialData[index].isMore = false;
-                              } else {
-                                testimonialData[index].isMore = true;
-                              }
-                              setTestimonialData([...testimonialData]);
-                            }}
-                          >
-                            {item?.isMore ? "Less..." : "More..."}
-                          </a> */}
+                          className={`tf-button d-flex flex-row justify-content-end d-block`}
+                          style={{ color: "#a73358" }}
+                          onClick={() => {
+                            if (item?.isMore) {
+                              testimonialData[index].isMore = false;
+                            } else {
+                              testimonialData[index].isMore = true;
+                            }
+                            setTestimonialData([...testimonialData]);
+                          }}
+                        >
+                          {item?.isMore ? "Less..." : "More..."}
+                        </a> */}
 
                         <div className={Style.poster}>
-                          <span className={Style.author}>{item?.name}</span>
+                          <span className="text-white pr-2 ">{item?.name}</span>
                           <span className={Style.credentials}>
                             {item?.designation}
                           </span>

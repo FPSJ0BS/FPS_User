@@ -22,7 +22,8 @@ import useQualification from "@Hooks/Queries/useQualification";
 import { AppRoute } from "@Navigator/AppRoute";
 import Interview from "@Assets/interview.svg";
 
-const JobCard = ({ jobIdSet = new Set(), job }: any) => {
+const JobCard = ({ jobIdSet = new Set(), job, packType }: any) => {
+  // console.log('jobjobjobjobjobjobjobjobjobjobjobjobjobjob', job);
   const { userData } = useGlobalContext();
   const queryClient = useQueryClient();
   const { data: Category } = useCategoryList({});
@@ -85,11 +86,14 @@ const JobCard = ({ jobIdSet = new Set(), job }: any) => {
     >
       <div className="job-listing">
         <div className="job-header">
-          {job?.show_all === "1" ? (
+
+          {packType === "Prepaid" || job?.show_all === "1" ? (
             <h2 className="school-name">{job?.company_name}</h2>
           ) : (
-            <h2 className="school-name">*********-IIT JEE NEET</h2>
+            <h2 className="school-name">*********-{job?.category_title}</h2>
           )}
+
+          
 
           <div className="job-actions">
             {userData?.UID ? (

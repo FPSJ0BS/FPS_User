@@ -72,9 +72,9 @@ const List = ({ data }: any) => {
         <div className="col-lg-4 col-md-12 col-sm-12 ms-auto">
           <a className="job-duration fw-500 ">{data?.job_type}</a>
           <div className="job-salary d-flex flex align-items-center gap-2">
-            <span className="icon-dolar1 fw-500 text-dark">
+            {/* <span className="icon-dolar1 fw-500 text-dark">
               {data?.min_salary} - {data?.max_salary}
-            </span>
+            </span> */}
             {data?.salary_type === "annually" && (
               <>
                 <span className="fw-500 text-dark">

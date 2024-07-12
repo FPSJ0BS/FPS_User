@@ -55,10 +55,10 @@ const Header = ({ clname = "", handleMobile }: any) => {
       <header
         // ${scroll ? "is-fixed is-small" : ""}
         id="header"
-        className={`header header-default is-fixed is-small 
+        className={`header header-default is-fixed is-small border-[#9c9595]
         `}
       >
-        <div className="container ct2">
+        <div className="container ct2 w-[75%]">
           <div className="row">
             <div className="col-md-12">
               <div className="sticky-area-wrap">
@@ -114,7 +114,10 @@ const Header = ({ clname = "", handleMobile }: any) => {
                     </div>
                   </div>
                 </div>
-                <div className="header-ct-center">
+
+                {/* Navigation Menu */}
+
+                <div className="ml-[5vw] hidden md:block">
                   <div className="nav-wrap">
                     <nav id="main-nav" className="main-nav">
                       <ul id="menu-primary-menu" className={`menu ${clname}`}>
@@ -157,6 +160,8 @@ const Header = ({ clname = "", handleMobile }: any) => {
                     </nav>
                   </div>
                 </div>
+
+
                 <div className="header-ct-right">
                   {userData?.UID && (
                     <div
@@ -271,7 +276,7 @@ const Header = ({ clname = "", handleMobile }: any) => {
                     </div>
                   )}
                   {!userData?.UID && (
-                    <div className="header-customize-item button">
+                    <div className="header-customize-item button border-white border-1 border-solid">
                       <NavLink
                         to="https://employer.fpsjob.com/"
                         target={"_blank"}

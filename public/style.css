@@ -6,7 +6,7 @@ html {
 .otpInput,
 .profileEmail,
 .select {
-  color: #000 !important;
+  color: #fff ;
 }
 .h2,
 .h4,
@@ -2604,4 +2604,66 @@ textarea {
   100% {
     transform: rotate(360deg);
   }
+}
+
+
+.buttonBannerHome_lg {
+  position: relative;
+  display: block;
+  padding: 10px 20px;
+  color: #fff;
+  background-color: #0f1923;
+  overflow: hidden;
+  box-shadow: inset 0px 0px 0px 1px transparent;
+}
+
+.buttonBannerHome_lg::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2px;
+  height: 2px;
+  background-color: #0f1923;
+}
+
+.buttonBannerHome_lg::after {
+  content: '';
+  display: block;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 4px;
+  height: 4px;
+  background-color: #0f1923;
+  transition: all .2s ease;
+}
+
+.buttonBannerHome_sl {
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: -1px;
+  left: -8px;
+  width: 0;
+  background-color: #ff4655;
+  transform: skew(-15deg);
+  transition: all .2s ease;
+}
+
+.buttonBannerHome_text {
+  position: relative;
+}
+
+.buttonBannerHome:hover {
+  color: #0f1923;
+}
+
+.buttonBannerHome:hover .buttonBannerHome_sl {
+  width: calc(100% + 15px);
+}
+
+.buttonBannerHome:hover .buttonBannerHome_lg::after {
+  background-color: #fff;
 }

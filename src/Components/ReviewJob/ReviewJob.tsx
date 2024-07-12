@@ -12,7 +12,7 @@ function ReviewJob09({ className }: any) {
   const [isModal, setIsModal] = useState(false);
   const { userData } = useGlobalContext();
   return (
-    <>
+    <div className=" md:block hidden">
       <section className={className}>
         <div className="container">
           <div className="tf-title style-2">
@@ -42,8 +42,8 @@ function ReviewJob09({ className }: any) {
             </div>
             <div className="col-lg-6 col-md-12">
               <div className="wd-review-job widget-counter relative mb-5">
-                <img width="100%" height="100%" src={Recruitment} />
-                <img
+                <img alt="recruitment" width="100%" height="100%" src={Recruitment} />
+                <img alt="play button"
                   src={PlayButton}
                   className="playbutton"
                   onClick={() => setIsModal(true)}
@@ -88,7 +88,7 @@ function ReviewJob09({ className }: any) {
           isModal={isModal}
         />
       )}
-    </>
+    </div>
   );
 }
 

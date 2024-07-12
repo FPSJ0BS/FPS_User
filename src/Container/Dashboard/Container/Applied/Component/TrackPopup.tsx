@@ -84,7 +84,7 @@ function TrackPopup() {
   };
 
   return (
-    <div className="TrackPopup absolute h-full w-[400px]  right-0 z-50 flex justify-end ">
+    <div className="TrackPopup  h-full w-[400px]  right-0 z-50 flex justify-end fixed ">
       {/* <X
         onClick={() => dispatch(closeModal())}
         className=" cursor-pointer absolute left-0 top-[30px] text-[100px] text-white bg-black rounded-full "

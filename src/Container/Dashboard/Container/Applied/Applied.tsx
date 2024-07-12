@@ -30,7 +30,7 @@ const Applied = () => {
         type={"Web Page"}
       />
       <div className="d-flex align-items-center justify-content-between mb-40 lg-mb-30">
-        <h2 className="main-title m0 ">Applied Job</h2>
+        <h2 className="  main-title m0 ">Applied Job</h2>
       </div>
       <div className="wrapper flex-wrap">
         <FlatList

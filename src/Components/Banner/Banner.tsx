@@ -5,6 +5,10 @@ import { AppRoute } from "../../Navigator/AppRoute";
 import { Toast } from "@Utils/Toast";
 import { AppConst } from "@/Enum/AppConst";
 import CustomSelect from "@Components/Dropdown";
+import PLAYSTORE from "@Assets/Icons/playstore.png";
+import APPLE from "@Assets/Icons/apple.png";
+import STAR from "@Assets/Icons/star.png";
+import HALFSTAR from "@Assets/Icons/halfstar.png";
 
 const Banner = () => {
   const [searchJob, setSearchJob] = useState({
@@ -13,6 +17,10 @@ const Banner = () => {
   });
   const navigate = useNavigate();
   const { data: cityList } = useFilterCity({});
+
+  const openLink = () => {
+    window.open("https://linkmix.co/24321549", "_blank");
+  }
 
   return (
     <>
@@ -72,8 +80,50 @@ const Banner = () => {
                     </div>
                   </form>
                 </div>
-                <div className="heading d-flex flex-col items-center">
-                  <h2 className="text-center font-bold text-6xl">
+                <div className=" flex gap-3 w-full justify-center items-center cursor-pointer">
+                  <div onClick={() => openLink()} className="  bg-white px-4 py-2 rounded-[30px] flex items-center justify-center gap-3">
+                    <img
+                      alt="playstore"
+                      className=" w-[25px]"
+                      src={PLAYSTORE}
+                    />
+                    <div className="flex flex-col gap-1">
+                      <h3 className=" text-black font-bold text-[15px]">
+                        Play Store
+                      </h3>
+                      <div className=" flex gap-1">
+                        <h3 className=" font-bold text-[10px]">4.5</h3>
+                        <img className="w-[10px]" src={STAR} alt="star" />
+                        <img className="w-[10px]" src={STAR} alt="star" />
+                        <img className="w-[10px]" src={STAR} alt="star" />
+                        <img className="w-[10px]" src={STAR} alt="star" />
+                        <img className="w-[10px]" src={HALFSTAR} alt="star" />
+                      </div>
+                    </div>
+                  </div>
+                  <div onClick={() => openLink()} className="  bg-white px-4 py-2 rounded-[30px] flex items-center justify-center gap-3">
+                    <img
+                      alt="playstore"
+                      className=" w-[25px]"
+                      src={APPLE}
+                    />
+                    <div className="flex flex-col gap-1">
+                      <h3 className=" text-black font-bold text-[15px]">
+                        App Store
+                      </h3>
+                      <div className=" flex gap-1">
+                        <h3 className=" font-bold text-[10px]">4.5</h3>
+                        <img className="w-[10px]" src={STAR} alt="star" />
+                        <img className="w-[10px]" src={STAR} alt="star" />
+                        <img className="w-[10px]" src={STAR} alt="star" />
+                        <img className="w-[10px]" src={STAR} alt="star" />
+                        <img className="w-[10px]" src={HALFSTAR} alt="star" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="heading d-flex flex-col items-center mt-4">
+                  <h2 className="text-center font-bold text-5xl leading-[60px] ">
                     Finding jobs made{" "}
                     <span className="text-animation">super-easy</span> with the
                     POWER of AI and Humans.
@@ -82,7 +132,7 @@ const Banner = () => {
                     Get the top{" "}
                     <span className="text-xl font-bold tracking-wide">1%</span>{" "}
                     filtered candidates
-                    <span className="text-xl font-bold">3x</span>{" "}
+                    <span className="text-xl font-bold"> 3x</span>{" "}
                     {` faster with ${AppConst.LogoName}. You can focus on onboarding
                     while we find the perfect fit.`}
                   </p>

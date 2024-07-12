@@ -5,6 +5,7 @@ import { AppRoute } from "@Navigator/AppRoute";
 import { useGlobalContext } from "@Context/GlobalContextProvider";
 
 const JobsByLocation = ({ data, title, marginTop }: any) => {
+
     const {  setCategoryData } = useGlobalContext();
   const [showMore, setShowMore] = useState(12);
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ const JobsByLocation = ({ data, title, marginTop }: any) => {
     <div className={`container mt-${marginTop}`}>
       <div className="jobs-by-location">
         <h2>{`Jobs By ${title}`}</h2>
-        <ul className="d-flex align-items-center justify-content-between w-full">
+        <ul className="d-flex align-items-center justify-content-start w-full">
           {data &&
             data.slice(0, showMore).map((job, index) => (
               <li
