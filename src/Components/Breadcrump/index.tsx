@@ -11,7 +11,7 @@ type IProps = {
 
 function Breadcrumb({ title, className }: IProps) {
   return (
-    <section className={`bg-f5 ${className ? className : ""}`}>
+    <section className={`bg-f5  ${className ? className : ""}`}>
       <div className="container">
         <div className="row">
           <div className="col-lg-12">

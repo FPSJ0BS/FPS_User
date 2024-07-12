@@ -3,7 +3,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 const ProgressBarHori = () => {
-  const percentage = useSelector((state:any) => state.myProfileEducationSlice.percentageDataToAddArray.percentage || 0);
+  const percentage = useSelector((state:any) => state.myProfileEducationSlice.percentageDataToAddArray?.percentage || 0);
 
   const width = 500;
   const height = 20;

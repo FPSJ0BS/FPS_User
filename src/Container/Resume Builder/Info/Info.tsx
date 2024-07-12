@@ -4,12 +4,14 @@ import { useNavigate } from "react-router-dom";
 function Info() {
   const navigate = useNavigate();
   return (
-    <div className="  w-full h-full flex flex-col justify-center items-center pt-[100px]">
+    <div className="  w-full h-full flex flex-col justify-center items-center pt-[100px] pb-5">
       <h1 className=" text-[3vw] font-extrabold">
         Here's what you need to know
       </h1>
 
       <div className=" flex mt-[60px] ">
+
+
         <div className=" flex flex-col justify-center items-center gap-3">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -100,7 +102,19 @@ function Info() {
           </p>
         </div>
 
+
+
+        
+
+
+
         <div className=" border-t-2 border-slate-950  w-[250px] border-dashed mt-[30px] ml-[-80px] mr-[-80px]"></div>
+
+
+
+
+
+
 
         <div className=" flex flex-col justify-center items-center gap-3">
           <svg

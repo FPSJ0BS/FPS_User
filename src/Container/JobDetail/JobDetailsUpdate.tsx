@@ -20,10 +20,13 @@ const JobDetailsUpdate = () => {
       jobID: id || "",
     }
   );
+
+  console.log('jobsDetailsjobsDetailsjobsDetailsjobsDetails', jobsDetails);
   // const job = jobsDetails?.job;
 
   return (
     <div className="container">
+      
       {/* {jobsDetails && (
         <SEO
           title={job?.meta_title || `${job?.job_title} - ${job?.name}`}
@@ -47,6 +50,9 @@ const JobDetailsUpdate = () => {
           <JobDescription data={jobsDetails?.job} id={id} />
         </section>
       </div>
+
+
+      
       {/* {isModal && (
         <Modal
           children={<LoginModal setIsModal={setIsModal} />}
@@ -55,6 +61,9 @@ const JobDetailsUpdate = () => {
           isFull={true}
         />
       )} */}
+
+
+
     </div>
   );
 };

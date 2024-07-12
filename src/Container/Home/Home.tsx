@@ -18,6 +18,13 @@ import { useNavigate } from "react-router-dom";
 import useAccessTokenGenerate from "@Hooks/Mutation/useAccessTokenGenerate";
 import { useAccessTokenContext } from "@Context/AccessTokenContextProvider";
 import useLinkedinProfile from "@Hooks/Queries/useLinkedinProfile";
+import BannerNew from "./Component/BannerNew/BannerNew";
+import CategoryNew from "./Component/CategoryNew/CategoryNew";
+import Jobs from "@Components/Jobs/Jobs";
+import BannerMobile from "./Component/BannerMobile/BannerMobile";
+import RESUMEBANNER from "@Assets/resume banner.png"
+import GetAppNew from "@Components/GetApp/GetAppNew";
+import JobsByCityNew from "@Components/JobsByLocation/jobsByCityNew";
 
 const Home = () => {
   const { authorization, setUserLoginData } = useAccessTokenContext();
@@ -85,9 +92,9 @@ const Home = () => {
       linKedinCallback();
     }
   }, []);
-  
+
   return (
-    <>
+    <div className="overflow-hidden w-[100vw] ">
       <SEO
         title={`Best Educational and Faculty Jobs in India | ${AppConst.LogoName} `}
         description={`Discover online teaching opportunities for IIT JEE coaching, NEET coaching, Sales & marketing jobs work-from-home positions, and teaching vacancies near you with ${AppConst.LogoName}  in Education. Explore openings for English, Computers, Maths, Science, mother teacher, school principals, vice principal, academic head, academic director and more, spanning across Pre Schools, Schools, Colleges, and Private coaching. Part-time, remote, and full-time roles are available nationwide in India.`}
@@ -97,17 +104,34 @@ const Home = () => {
         name={`${AppConst.LogoName}`}
         type={"Job Board"}
       />
-      <Banner />
+      <BannerMobile />
+      <BannerNew />
+      {/* <Banner /> */}
       <Couter />
-      <Category className="job-category-section" />
+
+
+
+        <div className=" mb-[-120px] w-full justify-center items-center">
+
+          <img src={RESUMEBANNER} className=" w-full bg-contain ml-[20px]"  alt="resume"/>
+
+        </div>
+
+
+
+      {/* <Partner /> */}
+      <CategoryNew className="job-category-section" />
+      {/* <Category className="job-category-section" /> */}
 
       {/* <Jobs className="jobs-section-four" /> */}
 
-      <JobsByLocation
+      <JobsByCityNew />
+
+      {/* <JobsByLocation
         data={cityList?.data?.cities}
         title={"City"}
         marginTop={5}
-      />
+      /> */}
       <JobsByLocation
         data={cityList?.data?.states}
         title={"State"}
@@ -119,21 +143,19 @@ const Home = () => {
         marginTop={2}
       />
       <Testimonial />
-      <Box />
-      <ReviewJob className="over-flow-hidden review-job-section-five" />
-      <GetApp className="bg-get-app" />
-      <Partner />
+      {/* <Box /> */}
+      {/* <ReviewJob className="over-flow-hidden review-job-section-five" /> */}
+      <GetAppNew />
+      {/* <GetApp className="bg-get-app" /> */}
       {isModal && (
         <Modal
-          children={
-            <SignUPModal  data={linkedinProfile} />
-          }
+          children={<SignUPModal data={linkedinProfile} />}
           setIsModal={setIsModal}
           isModal={isModal}
           isFull={true}
         />
       )}
-    </>
+    </div>
   );
 };
 

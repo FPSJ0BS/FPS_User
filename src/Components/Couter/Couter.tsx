@@ -11,7 +11,7 @@ function Couter() {
     setViewPortEntered(true);
   };
   return (
-    <section>
+    <section className=" hidden md:block border-1 border-solid border-gray-300 ">
       <div className="bg-pri1 count-spacing">
         <div className="container">
           <div className="row align-item-center justify-content-center">
@@ -19,7 +19,7 @@ function Couter() {
               <div className="wd-counter style-light widget-counter">
                 <div className="inner wrap-counter">
                   <Waypoint onEnter={onVWEnter}>
-                    <h2>
+                    <h2 className=" text-[30px] md:text-[45px]">
                       {viewPortEntered && (
                         <CountUp
                           className="number"
@@ -42,7 +42,7 @@ function Couter() {
               <div className="wd-counter style-light widget-counter">
                 <div className="inner wrap-counter">
                   <Waypoint onEnter={onVWEnter}>
-                    <h2>
+                    <h2 className=" text-[30px] md:text-[45px]">
                       {viewPortEntered && (
                         <CountUp
                           className="number"
@@ -65,7 +65,7 @@ function Couter() {
               <div className="wd-counter style-light widget-counter">
                 <div className="inner wrap-counter">
                   <Waypoint onEnter={onVWEnter}>
-                    <h2>
+                    <h2 className=" text-[30px] md:text-[45px]">
                       {viewPortEntered && (
                         <CountUp
                           className="number"
@@ -88,7 +88,7 @@ function Couter() {
               <div className="wd-counter style-light widget-counter">
                 <div className="inner wrap-counter">
                   <Waypoint onEnter={onVWEnter}>
-                    <h2>
+                    <h2 className=" text-[30px] md:text-[45px]">
                       {viewPortEntered && (
                         <CountUp
                           className="number"

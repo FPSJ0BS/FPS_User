@@ -71,10 +71,17 @@ const JobHeading = ({ data, packType }: any) => {
                   </h6>
                 ) : (
                   <h6 className="mb-3" style={{ color: "#a73358" }}>
-                    *********-IIT JEE NEET
+                    *********-{data?.category_title}
                   </h6>
                 )}
-                <h5 className="mb-3">{data?.job_title}</h5>
+                {packType === "Prepaid" || data?.show_all === "1" ? (
+                  <h5 className="mb-3">{data?.job_title}</h5>
+                ) : (
+                  <h6 className="mb-3" style={{ color: "#a73358" }}>
+                    *********-{data?.category_title}
+                  </h6>
+                )}
+                
                 <ul className="job-info">
                   <li>
                     <span className="icon-map-pin icon"></span>

@@ -65,7 +65,7 @@ function RightSection() {
             price: 500,
             data: resumeDataArray,
           }).then((res) => {
-            if (res?.status === "true") {
+            if (res?.status === true) {
               // queryClient.invalidateQueries({
               //   queryKey: [Querykeys.profileDetails],
               // });

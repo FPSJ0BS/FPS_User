@@ -26,6 +26,9 @@ import { useGlobalContext } from "@Context/GlobalContextProvider";
 import { AppConst } from "@/Enum/AppConst";
 
 import SignUpSecondModal from "./SignUpSecondModal";
+import JOBMATCHING from "@Assets/Icons/jobmatching.png";
+import AIICON from "@Assets/Icons/ai.png";
+import RESUMEICON from "@Assets/Icons/resume.png";
 // import useExperiences from "@Hooks/Queries/useExperiences";
 const SignUp = () => {
   const { setUserLoginData } = useGlobalContext();
@@ -56,7 +59,7 @@ const SignUp = () => {
     setValue,
     formState: { errors },
   } = useForm<IRegType>();
-  const { mutateAsync:reg,isPending } = useReg({});
+  const { mutateAsync: reg, isPending } = useReg({});
   const { mutateAsync: verify, isPending: isSendOtp } = useVerificationOtp({});
 
   let pwd = watch("password");
@@ -130,27 +133,62 @@ const SignUp = () => {
         name={"Sign Up Page"}
         type={"Web Page"}
       />
-      <Breadcrumb title="Sign Up" />
-      <section className="account-section">
-        <div className="container">
-          <div className="d-flex flex-column justify-content-center align-items-center gap-4">
+      <Breadcrumb title=" Sign Up " />
+      <section className=" w-full ">
+        <div className=" w-full ">
+          <div className=" flex w-full items-center justify-center gap-4 md:p-[30px] ">
             {isOtpPage ? (
-              <>
-                <div className="mb-4 d-flex flex-col align-items-start">
-                  <h6 className="fs-4 fw-bolder text-left">
+              <div className=" flex w-full bg-black justify-center md:mx-[5vw]  items-center gap-5 h-[74vh] rounded-lg">
+                <div className="hidden  mb-4 lg:flex justify-start items-start flex-col w-[35%]">
+                  <h6 className="fs-4 fw-bolder text-left text-white">
                     {`Create your ${AppConst.LogoName} profile`}
                   </h6>
-                  <p className="mt-2 text-base">
+                  <p className="mt-2 text-base text-white">
                     Search & apply to jobs from India's No.1 Job Site
                   </p>
+
+                  <div className=" flex flex-col justify-start items-start w-full gap-2">
+                    <div className="flex flex-col mt-4 gap-1">
+                      <img src={JOBMATCHING} className=" w-[40px]" alt="img" />
+                      <h3 className="text-white font-semibold text-[15px] mt-1">
+                        Personalized Job Matching
+                      </h3>
+                      <p className="text-white font-normal text-[12px]">
+                        Get matched with job openings that fit your skills and
+                        preferences.
+                      </p>
+                    </div>
+
+                    <div className="flex flex-col mt-4 gap-1">
+                      <img src={AIICON} className=" w-[40px]" alt="img" />
+                      <h3 className="text-white font-semibold text-[15px] mt-1">
+                        AI-Powered Career Guidance
+                      </h3>
+                      <p className="text-white font-normal text-[12px]">
+                        Receive expert advice and insights to help you grow in
+                        your career.
+                      </p>
+                    </div>
+
+                    <div className="flex flex-col mt-4 gap-1">
+                      <img src={RESUMEICON} className=" w-[35px]" alt="img" />
+                      <h3 className="text-white font-semibold text-[15px] mt-1">
+                        Resume Builder
+                      </h3>
+                      <p className="text-white font-normal text-[12px]">
+                        Create a stunning resume that showcases
+                        your achievements
+                      </p>
+                    </div>
+                  </div>
                 </div>
                 <form
-                  className="d-flex flex-row flex-wrap"
+                  className="  w-[90%]  lg:w-[50%] d-flex flex-row flex-wrap bg-[#302f2f]  h-[95%] py-4 mr-3 rounded-xl px-3 overflow-y-auto"
                   id="reg-form"
                   autoComplete="off"
                 >
-                  <div className="d-flex flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2">
-                    <label className="fw-bolder">First Name</label>
+                  <div className="d-flex  flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2">
+                    <label className="fw-bolder text-white ">First Name</label>
                     <input
                       autoFocus={true}
                       {...register("first_name", {
@@ -164,7 +202,7 @@ const SignUp = () => {
                       placeholder="First Name"
                       aria-invalid="true"
                       type="text"
-                      className="p-2 border-1 "
+                      className="p-2 border-1 text-black"
                       autoComplete="false"
                       style={{ paddingLeft: 10 }}
                     />
@@ -174,8 +212,8 @@ const SignUp = () => {
                       </small>
                     )}
                   </div>
-                  <div className="d-flex flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2 px-lg-4">
-                    <label className="fw-bolder">Last Name</label>
+                  <div className="d-flex  flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2 ">
+                    <label className="fw-bolder text-white">Last Name</label>
                     <input
                       {...register("last_name", {
                         required: "Last Name is required",
@@ -199,7 +237,7 @@ const SignUp = () => {
                     )}
                   </div>
                   <div className="d-flex flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2">
-                    <label className="fw-bolder ">Email</label>
+                    <label className="fw-bolder text-white ">Email</label>
                     <input
                       {...register("email", {
                         required: "Email is required",
@@ -209,7 +247,7 @@ const SignUp = () => {
                         },
                       })}
                       name="email"
-                      placeholder="email"
+                      placeholder="Email Address"
                       aria-invalid="true"
                       type="undefined"
                       className="p-2 border-1 "
@@ -223,7 +261,7 @@ const SignUp = () => {
                     )}
                   </div>
                   <div className="d-flex flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2">
-                    <label className="fw-bolder ">Mobile</label>
+                    <label className="fw-bolder text-white ">Mobile</label>
                     <input
                       {...register("mobile", {
                         required: "Mobile Number is required",
@@ -246,8 +284,8 @@ const SignUp = () => {
                       </small>
                     )}
                   </div>
-                  <div className="d-flex flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2 px-lg-4">
-                    <label className="fw-bolder">Password</label>
+                  <div className="d-flex flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2 ">
+                    <label className="fw-bolder text-white">Password</label>
 
                     <Controller
                       name="password"
@@ -293,7 +331,9 @@ const SignUp = () => {
                     )}
                   </div>
                   <div className="d-flex flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2">
-                    <label className="fw-bolder">Confirm Password</label>
+                    <label className="fw-bolder text-white">
+                      Confirm Password
+                    </label>
                     <Controller
                       name="confirm_password"
                       control={control}
@@ -337,7 +377,7 @@ const SignUp = () => {
                     )}
                   </div>
                   <div className="d-flex flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2">
-                    <label className="fw-bolder">State</label>
+                    <label className="fw-bolder text-white">State</label>
                     <Controller
                       name="state"
                       control={control}
@@ -347,7 +387,7 @@ const SignUp = () => {
                       render={({ field: { onChange, value } }) => (
                         <select
                           name="state"
-                          className="select border-1 form-select border border-slate-100"
+                          className="select border-1 form-select border border-slate-100 text-black"
                           value={value}
                           onChange={(e) => {
                             console.log(e.target.value);
@@ -359,15 +399,17 @@ const SignUp = () => {
                           }}
                           autoComplete="off"
                         >
-                          <option value="">
-                            <span className="text-black">
-                              Select Your State
-                            </span>
+                          <option className="text-black" value="">
+                            <span className="text-black">Select State</span>
                           </option>
                           {State?.states &&
                             State?.states?.map((item: any, index) => {
                               return (
-                                <option value={item?.id} key={index}>
+                                <option
+                                  className="text-black"
+                                  value={item?.id}
+                                  key={index}
+                                >
                                   <span className="text-black">
                                     {item?.name}
                                   </span>
@@ -384,23 +426,27 @@ const SignUp = () => {
                       </small>
                     )}
                   </div>
-                  <div className="d-flex flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2 px-lg-4">
-                    <label className="fw-bolder ">City</label>
+                  <div className="d-flex flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2 ">
+                    <label className="fw-bolder text-white ">City</label>
                     <select
                       {...register("city", {
                         required: "City is required",
                       })}
                       name="city"
-                      className="select border-1 form-select border border-slate-100"
+                      className="select border-1 form-select border border-slate-100 text-black"
                       autoComplete="off"
                     >
                       <option value="">
-                        <span className="text-black">Select Your City</span>
+                        <span className="text-black">Select City</span>
                       </option>
                       {cityList?.cities &&
                         cityList?.cities.map((item, index) => {
                           return (
-                            <option value={item?.id} key={index}>
+                            <option
+                              className="text-black"
+                              value={item?.id}
+                              key={index}
+                            >
                               <span className="text-black">{item?.name}</span>
                             </option>
                           );
@@ -414,36 +460,8 @@ const SignUp = () => {
                     )}
                   </div>
 
-                  <div className="d-flex flex-column col-lg-4 mb-4 col-12 col-md-6 px-md-2">
-                    <label htmlFor="formFile" className="form-label fw-bolder">
-                      Upload Resume
-                    </label>
-
-                    <input
-                      {...register("resume", {
-                        required: false,
-                      })}
-                      className="form-control border-1"
-                      type="file"
-                      id="formFile"
-                      accept="application/pdf"
-                      name="resume"
-                      style={{ height: "36px" }}
-                      onChange={(e: any) => {
-                        if (e.target.files[0].type === "application/pdf") {
-                        } else {
-                          setValue("resume", "");
-                          Toast(
-                            "error",
-                            "File type not supported. Please upload a valid PDF file."
-                          );
-                        }
-                      }}
-                    />
-                  </div>
-
                   <div className="d-flex flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2">
-                    <label className="fw-bolder ">Industry</label>
+                    <label className="fw-bolder text-white ">Industry</label>
                     <Controller
                       name="industry"
                       control={control}
@@ -453,7 +471,7 @@ const SignUp = () => {
                       render={({ field: { onChange, value } }) => (
                         <select
                           name="industry"
-                          className="select border-1 form-select border border-slate-100"
+                          className="select border-1 form-select border border-slate-100 text-black"
                           value={value}
                           onChange={(e) => {
                             setIndustry({
@@ -471,7 +489,11 @@ const SignUp = () => {
                           {Industry?.industries &&
                             Industry?.industries.map((item, index) => {
                               return (
-                                <option value={item?.ID} key={index}>
+                                <option
+                                  className="text-black"
+                                  value={item?.ID}
+                                  key={index}
+                                >
                                   <span className="text-black">
                                     {item?.category}
                                   </span>
@@ -488,24 +510,26 @@ const SignUp = () => {
                       </small>
                     )}
                   </div>
-                  <div className="d-flex flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2 px-lg-4">
-                    <label className="fw-bolder ">Job Title</label>
+                  <div className="d-flex flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2 ">
+                    <label className="fw-bolder text-white ">Job Title</label>
                     <select
                       {...register("subject", {
                         required: "Job Title is required",
                       })}
                       name="subject"
-                      className="select border-1 form-select border border-slate-100"
+                      className="select border-1 form-select border border-slate-100 text-black"
                     >
                       <option value="">
-                        <span className="text-black">
-                          Select Your Job Title{" "}
-                        </span>
+                        <span className="text-black">Select Job Title </span>
                       </option>
                       {Jobs?.jobs &&
                         Jobs?.jobs.map((item, index) => {
                           return (
-                            <option value={item?.ID} key={index}>
+                            <option
+                              className="text-black"
+                              value={item?.ID}
+                              key={index}
+                            >
                               <span className="text-black">
                                 {item?.function}
                               </span>
@@ -520,6 +544,37 @@ const SignUp = () => {
                     )}
                   </div>
 
+                  <div className="d-flex flex-column grid-cols-2 col-lg-8 mb-4 col-12 col-md-6 px-md-2 ">
+                    <label
+                      htmlFor="formFile"
+                      className="form-label fw-bolder text-white"
+                    >
+                      Upload Resume
+                    </label>
+
+                    <input
+                      {...register("resume", {
+                        required: false,
+                      })}
+                      className="form-control border-1"
+                      type="file"
+                      id="formFile"
+                      accept="application/pdf"
+                      name="resume"
+                      style={{ height: "45px" }}
+                      onChange={(e: any) => {
+                        if (e.target.files[0].type === "application/pdf") {
+                        } else {
+                          setValue("resume", "");
+                          Toast(
+                            "error",
+                            "File type not supported. Please upload a valid PDF file."
+                          );
+                        }
+                      }}
+                    />
+                  </div>
+
                   <div className="flex flex-col align-items-center mt-2 col-12 mb-2">
                     <div className="flex flex-row gap-2 justify-content-center">
                       <input
@@ -530,7 +585,7 @@ const SignUp = () => {
                         id="flexCheckDefault"
                       />
                       <label
-                        className="form-check-label w-lg-[50%]"
+                        className="form-check-label w-lg-[50%] text-white"
                         htmlFor="flexCheckDefault"
                       >
                         By submitting our webform, we agree to receive
@@ -562,7 +617,7 @@ const SignUp = () => {
                   <div className="flex flex-row justify-center mt-1 col-12 ">
                     <button
                       onClick={handleSubmit(onSubmit)}
-                      className={`text-white reg border-0 w-full ${
+                      className={`bg-white border-2 text-[15px] font-bold border-black border-solid text-black reg w-full ${
                         isPending && "d-flex flex-row justify-content-center"
                       }`}
                       disabled={isPending ? true : false}
@@ -570,18 +625,23 @@ const SignUp = () => {
                       {isPending ? (
                         <div className="btn-loader"></div>
                       ) : (
-                        "Register"
+                        "Register Now"
                       )}
                     </button>
                   </div>
+                  <div
+                    typeof="button"
+                    className="sign-up text-center mt-2 flex justify-center items-center w-full"
+                  >
+                    <span className="fw-bolder text-white">
+                      Already have an account?
+                    </span>
+                    <NavLink to={AppRoute.Login} className="text-white">
+                      &nbsp;Sign in
+                    </NavLink>
+                  </div>
                 </form>
-                <div className="sign-up col-12 text-center">
-                  <span className="fw-bolder">Already have an account?</span>
-                  <NavLink to={AppRoute.Login} className="color-primary">
-                    &nbsp;Sign in
-                  </NavLink>
-                </div>
-              </>
+              </div>
             ) : (
               <>
                 <div className="d-flex flex-column justify-content-center align-items-center gap-4">
@@ -604,7 +664,7 @@ const SignUp = () => {
           </div>
         </div>
       </section>
-      <SignUpSecondModal setModal={setModal} isModal = {isModal}/>
+      <SignUpSecondModal setModal={setModal} isModal={isModal} />
     </>
   );
 };

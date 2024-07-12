@@ -37,6 +37,7 @@ function UserDetailsPopup() {
   const { data: profileDetails, refetch: refetchProfile } = useProfileDetails({
     UID: userId,
   });
+  console.log('profileDetailsprofileDetails', profileDetails);
   const { mutateAsync: UploadImage } = useUploadProfileImage({});
   const [query, setQuery] = useState({
     stateID: "",
@@ -175,7 +176,7 @@ function UserDetailsPopup() {
         "alternate_contact",
         profileDetails?.user?.alternate_contact || ""
       );
-      setValue("gender", profileDetails?.user?.gender || "");
+      setValue("gender", profileDetails?.user?.other_details?.gender || "");
     }, 2000);
   }, [profileDetails, query.stateID, State?.states, cityList?.cities]);
 
@@ -198,7 +199,7 @@ function UserDetailsPopup() {
       />
 
       <div className="bg-white h-full w-[90%] rounded-l-[100px] shadow-lg flex flex-col items-center py-4">
-        <h4 className="font-bold underline border-solid border-b-[1px]">Add Education Details</h4>
+        <h4 className="font-bold underline border-solid border-b-[1px]">Add Personal Details</h4>
         <div className="w-full border-b-[1.5px] border-dashed border-[#4a4e69] mt-6"></div>
         <div className="w-full overflow-y-auto px-5 py-4 handleScrollbarMain">
         <form id="update-profile" onSubmit={handleSubmit(onSubmit)}>
@@ -274,6 +275,7 @@ function UserDetailsPopup() {
                       message: "Invalid email",
                     },
                   })}
+                  
                   name="email"
                   placeholder="email"
                   aria-invalid="true"
@@ -356,7 +358,7 @@ function UserDetailsPopup() {
                 )}
               </div>
             </div>
-            <div className="">
+            {/* <div className="">
               <div className="dash-input-wrapper ">
                 <label htmlFor="">Skill</label>
                 <select
@@ -384,7 +386,7 @@ function UserDetailsPopup() {
                   </small>
                 )}
               </div>
-            </div>
+            </div> */}
             <div className="">
               <div className="dash-input-wrapper ">
                 <label htmlFor="">Alternate Mobile</label>
@@ -471,7 +473,7 @@ function UserDetailsPopup() {
             </div> */}
           </div>
         </div>
-        <div className="bg-white card-box border-20 my-4">
+        {/* <div className="bg-white card-box border-20 my-4">
           <h4 className="main-title fs-5">Qualification/Work Info</h4>
           <div className=" grid grid-cols-2 gap-4">
             <div className="">
@@ -744,8 +746,8 @@ function UserDetailsPopup() {
               </div>
             </div>
           </div>
-        </div>
-        <div className="bg-white card-box border-20 my-4">
+        </div> */}
+        {/* <div className="bg-white card-box border-20 my-4">
           <h4 className="main-title fs-5">Current Company Info</h4>
           <div className=" grid grid-cols-2 gap-4">
             <div className="">
@@ -781,7 +783,7 @@ function UserDetailsPopup() {
               </div>
             </div>{" "}
           </div>
-        </div>
+        </div> */}
 
         <div className="flex gap-3 mt-30">
           <button

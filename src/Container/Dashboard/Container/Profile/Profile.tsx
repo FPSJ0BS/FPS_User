@@ -43,11 +43,15 @@ import useEducationType from "@Hooks/Queries/useEducationType";
 import useUserDetailByUID from "@Hooks/Mutation/useUserDetailByUID";
 import useskillsType from "@Hooks/Queries/useSkillsType";
 import useSkillsSubmitted from "@Hooks/Queries/useSkillsSubmitted";
-import { getRefetchPercentageDetail, getRefetchUserProfileData } from "@/api/api";
+import {
+  getRefetchPercentageDetail,
+  getRefetchUserProfileData,
+} from "@/api/api";
 import useLanguagesType from "@Hooks/Queries/useLanguagesType";
 import useCity from "@Hooks/Queries/useCity";
 import useCareerPreferenceCity from "@Hooks/Queries/useCareerPreferenceCity";
 import usePercentageData from "@Hooks/Queries/usePercentageData";
+
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -57,7 +61,9 @@ const Profile = () => {
     (state: any) => state.myProfileEducationSlice
   );
 
-  console.log("userId", userId);
+  
+
+ 
 
   const { data: profileDetails, refetch: refetchProfileData } =
     useProfileDetails({
@@ -68,7 +74,8 @@ const Profile = () => {
   const { data: ResultTypeData, isSuccess: ResultTypeSuccess } = useResultType(
     {}
   );
-  const { data: EducationTypeData, isSuccess: EducationTypeSuccess } = useEducationType({});
+  const { data: EducationTypeData, isSuccess: EducationTypeSuccess } =
+    useEducationType({});
 
   const { data: useData, isSuccess: userDataSuccess } = useUserDetailByUID(
     userId,
@@ -84,14 +91,10 @@ const Profile = () => {
     }
   );
 
-  const { data: languagesData, isSuccess: languagesDataSuccess } = useLanguagesType(
-    userId,
-    {
+  const { data: languagesData, isSuccess: languagesDataSuccess } =
+    useLanguagesType(userId, {
       enabled: !!userId, // ensures the query runs only when UID is available
-    }
-  );
-
-  
+    });
 
   const { data: skillsDataSubmitted, isSuccess: skillsDataSubmittedSuccess } =
     useskillsType(userId, {
@@ -100,21 +103,22 @@ const Profile = () => {
 
   const { data: CityTypeData, isSuccess: CityTypeSuccess } = useCity({});
   const { data: SalaryTypeData, isSuccess: SalaryTypeSuccess } = useSalary({});
-  const { data: CareerPreferenceTypeData, isSuccess: CareerPreferenceTypeSuccess } = useCareerPreferenceCity({});
+  const {
+    data: CareerPreferenceTypeData,
+    isSuccess: CareerPreferenceTypeSuccess,
+  } = useCareerPreferenceCity({});
 
-  const { data: percentageData, isSuccess: percentageDataSuccess, } = usePercentageData(
-    userId,
-    {
+  const { data: percentageData, isSuccess: percentageDataSuccess } =
+    usePercentageData(userId, {
       enabled: !!userId, // ensures the query runs only when UID is available
-    }
-  );
+    });
 
-  useEffect(()=>{
-    console.log('percentDatapercentDatapercentDatapercentDatapercentDatapercentDatapercentDatapercentData',percentageData);
-
-  }, [percentageDataSuccess])
-
-
+  useEffect(() => {
+    console.log(
+      "percentDatapercentDatapercentDatapercentDatapercentDatapercentDatapercentDatapercentData",
+      percentageData
+    );
+  }, [percentageDataSuccess]);
 
   useEffect(() => {
     const submitArrays = async () => {
@@ -129,7 +133,6 @@ const Profile = () => {
       const careerPreferenceSalaryFull = CareerPreferenceTypeData?.data;
       const percentData = percentageData?.data;
 
-
       await dispatch(addQualificationData(data));
       await dispatch(addResultData(resultData));
       await dispatch(addEducationData(educationtData));
@@ -142,7 +145,6 @@ const Profile = () => {
       await dispatch(addSalaryData(citySalaryFull));
       await dispatch(addCareerPreferenceData(careerPreferenceSalaryFull));
       await dispatch(addPercentageData(percentData));
-
     };
 
     if (
@@ -172,7 +174,6 @@ const Profile = () => {
     SalaryTypeSuccess,
     CareerPreferenceTypeSuccess,
     percentageDataSuccess,
-    
   ]);
 
   useEffect(() => {
@@ -190,22 +191,16 @@ const Profile = () => {
       }
 
       try {
-
-        const response = await getRefetchPercentageDetail(userId)
+        const response = await getRefetchPercentageDetail(userId);
 
         if (response?.data?.status) {
-          console.log("forrrrr" ,response);
+          console.log("forrrrr", response);
           const percentData = await response?.data?.data;
           await dispatch(addPercentageData(percentData));
-
         }
-        
       } catch (error) {
         console.log(error);
-        
       }
-
-      
     };
 
     fetch();
@@ -224,8 +219,6 @@ const Profile = () => {
       />
 
       <div className=" w-full h-full flex flex-col gap-3 relative">
-
-
         <BottomSection />
       </div>
     </>

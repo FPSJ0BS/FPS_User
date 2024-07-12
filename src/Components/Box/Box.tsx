@@ -14,7 +14,7 @@ function Box() {
   const { userData } = useGlobalContext();
   return (
     <>
-      <section className="term-section background1 ">
+      <section className="term-section background1 bg-white md:block hidden">
         <div className="container">
           <div className="title-iconbox style-2 pt-4">
             <h1 className="text-dark">
@@ -43,10 +43,19 @@ function Box() {
                   <NavLink
                     to={AppRoute.Find_Jobs}
                     aria-label="Sign Up page"
-                    className="videoButton"
+                    className=""
                   >
-                    Find Job
+                    
+                  <button className="buttonBannerHome">
+                    <span className="buttonBannerHome_lg">
+                      <span className="buttonBannerHome_sl"></span>
+                      <span className="buttonBannerHome_text">Find Jobs</span>
+                    </span>
+                  </button>
+                    
                   </NavLink>
+
+
 
                   {!userData?.UID && (
                     <NavLink

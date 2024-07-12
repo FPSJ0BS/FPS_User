@@ -3,6 +3,17 @@ import CoreAPI from "./CoreAPI";
 import { getQuery } from "@Utils/GetQuery";
 import { Package } from "@Type/PackageType";
 const http = new CoreAPI();
+
+const getToken = (): string | null => {
+  const tokenString = localStorage.getItem("token:fpsjob");
+  if (!tokenString) {
+    return null;
+  }
+  const tokenObject = JSON.parse(tokenString);
+  const loginToken = tokenObject.loginToken;
+  return loginToken;
+};
+
 export const loginwithEmail = async (req: ILoginWithEmailType) => {
   const _req = { ...req, ip_address: "192.168.1.14" };
   const res = await http.postRequestForm("login", _req);
@@ -43,7 +54,6 @@ export const dogetCategory = async () => {
   return res;
 };
 export const dogetSubjectCategory = async (req: any) => {
-
   const formData = new FormData();
   formData.append("categoryId", req?.queryKey?.[1]?.categoryId);
   const res = await http.postRequestForm(`v2/subjects`, formData);
@@ -99,14 +109,26 @@ export const dogetJobDetails = async (req: any) => {
 };
 
 export const doaddFavourite = async (req: any) => {
+  const token = getToken()
   const res = await http.getRequest(
-    `Web_api_V3_test/addFavourite?${getQuery(req)}`
+    `Web_api_V3_test/addFavourite?${getQuery(req)}`,
+    {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }
+
   );
   return res;
 };
 
 export const doRemoveFavourite = async (req: any) => {
-  const res = await http.getRequest(`v2/removeFavourite?${getQuery(req)}`);
+  const token = getToken();
+  const res = await http.getRequest(`v2/removeFavourite?${getQuery(req)},`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   return res;
 };
 
@@ -131,7 +153,12 @@ export const doEducationType = async () => {
 };
 
 export const getPackages = async (UID: string): Promise<Package[]> => {
-  const res = await http.getRequest("v2/packages?UID=" + UID);
+  const token = getToken();
+  const res = await http.getRequest("v2/packages?UID=" + UID, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   return res as Package[];
 };
 export const doGetPartner = async () => {
@@ -158,11 +185,11 @@ export const doResetPassword = async (data) => {
   );
   return res;
 };
-export const doGenerateAccessToken = async (data:any) => {
+export const doGenerateAccessToken = async (data: any) => {
   const LINKEDIN_CLIENT_SECRET = "KYiQCPqRGk3dTMwA";
   const LINKEDIN_CLIENT_ID = "8649n4sxr39wfa";
   const LINKEDIN_CALLBACK_URL = `${window.location.origin}/`;
-  const code  = data?.code;
+  const code = data?.code;
   const res = await http.postGenerateAccessToken(
     `/Url/accessToken`,
     new URLSearchParams({

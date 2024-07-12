@@ -105,7 +105,7 @@ function ChooseTemplate() {
   }, []);
 
   return (
-    <div className="h-full w-full flex flex-col justify-start items-center pt-[50px] ">
+    <div className="h-full w-full flex flex-col justify-start items-center py-[50px] ">
       <h2 className="text-[3vw] font-semibold">Template we recommend</h2>
       <div className="w-[80vw] h-full mt-[50px] flex flex-wrap justify-center items-center gap-20">
         {loader ? (

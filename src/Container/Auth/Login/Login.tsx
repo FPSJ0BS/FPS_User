@@ -106,19 +106,16 @@ const Login = () => {
       />
       <Breadcrumb title="Login" />
       <section className="account-section">
-        <div className="container">
-          <div className="d-flex flex-row justify-content-between gap-3 flex-wrap">
+        <div className="container ">
+          <div className="d-flex flex-row justify-content-between gap-3 flex-wrap ">
             <div className="col-12 col-lg-5">
-              <Imag
-                src={LoginPage}
-                style={{ height: "465px", width: "465px" }}
-              />
+              <img alt="login" src={LoginPage} className="w-[465px] lg:block hidden" />
             </div>
-            <div className="col-12 col-lg-5">
-              <h6 className="fs-4 fw-bolder text-center">
+            <div className="col-12 col-lg-5 bg-[#302f2f] py-5 mt-[-50px] rounded-xl px-4">
+              <h6 className="fs-4 fw-bolder text-center text-white">
                 {`Welcome to ${AppConst.LogoName} - Login`}
               </h6>
-              <p className="mt-2 text-base text-center mb-5">
+              <p className="mt-2 text-base text-center mb-5 text-white">
                 Search & apply to jobs from India's No.1 Job Site
               </p>
               <div className="row">
@@ -132,17 +129,33 @@ const Login = () => {
                   }}
                 >
                   {/* <h6 className="fs-4 mb-4 fw-bolder">Login</h6> */}
-                  <TabList className="menu-tab">
-                    <Tab className="ct-tab">Login with Email</Tab>
-                    <Tab className="ct-tab">Login with Mobile</Tab>
+                  <TabList className="menu-tab flex flex-col md:flex-row w-full gap-2">
+                    <Tab
+                      className={`ct-tab w-full ${
+                        tabIndex === 0
+                          ? "bg-black border-1 border-white border-solid"
+                          : "bg-white border-2 border-black border-solid text-black"
+                      }`}
+                    >
+                      Login with Email
+                    </Tab>
+                    <Tab
+                      className={`ct-tab w-full ${
+                        tabIndex === 1
+                          ? "bg-black border-1 border-white border-solid"
+                          : "bg-white border-2 border-black border-solid text-black"
+                      }`}
+                    >
+                      Login with Mobile
+                    </Tab>
                   </TabList>
                   <div className="content-tab">
-                    <TabPanel className="inner animation-tab">
+                    <TabPanel className="inner animation-tab  ">
                       {tabIndex === 0 ? (
                         <>
                           <form id="email-form">
                             <div className="ip">
-                              <label>
+                              <label className="text-white">
                                 Email
                                 <span>*</span>
                               </label>
@@ -165,7 +178,7 @@ const Login = () => {
                               )}
                             </div>
                             <div className="ip">
-                              <label>
+                              <label className="text-white">
                                 Password<span>*</span>
                               </label>
                               <div className="inputs-group auth-pass-inputgroup">
@@ -197,35 +210,35 @@ const Login = () => {
                             <div className="d-flex flex-row justify-content-end">
                               <NavLink
                                 to={AppRoute.Forgot_password}
-                                className="color-primary"
+                                className="text-white"
                               >
                                 Forgot password
                               </NavLink>
                             </div>
                             <button
                               onClick={handleSubmit(onSubmitEmail)}
-                              className={`${
+                              className={`bg-black border-1 border-white border-solid ${
                                 isPending &&
-                                "d-flex flex-row justify-content-center"
+                                "d-flex flex-row justify-content-center "
                               }`}
                               disabled={isPending ? true : false}
                             >
                               {isPending ? (
-                                <div className="btn-loader"></div>
+                                <div className="btn-loader "></div>
                               ) : (
                                 "Login"
                               )}
                             </button>
 
                             <div className="sign-up">
-                              <span className="fw-bolder">
+                              <span className="fw-bolder text-white">
                                 {" "}
                                 Not registered yet?{" "}
                               </span>
 
                               <NavLink
                                 to={AppRoute.SignUp}
-                                className="color-primary"
+                                className="text-white underline"
                               >
                                 Sign Up
                               </NavLink>
@@ -237,6 +250,7 @@ const Login = () => {
                         <></>
                       )}
                     </TabPanel>
+
                     <TabPanel className="inner animation-tab">
                       {tabIndex === 1 ? (
                         isOtp ? (
@@ -267,7 +281,7 @@ const Login = () => {
                         ) : (
                           <form id="send-otp-form">
                             <div className="ip">
-                              <label>
+                              <label className="text-white">
                                 Mobile
                                 <span>*</span>
                               </label>
@@ -292,7 +306,7 @@ const Login = () => {
 
                             <button
                               onClick={handleSubmit(onMobileNumberCheck)}
-                              className={`${
+                              className={`bg-black border-1 border-white border-solid ${
                                 (isMobileCheckLoader || isSendOtpLoader) &&
                                 "d-flex flex-row justify-content-center"
                               }`}
@@ -309,13 +323,13 @@ const Login = () => {
                               )}
                             </button>
                             <div className="sign-up">
-                              <span className="fw-bolder">
+                              <span className="fw-bolder text-white">
                                 {" "}
                                 Not registered yet?{" "}
                               </span>
                               <NavLink
                                 to={AppRoute.SignUp}
-                                className="color-primary"
+                                className="text-white underline"
                               >
                                 Sign Up
                               </NavLink>

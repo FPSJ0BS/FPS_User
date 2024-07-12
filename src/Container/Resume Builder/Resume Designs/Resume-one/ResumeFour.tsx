@@ -19,7 +19,7 @@ import AddressLight from "@Assets/Icons/Resume/address light.png";
 import { useSelector } from "react-redux";
 
 function ResumeFour({ handlePayment }) {
-  const { resumeDataArray } = useSelector(
+  const { resumeDataArray, paymentStatus } = useSelector(
     (state: any) => state.ResumeBuilderSlice
   );
 
@@ -105,36 +105,23 @@ function ResumeFour({ handlePayment }) {
   const Doc = () => (
     <Document>
       <Page size="A4" style={styles.page}>
-        <Image
-          src={WATERMARK}
-          style={{
-            position: "absolute",
-            width: "90%",
-            top: "40%",
-            left: "15%",
-            zIndex: -1,
-          }}
-        />
-        <Image
-          src={WATERMARK}
-          style={{
-            position: "absolute",
-            width: "90%",
-            top: "10%",
-            left: "15%",
-            zIndex: -1,
-          }}
-        />
-        <Image
-          src={WATERMARK}
-          style={{
-            position: "absolute",
-            width: "90%",
-            top: "80%",
-            left: "15%",
-            zIndex: -1,
-          }}
-        />
+        {paymentStatus && (
+          <>
+            {["40%", "10%", "80%"].map((top, index) => (
+              <Image
+                key={index}
+                src={WATERMARK}
+                style={{
+                  position: "absolute",
+                  width: "90%",
+                  top: top,
+                  left: "15%",
+                  zIndex: -1,
+                }}
+              />
+            ))}
+          </>
+        )}
 
         <View style={{ height: "100%", width: "30%" }}>
           <Image

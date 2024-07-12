@@ -17,8 +17,8 @@ const Aboutus = () => {
   return (
     <React.Fragment>
       <SEO
-        title={`Best Educational and Faculty Jobs in India | ${AppConst.LogoName} `}
-        description={`Discover online teaching opportunities for IIT JEE coaching, NEET coaching, Sales & marketing jobs work-from-home positions, and teaching vacancies near you with ${AppConst.LogoName}  in Education. Explore openings for English, Computers, Maths, Science, mother teacher, school principals, vice principal, academic head, academic director and more, spanning across Pre Schools, Schools, Colleges, and Private coaching. Part-time, remote, and full-time roles are available nationwide in India.`}
+        title={`About Us  | ${AppConst.LogoName} `}
+        description={`Founded by alumni of IIT & NIT, ${AppConst.LogoName} is a leading online platform dedicated to connecting job seekers with employers, facilitating the perfect match between talent and opportunity`}
         metaKeywords={
           "Education Jobs, Education Jobs in India, Education Jobs Portal, Educational Jobs, Educational Job Portal"
         }

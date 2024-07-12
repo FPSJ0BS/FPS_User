@@ -7,8 +7,8 @@ import { HTMLAttributes, memo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 type IProps = {
-  className: HTMLAttributes<HTMLDivElement>["className"]
-}
+  className: HTMLAttributes<HTMLDivElement>["className"];
+};
 
 const Category = (props: IProps) => {
   const { className } = props;
@@ -19,17 +19,17 @@ const Category = (props: IProps) => {
   const { data: Category } = useCategoryList({});
   const navigate = useNavigate();
   return (
-    <section className=' bg-[#ece8e4]'>
+    <section className={className}>
       <div className="container">
         <div className="row">
           <div className="col-md-12">
             <div className="tf-title">
               <div className="group-title row">
                 <div className="col-12">
-                  <h1 >{dataBlock.title}</h1>
+                  <h1>{dataBlock.title}</h1>
                 </div>
                 <div className="col-sm-8 col-12">
-                  <p >{dataBlock.text}</p>
+                  <p>{dataBlock.text}</p>
                 </div>
               </div>
               <Button title="All Categories" link={AppRoute.Find_Jobs} />
@@ -68,7 +68,7 @@ const Category = (props: IProps) => {
                           </a>
                         </h1>
                       </div>
-                      <a className="btn-category-job mt-[-20px]">
+                      <a className="btn-category-job mt-[-px]">
                         Explore Subjects{" "}
                         <span className="icon-keyboard_arrow_right"></span>
                       </a>

@@ -8,11 +8,7 @@ import { useGlobalContext } from "@Context/GlobalContextProvider";
 import useSubjectCategory from "@Hooks/Queries/useSubjectCategory";
 import { AppRoute } from "@Navigator/AppRoute";
 import { memo } from "react";
-import {
-  createSearchParams,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
+import { createSearchParams, useNavigate, useParams } from "react-router-dom";
 
 const Subjects = () => {
   const { categoryData, setSubjectData } = useGlobalContext();
@@ -22,6 +18,8 @@ const Subjects = () => {
     { enabled: !!sub_id },
     { categoryId: sub_id }
   );
+
+  console.log('categoryDatacategoryDatacategoryDatacategoryDatacategoryDatacategoryData fro page', categoryData);
 
   return (
     <>
@@ -48,14 +46,46 @@ const Subjects = () => {
         />
       )}
 
-      <Breadcrumb title="Subject" />
+      {/* <Breadcrumb className="" title="Subject" /> */}
       <section
-        className="testimonials-category-section"
-        style={{
-          background: "linear-gradient(84.42deg, #f7ecea 0%, #f4f0e7 100%)",
-        }}
+        className="testimonials-category-section bg-white"
+        // style={{
+        //   background: "linear-gradient(84.42deg, #f7ecea 0%, #f4f0e7 100%)",
+        // }}
       >
-        <div className="container">
+        <div className="w-full flex justify-center items-center md:mt-[-100px] ">
+          <div className=" w-[600px] h-[600px] bg-[#302f2f] rounded-[40px] flex justify-start items-start p-[40px] flex-col">
+            <h2 className=" text-white text-[25px] md:text-[35px] text-start font-semibold">
+              Choose the job title <br /> you're
+              interested in{" "}
+            </h2>
+
+            <div className="w-full min-h-[420px] overflow-y-auto pb-5 pt-1 flex flex-wrap gap-3 mt-3 pr-1">
+              {subjectCategory?.data?.map((idx, index) => {
+                return (
+                  <div key={index}>
+                    <div
+                      onClick={() => {
+                        setSubjectData(idx);
+                        navigate({
+                          pathname: AppRoute.Find_Jobs,
+                          search: createSearchParams({
+                            title: idx?.function,
+                          }).toString(),
+                        });
+                      }}
+                      className="text-white border-1 border-solid border-[#5a5859] px-2 py-2 rounded-lg cursor-pointer hover:bg-[#0a0c0f] "
+                    >
+                      {idx?.function}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* <div className="container ">
           <div className="row">
             <div className="col-md-12">
               <div className="tf-title style-2">
@@ -63,14 +93,14 @@ const Subjects = () => {
                   <h1 style={{ color: "#123841" }}>
                     {category?.replaceAll("-", " ").toLocaleUpperCase()}
                   </h1>
-                  <p style={{ color: "#123841" }}>
+                  <p className=" mb-5" style={{ color: "#123841" }}>
                     Find Thousands of Job Title To Choose Your Dream Position
                   </p>
                 </div>
               </div>
             </div>
 
-            <div className=" col-md-12">
+            <div className=" col-md-12 bg-white">
               <div className="group-category-job padding wow fadeInUp">
                 <FlatList
                   data={subjectCategory?.data}
@@ -117,7 +147,7 @@ const Subjects = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </section>
     </>
   );

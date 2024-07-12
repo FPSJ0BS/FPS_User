@@ -18,6 +18,10 @@ const Banner = () => {
   const navigate = useNavigate();
   const { data: cityList } = useFilterCity({});
 
+  const openLink = () => {
+    window.open("https://linkmix.co/24321549", "_blank");
+  }
+
   return (
     <>
       <section className="tf-slider sl7  over-flow-hidden">
@@ -77,7 +81,7 @@ const Banner = () => {
                   </form>
                 </div>
                 <div className=" flex gap-3 w-full justify-center items-center cursor-pointer">
-                  <div className="  bg-white px-4 py-2 rounded-[30px] flex items-center justify-center gap-3">
+                  <div onClick={() => openLink()} className="  bg-white px-4 py-2 rounded-[30px] flex items-center justify-center gap-3">
                     <img
                       alt="playstore"
                       className=" w-[25px]"
@@ -97,7 +101,7 @@ const Banner = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="  bg-white px-4 py-2 rounded-[30px] flex items-center justify-center gap-3">
+                  <div onClick={() => openLink()} className="  bg-white px-4 py-2 rounded-[30px] flex items-center justify-center gap-3">
                     <img
                       alt="playstore"
                       className=" w-[25px]"
