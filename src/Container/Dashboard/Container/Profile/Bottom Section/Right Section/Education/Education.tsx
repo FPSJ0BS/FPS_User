@@ -98,9 +98,12 @@ function Education() {
               <p className=" font-medium mb-[-10px] capitalize ">
                 {edu?.institute_name}
               </p>
-              <p className=" mb-0 text-gray-400 font-medium">
+              <p className=" text-gray-400 mb-[-12px] font-medium">
                 {getYearOnly(edu?.start_date)} - {getYearOnly(edu?.end_date)} |{" "}
                 {edu?.education_type}
+              </p>
+              <p className=" mb-0 text-gray-400 font-medium">
+                {parseInt(edu?.currently) === 1 ? "Pursuing" : ""}
               </p>
             </div>
           );

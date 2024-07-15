@@ -52,6 +52,7 @@ function LeftSection() {
             experience: data?.EXPERIENCE,
             language: data?.LANGUAGE,
             profileImage: data?.IMAGE,
+            price:data?.template_price,
             certificate:
               data?.CERTIFICATE?.map((cert) => ({
                 title: cert.title,

@@ -22,6 +22,9 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
   const [filteredOptions, setFilteredOptions] = useState<Option[]>(options);
   const [isDropDown, setIsDropDown] = useState(false);
   const [searchValue, setSearchValue] = useState("");
+
+ 
+  
   const [selectIndex, setSelectIndex] = useState<any>(null);
   const btnRef = useRef<any>();
   const _data = useMemo(() => {
@@ -116,10 +119,10 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
     >
       <input
         type="text"
-        placeholder="Search..."
+        placeholder="Search City..."
         value={searchValue}
         onChange={handleInputChange}
-        style={style ? style : { width: "100%", border: "none", color: "#000" }}
+        style={style ? style : { width: "100%", border: "none", color: "#fff" }}
       />
       {isDropDown && (
         <List

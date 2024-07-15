@@ -39547,9 +39547,11 @@
   .sidebar-widget {
     position: relative;
     padding: 30px;
-    background: #f5f7fc;
+    background: #000;
     border-radius: 8px;
     margin-bottom: 40px;
+    border: 4px solid #dc3d7d;
+
   }
 
   .sidebar-widget .widget-title {

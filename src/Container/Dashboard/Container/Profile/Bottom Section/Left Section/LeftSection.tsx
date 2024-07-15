@@ -16,10 +16,9 @@ function LeftSection() {
   );
 
   const percentage = percentageDataToAddArray?.percentage;
-  console.log("percentageDataToAddArray", percentageDataToAddArray);
 
   return (
-    <div className="fixed lg:left-[26.5%] xl:left-[22%] 2xl:left-[20%] w-[18%] bg-white rounded-[20px] min-h-[200px] p-[10px] flex flex-col gap-2 border-1 border-solid border-gray-200">
+    <div className="fixed lg:left-[26.5%] xl:left-[22%] 2xl:left-[300px] w-[18%] bg-white rounded-[20px] min-h-[200px] p-[10px] flex flex-col gap-2 border-1 border-solid border-gray-200">
       <div className=" flex items-center justify-between w-full h-[80px]">
         <h6 className="font-semibold px-2 2xl:text-[20px] underline cursor-default">
           Quick Links

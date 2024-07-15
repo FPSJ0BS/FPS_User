@@ -718,12 +718,12 @@ function ResumeFour({ handlePayment }) {
   return (
     <div className="w-full h-full flex flex-col justify-center items-center ">
       <div className=" w-full flex justify-between mb-3">
-        <button
+        {paymentStatus &&  <button
           className=" px-4 rounded-lg bg-[#da3682] text-white font-semibold leading-3"
           onClick={() => handlePayment()}
         >
           Remove Watermark
-        </button>
+        </button>}
 
         <PDFDownloadLink document={<Doc />} fileName="somename.pdf">
           {({ blob, url, loading, error }) => (

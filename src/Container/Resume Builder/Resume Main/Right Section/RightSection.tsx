@@ -24,9 +24,7 @@ function RightSection() {
   );
   const [Razorpay] = useRazorpay();
 
-  useEffect(() => {
-    console.log("templateNumber", templateNumber);
-  }, [templateNumber]);
+ 
 
   const { mutateAsync: createOrder } = useCreateOrder({});
 
@@ -45,13 +43,12 @@ function RightSection() {
       console.log(response);
       const options: any = {
         key: String(import.meta.env.VITE_Razorpay_KEY),
-        amount: String(100),
+        amount: String(resumeDataArray?.price),
         currency: "INR",
         name: AppConst.LogoName,
         image: logo,
         order_id: response?.order_id,
         handler: (res) => {
-          console.log(res);
           reusmeBuy({
             faculityID: userData?.UID,
             templateID: templateNumber,
@@ -62,7 +59,7 @@ function RightSection() {
             transaction_order_id: res?.razorpay_order_id,
             payment_type: "razorpay",
             payment_status: "success",
-            price: 500,
+            price: String(resumeDataArray?.price),
             data: resumeDataArray,
           }).then((res) => {
             if (res?.status === true) {

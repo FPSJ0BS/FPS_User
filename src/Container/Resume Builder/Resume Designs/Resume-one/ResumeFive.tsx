@@ -62,7 +62,7 @@ function ResumeFive({handlePayment}) {
       gap: 0,
     },
 
-    // Common Styles ->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    // Common Styles ->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.
 
     backgroundImage: {
       position: "absolute",
@@ -98,7 +98,7 @@ function ResumeFive({handlePayment}) {
 
         <View style={{ height: "100%", width: "40%", backgroundColor: "#f7f9fc", marginRight:'20px', paddingLeft:'20px', paddingTop:'40px' }}>
         <Image
-          src={`${resumeDataArray?.profileImage}`}
+          src={`${resumeDataArray?.profileImage}` || ''}
           style={{
             
             width: "40%",
@@ -700,7 +700,7 @@ function ResumeFive({handlePayment}) {
   return (
     <div className="w-full h-full flex flex-col justify-center items-center ">
       <div className=" w-full flex justify-between mb-3">
-      <button className=" px-4 rounded-lg bg-[#da3682] text-white font-semibold leading-3" onClick={() => handlePayment()}>Remove Watermark</button>
+      {paymentStatus &&  <button className=" px-4 rounded-lg bg-[#da3682] text-white font-semibold leading-3" onClick={() => handlePayment()}>Remove Watermark</button>}
 
         <PDFDownloadLink document={<Doc />} fileName="somename.pdf">
           {({ blob, url, loading, error }) => (

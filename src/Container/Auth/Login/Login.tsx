@@ -61,6 +61,7 @@ const Login = () => {
       setSendOtpObj(data);
       if (res?.userStatus) {
         sendOtp(data).then((res) => {
+          console.log('resres',res);
           if (res?.status === "success") {
             Toast(
               "success",
@@ -74,6 +75,8 @@ const Login = () => {
               ip_address: "192.54.565",
             });
           } else {
+          console.log('resres',res);
+
             Toast("error", res?.message);
           }
         });

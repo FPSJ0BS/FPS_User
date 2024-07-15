@@ -59,11 +59,6 @@ function SkillsPopup() {
     const commaSkills = await getCommaSeparatedSkillIds();
  
 
-
-    // const formData = new FormData();
-    // formData.append("skill", commaSkills);
-    // formData.append("facultyID", userId);
-
     try {
       setButtonLoad(true);
       const res = await postSubmitSkillsData([{

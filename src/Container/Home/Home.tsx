@@ -22,9 +22,10 @@ import BannerNew from "./Component/BannerNew/BannerNew";
 import CategoryNew from "./Component/CategoryNew/CategoryNew";
 import Jobs from "@Components/Jobs/Jobs";
 import BannerMobile from "./Component/BannerMobile/BannerMobile";
-import RESUMEBANNER from "@Assets/resume banner.png"
+import RESUMEBANNER from "@Assets/Home/resumeDreamJob.svg"
 import GetAppNew from "@Components/GetApp/GetAppNew";
 import JobsByCityNew from "@Components/JobsByLocation/jobsByCityNew";
+import WhyChoose from "./Component/WhyChoose/WhyChoose";
 
 const Home = () => {
   const { authorization, setUserLoginData } = useAccessTokenContext();
@@ -106,14 +107,17 @@ const Home = () => {
       />
       <BannerMobile />
       <BannerNew />
+
+
       {/* <Banner /> */}
+
       <Couter />
 
 
 
-        <div className=" mb-[-120px] w-full justify-center items-center">
+        <div className="   w-full flex justify-center items-start">
 
-          <img src={RESUMEBANNER} className=" w-full bg-contain ml-[20px]"  alt="resume"/>
+          <img src={RESUMEBANNER} className=" w-[100%] bg-contain mr-[20px]"  alt="resume"/>
 
         </div>
 
@@ -145,7 +149,7 @@ const Home = () => {
       <Testimonial />
       {/* <Box /> */}
       {/* <ReviewJob className="over-flow-hidden review-job-section-five" /> */}
-      <GetAppNew />
+      {/* <GetAppNew /> */}
       {/* <GetApp className="bg-get-app" /> */}
       {isModal && (
         <Modal
@@ -155,6 +159,7 @@ const Home = () => {
           isFull={true}
         />
       )}
+      <WhyChoose />
     </div>
   );
 };

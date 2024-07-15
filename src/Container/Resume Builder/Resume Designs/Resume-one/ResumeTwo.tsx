@@ -400,7 +400,7 @@ function ResumeTwo({handlePayment}) {
 
 
             {/* Certificates */}
-            {resumeDataArray?.education?.length !== 0 && (
+            {resumeDataArray?.certificate?.length !== 0 && (
               <View style={{ marginTop: "20px" }}>
                 <Text style={styles.headingStyle}>Certificates:</Text>
 
@@ -438,7 +438,7 @@ function ResumeTwo({handlePayment}) {
             )}
 
              {/* Languages */}
-             {resumeDataArray?.education?.length !== 0 && (
+             {resumeDataArray?.language?.length !== 0 && (
               <View style={{ marginTop: "20px" }}>
                 <Text style={styles.headingStyle}>Languages:</Text>
 

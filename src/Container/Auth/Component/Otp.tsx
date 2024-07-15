@@ -4,6 +4,7 @@ import { memo, useState } from "react";
 import Countdown from "@Components/Countdown/Countdown";
 import useSendOtp from "@Hooks/Mutation/useSendOtp";
 import { Toast } from "@Utils/Toast";
+import './otp.scss'
 
 const Otp = ({
   name,
@@ -54,7 +55,7 @@ const Otp = ({
                 OTPLength={digit}
                 disabled={false}
                 inputClassName={"otpInput"}
-                className={"flex flex-row justify-center text-white"}
+                className={"flex flex-row justify-center text-white otpClass"}
               />
             )}
           />
@@ -88,7 +89,7 @@ const Otp = ({
         >
           <button
             onClick={handleSubmit(onSubmit)}
-            className={`bg-black border-1 border-white border-solid col-8 mt-[13px] py-3 rounded-lg text-[17px] ${
+            className={`bg-black text-white border-1 border-white border-solid col-8 mt-[13px] py-3 rounded-lg text-[17px] ${
               isPending && "text-white d-flex flex-row justify-content-center "
             }`}
             disabled={isPending ? true : false}

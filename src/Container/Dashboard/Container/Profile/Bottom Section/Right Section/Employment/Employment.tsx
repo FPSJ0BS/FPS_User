@@ -120,7 +120,7 @@ function Employment() {
 
                 <div className="flex flex-col items-start  mb-[-5px]">
                   <p className=" font-medium mb-0 capitalize">
-                    {organization},
+                    {organization}
                   </p>
                   <p className=" font-normal mb-0 capitalize leading-[1.4em]">
                     {responsibilities}
@@ -137,7 +137,7 @@ function Employment() {
 
                 <div className="flex items-center gap-2">
                   <p className=" mb-0 capitalize text-gray-400 font-medium">
-                    {parseInt(currently) === 1 ? "Pursuing" : ""}
+                    {parseInt(currently) === 1 ? "Currently Working" : ""}
                   </p>
                 </div>
               </div>

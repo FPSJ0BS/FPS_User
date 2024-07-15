@@ -1,6 +1,11 @@
 import { useSelector, useDispatch } from "react-redux";
 import CloseIcon from "@Assets/Icons/remove.png";
-import { closeModalEducationModal, closeModalEmploymentAddModal, closeModalUserDetailsModal, toggleRefetchProfile } from "@/Redux/Dashboard/MyProfile/Education/EducationSlice";
+import {
+  closeModalEducationModal,
+  closeModalEmploymentAddModal,
+  closeModalUserDetailsModal,
+  toggleRefetchProfile,
+} from "@/Redux/Dashboard/MyProfile/Education/EducationSlice";
 import { postSubmitEducationDetails } from "@/api/api";
 import useProfileEducationPost from "@Hooks/Mutation/useProfileEducationPost";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -28,16 +33,16 @@ import useJobTitle from "@Hooks/Queries/useJobTitle";
 import Imag from "@Components/Image/Image";
 import { downloadResumePdf } from "@Utils/downloadFile";
 import { useGlobalContext } from "@Context/GlobalContextProvider";
+import "./inputs/profilesection.scss";
 
 function UserDetailsPopup() {
-  const dispatch = useDispatch()
-  const { userData} = useGlobalContext();
+  const dispatch = useDispatch();
+  const { userData } = useGlobalContext();
   const userId = userData?.UID;
   const navigate = useNavigate();
   const { data: profileDetails, refetch: refetchProfile } = useProfileDetails({
     UID: userId,
   });
-  console.log('profileDetailsprofileDetails', profileDetails);
   const { mutateAsync: UploadImage } = useUploadProfileImage({});
   const [query, setQuery] = useState({
     stateID: "",
@@ -88,7 +93,7 @@ function UserDetailsPopup() {
         dispatch(toggleRefetchProfile());
         navigate(`${AppRoute.Dashboard}/${AppRoute.Profile}`);
         Toast("success", res?.message);
-        popupCloseFunc()
+        popupCloseFunc();
       } else {
         Toast("error", res?.message);
       }
@@ -189,6 +194,41 @@ function UserDetailsPopup() {
     await dispatch(closeModalUserDetailsModal());
   };
 
+  const [isDragging, setIsDragging] = useState(false);
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = () => {
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setIsDragging(false);
+    const files = e.dataTransfer.files;
+    if (files.length > 0) {
+      handleFileUpload(files[0]);
+    }
+  };
+
+  const handleFileUpload = (file) => {
+    const formData = new FormData();
+    formData.append("UID", userData?.UID);
+    formData.append("profilePic", file);
+    UploadImage(formData).then((res) => {
+      if (res?.status === "success") {
+        refetchProfile();
+        dispatch(toggleRefetchProfile());
+        Toast("success", res?.message);
+      } else {
+        Toast("error", res?.message);
+      }
+    });
+  };
+
   return (
     <div className="TrackPopup h-full w-[65vw] right-0 z-50 flex justify-end fixed">
       <img
@@ -199,166 +239,172 @@ function UserDetailsPopup() {
       />
 
       <div className="bg-white h-full w-[90%] rounded-l-[100px] shadow-lg flex flex-col items-center py-4">
-        <h4 className="font-bold underline border-solid border-b-[1px]">Add Personal Details</h4>
+        <h4 className="font-bold underline border-solid border-b-[1px]">
+          Add Personal Details
+        </h4>
         <div className="w-full border-b-[1.5px] border-dashed border-[#4a4e69] mt-6"></div>
         <div className="w-full overflow-y-auto px-5 py-4 handleScrollbarMain">
-        <form id="update-profile" onSubmit={handleSubmit(onSubmit)}>
-        <div className="bg-white card-box border-20 my-4">
-          <h4 className="main-title fs-5">Personal Info</h4>
-          <div className="user-avatar-setting d-flex align-items-center mb-30">
-            <Imag
-              alt="avatar"
-              loading="lazy"
-              width={68}
-              height={68}
-              decoding="async"
-              data-nimg={1}
-              className="lazy-img user-img"
-              style={{ color: "transparent" }}
-              src={profileDetails?.user?.image}
-            />
-            <div className="upload-btn position-relative tran3s ms-4 me-3 cursor-pointer videoButton flex gap-3">
-              Upload new photo
-              <input
-                type="file"
-                id="uploadImg"
-                placeholder=""
-                name="uploadImg"
-                accept=".png, .jpg, .jpeg"
-                className="cursor-pointer"
-                onChange={(e: any) => {
-                  const formData = new FormData();
-                  formData.append("UID", userData?.UID);
-                  formData.append("profilePic", e.target.files[0]);
-                  UploadImage(formData).then((res) => {
-                    if (res?.status === "success") {
-                      refetchProfile();
-                      Toast("success", res?.message);
-                    } else {
-                      Toast("error", res?.message);
-                    }
-                  });
-                }}
-              />
-            </div>
-          </div>
-          <div className=" grid grid-cols-2 gap-4 ">
-            <div className="">
-              <div className="dash-input-wrapper ">
-                <label htmlFor="">Your Name</label>
-                <input
-                  {...register("name", {
-                    required: "Name is required",
-                  })}
-                  name="name"
-                  placeholder=" Your Name"
-                  aria-invalid="true"
-                  type="text"
-                  autoComplete="false"
-                  style={{ color: "#000" }}
+          <form id="update-profile" onSubmit={handleSubmit(onSubmit)}>
+            <div className="bg-white card-box border-20 my-4">
+              <h4 className="main-title fs-5">Personal Info</h4>
+              <div className="user-avatar-setting d-flex align-items-center mb-30">
+                <Imag
+                  alt="avatar"
+                  loading="lazy"
+                  width={68}
+                  height={68}
+                  decoding="async"
+                  data-nimg={1}
+                  className="lazy-img user-img"
+                  style={{ color: "transparent" }}
+                  src={profileDetails?.user?.image}
                 />
-                {errors.name && (
-                  <small className="text-danger mt-2">
-                    {errors?.name?.message}
-                  </small>
-                )}
-              </div>
-            </div>
-            <div className="">
-              <div className="dash-input-wrapper ">
-                <label htmlFor="">Email</label>
-                <input
-                  {...register("email", {
-                    required: "Email is required",
-                    pattern: {
-                      value: EMAIL_REGEX,
-                      message: "Invalid email",
-                    },
-                  })}
-                  
-                  name="email"
-                  placeholder="email"
-                  aria-invalid="true"
-                  type="email"
-                  autoComplete="false"
-                  style={{ color: "#000" }}
-                />
-                {errors.email && (
-                  <small className="text-danger mt-2">
-                    {errors.email.message}
-                  </small>
-                )}
-              </div>
-            </div>
-            <div className="">
-              <div className="dash-input-wrapper ">
-                <label htmlFor=""> Date of Birth</label>
-                <Controller
-                  name="dob"
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <DatePicker
-                      value={value ? new Date(value) : new Date()}
-                      onChange={onChange}
-                      maxDate={new Date(eighteenYearsAgo)}
-                      calendarIcon={null}
-                      clearIcon={null}
-                      className={"w-100 text-black border-0"}
-                      calendarClassName={
-                        "w-100 text-black border border-secondary"
-                      }
-                    />
-                  )}
-                />
-              </div>
-            </div>
-            <div className="">
-              <div className="dash-input-wrapper ">
-                <label htmlFor="">Category</label>
-                <Controller
-                  name="industry"
-                  control={control}
-                  rules={{
-                    required: "Category is required",
-                  }}
-                  render={({ field: { onChange, value } }) => (
-                    <select
-                      name="industry"
-                      className="select border-1 form-select border border-slate-100"
-                      value={value}
+                <div
+                  className={`border-dashed border-2 border-black upload-btn position-relative tran3s ms-4 me-3 cursor-pointer videoButton flex gap-3 ${
+                    isDragging ? "dragging" : ""
+                  }`}
+                  onDragOver={handleDragOver}
+                  onDragLeave={handleDragLeave}
+                  onDrop={handleDrop}
+                >
+                  <label
+                    htmlFor="uploadImg"
+                    className="cursor-pointer w-full h-full flex items-center justify-center "
+                  >
+                    Drop image or click to select
+                    <input
+                      type="file"
+                      id="uploadImg"
+                      name="uploadImg"
+                      accept=".png, .jpg, .jpeg"
+                      className="hidden"
                       onChange={(e) => {
-                        setIndustry({
-                          ...industry,
-                          industry_id: e.target.value,
-                        });
-                        onChange(e);
+                        if (e.target.files.length > 0) {
+                          handleFileUpload(e.target.files[0]);
+                        }
                       }}
-                    >
-                      <option value="">
-                        <span className="text-black">Select Your Category</span>
-                      </option>
-                      {Industry?.industries &&
-                        Industry?.industries.map((item, index) => {
-                          return (
-                            <option value={item?.ID} key={index}>
-                              <span className="text-black">
-                                {item?.category}
-                              </span>
-                            </option>
-                          );
-                        })}
-                    </select>
-                  )}
-                />
-
-                {errors.industry && (
-                  <small className="text-danger">
-                    {errors.industry.message}
-                  </small>
-                )}
+                    />
+                  </label>
+                </div>
               </div>
-            </div>
-            {/* <div className="">
+              <div className=" grid grid-cols-2 gap-4 ">
+                <div className="">
+                  <div className="dash-input-wrapper ">
+                    <label htmlFor="">Your Name</label>
+                    <input
+                      {...register("name", {
+                        required: "Name is required",
+                      })}
+                      name="name"
+                      placeholder=" Your Name"
+                      aria-invalid="true"
+                      type="text"
+                      autoComplete="false"
+                      style={{ color: "#000" }}
+                    />
+                    {errors.name && (
+                      <small className="text-danger mt-2">
+                        {errors?.name?.message}
+                      </small>
+                    )}
+                  </div>
+                </div>
+                <div className="">
+                  <div className="dash-input-wrapper ">
+                    <label htmlFor="">Email</label>
+                    <input
+                      {...register("email", {
+                        required: "Email is required",
+                        pattern: {
+                          value: EMAIL_REGEX,
+                          message: "Invalid email",
+                        },
+                      })}
+                      name="email"
+                      placeholder="email"
+                      aria-invalid="true"
+                      type="email"
+                      autoComplete="false"
+                      style={{ color: "#000" }}
+                    />
+                    {errors.email && (
+                      <small className="text-danger mt-2">
+                        {errors.email.message}
+                      </small>
+                    )}
+                  </div>
+                </div>
+                <div className="">
+                  <div className="dash-input-wrapper ">
+                    <label htmlFor=""> Date of Birth</label>
+                    <Controller
+                      name="dob"
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <DatePicker
+                          value={value ? new Date(value) : new Date()}
+                          onChange={onChange}
+                          maxDate={new Date(eighteenYearsAgo)}
+                          calendarIcon={null}
+                          clearIcon={null}
+                          className={"w-100 text-black border-0"}
+                          calendarClassName={
+                            "w-100 text-black border border-secondary"
+                          }
+                        />
+                      )}
+                    />
+                  </div>
+                </div>
+                <div className="">
+                  <div className="dash-input-wrapper ">
+                    <label htmlFor="">Category</label>
+                    <Controller
+                      name="industry"
+                      control={control}
+                      rules={{
+                        required: "Category is required",
+                      }}
+                      render={({ field: { onChange, value } }) => (
+                        <select
+                          name="industry"
+                          className="select border-1 form-select border border-slate-100"
+                          value={value}
+                          onChange={(e) => {
+                            setIndustry({
+                              ...industry,
+                              industry_id: e.target.value,
+                            });
+                            onChange(e);
+                          }}
+                        >
+                          <option value="">
+                            <span className="text-black">
+                              Select Your Category
+                            </span>
+                          </option>
+                          {Industry?.industries &&
+                            Industry?.industries.map((item, index) => {
+                              return (
+                                <option value={item?.ID} key={index}>
+                                  <span className="text-black">
+                                    {item?.category}
+                                  </span>
+                                </option>
+                              );
+                            })}
+                        </select>
+                      )}
+                    />
+
+                    {errors.industry && (
+                      <small className="text-danger">
+                        {errors.industry.message}
+                      </small>
+                    )}
+                  </div>
+                </div>
+                {/* <div className="">
               <div className="dash-input-wrapper ">
                 <label htmlFor="">Skill</label>
                 <select
@@ -387,62 +433,64 @@ function UserDetailsPopup() {
                 )}
               </div>
             </div> */}
-            <div className="">
-              <div className="dash-input-wrapper ">
-                <label htmlFor="">Alternate Mobile</label>
+                <div className="">
+                  <div className="dash-input-wrapper ">
+                    <label htmlFor="">Alternate Mobile</label>
 
-                <input
-                  {...register("alternate_contact", {
-                    required: false,
-                    pattern: {
-                      value: PHONE_REGEXP,
-                      message: "Invalid Mobile number",
-                    },
-                  })}
-                  name="alternate_contact"
-                  placeholder="Alternate Mobile Number"
-                  aria-invalid="true"
-                  type="text"
-                  // className="p-2 border-1"
-                  autoComplete="false"
-                />
-                {errors.alternate_contact && (
-                  <small className="text-danger">
-                    {errors.alternate_contact.message?.toString() || ""}
-                  </small>
-                )}
-              </div>
-            </div>
-            <div className="">
-              <div className="dash-input-wrapper ">
-                <label htmlFor="">Gender</label>
-                <select
-                  {...register("gender", {
-                    required: "Please select one…",
-                  })}
-                  name="gender"
-                  className="select border-1 form-select border border-slate-100"
-                >
-                  <option value="">
-                    <span className="text-black">Please select one…</span>
-                  </option>
-                  <option value="Male">
-                    <span className="text-black">Male</span>
-                  </option>
-                  <option value="Female">
-                    <span className="text-black">Female</span>
-                  </option>
-                  <option value="Other">
-                    <span className="text-black">Other</span>
-                  </option>
-                </select>
+                    <input
+                      {...register("alternate_contact", {
+                        required: false,
+                        pattern: {
+                          value: PHONE_REGEXP,
+                          message: "Invalid Mobile number",
+                        },
+                      })}
+                      name="alternate_contact"
+                      placeholder="Alternate Mobile Number"
+                      aria-invalid="true"
+                      type="text"
+                      // className="p-2 border-1"
+                      autoComplete="false"
+                    />
+                    {errors.alternate_contact && (
+                      <small className="text-danger">
+                        {errors.alternate_contact.message?.toString() || ""}
+                      </small>
+                    )}
+                  </div>
+                </div>
+                <div className="">
+                  <div className="dash-input-wrapper ">
+                    <label htmlFor="">Gender</label>
+                    <select
+                      {...register("gender", {
+                        required: "Please select one…",
+                      })}
+                      name="gender"
+                      className="select border-1 form-select border border-slate-100"
+                    >
+                      <option value="">
+                        <span className="text-black">Please select one…</span>
+                      </option>
+                      <option value="Male">
+                        <span className="text-black">Male</span>
+                      </option>
+                      <option value="Female">
+                        <span className="text-black">Female</span>
+                      </option>
+                      <option value="Other">
+                        <span className="text-black">Other</span>
+                      </option>
+                    </select>
 
-                {errors.gender && (
-                  <small className="text-danger">{errors.gender.message}</small>
-                )}
-              </div>
-            </div>
-            {/* <div className=" ">
+                    {errors.gender && (
+                      <small className="text-danger">
+                        {errors.gender.message}
+                      </small>
+                    )}
+                  </div>
+                </div>
+                {/* <div className=" ">
               <div className="dash-input-wrapper ">
                 <label htmlFor="">Resume</label>
                 <div className="d-flex flex-row gap-1">
@@ -471,9 +519,9 @@ function UserDetailsPopup() {
                 </div>
               </div>
             </div> */}
-          </div>
-        </div>
-        {/* <div className="bg-white card-box border-20 my-4">
+              </div>
+            </div>
+            {/* <div className="bg-white card-box border-20 my-4">
           <h4 className="main-title fs-5">Qualification/Work Info</h4>
           <div className=" grid grid-cols-2 gap-4">
             <div className="">
@@ -747,7 +795,7 @@ function UserDetailsPopup() {
             </div>
           </div>
         </div> */}
-        {/* <div className="bg-white card-box border-20 my-4">
+            {/* <div className="bg-white card-box border-20 my-4">
           <h4 className="main-title fs-5">Current Company Info</h4>
           <div className=" grid grid-cols-2 gap-4">
             <div className="">
@@ -785,16 +833,15 @@ function UserDetailsPopup() {
           </div>
         </div> */}
 
-        <div className="flex gap-3 mt-30">
-          <button
-            className="bg-[#9a3c58] px-5 py-2 rounded-lg text-white"
-            type="submit"
-          >
-            Save
-          </button>
-          
-        </div>
-      </form>
+            <div className="flex gap-3 mt-30">
+              <button
+                className="bg-[#9a3c58] px-5 py-2 rounded-lg text-white"
+                type="submit"
+              >
+                Save
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>

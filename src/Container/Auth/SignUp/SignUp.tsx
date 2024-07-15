@@ -42,6 +42,7 @@ const SignUp = () => {
   const [query, setQuery] = useState({
     stateID: "",
   });
+
   const navigate = useNavigate();
   const [industry, setIndustry] = useState({
     industry_id: "",
@@ -390,7 +391,7 @@ const SignUp = () => {
                           className="select border-1 form-select border border-slate-100 text-black"
                           value={value}
                           onChange={(e) => {
-                            console.log(e.target.value);
+                            
                             setQuery({
                               ...query,
                               stateID: e.target.value,

@@ -1,25 +1,24 @@
 // import { AppConst } from "@/Enum/AppConst";
-import JobSection from "@Components/JobsSection";
 // import SEO from "@Components/Seo/Seo";
 import { useGlobalContext } from "@Context/GlobalContextProvider";
 import useSearchJobsQuery from "@Hooks/Queries/useSearchJobsQuery";
 import { memo, useState } from "react";
-
+import { JobListingNew } from "./JobListingNew";
 
 const JobListing = () => {
-  const { userData} = useGlobalContext();
+  const { userData } = useGlobalContext();
   const [searchJob, setSearchJob] = useState<any>({
     UID: userData?.UID ? userData?.UID : 103082,
     pageNo: 0,
-    limit: 10,
+    limit: 12,
   });
 
-  console.log('setSearchJobsetSearchJobsetSearchJob', searchJob);
-
-  const { data: jobs } = useSearchJobsQuery(
+  const { data: jobs, refetch } = useSearchJobsQuery(
     { enabled: !!searchJob?.UID },
     searchJob
   );
+
+
 
   return (
     <>
@@ -46,10 +45,17 @@ const JobListing = () => {
         />
       )} */}
 
-      <JobSection
+      {/* <JobSection
         data={jobs}
         searchJob={searchJob}
         setSearchJob={setSearchJob}
+      /> */}
+
+      <JobListingNew
+        data={jobs}
+        searchJob={searchJob}
+        setSearchJob={setSearchJob}
+        refetch = {refetch}
       />
     </>
   );
