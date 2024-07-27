@@ -266,12 +266,12 @@ const List = ({ data, setQuery, query, refetch, setSearchJob, searchJob }) => {
       }
       <div className="my-[50px] ">
         <Pagination
-          total={data?.totalPages}
+          total={data?.totalPage}
           current={searchJob?.totalPage}
           onChange={(page) => {
             setSearchJob({
               ...searchJob,
-              totalPage: page,
+              pageNo: page,
             });
           }}
           pageSize={searchJob?.limit}

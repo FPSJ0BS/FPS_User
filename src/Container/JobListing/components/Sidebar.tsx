@@ -128,13 +128,13 @@ const Sidebar = (props: any) => {
         jobType: query?.jobType,
         min_salary: query?.min_salary,
         min_experience: query?.min_experience,
-        page: 0,
+        pageNo: 0,
       });
     } else {
       setSearchJob({
         ...searchJob,
         ..._query,
-        page: 0,
+        pageNo: 0,
       });
     }
   }, [setSearchParams]);
@@ -221,7 +221,7 @@ const Sidebar = (props: any) => {
                 className="border-t-0 border-r-0 border-l-0 placeholder-white text-white pl-3 h-[40px] text-[12px] 2xl:text-[14px]"
                 name={"title"}
                 type="text"
-                placeholder="Enter Job title "
+                placeholder="Enter title "
                 value={query?.title}
                 onChange={(e) => {
                   setQuery({
