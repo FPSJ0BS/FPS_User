@@ -112,12 +112,7 @@ const Profile = () => {
       enabled: !!userId, // ensures the query runs only when UID is available
     });
 
-  useEffect(() => {
-    console.log(
-      "percentDatapercentDatapercentDatapercentDatapercentDatapercentDatapercentDatapercentData",
-      percentageData
-    );
-  }, [percentageDataSuccess]);
+ 
 
   useEffect(() => {
     const submitArrays = async () => {

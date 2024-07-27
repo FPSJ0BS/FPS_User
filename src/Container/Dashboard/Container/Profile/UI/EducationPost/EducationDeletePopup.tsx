@@ -39,18 +39,18 @@ function EducationDeletePopup() {
 
   return (
     <div className="TrackPopup h-full w-[100%] right-0 z-50 flex justify-center items-center fixed bg-gray-200 bg-opacity-55">
-      <div className="bg-white gap-4 h-[30%] w-[45%]  shadow-lg border-1 border-solid border-gray-300 rounded-xl flex flex-col justify-center items-center py-4 relative">
+      <div className="bg-white gap-4 min-h-[30%] w-[90%] md:w-[45%]  shadow-lg border-1 border-solid border-gray-300 rounded-xl flex flex-col justify-center items-center py-8 relative">
         <img
           onClick={popupCloseFunc}
-          className="cursor-pointer absolute sm:left-10 top-[30px]"
+          className="cursor-pointer absolute left-0 top-0 "
           src={CloseIcon}
           alt="close"
         />
-        <h4 className="font-bold underline border-solid border-b-[1px]">
+        <h4 className="font-bold underline border-solid md:border-b-[1px] text-center ">
           Are you sure you want to delete this?
         </h4>
 
-        <div className=" flex gap-5">
+        <div className=" flex gap-5 ">
           <div
             onClick={() => onSubmitData()}
             className="w-full  flex items-center justify-center cursor-pointer"

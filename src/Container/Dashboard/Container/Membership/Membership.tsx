@@ -23,6 +23,7 @@ const Membership = () => {
     uid: userData?.UID,
     enabled: !!userData?.UID,
   });
+
   const { data: profileDetails } = useProfileDetails({
     UID: userData?.UID,
   });
@@ -39,14 +40,14 @@ const Membership = () => {
   const [Razorpay] = useRazorpay();
 
   const handlePayment = (item: any) => {
-    if (!_currentPlan || _currentPlan?.type === "Postpaid") {
+    
       if (item?.type === "Prepaid") {
         createOrder({
           user_id: userData?.UID,
           amount: Number(item?.price * 100),
           type: "INR",
         }).then((response) => {
-          console.log(response);
+         
           const options: any = {
             key: String(import.meta.env.VITE_Razorpay_KEY),
             amount: String(item?.price * 100),
@@ -55,7 +56,7 @@ const Membership = () => {
             image: logo,
             order_id: response?.order_id,
             handler: (res) => {
-              console.log(res);
+             
               packUpdate({
                 UID: userData?.UID,
                 packID: item?.packID,
@@ -126,12 +127,7 @@ const Membership = () => {
           });
         }
       }
-    } else {
-      Toast(
-        "error",
-        "You're currently subscribed to a package! If you'd like to explore additional options, please reach out to our friendly customer care team. They'll be happy to assist you further!"
-      );
-    }
+   
   };
 
   return (
@@ -188,7 +184,7 @@ const Membership = () => {
                       Your subscription renews{/* */}{" "}
                       <span className="fw-500">{_currentPlan?.days} days</span>
                     </span>
-                    <a
+                    {/* <a
                       className="cancel-plan tran3s cursor-pointer"
                       onClick={() => {
                         PackCancel({
@@ -207,7 +203,7 @@ const Membership = () => {
                       }}
                     >
                       Cancel Current Plan
-                    </a>
+                    </a> */}
                   </div>
                 </div>
               </div>
@@ -241,7 +237,7 @@ const Membership = () => {
               const isCurrentPlan =
                 item.packID === profileDetails?.user?.packID;
               return (
-                isCategory &&
+                
                 !isCurrentPlan && (
                   <div className="col-lg-4 col-md-6">
                     <div className="pricing-card-one border-0 popular-two mt-25">

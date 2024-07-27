@@ -2,7 +2,9 @@ import { ILoginWithEmailType, IRegType } from "@Type/LoginType";
 import CoreAPI from "./CoreAPI";
 import { getQuery } from "@Utils/GetQuery";
 import { Package } from "@Type/PackageType";
+import CoreAPINode from "./CoreAPINode";
 const http = new CoreAPI();
+const httpNode = new CoreAPINode();
 
 const getToken = (): string | null => {
   const tokenString = localStorage.getItem("token:fpsjob");
@@ -50,7 +52,7 @@ export const otpCheck = async (req: any) => {
 };
 
 export const dogetCategory = async () => {
-  const res = await http.postRequestForm(`v2/categories`, {});
+  const res = await httpNode.getRequest(`user/categories`, {});
   return res;
 };
 export const dogetSubjectCategory = async (req: any) => {
@@ -72,6 +74,11 @@ export const dogetStateList = async () => {
   return res;
 };
 
+export const dogetStateListNode = async () => {
+  const res = await httpNode.getRequest(`user/state`);
+  return res;
+};
+
 export const dogetindustryList = async () => {
   const res = await http.getRequest(`v3/industry`);
   return res;
@@ -85,7 +92,7 @@ export const dogetCityList = async (data) => {
 };
 
 export const dogetFiterCityList = async () => {
-  const res = await http.getRequest(`v2/filter_city`);
+  const res = await httpNode.getRequest(`user/allCities`);
   return res;
 };
 
@@ -96,6 +103,17 @@ export const doSearchJobs = async (data) => {
   );
   return res;
 };
+
+export const doSearchJobsNode = async (data) => {
+  const res = await httpNode.getRequest(
+    `user/filterJobs`,
+    data?.queryKey?.[1] ? data?.queryKey?.[1] : {}
+  );
+  return res;
+};
+
+
+
 export const doLatestJobs = async () => {
   const res = await http.postRequest(`v2/searchJobs`, {});
   return res;
@@ -109,15 +127,14 @@ export const dogetJobDetails = async (req: any) => {
 };
 
 export const doaddFavourite = async (req: any) => {
-  const token = getToken()
+  const token = getToken();
   const res = await http.getRequest(
     `Web_api_V3_test/addFavourite?${getQuery(req)}`,
     {
       headers: {
-        'Authorization': `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     }
-
   );
   return res;
 };
@@ -166,7 +183,7 @@ export const doGetPartner = async () => {
   return res;
 };
 export const doGetTestimonial = async () => {
-  const res = await http.getRequest(`Testimonial/testimonial`);
+  const res = await httpNode.getRequest(`user/testimonials`);
   return res;
 };
 export const doForgotPassword = async (data) => {

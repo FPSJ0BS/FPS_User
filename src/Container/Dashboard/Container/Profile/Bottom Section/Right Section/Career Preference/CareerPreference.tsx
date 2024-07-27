@@ -10,14 +10,14 @@ import {
 } from "@/Redux/Dashboard/MyProfile/Education/EducationSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Delete from "@Assets/Icons/delete.png";
-import CareerPreferenceIcon from "@Assets/Icons/Profile/CITY_PREFERENCES.png"
+import CareerPreferenceIcon from "@Assets/Icons/Profile/CITY_PREFERENCES.png";
 
-function Employment() {
+function CareerPreference() {
   const { userDataArray } = useSelector(
     (state: any) => state.myProfileEducationSlice
   );
 
-  console.log("userDataArray", userDataArray);
+
 
   const dispatch = useDispatch();
 
@@ -69,14 +69,18 @@ function Employment() {
     <div className="bg-white rounded-[20px]  p-[20px] min-h-[200px] w-full career-preference">
       <div className=" flex justify-between items-center gap-2  ">
         <div className=" flex items-center gap-2 h-[40px]">
-          <img className=" w-[65px]" src={CareerPreferenceIcon} alt="Education-Icon" />
-          <h6 className=" w-ful flex gap-2 cursor-default font-bold">
+          <img
+            className=" w-[65px]"
+            src={CareerPreferenceIcon}
+            alt="Education-Icon"
+          />
+          <h6 className="text-[14px] md:text-[16px] w-ful flex gap-2 cursor-default font-bold">
             Career Preference
           </h6>
         </div>
         <div
           onClick={() => modalOpen()}
-          className=" cursor-pointer text-[#81b29a] font-semibold hover:bg-[#81b29a] hover:text-white px-3 py-1 border-[2px] border-solid  rounded-3xl flex justify-center items-center"
+          className="text-[11px] md:text-[14px] cursor-pointer text-[#81b29a] font-semibold hover:bg-[#81b29a] hover:text-white px-2 md:px-3 py-1 border-[2px] border-solid  rounded-3xl flex justify-center items-center"
         >
           Add Career Preference
         </div>
@@ -90,16 +94,21 @@ function Employment() {
               Preferred Location
             </p>
             <div className=" flex gap-2">
-              {userDataArray?.city_preferences?.map(({ city_name, id }) => {
-                return (
-                  <p
-                    key={id}
-                    className=" capitalize cursor-pointer text-black font-semibold mb-0"
-                  >
-                    {city_name},
-                  </p>
-                );
-              })}
+              {userDataArray?.city_preferences?.map(
+                ({ city_name, id }, index) => {
+                  const isLastItem =
+                    index === userDataArray.city_preferences.length - 1;
+                  return (
+                    <p
+                      key={id}
+                      className="capitalize cursor-pointer text-black font-semibold mb-0"
+                    >
+                      {city_name}
+                      {!isLastItem && ","}
+                    </p>
+                  );
+                }
+              )}
             </div>
           </div>
 
@@ -222,4 +231,4 @@ function Employment() {
   );
 }
 
-export default memo(Employment);
+export default memo(CareerPreference);

@@ -50,7 +50,7 @@ function OtherDetailsPopup() {
     }
     // Use formDataToSend to send data to the server
 
-    console.log("formDataToSend", formDataToSend);
+   
 
     try {
       setButtonLoad(true);
@@ -70,7 +70,7 @@ function OtherDetailsPopup() {
   };
 
   return (
-    <div className="TrackPopup h-full w-[65vw] right-0 z-50 flex justify-end fixed">
+    <div className="TrackPopup h-full w-[100vw] md:w-[65vw] right-0 z-50 flex justify-end fixed">
       <img
         onClick={popupCloseFunc}
         className="cursor-pointer absolute sm:left-10 top-[30px]"
@@ -78,7 +78,7 @@ function OtherDetailsPopup() {
         alt="close"
       />
 
-      <div className="bg-white h-full w-[90%] rounded-l-[100px] shadow-lg flex flex-col items-center py-4">
+      <div className="bg-white h-full w-[100%] md:w-[90%] md:rounded-l-[100px] shadow-lg flex flex-col items-center py-4">
         <h4 className="font-bold underline border-solid border-b-[1px]">
           Other Details
         </h4>
@@ -86,9 +86,9 @@ function OtherDetailsPopup() {
         <div className="h-[85%] w-[90%] border-1 border-solid border-gray-200 p-3 rounded-xl overflow-y-auto handleScrollbarMain mt-[30px]">
           <form
             onSubmit={handleSubmit}
-            className=" p-6 rounded  grid grid-cols-2 gap-4"
+            className=" p-6 rounded  grid grid-cols-1 md:grid-cols-2 gap-4"
           >
-            <div className="">
+            <div className="col-span-2 md:col-span-1">
               <label
                 className="block text-sm font-semibold text-black"
                 htmlFor="address"
@@ -106,7 +106,7 @@ function OtherDetailsPopup() {
                 onChange={handleChange}
               />
             </div>
-            <div className="">
+            <div className="col-span-2 md:col-span-1">
               <label
                 className="block text-sm font-semibold text-black"
                 htmlFor="hometown"
@@ -124,7 +124,7 @@ function OtherDetailsPopup() {
                 onChange={handleChange}
               />
             </div>
-            <div className="">
+            <div className="col-span-2 md:col-span-1">
               <label
                 className="block text-sm font-semibold text-black"
                 htmlFor="pincode"
@@ -143,7 +143,7 @@ function OtherDetailsPopup() {
               />
             </div>
 
-            <div className="">
+            <div className="col-span-2 md:col-span-1">
               <label
                 className="block text-sm font-semibold text-black"
                 htmlFor="gender"
@@ -166,7 +166,7 @@ function OtherDetailsPopup() {
                 <option value="other">Other</option>
               </select>
             </div>
-            <div className="">
+            <div className="col-span-2 md:col-span-1">
               <label
                 className="block text-sm font-semibold text-black"
                 htmlFor="dob"
@@ -183,7 +183,7 @@ function OtherDetailsPopup() {
                 onChange={handleChange}
               />
             </div>
-            <div className="">
+            <div className="col-span-2 md:col-span-1">
               <label
                 className="block text-sm font-semibold text-black"
                 htmlFor="banner"

@@ -23,22 +23,24 @@ const BannerNew = () => {
   });
   const { data: cityList } = useFilterCity({});
 
+
   const openLink = () => {
     window.open("https://linkmix.co/24321549", "_blank");
   };
 
   return (
-    <div className=" pt-5  banner-new bg-[url('@Assets/Home/BannerNew/bgmain.png')] bg-contain bg-no-repeat min-h-[100vh] bg-[#090909] overflow-hidden hidden md:block">
+    <div className=" pt-5  banner-new bg-[url('@Assets/Home/BannerNew/bgmain.png')] bg-contain bg-no-repeat min-h-[100vh]  bg-[#090909] overflow-hidden hidden md:block">
       <div className="h-[50vh]  px-[15vw] flex items-start justify-center flex-col gap-5 relative">
         {/* <div className="   md:top-[8vw] md:left-[12vw]   lg:top-[2vw] lg:left-[13vw] absolute rounded-full w-[110px] h-[110px] border-2 border-solid border-[#606367]"></div> */}
 
-        <h1 className="text-white text-[25px] sm:text-[4vw] font-medium leading-[1.2em] z-50">
+        <h1 className="text-white text-[25px] sm:text-[4vw] font-bold leading-[1.2em] z-50">
           Find your dream job
           <br /> in education
         </h1>
         <img
+          onClick={() => navigate(`${AppRoute.Find_Jobs}`)}
           src={CARD}
-          className=" absolute right-0 top-2 w-[30%]"
+          className=" absolute right-0 top-2 w-[30%] cursor-pointer"
           alt="card"
         />
         <form
@@ -87,7 +89,7 @@ const BannerNew = () => {
             <div className=" h-[50%] border-solid border-white border-1 flex justify-center items-center"></div>
           </div>
           <CustomSelect
-            options={cityList?.cities || []}
+            options={cityList?.data || []}
             setSearchJob={(city) => {
               setSearchJob((oldSearchJob) => ({
                 ...oldSearchJob,
@@ -177,68 +179,62 @@ const BannerNew = () => {
           </div>
         </div>
 
-       
-          <div className=" flex  w-full mt-5">
+        <div className=" flex  w-full mt-5">
+          <div className=" w-[60%] flex flex-col justify-end pb-4">
+            <h2 className=" text-[23px] md:text-[40px] text-white font-semibold">
+              Save time &<br /> find your job with
+              <br /> our mobile app
+            </h2>
 
-
-
-            <div className=" w-[60%] flex flex-col justify-end pb-4">
-              <h2 className=" text-[23px] md:text-[40px] text-white font-semibold">
-                Save time &<br /> find your job with
-                <br /> our mobile app
-              </h2>
-
-              <div
-                onClick={() => openLink()}
-                className=" flex-col md:flex-row flex gap-3 w-full justify-start items-start cursor-pointer pt-4"
-              >
-                <div className="  border-1 border-white border-solid border-1 px-4 py-2 flex items-center justify-center gap-3 ">
-                  <img alt="playstore" className=" w-[25px]" src={PLAYSTORE} />
-                  <div className="flex flex-col gap-1">
-                    <h3 className=" text-white font-bold text-[15px]">
-                      Play Store
-                    </h3>
-                    <div className=" flex gap-1">
-                      <h3 className=" text-white font-bold text-[10px]">4.7</h3>
-                      <img className="w-[10px]" src={STAR} alt="star" />
-                      <img className="w-[10px]" src={STAR} alt="star" />
-                      <img className="w-[10px]" src={STAR} alt="star" />
-                      <img className="w-[10px]" src={STAR} alt="star" />
-                      <img className="w-[10px]" src={HALFSTAR} alt="star" />
-                    </div>
+            <div
+              onClick={() => openLink()}
+              className=" flex-col md:flex-row flex gap-3 w-full justify-start items-start cursor-pointer pt-4"
+            >
+              <div className="  border-1 border-white border-solid border-1 px-4 py-2 flex items-center justify-center gap-3 ">
+                <img alt="playstore" className=" w-[25px]" src={PLAYSTORE} />
+                <div className="flex flex-col gap-1">
+                  <h3 className=" text-white font-bold text-[15px]">
+                    Play Store
+                  </h3>
+                  <div className=" flex gap-1">
+                    <h3 className=" text-white font-bold text-[10px]">4.7</h3>
+                    <img className="w-[10px]" src={STAR} alt="star" />
+                    <img className="w-[10px]" src={STAR} alt="star" />
+                    <img className="w-[10px]" src={STAR} alt="star" />
+                    <img className="w-[10px]" src={STAR} alt="star" />
+                    <img className="w-[10px]" src={HALFSTAR} alt="star" />
                   </div>
                 </div>
-                <div
-                  onClick={() => openLink()}
-                  className="  border-1 border-white px-4 py-2 border-solid  flex items-center justify-center gap-3"
-                >
-                  <img alt="playstore" className=" w-[25px]" src={APPLE} />
-                  <div className="flex flex-col gap-1">
-                    <h3 className=" text-white font-bold text-[15px]">
-                      App Store
-                    </h3>
-                    <div className=" flex gap-1">
-                      <h3 className=" text-white font-bold text-[10px]">4.5</h3>
-                      <img className="w-[10px]" src={STAR} alt="star" />
-                      <img className="w-[10px]" src={STAR} alt="star" />
-                      <img className="w-[10px]" src={STAR} alt="star" />
-                      <img className="w-[10px]" src={STAR} alt="star" />
-                      <img className="w-[10px]" src={HALFSTAR} alt="star" />
-                    </div>
+              </div>
+              <div
+                onClick={() => openLink()}
+                className="  border-1 border-white px-4 py-2 border-solid  flex items-center justify-center gap-3"
+              >
+                <img alt="playstore" className=" w-[25px]" src={APPLE} />
+                <div className="flex flex-col gap-1">
+                  <h3 className=" text-white font-bold text-[15px]">
+                    App Store
+                  </h3>
+                  <div className=" flex gap-1">
+                    <h3 className=" text-white font-bold text-[10px]">4.5</h3>
+                    <img className="w-[10px]" src={STAR} alt="star" />
+                    <img className="w-[10px]" src={STAR} alt="star" />
+                    <img className="w-[10px]" src={STAR} alt="star" />
+                    <img className="w-[10px]" src={STAR} alt="star" />
+                    <img className="w-[10px]" src={HALFSTAR} alt="star" />
                   </div>
                 </div>
               </div>
             </div>
+          </div>
 
-
-
-            <div className="w-[70%] mt-1">
-              <img className="w-full animate-moveLeftRight" src={PHONEIMAGE} alt="PHONEIMAGE" />
-            </div>
-
-
-
-      
+          <div className="w-[70%] mt-1">
+            <img
+              className="w-full animate-moveLeftRight"
+              src={PHONEIMAGE}
+              alt="PHONEIMAGE"
+            />
+          </div>
         </div>
       </div>
 

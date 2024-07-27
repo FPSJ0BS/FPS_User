@@ -20,9 +20,7 @@ function EducationPost() {
 
 
 
-useEffect(()=>{
-console.log('resultDataArray',resultDataArray);
-},[resultDataArray])
+
 
   const {
     register,
@@ -86,7 +84,7 @@ console.log('resultDataArray',resultDataArray);
   };
 
   return (
-    <div className="TrackPopup h-full w-[65vw] right-0 z-50 flex justify-end fixed">
+    <div className="TrackPopup h-full w-[100vw] lg:w-[65vw] right-0 z-50 flex justify-end fixed">
       <img
         onClick={popupCloseFunc}
         className="cursor-pointer absolute sm:left-10 top-[30px]"
@@ -94,11 +92,11 @@ console.log('resultDataArray',resultDataArray);
         alt="close"
       />
 
-      <div className="bg-white h-full w-[90%] rounded-l-[100px] shadow-lg flex flex-col items-center py-4">
+      <div className="bg-white h-full w-[100%] lg:w-[90%] md:rounded-l-[100px] shadow-lg flex flex-col items-center py-4">
         <h4 className="font-bold underline border-solid border-b-[1px]">Add Education Details</h4>
         <div className="w-full border-b-[1.5px] border-dashed border-[#4a4e69] mt-6"></div>
         <div className="w-full overflow-y-auto px-5 py-4 handleScrollbarMain">
-          <form onSubmit={handleSubmit(onSubmitData)} className="space-y-6">
+          <form onSubmit={handleSubmit(onSubmitData)} className="space-y-6 ">
             {fields.map((item, index) => (
               <div key={item.id} className="space-y-4 border p-4 rounded-md">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -115,7 +113,7 @@ console.log('resultDataArray',resultDataArray);
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-black">Course</label>
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-col md:flex-row items-center gap-2">
                       <select
                         {...register(`education.${index}.course`)}
                         className="mt-1 block h-[50px] w-[100%] p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:ring-blue-300"
@@ -127,7 +125,7 @@ console.log('resultDataArray',resultDataArray);
                       </select>
                       <select
                         {...register(`education.${index}.type`)}
-                        className="mt-1 block h-[50px] w-[40%] p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:ring-blue-300"
+                        className="mt-1 block h-[50px] w-[100%] md:w-[45%] p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:ring-blue-300"
                       >
                         <option value="" disabled selected>Enter Type ...</option>
                         {educationDataArray.map((type) => (
@@ -163,15 +161,15 @@ console.log('resultDataArray',resultDataArray);
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-black">Result</label>
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-col md:flex-row items-center gap-2">
                       <input
                         placeholder="Enter Result..."
                         {...register(`education.${index}.result`)}
-                        className="mt-1 h-[50px] block w-[60%] p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:ring-blue-300"
+                        className="mt-1 h-[50px] block w-[100%] md:w-[60%] p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:ring-blue-300"
                       />
                       <select
                         {...register(`education.${index}.result_type`)}
-                        className="mt-1 h-[50px] block w-[40%] p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:ring-blue-300"
+                        className="mt-1 h-[50px] block w-[100%] md:w-[40%] p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:ring-blue-300"
                       >
                         <option value="" disabled selected>Enter Type ...</option>
                         {resultDataArray?.map((type) => (
@@ -216,7 +214,7 @@ console.log('resultDataArray',resultDataArray);
                 )}
               </div>
             ))}
-            <div className="flex gap-2">
+            <div className="flex flex-col md:flex-row md:gap-2">
               <button
                 type="button"
                 onClick={() =>
@@ -232,13 +230,13 @@ console.log('resultDataArray',resultDataArray);
                     specialization: "",
                   })
                 }
-                className="w-[30%] mt-4 p-2 bg-blue-500 text-white rounded-md shadow-sm"
+                className="w-[100%] md:w-[30%] mt-4 p-2 bg-blue-500 text-white rounded-md shadow-sm"
               >
                 Add More Education
               </button>
               <button
                 type="submit"
-                className="w-[30%] mt-4 p-2 bg-green-500 text-white rounded-md shadow-sm flex justify-center items-center"
+                className="w-[100%] md:w-[30%] mt-4 p-2 bg-green-500 text-white rounded-md shadow-sm flex justify-center items-center"
               >
                 {buttonLoad ? "Submitting..." : "Submit Details"}
               </button>

@@ -2,6 +2,7 @@ import { memo } from "react";
 import Pen from "@Assets/Icons/pen.png";
 import { useDispatch, useSelector } from "react-redux";
 import { openModalUserDetailsModal } from "@/Redux/Dashboard/MyProfile/Education/EducationSlice";
+import dummyimage from "@Assets/Icons/Profile/user.png"
 
 function TopSection() {
   const dispatch = useDispatch();
@@ -43,18 +44,18 @@ function TopSection() {
     dispatch(openModalUserDetailsModal());
   };
   return (
-    <div className="w-full flex bg-white h-[250px] rounded-[20px] p-[15px] gap-3 ">
-      <div className=" w-[30%]  h-full flex justify-center items-center">
-        <div className="  w-[12vw] h-[12vw] rounded-full flex justify-center items-center">
+    <div className="py-5 md:py-0 w-full flex flex-col md:flex-row justify-center items-center bg-white min-h-[250px] rounded-[20px] p-[15px] gap-3 ">
+      <div className=" w-[100%] md:w-[30%]  h-full flex justify-center items-center">
+        <div className=" w-[100%] md:w-[12vw] h-[12vw] rounded-full flex justify-center items-center">
           <img
-            className="w-[12vw] h-[12vw] border-1 border-solid border-gray-300 rounded-full"
-            src={userDataArray?.image}
+            className=" w-[100px] md:w-[12vw]  border-1 border-solid border-gray-300 rounded-full"
+            src={userDataArray?.image ? userDataArray?.image : dummyimage}
             alt="profileiamge"
           />
         </div>
       </div>
 
-      <div className=" w-[70%] h-full py-4 ">
+      <div className=" w-[100%] md:w-[70%] h-full py-4 ">
         <div className=" flex items-center gap-4">
           <h4 className=" font-semibold capitalize">{userDataArray?.name}</h4>
           <img
@@ -70,7 +71,7 @@ function TopSection() {
           <p className=" mb-0 font-semibold text-[#484d80]">PHP Developer</p>
         </div> */}
 
-        <div className=" flex justify-between items-center">
+        <div className=" flex flex-col md:flex-row justify-between items-start md:justify-between">
           <div className=" flex gap-2">
             <p className=" mb-0 font-semibold text-[#484d80]">
               Currently Working -{" "}
@@ -83,13 +84,13 @@ function TopSection() {
           </div>
           <p className=" mb-0 font-semibold ">
             <span className=" font-normal">Profile last updated -</span>{" "}
-            {formatDate(userDataArray?.updated_at)}
+            {userDataArray?.updated_at ?  formatDate(userDataArray?.updated_at) : 'not updated yet'}
           </p>
         </div>
 
         <hr />
 
-        <div className=" w-full flex mt-[20px]">
+        <div className=" w-full flex  mt-[20px]">
           <div className=" w-[49.5%] flex flex-col gap-2">
             <div className=" flex gap-2 items-center">
               <svg
@@ -109,7 +110,7 @@ function TopSection() {
               </svg>
 
               <p className=" mb-0 font-semibold ">
-                {userDataArray?.city ? userDataArray?.city : "Not Provided"},{" "}
+                {userDataArray?.city ? userDataArray?.city : "Not Provided"} {" "}
                 {userDataArray?.state}
               </p>
             </div>
@@ -190,7 +191,7 @@ function TopSection() {
               </p>
             </div>
 
-            <div className=" flex gap-2 items-center">
+            <div className=" flex gap-2 items-center w-full">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
@@ -201,18 +202,18 @@ function TopSection() {
                 strokeWidth="1"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="lucide lucide-mail"
+                className="lucide lucide-mail w-[30%] md:w-auto"
               >
                 <rect width="20" height="16" x="2" y="4" rx="2" />
                 <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
               </svg>
 
-              <p className=" mb-0 font-semibold ">
+              <p className=" mb-0 font-semibold break-all leading-[1.2em] ">
                 {userDataArray?.email ? userDataArray?.email : "Not Provided"}
               </p>
             </div>
 
-            <div className=" flex gap-2 items-center">
+            <div className=" flex gap-2 items-center w-full">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
@@ -223,7 +224,7 @@ function TopSection() {
                 strokeWidth="1"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="lucide lucide-calendar-check-2"
+                className="lucide lucide-calendar-check-2 w-[30%] md:w-auto"
               >
                 <path d="M8 2v4" />
                 <path d="M16 2v4" />
@@ -232,7 +233,7 @@ function TopSection() {
                 <path d="m16 20 2 2 4-4" />
               </svg>
 
-              <p className=" mb-0 font-semibold ">
+              <p className=" mb-0 font-semibold leading-[1.2em]">
                 {userDataArray?.duration_notice_period
                   ? userDataArray?.duration_notice_period
                   : "Notice Period Not Provided"}

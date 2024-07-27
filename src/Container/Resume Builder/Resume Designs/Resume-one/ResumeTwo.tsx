@@ -19,9 +19,7 @@ function ResumeTwo({handlePayment}) {
     (state: any) => state.ResumeBuilderSlice
   );
 
-  useEffect(() => {
-    console.log("paymentStatus", paymentStatus);
-  }, [paymentStatus]);
+
 
   useLayoutEffect(() => {
     Font.register({

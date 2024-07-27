@@ -4,12 +4,15 @@ import { useGlobalContext } from "@Context/GlobalContextProvider";
 import useSearchJobsQuery from "@Hooks/Queries/useSearchJobsQuery";
 import { memo, useState } from "react";
 import { JobListingNew } from "./JobListingNew";
+import JobsSection from "@Components/JobsSection";
+import useSearchJobsQueryNode from "@Hooks/Queries/useSearchJobsQueryNode";
 
 const JobListing = () => {
   const { userData } = useGlobalContext();
+  
   const [searchJob, setSearchJob] = useState<any>({
     UID: userData?.UID ? userData?.UID : 103082,
-    pageNo: 0,
+    totalPage: 0,
     limit: 12,
   });
 
@@ -18,7 +21,10 @@ const JobListing = () => {
     searchJob
   );
 
-
+  // const { data: jobs, refetch } = useSearchJobsQueryNode(
+  //   { enabled: !!searchJob?.facultyID },
+  //   searchJob
+  // );
 
   return (
     <>
@@ -45,7 +51,7 @@ const JobListing = () => {
         />
       )} */}
 
-      {/* <JobSection
+      {/* <JobsSection
         data={jobs}
         searchJob={searchJob}
         setSearchJob={setSearchJob}

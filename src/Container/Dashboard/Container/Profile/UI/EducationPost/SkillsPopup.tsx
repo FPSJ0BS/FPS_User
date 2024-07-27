@@ -50,12 +50,10 @@ function SkillsPopup() {
     dispatch(deleteSkill(id));
   };
 
-  useEffect(() => {
-    console.log(skillsDataAddArray);
-  }, [skillsDataAddArray]);
+
 
   const handleSubmitSkill = async () => {
-    console.log('we are here');
+  
     const commaSkills = await getCommaSeparatedSkillIds();
  
 
@@ -116,7 +114,7 @@ function SkillsPopup() {
       if (res?.data?.status) {
         const skill = await res?.data?.data
         await setSelectedSkill(skill)
-        console.log("select", res?.data?.data);
+      
       }
     } catch (error) {
       console.log(error);
@@ -124,7 +122,7 @@ function SkillsPopup() {
   };
 
   return (
-    <div className="TrackPopup h-full w-[65vw] right-0 z-50 flex justify-end fixed">
+    <div className="TrackPopup h-full w-[100vw] md:w-[65vw] right-0 z-50 flex justify-end fixed">
       <img
         onClick={popupCloseFunc}
         className="cursor-pointer absolute sm:left-10 top-[30px]"
@@ -132,13 +130,13 @@ function SkillsPopup() {
         alt="close"
       />
 
-      <div className="bg-white h-full w-[90%] rounded-l-[100px] shadow-lg flex flex-col items-center py-4">
+      <div className="bg-white h-full w-full md:w-[90%] md:rounded-l-[100px] shadow-lg flex flex-col items-center py-4">
         <h4 className="font-bold underline border-solid border-b-[1px]">
           Skills
         </h4>
         <div className="w-full border-b-[1.5px] border-dashed border-[#4a4e69] mt-6"></div>
-        <div className="w-full h-full p-5">
-          <div className=" h-[85%] w-full border-1 border-solid border-gray-200 p-3 rounded-xl overflow-y-auto handleScrollbarMain">
+        <div className="w-full h-full pl-[30px] pr-[10px] py-2 md:pl-[50px] md:pr-[50px] md:mt-[20px]">
+          <div className=" h-[80%] md:h-[85%] w-full border-1 border-solid border-gray-200 p-3 rounded-xl overflow-y-auto handleScrollbarMain">
 
 
             <div
@@ -153,7 +151,7 @@ function SkillsPopup() {
                       key={id}
                       className=" flex gap-2 items-center justify-center bg-[#1d3557] text-white px-3 rounded-[30px] cursor-default"
                     >
-                      <p className=" capitalize mb-0">{skill}</p>
+                      <p className=" capitalize mb-0 leading-[1.2em] py-2">{skill}</p>
                       <svg
                         onClick={() => deletSkillFunc(skillId)}
                         xmlns="http://www.w3.org/2000/svg"
@@ -188,9 +186,9 @@ function SkillsPopup() {
                     <div
                       onClick={() => handleAddDataToSkillArray(skillId)}
                       key={skillId}
-                      className=" h-[30px] flex gap-2  items-center justify-center bg-[#e7e7f0] text-black px-3 rounded-[30px] cursor-pointer hover:animate-pulse"
+                      className="   flex gap-2  items-center justify-center bg-[#e7e7f0] text-black px-3 rounded-[30px] cursor-pointer hover:animate-pulse  "
                     >
-                      <p className=" capitalize mb-0">{skill}</p>
+                      <p className=" capitalize mb-0 leading-[1.2em] py-2 ">{skill}</p>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="20"
@@ -215,7 +213,7 @@ function SkillsPopup() {
           <button
             onClick={() => handleSubmitSkill()}
             type="submit"
-            className="w-[20%] mt-4 p-2 bg-green-500 text-white rounded-md shadow-sm flex justify-center items-center"
+            className=" w-full my-[15px] md:w-[20%]  p-2 bg-green-500 text-white rounded-md shadow-sm flex justify-center items-center"
           >
             {buttonLoad ? "Submitting..." : "Save Skills"}
           </button>

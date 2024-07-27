@@ -4,173 +4,188 @@ import { NavLink } from "react-router-dom";
 export const dataRefund = [
   {
     id: 1,
-    heading: "Refund policy",
+    heading: "Purpose and Scope",
     children: (
       <>
-        <h4 className="h4">Refund policy overview</h4>
+        <h4 className="h4">Purpose and Scope</h4>
         <p className="mgb-32">
-          {`Ensuring customer satisfaction is our utmost priority at ${AppConst.LogoName} , and
-          we strive to address any concerns promptly. Below are the key points
-          of our refund policies:`}
-        </p>
-        <h6 className="h6">Refunds for partners/employers</h6>
-        <p>
-          Refunds are granted if subscribed services do not meet specified terms
-          and conditions.
-        </p>
-        <p>Valid reasons consistent with our terms are required for refunds.</p>{" "}
-        <p>
-          Customers must thoroughly review all details before making a purchase.
-        </p>
-        <p className="mgb-32">
-          Refunds amount to 70% of the service charge, excluding non-refundable
-          convenience fees.
-        </p>
-        <h6 className="h6">Refunds for professional resume assistance</h6>
-        <p>
-          Refunds are issued if users haven't received any files from our end.
-        </p>
-        <p>
-          No refunds if clients choose to discontinue after initiating the
-          project.
-        </p>
-        <p>
-          Once work has commenced and the product delivered, refunds are not
-          entertained.
-        </p>
-        <p>Genuine reasons in line with our terms are necessary for refunds.</p>{" "}
-        <p>Buyers must provide a valid receipt.</p>
-        <p className="mgb-32">
-          Refunds entail 40% of the service charge, excluding non-refundable
-          convenience fees.
-        </p>
-        <h6 className="h6">Refunds for personalized job assistance</h6>
-        <p className="mgb-32">
-          No refunds or cancellations for personalized job assistance on highly
-          sought-after positions.
-        </p>
-        <h6 className="h6">Refund process</h6>
-        <p>Refund requests must be made within 24 hours of purchase.</p>
-        <p>
-          After investigation, refunds are credited back to the original mode of
-          payment.
-        </p>{" "}
-        <p>
-          It may take 10-15 working days for refunds to reflect in the account.
-        </p>
-        <p className="mgb-32">
-          Payments made by third parties are non-refundable.
-        </p>
-        <h6 className="h6">Contact us</h6>
-        <p className="mgb-32">
-          For any concerns or clarifications regarding the refund policy, reach
-          out to us at{" "}
-          <NavLink
-            to={`mailto:${AppConst.Email}`}
-            style={{ color: "#a83359" }}
-            target="_blank"
-          >
-            {AppConst.Email}
-          </NavLink>{" "}
-          or{" "}
-          <NavLink
-            to={"tel:9728987999"}
-            style={{ color: "#a83359" }}
-            target="_blank"
-          >
-            call 9728987999
-          </NavLink>
-          .
+          {`This Refund Policy ("Policy") outlines the conditions under which FPS JOBS PVT LTD ("Company") will issue refunds for recruitment services provided to clients ("Employer" or "Client"). This Policy forms an integral part of the service agreement and shall be construed in accordance with the terms and conditions thereof.`}
         </p>
       </>
     ),
   },
   {
     id: 2,
-    heading: "Refunds For Partners/Employers ",
+    heading: "Definitions ",
     children: (
       <>
-        <h6 className="h6">Refunds for partners/employers</h6>
-        <p>
-          Refunds are granted if subscribed services do not meet specified terms
-          and conditions.
-        </p>
-        <p>Valid reasons consistent with our terms are required for refunds.</p>{" "}
-        <p>
-          Customers must thoroughly review all details before making a purchase.
-        </p>
-        <p className="mgb-32">
-          Refunds amount to 70% of the service charge, excluding non-refundable
-          convenience fees.
-        </p>
+        <h4 className="h4">Definitions</h4>
+        <ul className="list-disc pl-4">
+          <li className=" text-[18px] text-[#64666b]">
+            "CV" refers to Curriculum Vitae, also known as a resume, submitted
+            for the purpose of evaluating potential candidates.
+          </li>
+          <li className=" text-[18px] text-[#64666b]">
+            <li>
+              "CV" refers to Curriculum Vitae, also known as a resume, submitted
+              for the purpose of evaluating potential candidates.
+            </li>
+          </li>
+          <li className=" text-[18px] text-[#64666b]">
+            "GST" refers to Goods and Services Tax applicable under Indian law.
+          </li>
+          <li className=" text-[18px] text-[#64666b]">
+            "Candidate" refers to an individual whose CV has been shared with
+            the Employer by the Company.
+          </li>
+        </ul>
       </>
     ),
   },
   {
     id: 3,
-    heading: "Refunds For Professional Resume Assistance",
+    heading: "Conditions for Refund",
     children: (
       <>
-        <h6 className="h6">Refunds for professional resume assistance</h6>
+        <h4 className="h4">Conditions for Refund</h4>
+        <h6 className="h6">Complete Refund Eligibility:</h6>
         <p>
-          Refunds are issued if users haven't received any files from our end.
+          A complete refund of the Service Fee, excluding GST, will be issued if
+          the Company fails to share any CVs with the Employer for the requested
+          position(s). Such a refund shall be processed within forty-five (45)
+          days from the date of acknowledgment of the failure.
         </p>
+
+        <h6 className="text-lg font-semibold mt-4 mb-2">
+          Change in Employer’s Requirement Criteria:
+        </h6>
         <p>
-          No refunds if clients choose to discontinue after initiating the
-          project.
+          In cases where the Employer alters the requirement criteria after
+          submission of the Employer Detail Form, including but not limited to
+          regional, gender, or caste-religion preferences that were not
+          initially disclosed, and the Company is unable to fulfill the revised
+          requirements, a partial refund may be issued. The refund amount will
+          be determined based on: <br />- The number of CVs shared; <br /> - The
+          time invested; - The work completed by the Company.
         </p>
+
+        <h6 className="text-lg font-semibold mt-4 mb-2">
+          Partial Fulfillment of Vacancies:
+        </h6>
         <p>
-          Once work has commenced and the product delivered, refunds are not
-          entertained.
+          If the Company receives a request to fill multiple vacancies (e.g.,
+          five) and successfully fulfills some (e.g., three), but fails to fill
+          the remaining vacancies due to reasons such as:
+          <br />- Low salary offers;
+          <br />- Undesirable job locations;
+          <br />- Other constraints not agreed upon;
+          <br />
+          and the Employer does not agree to cooperate or make necessary
+          adjustments, a partial refund will be processed. This refund will
+          apply only to the unfulfilled vacancies. No refund will be provided
+          for the vacancies that have already been successfully filled by the
+          Company.
         </p>
-        <p className="mgb-32">
-          Genuine reasons in line with our terms are necessary for refunds.
-        </p>{" "}
+        <h6 className="text-lg font-semibold mt-4 mb-2">
+          Candidate Withdrawal Post-Selection:
+        </h6>
+        <p className="mb-4">
+          No refund will be provided if a candidate, after being selected,
+          decides to withdraw due to:
+          <br />
+          - Modifications in the terms and conditions of employment;
+          <br />
+          - Undisclosed conditions to the Company;
+          <br />- Changes in the salary bracket by the Employer that were not
+          communicated to the Company at the outset.
+        </p>
+
+        <h6 className="text-lg font-semibold mt-4 mb-2">
+          Employer's Delay in Feedback:
+        </h6>
+        <p className="mb-4">
+          No refund will be issued if the Employer fails to provide timely
+          feedback or respond to shared profiles and arranged interviews,
+          resulting in:
+          <br />
+          - Candidates losing interest;
+          <br />
+          - Delays in the recruitment process;
+          <br />- Unfulfilled requirements.
+        </p>
+
+        <h6 className="text-lg font-semibold mt-4 mb-2">
+          Candidate Selection and Notification:
+        </h6>
+        <p className="mb-4">
+          If you select any candidate and fail to inform us, and later the
+          candidate denies or backs out after joining, a refund will not be
+          provided.
+        </p>
+
+        <h6 className="text-lg font-semibold mt-4 mb-2">
+          Technical Rounds and Suitability:
+        </h6>
+        <p className="mb-4">
+          You are responsible for selecting candidates after conducting
+          technical rounds. The company has no involvement in this process.
+          Therefore, if you find the candidate unsuitable after they have
+          joined, there will be no refund.
+        </p>
+
+        <h6 className="text-lg font-semibold mt-4 mb-2">
+          Candidate Agreement and Commitment:
+        </h6>
+        <p className="mb-4">
+          If you select a candidate and, after your discussion and mutual
+          agreement, you provide payment to them, and the candidate denies
+          joining or elopes after joining, the company is not responsible and
+          not liable for a refund.
+        </p>
+
+        <div className="border border-gray-200 p-4 rounded bg-gray-100 mt-4 mb-4">
+          <p>
+            <strong>Note:</strong> We are a service provider company and do not
+            produce products. Any issues related to the behavior of the selected
+            faculty are not the responsibility of our company. We ensure that
+            our candidates meet the required professional standards; however, we
+            cannot guarantee their personal conduct or behavior.
+          </p>
+        </div>
       </>
     ),
   },
   {
     id: 4,
-    heading: "Refunds For Personalized Job Assistance",
-    children: (
-      <>
-        <h6 className="h6"> Refunds for personalized job assistance</h6>
-        <p className="mgb-32">
-          No refunds or cancellations for personalized job assistance on highly
-          sought-after positions.
-        </p>
-      </>
-    ),
-  },
-  {
-    id: 5,
     heading: "Refund Process",
     children: (
       <>
-        <h6 className="h6">Refund process</h6>
-        <p>Refund requests must be made within 24 hours of purchase.</p>
-        <p>
-          After investigation, refunds are credited back to the original mode of
-          payment.
-        </p>{" "}
-        <p>
-          It may take 10-15 working days for refunds to reflect in the account.
-        </p>
+        <h4 className="h4">Refund Process</h4>
+
+        <h6 className="text-lg font-semibold mt-4 mb-2">
+          Submission of Refund Claims:
+        </h6>
         <p className="mgb-32">
-          Payments made by third parties are non-refundable.
+          All refund claims must be submitted in writing to the Company’s
+          designated contact. The claim should detail the basis for the refund
+          and include any relevant supporting documentation.
         </p>
-      </>
-    ),
-  },
-  {
-    id: 6,
-    heading: "Contact Us",
-    children: (
-      <>
-        <h6 className="h6">Contact us</h6>
+
+        <h6 className="text-lg font-semibold mt-4 mb-2">
+          Review and Approval:
+        </h6>
         <p className="mgb-32">
-          {`For any concerns or clarifications regarding the refund policy, reach
-          out to us at ${AppConst.Email} or call 9728987999.`}
+          Refund claims will be reviewed by the Company’s management. The
+          Company reserves the right to request additional information or
+          documentation to process the claim.
+        </p>
+
+        <h6 className="text-lg font-semibold mt-4 mb-2">Processing Time:</h6>
+        <p className="mgb-32">
+          Refunds, where applicable, will be processed within forty-five (45)
+          days of the final determination of eligibility. The Company will
+          notify the Employer of the approval or rejection of the refund claim
+          in writing.
         </p>
       </>
     ),

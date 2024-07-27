@@ -10,10 +10,10 @@ interface ICard {
 const Card = ({ Icon, title, total, navigatePath }: ICard) => {
   const navigate = useNavigate();
   return (
-    <div className="col-lg-3 col-6 cursor-pointer" onClick={() => navigate(navigatePath)}>
+    <div className=" col-lg-3 col-6 cursor-pointer" onClick={() => navigate(navigatePath)}>
       <div className="dash-card-one bg-white border-30 position-relative mb-15">
         <div className="d-sm-flex align-items-center justify-content-between">
-          <div className="icon rounded-circle d-flex align-items-center justify-content-center order-sm-1">
+          <div className="icon rounded-circle d-flex align-items-center justify-content-center order-sm-1 bg-black">
             {Icon}
           </div>
           <div className="order-sm-0">

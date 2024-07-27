@@ -50,12 +50,7 @@ function ChooseTemplate() {
   const [resumeTempList, setResumeTempList] = useState([]);
   const [baseUrl, setBaseUrl] = useState("");
 
-  useEffect(() => {
-    console.log(
-      "resumeTempListresumeTempListresumeTempListresumeTempListresumeTempListresumeTempListresumeTempListresumeTempListresumeTempListresumeTempListresumeTempListresumeTempListresumeTempListresumeTempList",
-      resumeTempList
-    );
-  }, [resumeTempList]);
+  
 
   function convertDataToArray(data) {
     // Extract the base URL separately
@@ -90,7 +85,7 @@ function ChooseTemplate() {
           await setBaseUrl(url);
           await setResumeTempList(convertedData);
 
-          console.log("templateeeeeeeeeeeeeeeeeeeeeeeeeee", res?.data?.data);
+         
 
           setLoader(false);
         } else {

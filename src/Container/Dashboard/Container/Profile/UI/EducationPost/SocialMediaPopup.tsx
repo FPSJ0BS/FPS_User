@@ -110,14 +110,14 @@ function SocialMediaPopup() {
       setButtonLoad(false);
     }
     // Example: postDataToAPI(formData);
-    console.log("Form data submitted: ", formData);
+
   };
 
   
   
 
   return (
-    <div className="TrackPopup h-full w-[65vw] right-0 z-50 flex justify-end fixed">
+    <div className="TrackPopup h-full w-[100vw] md:w-[65vw] right-0 z-50 flex justify-end fixed">
       <img
         onClick={popupCloseFunc}
         className="cursor-pointer absolute sm:left-10 top-[30px]"
@@ -125,7 +125,7 @@ function SocialMediaPopup() {
         alt="close"
       />
 
-      <div className="bg-white h-full w-[90%] rounded-l-[100px] shadow-lg flex flex-col items-center py-4">
+      <div className="bg-white h-full w-[100%] md:w-[90%] md:rounded-l-[100px] shadow-lg flex flex-col items-center py-4">
         <h4 className="font-bold underline border-solid border-b-[1px]">
           Social Media Details
         </h4>

@@ -61,7 +61,7 @@ export const PreferredRole = ({ roleArray, setRoleArray }) => {
     );
 
   return (
-    <div className="relative sm:w-[100%] w-[250px] col-span-2">
+    <div className="relative w-[100%]  col-span-2">
       <label
         htmlFor="EmployerPostJobState"
         className="postJobInputTitle pb-1 block font-medium text-gray-700"
@@ -127,7 +127,7 @@ export const PreferredRole = ({ roleArray, setRoleArray }) => {
         )}
       </div>
       {showDropdown && (
-        <ul className="postjobHandleScrollbar max-h-[300px] overflow-y-auto absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg">
+        <ul className="postjobHandleScrollbar max-h-[300px] overflow-y-auto absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg pl-2">
           {filteredCities.slice(0, 50).map((option, index: number) => (
             <li
               key={index}

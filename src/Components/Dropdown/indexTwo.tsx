@@ -60,7 +60,7 @@ const CustomSelectTwo: React.FC<CustomSelectProps> = ({
     setIsDropDown(false);
     // setFilteredOptions(_data);
     setSearchValue(option?.label);
-    console.log('option', option);
+  
     
   };
 

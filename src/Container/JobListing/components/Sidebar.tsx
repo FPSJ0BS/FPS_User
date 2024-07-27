@@ -16,6 +16,9 @@ import CustomSelectTwo from "@Components/Dropdown/indexTwo";
 import { AppRoute } from "@Navigator/AppRoute";
 import useStatesList from "@Hooks/Queries/useStatesList";
 import useGetCityList from "@Hooks/Queries/useGetCityList";
+import useExperiencesNode from "@Hooks/Queries/useExperiencesNode";
+import useSalaryNode from "@Hooks/Queries/useSalaryNode";
+import useStatesListNode from "@Hooks/Queries/useStatesListNode";
 
 const jobType = [
   { value: "", label: "Select job type" },
@@ -34,10 +37,13 @@ const Sidebar = (props: any) => {
   const queryParams = new URLSearchParams(location.search);
   const { subjects, category } = useParams();
   const [query, setQuery] = useState<any>({});
-  const { data: cityList } = useFilterCity({});
-  const { data: Salary } = useSalary({});
-  const { data: Experiences } = useExperiences({});
-  const { data: State } = useStatesList({});
+  // const { data: cityList } = useFilterCity({});
+  // const { data: Salary } = useSalary({});
+  const { data: Salary } = useSalaryNode({});
+  // const { data: Experiences } = useExperiences({});
+  const { data: Experiences } = useExperiencesNode({});
+  // const { data: State } = useStatesList({});
+  const { data: State } = useStatesListNode({});
 
   const [queryTwo, setQueryTwo] = useState({
     stateID: "",
@@ -48,39 +54,54 @@ const Sidebar = (props: any) => {
     queryTwo
   );
 
-  console.log("queryqueryquery", query);
+ 
 
   let [searchParams, setSearchParams] = useSearchParams();
   //   console.log("queryquery", query, searchParams);
 
   const findJob = (e: React.FormEvent<HTMLFormElement>) => {
+
     e.preventDefault();
+
     setSearchParams((params) => {
       let queryParams = Object.keys(query);
       queryParams.forEach((param) => {
         const value = query[param] || "";
         params.delete(param);
         if (value && !subjects) {
+
           params.set(param, value);
+
         }
+
       });
+
       return params;
     });
 
     if (subjects) {
+
       let queryParam = Object.keys(query);
+
       queryParam.forEach((param) => {
+
         const value = query[param] || "";
+
         queryParams.set(param, value);
+
       });
 
       navigate({
+
         pathname: `${AppRoute.Find_Jobs}/${category}/${
           query?.title ? query?.title : subjects
         }`,
+
         search: queryParams.toString(),
+
       });
     }
+
   };
 
   useEffect(() => {
@@ -107,20 +128,20 @@ const Sidebar = (props: any) => {
         jobType: query?.jobType,
         min_salary: query?.min_salary,
         min_experience: query?.min_experience,
-        pageNo: 0,
+        page: 0,
       });
     } else {
       setSearchJob({
         ...searchJob,
         ..._query,
-        pageNo: 0,
+        page: 0,
       });
     }
   }, [setSearchParams]);
 
   const _experiences = [
     { value: "", label: "Select Experiences" },
-    ...(Experiences?.experiences || [])?.map((salary) => {
+    ...(Experiences?.data || [])?.map((salary) => {
       return {
         value: salary?.ID,
         label: salary?.experience,
@@ -128,27 +149,29 @@ const Sidebar = (props: any) => {
     }),
   ];
 
-  const _salary = Salary?.salaries &&
-    Salary?.salaries.length && [
+  const _salary = Salary?.data &&
+    Salary?.data?.length && [
       { value: "", label: "Select Salary" },
-      ...(Salary?.salaries || [])?.map((salary) => {
+      ...(Salary?.data || [])?.map((salary) => {
         const _salary = salary?.salary?.toString().replaceAll("Lakhs", "LPA");
         return { value: salary?.ID, label: _salary };
       }),
     ];
 
-  const _state = State?.states &&
-    State?.states.length && [
+  const _state = State?.data &&
+    State?.data?.length && [
       { value: "", label: "Select State" },
-      ...(State?.states || []).map((state) => {
+      ...(State?.data || []).map((state) => {
         return { value: state?.ID, label: state?.name };
       }),
     ];
 
   useEffect(() => {
-    const filterState = State?.states?.find((state) => {
+    const filterState = State?.data?.find((state) => {
       return state.name === query.state;
     });
+
+    console.log('filterState',filterState);
 
     const id = filterState?.id;
 
@@ -157,7 +180,7 @@ const Sidebar = (props: any) => {
       stateID: id,
     });
 
-    console.log("query.statequery.state", filterState);
+   
   }, [query.state]);
 
   const _cities = cityStateList?.cities &&
@@ -174,22 +197,46 @@ const Sidebar = (props: any) => {
     >
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
 
-      <div className=" bg-black w-full h-[110px] p-[10px] ">
-        <div className=" w-full h-full flex gap-2  justify-between items-center pr-5">
-          <div className=" w-1/2 flex justify-center items-center">
-            <button
-              className=" w-[50%] h-[50px] text-white bg-green-500 rounded-lg"
-              type="submit"
-              aria-label="Search for jobs"
-            >
-              Filter Jobs
-            </button>
+      <div className=" bg-black w-full min-h-[100px] md:h-[110px] p-[10px] ">
+        <div className=" grid grid-cols-2  place-content-center place-items-start w-full h-full md:flex gap-4 md:gap-2  justify-between items-center px-[5px] 2xl:px-5">
+          <div className=" w-full md:w-[50%] bg-black h-full flex flex-col items-start justify-end ">
+            <label className=" text-white text-[12px] 2xl:text-[14px]">Job Title</label>
+            <div className=" flex items-center w-full">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="lucide lucide-captions text-white"
+              >
+                <rect width="18" height="14" x="3" y="5" rx="2" ry="2" />
+                <path d="M7 15h4M15 15h2M7 11h2M13 11h4" />
+              </svg>
+              <input
+                className="border-t-0 border-r-0 border-l-0 placeholder-white text-white pl-3 h-[40px] text-[12px] 2xl:text-[14px]"
+                name={"title"}
+                type="text"
+                placeholder="Enter Job title "
+                value={query?.title}
+                onChange={(e) => {
+                  setQuery({
+                    ...query,
+                    title: e.target.value,
+                  });
+                }}
+              />
+            </div>
           </div>
 
-          <div className=" h-[70%] border-1 border-solid border-gray-500"></div>
+          <div className=" hidden md:block h-[70%] border-1 border-solid border-gray-500"></div>
 
-          <div className="w-1/2 px-3 flex flex-col justify-end h-full">
-            <label className=" text-white">State</label>
+          <div className=" w-full md:w-[50%] md:px-3 flex flex-col justify-end h-full">
+            <label className=" text-white text-[12px] 2xl:text-[14px]">State</label>
 
             <div className="flex items-center  ">
               <svg
@@ -218,7 +265,7 @@ const Sidebar = (props: any) => {
               <Dropdown
                 placeholder="Select State"
                 options={_state || []}
-                className="react-dropdown select2 bg-black border-t-0 border-r-0 border-l-0 text-white pl-0 text-[13px] h-[40px]"
+                className="react-dropdown select2 bg-black border-t-0 border-r-0 border-l-0 text-white text-[12px] 2xl:text-[14px]"
                 onChange={(value) => {
                   setQuery({
                     ...query,
@@ -230,11 +277,11 @@ const Sidebar = (props: any) => {
             </div>
           </div>
 
-          <div className=" h-[70%] border-1 border-solid border-gray-500"></div>
+          <div className=" hidden md:block h-[70%] border-1 border-solid border-gray-500"></div>
 
-          <div className="w-1/2 px-3 flex flex-col justify-end h-full">
-            <label className="title text-white">City</label>
-            <div className="flex items-center ">
+          <div className="w-full md:w-[60%] md:px-3 flex flex-col justify-end items-start h-full">
+            <label className="title text-white text-[12px] 2xl:text-[14px]">City</label>
+            <div className="flex items-center justify-start w-full ">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -272,14 +319,15 @@ const Sidebar = (props: any) => {
                   fontSize: "13px",
                   height: "40px",
                 }}
+                
               />
             </div>
           </div>
 
-          <div className=" h-[70%] border-1 border-solid border-gray-500"></div>
+          <div className=" hidden md:block h-[70%] border-1 border-solid border-gray-500"></div>
 
-          <div className=" w-1/2  px-3 flex flex-col justify-end h-full">
-            <label className=" text-white">Experience</label>
+          <div className=" w-full md:w-[50%] md:px-3 flex flex-col justify-end h-full">
+            <label className=" text-white text-[12px] 2xl:text-[14px]">Experience</label>
             <div className=" flex items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -298,8 +346,8 @@ const Sidebar = (props: any) => {
               </svg>
               <Dropdown
                 options={_experiences || []}
-                className="react-dropdown select2 bg-black border-t-0 border-r-0 border-l-0 text-white text-[13px]"
-                placeholder="Select Experiences"
+                className="react-dropdown select2 bg-black border-t-0 border-r-0 border-l-0 text-white text-[12px] 2xl:text-[14px]"
+                placeholder="Select Experience"
                 onChange={(value) => {
                   setQuery({
                     ...query,
@@ -311,10 +359,10 @@ const Sidebar = (props: any) => {
             </div>
           </div>
 
-          <div className=" h-[70%] border-1 border-solid border-gray-500"></div>
+          <div className=" hidden md:block h-[70%] border-1 border-solid border-gray-500"></div>
 
-          <div className=" w-1/2  px-3 flex flex-col justify-end h-full">
-            <label className=" text-white">Salary</label>
+          <div className="w-full md:w-1/2  md:px-3 flex flex-col justify-end h-full">
+            <label className=" text-white text-[12px] 2xl:text-[14px]">Salary</label>
             <div className=" flex items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -336,7 +384,7 @@ const Sidebar = (props: any) => {
               </svg>
               <Dropdown
                 options={_salary || []}
-                className="react-dropdown select2 bg-black border-t-0 border-r-0 border-l-0 text-white text-[13px]"
+                className="react-dropdown select2 bg-black border-t-0 border-r-0 border-l-0 text-white text-[12px] 2xl:text-[14px]"
                 placeholder="Select Salary"
                 onChange={(value) => {
                   setQuery({
@@ -348,84 +396,64 @@ const Sidebar = (props: any) => {
               />
             </div>
           </div>
+
+          <div className=" hidden md:block h-[70%] border-1 border-solid border-gray-500"></div>
+
+          <div className="w-full md:w-[60%] bg-black flex flex-col justify-end h-full ">
+            <label className=" text-white text-[12px] 2xl:text-[14px]">Job Types</label>
+            <div className=" flex items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="lucide lucide-backpack text-white"
+              >
+                <path d="M4 10a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z" />
+                <path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2" />
+                <path d="M8 21v-5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v5" />
+                <path d="M8 10h8" />
+                <path d="M8 18h8" />
+              </svg>
+              <Dropdown
+                placeholder="Select Job Type"
+                options={jobType || []}
+                className="react-dropdown select2 bg-black border-t-0 border-r-0 border-l-0 text-white text-[13px] text-[12px] 2xl:text-[14px]"
+                onChange={(value) => {
+                  setQuery({
+                    ...query,
+                    jobType: value.value,
+                  });
+                }}
+                value={query?.jobType}
+              />
+            </div>
+          </div>
+
+          <div className=" hidden md:block h-[70%] border-1 border-solid border-gray-500"></div>
+
+          <div className=" col-span-2 w-1/2 flex justify-center items-center">
+            <button
+              className=" w-[80%] h-[50px] text-white bg-green-500 rounded-lg"
+              type="submit"
+              aria-label="Search for jobs"
+            >
+              Filter Jobs
+            </button>
+          </div>
         </div>
       </div>
 
       {/* ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
 
-      <div className=" h-full flex ">
-        <div className=" min-h-[200px] w-[17%] bg-black px-4 pt-[30px]">
+      <div className=" h-full flex  ">
+        <div className=" min-h-[200px] w-[17%] bg-black px-4 pt-[30px] hidden">
           <div className=" flex flex-col gap-5">
-            <div className=" w-full bg-black h-ful ">
-              <label className=" text-white">Job Title</label>
-              <div className=" flex items-center w-full">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="lucide lucide-captions text-white"
-                >
-                  <rect width="18" height="14" x="3" y="5" rx="2" ry="2" />
-                  <path d="M7 15h4M15 15h2M7 11h2M13 11h4" />
-                </svg>
-                <input
-                  className="border-t-0 border-r-0 border-l-0 placeholder-white text-white pl-3"
-                  name={"title"}
-                  type="text"
-                  placeholder="Job title, key words or company "
-                  value={query?.title}
-                  onChange={(e) => {
-                    setQuery({
-                      ...query,
-                      title: e.target.value,
-                    });
-                  }}
-                />
-              </div>
-            </div>
-
-            <div className=" w-full bg-black ">
-              <label className=" text-white">Job Types</label>
-              <div className=" flex items-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="lucide lucide-backpack text-white"
-                >
-                  <path d="M4 10a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z" />
-                  <path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2" />
-                  <path d="M8 21v-5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v5" />
-                  <path d="M8 10h8" />
-                  <path d="M8 18h8" />
-                </svg>
-                <Dropdown
-                  placeholder="Select Job Type"
-                  options={jobType || []}
-                  className="react-dropdown select2 bg-black border-t-0 border-r-0 border-l-0 text-white text-[13px]"
-                  onChange={(value) => {
-                    setQuery({
-                      ...query,
-                      jobType: value.value,
-                    });
-                  }}
-                  value={query?.jobType}
-                />
-              </div>
-            </div>
-
             {/* <div className="group-form">
               <label className="title">Job Types</label>
               <div className="group-input">
@@ -446,7 +474,7 @@ const Sidebar = (props: any) => {
           </div>
         </div>
 
-        <div className="  w-[93%] h-[100%] flex flex-col overflow-y-auto px-[30px] pt-[20px] pb-[20px]">
+        <div className="  w-[100%] h-[100%] flex justify-center items-center flex-col overflow-y-auto px-[30px] pt-[20px] pb-[20px]">
           <List
             data={data}
             setQuery={setQuery}

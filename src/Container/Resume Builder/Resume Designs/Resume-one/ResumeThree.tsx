@@ -23,9 +23,7 @@ function ResumeThree({ handlePayment }) {
     (state: any) => state.ResumeBuilderSlice
   );
 
-  useEffect(() => {
-    console.log("resumeDataArray", resumeDataArray);
-  }, [resumeDataArray]);
+
 
   useLayoutEffect(() => {
     Font.register({

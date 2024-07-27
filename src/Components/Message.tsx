@@ -28,10 +28,10 @@ function Message() {
   const handleGetFirebaseToken = () => {
     getFirebaseToken().then(async (firebaseToken: string | undefined) => {
       if (firebaseToken) {
-        console.log(firebaseToken);
+      
          const messagingResolve:any = await messaging;
           onMessage(messagingResolve, (payload: any) => {
-            console.log(payload,"..........");
+           
             navigator.serviceWorker
               .getRegistration(swUrl)
               .then((registration) => {

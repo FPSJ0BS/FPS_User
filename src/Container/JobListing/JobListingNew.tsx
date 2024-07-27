@@ -4,7 +4,7 @@ export const JobListingNew = (props: any) => {
   const { data, searchJob, setSearchJob, refetch } = props;
 
   return (
-    <div className=" h-full w-[100vw] ">
+    <div className=" h-full ">
       <Sidebar data={data} searchJob={searchJob} setSearchJob={setSearchJob} refetch = {refetch}/>
     </div>
   );

@@ -6,11 +6,13 @@
   --text-black: #323232;
 }
 
+
 .react-datepicker-wrapper {
   width: 100% !important;
 }
 body {
   height: 100vh;
+  
   
   margin: 0px;
 }
@@ -31,6 +33,8 @@ body {
 :after {
   --tw-content: "";
 }
+
+
 
 html,
 :host {

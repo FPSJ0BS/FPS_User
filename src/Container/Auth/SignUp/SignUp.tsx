@@ -29,6 +29,7 @@ import SignUpSecondModal from "./SignUpSecondModal";
 import JOBMATCHING from "@Assets/Icons/jobmatching.png";
 import AIICON from "@Assets/Icons/ai.png";
 import RESUMEICON from "@Assets/Icons/resume.png";
+import OtpSignUp from "../Component/OtpSignUp";
 // import useExperiences from "@Hooks/Queries/useExperiences";
 const SignUp = () => {
   const { setUserLoginData } = useGlobalContext();
@@ -123,6 +124,12 @@ const SignUp = () => {
         });
     } catch (e: any) {}
   };
+  const validTypes = [
+    'application/pdf',
+    'application/msword',
+
+    'image/jpeg',
+  ];
   return (
     <>
       <SEO
@@ -135,20 +142,20 @@ const SignUp = () => {
         type={"Web Page"}
       />
       <Breadcrumb title=" Sign Up " />
-      <section className=" w-full ">
+      <section className=" w-full  ">
         <div className=" w-full ">
-          <div className=" flex w-full items-center justify-center gap-4 md:p-[30px] ">
+          <div className=" flex w-full items-center justify-center gap-4 md:p-[30px] lg:p-[10px] 2xl:p-[30px] ">
             {isOtpPage ? (
               <div className=" flex w-full bg-black justify-center md:mx-[5vw]  items-center gap-5 h-[74vh] rounded-lg">
-                <div className="hidden  mb-4 lg:flex justify-start items-start flex-col w-[35%]">
-                  <h6 className="fs-4 fw-bolder text-left text-white">
+                <div className="hidden  mb-4 xl:flex justify-start items-start flex-col w-[35%]">
+                  <h6 className="fs-4 pt-4 fw-bolder text-left text-white">
                     {`Create your ${AppConst.LogoName} profile`}
                   </h6>
                   <p className="mt-2 text-base text-white">
                     Search & apply to jobs from India's No.1 Job Site
                   </p>
 
-                  <div className=" flex flex-col justify-start items-start w-full gap-2">
+                  <div className=" grid grid-cols-2 2xl:grid-cols-1 gap-2">
                     <div className="flex flex-col mt-4 gap-1">
                       <img src={JOBMATCHING} className=" w-[40px]" alt="img" />
                       <h3 className="text-white font-semibold text-[15px] mt-1">
@@ -184,11 +191,11 @@ const SignUp = () => {
                   </div>
                 </div>
                 <form
-                  className="  w-[90%]  lg:w-[50%] d-flex flex-row flex-wrap bg-[#302f2f]  h-[95%] py-4 mr-3 rounded-xl px-3 overflow-y-auto"
+                  className=" w-[90%] lg:w-[50%] gap-2 grid grid-cols-2  bg-[#302f2f]  h-[95%] py-4 mr-3 rounded-xl px-3 overflow-y-auto"
                   id="reg-form"
                   autoComplete="off"
                 >
-                  <div className="d-flex  flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2">
+                  <div className="d-flex  flex-column w-full col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2">
                     <label className="fw-bolder text-white ">First Name</label>
                     <input
                       autoFocus={true}
@@ -200,10 +207,10 @@ const SignUp = () => {
                         },
                       })}
                       name="first_name"
-                      placeholder="First Name"
+                      placeholder="Fill in your first name"
                       aria-invalid="true"
                       type="text"
-                      className="p-2 border-1 text-black"
+                      className="p-2 border-1 text-white bg-transparent  placeholder-white"
                       autoComplete="false"
                       style={{ paddingLeft: 10 }}
                     />
@@ -213,7 +220,7 @@ const SignUp = () => {
                       </small>
                     )}
                   </div>
-                  <div className="d-flex  flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2 ">
+                  <div className="d-flex w-full  flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2 ">
                     <label className="fw-bolder text-white">Last Name</label>
                     <input
                       {...register("last_name", {
@@ -227,7 +234,7 @@ const SignUp = () => {
                       placeholder="Last Name"
                       aria-invalid="true"
                       type="text"
-                      className="p-2 border-1 "
+                      className="p-2 border-1 text-white bg-transparent placeholder-white "
                       autoComplete="false"
                       style={{ paddingLeft: 10 }}
                     />
@@ -237,7 +244,7 @@ const SignUp = () => {
                       </small>
                     )}
                   </div>
-                  <div className="d-flex flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2">
+                  <div className="d-flex w-full flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2">
                     <label className="fw-bolder text-white ">Email</label>
                     <input
                       {...register("email", {
@@ -251,7 +258,7 @@ const SignUp = () => {
                       placeholder="Email Address"
                       aria-invalid="true"
                       type="undefined"
-                      className="p-2 border-1 "
+                      className="p-2 border-1 text-white bg-transparent placeholder-white "
                       autoComplete="false"
                       style={{ paddingLeft: 10 }}
                     />
@@ -261,7 +268,7 @@ const SignUp = () => {
                       </small>
                     )}
                   </div>
-                  <div className="d-flex flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2">
+                  <div className="d-flex w-full flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2">
                     <label className="fw-bolder text-white ">Mobile</label>
                     <input
                       {...register("mobile", {
@@ -275,7 +282,7 @@ const SignUp = () => {
                       placeholder="Mobile Number"
                       aria-invalid="true"
                       type="text"
-                      className="p-2 border-1"
+                      className="p-2 border-1 text-white bg-transparent placeholder-white"
                       autoComplete="false"
                       style={{ paddingLeft: 10 }}
                     />
@@ -285,7 +292,7 @@ const SignUp = () => {
                       </small>
                     )}
                   </div>
-                  <div className="d-flex flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2 ">
+                  <div className="d-flex w-full flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2 ">
                     <label className="fw-bolder text-white">Password</label>
 
                     <Controller
@@ -303,14 +310,14 @@ const SignUp = () => {
                           <input
                             name="password"
                             type={showPassOne ? "text" : "password"}
-                            className="p-2 border-1"
+                            className="p-2 border-1 text-white bg-transparent placeholder-white"
                             placeholder="Password"
                             id="password-input"
                             value={value}
                             onChange={onChange}
                           />
                           <Link
-                            className={`password-addon ${
+                            className={`text-white password-addon ${
                               showPassOne ? "icon-eye" : "icon-eye-off"
                             }`}
                             id="password-addon"
@@ -331,7 +338,7 @@ const SignUp = () => {
                       </small>
                     )}
                   </div>
-                  <div className="d-flex flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2">
+                  <div className="d-flex w-full flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2">
                     <label className="fw-bolder text-white">
                       Confirm Password
                     </label>
@@ -348,7 +355,7 @@ const SignUp = () => {
                           <input
                             name="confirm_password"
                             type={showPass ? "text" : "password"}
-                            className="p-2 border-1"
+                            className="p-2 border-1 text-white bg-transparent placeholder-white"
                             placeholder="Confirm Password"
                             id="password-input"
                             value={value}
@@ -377,7 +384,7 @@ const SignUp = () => {
                       </small>
                     )}
                   </div>
-                  <div className="d-flex flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2">
+                  <div className="d-flex w-full flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2">
                     <label className="fw-bolder text-white">State</label>
                     <Controller
                       name="state"
@@ -388,10 +395,9 @@ const SignUp = () => {
                       render={({ field: { onChange, value } }) => (
                         <select
                           name="state"
-                          className="select border-1 form-select border border-slate-100 text-black"
+                          className="select border-1 form-select border border-slate-100 text-white bg-transparent"
                           value={value}
                           onChange={(e) => {
-                            
                             setQuery({
                               ...query,
                               stateID: e.target.value,
@@ -427,14 +433,14 @@ const SignUp = () => {
                       </small>
                     )}
                   </div>
-                  <div className="d-flex flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2 ">
+                  <div className="d-flex w-full flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2 ">
                     <label className="fw-bolder text-white ">City</label>
                     <select
                       {...register("city", {
                         required: "City is required",
                       })}
                       name="city"
-                      className="select border-1 form-select border border-slate-100 text-black"
+                      className="select border-1 form-select border border-slate-100 text-white bg-transparent"
                       autoComplete="off"
                     >
                       <option value="">
@@ -461,7 +467,7 @@ const SignUp = () => {
                     )}
                   </div>
 
-                  <div className="d-flex flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2">
+                  <div className="d-flex w-full flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2">
                     <label className="fw-bolder text-white ">Industry</label>
                     <Controller
                       name="industry"
@@ -472,7 +478,7 @@ const SignUp = () => {
                       render={({ field: { onChange, value } }) => (
                         <select
                           name="industry"
-                          className="select border-1 form-select border border-slate-100 text-black"
+                          className="select border-1 form-select border border-slate-100 text-white bg-transparent"
                           value={value}
                           onChange={(e) => {
                             setIndustry({
@@ -511,14 +517,14 @@ const SignUp = () => {
                       </small>
                     )}
                   </div>
-                  <div className="d-flex flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2 ">
+                  <div className="d-flex w-full flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2 ">
                     <label className="fw-bolder text-white ">Job Title</label>
                     <select
                       {...register("subject", {
                         required: "Job Title is required",
                       })}
                       name="subject"
-                      className="select border-1 form-select border border-slate-100 text-black"
+                      className="select border-1 form-select border border-slate-100 text-white bg-transparent"
                     >
                       <option value="">
                         <span className="text-black">Select Job Title </span>
@@ -545,7 +551,7 @@ const SignUp = () => {
                     )}
                   </div>
 
-                  <div className="d-flex flex-column grid-cols-2 col-lg-8 mb-4 col-12 col-md-6 px-md-2 ">
+                  <div className="d-flex w-full flex-column cols-span-2  px-2 col-span-2  ">
                     <label
                       htmlFor="formFile"
                       className="form-label fw-bolder text-white"
@@ -557,26 +563,35 @@ const SignUp = () => {
                       {...register("resume", {
                         required: false,
                       })}
-                      className="form-control border-1"
+                      className="form-control border-1 w-full bg-transparent border-dashed text-white "
                       type="file"
                       id="formFile"
-                      accept="application/pdf"
+                      accept=".pdf,.doc,.docx,image/jpeg"
                       name="resume"
-                      style={{ height: "45px" }}
+                      style={{ height: "100px", width:"100%" }}
                       onChange={(e: any) => {
-                        if (e.target.files[0].type === "application/pdf") {
+                        const file = e.target.files[0];
+                        const validTypes = [
+                          "application/pdf",
+                          "application/msword",
+                          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                          "image/jpeg",
+                        ];
+
+                        if (file && validTypes.includes(file.type)) {
+                          // File is valid, do something with the file
                         } else {
                           setValue("resume", "");
                           Toast(
                             "error",
-                            "File type not supported. Please upload a valid PDF file."
+                            "File type not supported. Please upload a valid PDF, Word document, or JPEG image."
                           );
                         }
                       }}
                     />
                   </div>
 
-                  <div className="flex flex-col align-items-center mt-2 col-12 mb-2">
+                  <div className="flex flex-col align-items-center mt-2 col-12 mb-2 col-span-2 ">
                     <div className="flex flex-row gap-2 justify-content-center">
                       <input
                         type="checkbox"
@@ -615,11 +630,11 @@ const SignUp = () => {
                       </small>
                     )}
                   </div>
-                  <div className="flex flex-row justify-center mt-1 col-12 ">
+                  <div className="flex flex-row justify-center mt-1  col-span-2 ">
                     <button
                       onClick={handleSubmit(onSubmit)}
                       className={`bg-white border-2 text-[15px] font-bold border-black border-solid text-black reg w-full ${
-                        isPending && "d-flex flex-row justify-content-center"
+                        isPending && "d-flex w-full flex-row justify-content-center"
                       }`}
                       disabled={isPending ? true : false}
                     >
@@ -632,7 +647,7 @@ const SignUp = () => {
                   </div>
                   <div
                     typeof="button"
-                    className="sign-up text-center mt-2 flex justify-center items-center w-full"
+                    className="sign-up text-center mt-2 flex justify-center items-center w-full col-span-2"
                   >
                     <span className="fw-bolder text-white">
                       Already have an account?
@@ -645,8 +660,8 @@ const SignUp = () => {
               </div>
             ) : (
               <>
-                <div className="d-flex flex-column justify-content-center align-items-center gap-4">
-                  <Otp
+                <div className="d-flex w-full flex-column justify-content-center align-items-center gap-4 ">
+                  <OtpSignUp
                     name={"otp"}
                     cb={(_data) => {
                       const data = { mobile: mobileNumber, ..._data };

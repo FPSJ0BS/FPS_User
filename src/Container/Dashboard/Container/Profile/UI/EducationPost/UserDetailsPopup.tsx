@@ -230,7 +230,7 @@ function UserDetailsPopup() {
   };
 
   return (
-    <div className="TrackPopup h-full w-[65vw] right-0 z-50 flex justify-end fixed">
+    <div className="TrackPopup h-full w-[100vw] lg:w-[65vw] right-0 z-50 flex justify-end fixed">
       <img
         onClick={popupCloseFunc}
         className="cursor-pointer absolute sm:left-10 top-[30px]"
@@ -246,8 +246,8 @@ function UserDetailsPopup() {
         <div className="w-full overflow-y-auto px-5 py-4 handleScrollbarMain">
           <form id="update-profile" onSubmit={handleSubmit(onSubmit)}>
             <div className="bg-white card-box border-20 my-4">
-              <h4 className="main-title fs-5">Personal Info</h4>
-              <div className="user-avatar-setting d-flex align-items-center mb-30">
+
+              <div className="user-avatar-setting d-flex align-items-center mb-30 flex-col md:flex-row">
                 <Imag
                   alt="avatar"
                   loading="lazy"
@@ -287,7 +287,7 @@ function UserDetailsPopup() {
                   </label>
                 </div>
               </div>
-              <div className=" grid grid-cols-2 gap-4 ">
+              <div className=" grid md:grid-cols-2 gap-4 ">
                 <div className="">
                   <div className="dash-input-wrapper ">
                     <label htmlFor="">Your Name</label>
@@ -299,6 +299,7 @@ function UserDetailsPopup() {
                       placeholder=" Your Name"
                       aria-invalid="true"
                       type="text"
+                      disabled
                       autoComplete="false"
                       style={{ color: "#000" }}
                     />
@@ -321,6 +322,7 @@ function UserDetailsPopup() {
                         },
                       })}
                       name="email"
+                      disabled
                       placeholder="email"
                       aria-invalid="true"
                       type="email"

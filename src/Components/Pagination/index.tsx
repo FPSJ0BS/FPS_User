@@ -11,7 +11,7 @@ function Pagination({ current, total, onChange }: IProps) {
   return (
     <>
       <ReactPaginate
-        containerClassName="pagination-job padding"
+        containerClassName="pagination-job padding "
         activeClassName="current"
         breakLabel="..."
         nextLabel={<i className="icon-keyboard_arrow_right"></i>}

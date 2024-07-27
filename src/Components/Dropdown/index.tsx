@@ -123,19 +123,21 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
         value={searchValue}
         onChange={handleInputChange}
         style={style ? style : { width: "100%", border: "none", color: "#fff" }}
+        className=" placeholder-white"
       />
       {isDropDown && (
         <List
           height={height}
           itemCount={filteredOptions.length}
           itemSize={30}
-          width={"100%"}
+          width={"150%"}
           style={{
             position: "absolute",
             top: "100%",
             backgroundColor: "#fff",
             borderRadius: "5px",
             zIndex: "1000",
+            
           }}
         >
           {Row}

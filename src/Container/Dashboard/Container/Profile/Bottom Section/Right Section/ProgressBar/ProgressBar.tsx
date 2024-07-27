@@ -81,8 +81,8 @@ function ProgressBar() {
   };
 
   return (
-    <div className="bg-[#e8f0fc] rounded-[20px] h-[150px] w-full flex">
-      <div className=" w-[20%]  h-[150px] flex justify-center items-center ">
+    <div className="bg-[#e8f0fc] rounded-[20px] min-h-[150px] w-full md:flex flex-col md:flex-row hidden ">
+      <div className=" hidden  w-[20%]  h-[150px] md:flex justify-center items-center ">
         <img src={PROGRESSBANNER} className="w-[95%]" alt="banner-profile" />
       </div>
 

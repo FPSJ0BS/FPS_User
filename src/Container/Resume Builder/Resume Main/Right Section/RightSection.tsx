@@ -40,7 +40,7 @@ function RightSection() {
       amount: Number(100),
       type: "INR",
     }).then((response) => {
-      console.log(response);
+    
       const options: any = {
         key: String(import.meta.env.VITE_Razorpay_KEY),
         amount: String(resumeDataArray?.price),
@@ -68,12 +68,12 @@ function RightSection() {
               // });
                dispatch(paymentStatusCheck(false));
 
-              console.log("success res", res);
+            
               Toast("success", res?.message);
             } else {
               // navigate(`${AppRoute.Dashboard}/${AppRoute.User_Dashboard}`);
               Toast("error", res?.message);
-              console.log("failure res", res);
+              
             }
           });
         },

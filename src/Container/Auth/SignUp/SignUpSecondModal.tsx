@@ -7,7 +7,7 @@ const SignUpSecondModal = ({ setModal, isModal }: any) => {
   const [isExperienced, setIsExperienced] = useState(true);
   const [education,setEducation] = useState([]);
   const [experience,setExperience] = useState([]);
-  console.log(experience);
+
   return (
     <>
       <div className="addJobPreference">

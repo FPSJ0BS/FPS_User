@@ -13,7 +13,7 @@ const Applied = () => {
   const { data: JobAppliedList } = useJobAppliedList({
     UID: userData?.UID,
   });
-  console.log(JobAppliedList);
+
   // const appliedJob = JobAppliedList && JobAppliedList.filter((item) => {
   //   return item?.appliedStatus === "Applied";
   // });

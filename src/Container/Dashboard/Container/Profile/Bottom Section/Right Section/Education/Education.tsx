@@ -15,7 +15,7 @@ function Education() {
     (state) => state.myProfileEducationSlice
   );
   const educationData = userDataArray?.education_data;
-  console.log("useDataarrat", educationData);
+
   const dispatch = useDispatch();
 
   function getYearOnly(dateString) {
@@ -56,14 +56,14 @@ function Education() {
     <div className="bg-white rounded-[20px]  p-[20px] min-h-[200px] w-full education">
       <div className=" flex justify-between items-center  h-[40px]">
         <div className=" flex items-center gap-2">
-          <img className=" w-[65px]" src={EducationIcon} alt="Education-Icon" />
-          <h6 className=" w-ful flex gap-2 cursor-default font-bold">
+          <img className=" w-[55px] md:w-[65px]" src={EducationIcon} alt="Education-Icon" />
+          <h6 className=" text-[14px] md:text-[16px] w-ful flex gap-2 cursor-default font-bold">
             Education
           </h6>
         </div>
         <div
           onClick={() => dispatch(openModalEducationModal())}
-          className=" cursor-pointer text-[#81b29a] font-semibold hover:bg-[#81b29a] hover:text-white px-3 py-1 border-[2px] border-solid  rounded-3xl flex justify-center items-center"
+          className=" text-[11px] md:text-[14px] cursor-pointer text-[#81b29a] font-semibold hover:bg-[#81b29a] hover:text-white px-3 py-1 border-[2px] border-solid  rounded-3xl flex justify-center items-center"
         >
           Add Education
         </div>

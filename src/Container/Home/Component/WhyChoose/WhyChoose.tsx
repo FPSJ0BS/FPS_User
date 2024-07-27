@@ -6,7 +6,7 @@ import REPUTATION from "@Assets/Icons/Why Choose/reputation.png";
 
 const WhyChoose = () => {
   return (
-    <div className=" flex flex-col gap-5 py-[50px] px-[40px] 2xl:px-[100px] w-full bg-black">
+    <div className=" hidden lg:flex flex-col gap-5 py-[50px] px-[40px] 2xl:px-[100px] w-full bg-black">
       <div className=" flex flex-col gap-2">
         <h2 className=" text-white text-[40px] font-bold">
           Why Choose Tallento.ai for Your Job Search?

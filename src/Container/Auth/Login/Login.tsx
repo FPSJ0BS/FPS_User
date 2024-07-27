@@ -16,8 +16,6 @@ import Breadcrumb from "@Components/Breadcrump";
 import SEO from "@Components/Seo/Seo";
 import { AppConst } from "@/Enum/AppConst";
 import LoginPage from "@Assets/images/login-page-image.svg";
-import Imag from "@Components/Image/Image";
-import LinkedInOAuth from "@Components/LinkedInOAuth";
 const Login = () => {
   const [showPass, setShowPass] = useState(false);
   const [isOtp, setIsOtp] = useState(false);
@@ -61,7 +59,7 @@ const Login = () => {
       setSendOtpObj(data);
       if (res?.userStatus) {
         sendOtp(data).then((res) => {
-          console.log('resres',res);
+       
           if (res?.status === "success") {
             Toast(
               "success",
@@ -75,7 +73,7 @@ const Login = () => {
               ip_address: "192.54.565",
             });
           } else {
-          console.log('resres',res);
+         
 
             Toast("error", res?.message);
           }
@@ -112,10 +110,19 @@ const Login = () => {
         <div className="container ">
           <div className="d-flex flex-row justify-content-between gap-3 flex-wrap ">
             <div className="col-12 col-lg-5">
-              <img alt="login" src={LoginPage} className="w-[465px] lg:block hidden" />
+              <img
+                alt="login"
+                src={LoginPage}
+                className="w-[465px] lg:block hidden"
+              />
             </div>
-            <div className="col-12 col-lg-5 bg-[#302f2f] py-5 mt-[-50px] rounded-xl px-4">
-              <h6 className="fs-4 fw-bolder text-center text-white">
+            <div className="col-12 col-lg-5 bg-[#302f2f] py-5 mt-[-50px] rounded-xl px-4 relative">
+              <p className=" mb-0 text-white absolute top-[2%] right-[2%]   font-semibold cursor-pointer border-2 border-solid px-2 py-1 rounded-md border-[#9a3c58]">
+                <NavLink to={AppRoute.SignUp} className="text-white ">
+                  Register for Free
+                </NavLink>
+              </p>
+              <h6 className="fs-4 fw-bolder text-center text-white pt-3">
                 {`Welcome to ${AppConst.LogoName} - Login`}
               </h6>
               <p className="mt-2 text-base text-center mb-5 text-white">
@@ -134,7 +141,7 @@ const Login = () => {
                   {/* <h6 className="fs-4 mb-4 fw-bolder">Login</h6> */}
                   <TabList className="menu-tab flex flex-col md:flex-row w-full gap-2">
                     <Tab
-                      className={`ct-tab w-full ${
+                      className={`ct-tab w-full px-0 ${
                         tabIndex === 0
                           ? "bg-black border-1 border-white border-solid"
                           : "bg-white border-2 border-black border-solid text-black"
@@ -143,7 +150,7 @@ const Login = () => {
                       Login with Email
                     </Tab>
                     <Tab
-                      className={`ct-tab w-full ${
+                      className={`ct-tab w-full px-0 ${
                         tabIndex === 1
                           ? "bg-black border-1 border-white border-solid"
                           : "bg-white border-2 border-black border-solid text-black"
@@ -172,7 +179,8 @@ const Login = () => {
                                 })}
                                 name="email"
                                 type="email"
-                                placeholder="Email"
+                                placeholder="Enter your registered email id..."
+                                className=" bg-transparent text-white placeholder-white"
                               />
                               {errors.email && (
                                 <small className="text-danger mt-2">
@@ -180,7 +188,7 @@ const Login = () => {
                                 </small>
                               )}
                             </div>
-                            <div className="ip">
+                            <div className="ip mb-[0.5px]">
                               <label className="text-white">
                                 Password<span>*</span>
                               </label>
@@ -191,12 +199,12 @@ const Login = () => {
                                   })}
                                   name="password"
                                   type={showPass ? "text" : "password"}
-                                  className="input-form password-input"
-                                  placeholder="Password"
+                                  className="input-form password-input bg-transparent text-white placeholder-white"
+                                  placeholder="Enter your Password ..."
                                   id="password-input"
                                 />
                                 <Link
-                                  className={`password-addon ${
+                                  className={`text-white password-addon ${
                                     showPass ? "icon-eye" : "icon-eye-off"
                                   }`}
                                   id="password-addon"
@@ -210,7 +218,7 @@ const Login = () => {
                                 </small>
                               )}
                             </div>
-                            <div className="d-flex flex-row justify-content-end">
+                            <div className="d-flex flex-row justify-content-end mb-2">
                               <NavLink
                                 to={AppRoute.Forgot_password}
                                 className="text-white"
@@ -247,7 +255,7 @@ const Login = () => {
                               </NavLink>
                             </div>
                           </form>
-                          <LinkedInOAuth />
+                          {/* <LinkedInOAuth /> */}
                         </>
                       ) : (
                         <></>
@@ -265,7 +273,7 @@ const Login = () => {
                                 OtpCheck(query).then((res) => {
                                   if (res?.status === "success") {
                                     setUserLoginData(res);
-                                    navigate(AppRoute.Home);
+                                    navigate(AppRoute.Dashboard);
                                     Toast(
                                       "success",
                                       "Login successful! Enjoy your experience."
@@ -285,21 +293,30 @@ const Login = () => {
                           <form id="send-otp-form">
                             <div className="ip">
                               <label className="text-white">
-                                Mobile
+                                Mobile Number
                                 <span>*</span>
                               </label>
-                              <input
-                                {...register("mobile", {
-                                  required: "Mobile Number is required",
-                                  pattern: {
-                                    value: PHONE_REGEXP,
-                                    message: "Invalid Mobile number",
-                                  },
-                                })}
-                                name="mobile"
-                                type="text"
-                                placeholder="Mobile Number"
-                              />
+                              <div className=" flex gap-2">
+                                <div className="w-[50px] h-[50px] bg-white rounded-md flex justify-center items-center text-[16px] bg-transparent border-1 border-white border-solid text-white">
+                                  +91
+                                </div>
+                                <input
+                                  {...register("mobile", {
+                                    required: "Mobile Number is required",
+                                    pattern: {
+                                      value: PHONE_REGEXP,
+                                      message: "Invalid Mobile number",
+                                    },
+                                  })}
+                                  name="mobile"
+                                  type="text"
+                                  placeholder="Enter your 10 digit mobile number ..."
+                                  className="bg-transparent text-white placeholder-white placeholder-white"
+                                />
+                              </div>
+                              <p className=" text-white pt-1 text-[12px]">
+                                You will receive an OTP on this number
+                              </p>
                               {errors.mobile && (
                                 <small className="text-danger mt-2">
                                   {errors.mobile.message}
@@ -337,7 +354,7 @@ const Login = () => {
                                 Sign Up
                               </NavLink>
                             </div>
-                            <LinkedInOAuth />
+                            {/* <LinkedInOAuth /> */}
                           </form>
                         )
                       ) : (

@@ -81,11 +81,11 @@ function AddSkills({selectList}) {
         if (res?.data?.status) {
           await selectList();
           const skillsDataFull = await res?.data?.data;
-          console.log('skillsDataFull', skillsDataFull);
+        
           await dispatch(addMultipleSkillsFromAPI(skillsDataFull));
         } else{
 
-          console.log("Response:", res);
+     
         }
 
       } catch (error) {

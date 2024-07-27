@@ -21,7 +21,7 @@ function LeftSection() {
   const userId = userData?.UID;
 
   useEffect(() => {
-    console.log("formData", formData);
+ 
     dispatch(addResumeDataArray(formData));
   }, [formData]);
 
@@ -35,32 +35,50 @@ function LeftSection() {
         const res = await getResumeDetail(templateNumber, userId);
         if (res?.data?.status) {
           const data = await res?.data?.data;
+          const dummyData = data?.DUMMY_DATA?.data;
           await setResumeData(data);
           await setFormData({
-            name: data?.NAME,
-            address: data?.ADDRESS,
-            Subject: data?.FUNCTION,
-            city: data?.CITY,
-            state: data?.STATE,
-            phoneNumber: data?.PHONE_NUMBER,
-            email: data?.EMAIL,
-            bio: data?.BIO,
-            cityPreferences: data?.CITY_PREFERENCES,
+            name: data?.NAME ? data?.NAME : dummyData.name,
+            address: data?.ADDRESS ? data?.ADDRESS : dummyData.ADDRESS,
+            Subject: data?.FUNCTION ? data?.FUNCTION : dummyData.FUNCTION,
+            city: data?.CITY ? data?.CITY : dummyData.CITY,
+            state: data?.STATE ? data?.STATE : dummyData.STATE,
+            phoneNumber: data?.PHONE_NUMBER
+              ? data?.PHONE_NUMBER
+              : dummyData.PHONE_NUMBER,
+            email: data?.EMAIL ? data?.EMAIL : dummyData.EMAIL,
+            bio: data?.BIO ? data?.BIO : dummyData.BIO,
+            cityPreferences:
+              data?.CITY_PREFERENCES.length > 0
+                ? data?.CITY_PREFERENCES
+                : dummyData.CITY_PREFERENCES,
             socialLink: data?.SOCIAL_LINK || [],
-            skill: data?.SKILL,
-            education: data?.EDUCATION,
-            experience: data?.EXPERIENCE,
-            language: data?.LANGUAGE,
-            profileImage: data?.IMAGE,
-            price:data?.template_price,
+            skill: data?.SKILL.length > 0 ? data?.SKILL : dummyData.SKILL,
+            education:
+              data?.EDUCATION.length > 0
+                ? data?.EDUCATION
+                : dummyData.EDUCATION,
+            experience:
+              data?.EXPERIENCE.length > 0
+                ? data?.EXPERIENCE
+                : dummyData.EXPERIENCE,
+            language:
+              data?.LANGUAGE.length > 0 ? data?.LANGUAGE : dummyData.LANGUAGE,
+            profileImage: data?.IMAGE ? data?.IMAGE : dummyData.IMAGE,
+            price: data?.template_price,
             certificate:
-              data?.CERTIFICATE?.map((cert) => ({
-                title: cert.title,
-                url: cert.certificate_file,
-              })) || [],
+              data?.CERTIFICATE?.length > 0
+                ? data?.CERTIFICATE.map((cert) => ({
+                    title: cert.title,
+                    url: cert.certificate_file,
+                  }))
+                : dummyData.CERTIFICATE.map((cert) => ({
+                    title: cert.title,
+                    url: cert.certificate_file,
+                  })),
           });
           await dispatch(toggleResumeDataLoader(true));
-          console.log("testtest", data);
+       
         }
       } catch (error) {
         console.log(error);

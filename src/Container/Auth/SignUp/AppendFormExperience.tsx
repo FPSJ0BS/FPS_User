@@ -22,7 +22,7 @@ const AppendFormExperience = ({
   });
 
   const onSubmit = (data) => {
-    console.log(data);
+  
     setExperience(data);
     setIsExperienced(true);
     setModal(false);

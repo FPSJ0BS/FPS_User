@@ -16,17 +16,13 @@ function LanguagePopup() {
     { language: "", read: false, write: false, speak: false, proficiency: "" },
   ]);
 
-  useEffect(() => {
-    console.log(languageInputs);
-  }, [languageInputs]);
+ 
 
   const { languageDataArray } = useSelector(
     (state: any) => state.myProfileEducationSlice
   );
 
-  useEffect(() => {
-    console.log("languageDataArray", languageDataArray);
-  }, [languageDataArray]);
+
 
   const popupCloseFunc = async () => {
     await dispatch(closeModalLanguageAddModal());
@@ -70,21 +66,21 @@ function LanguagePopup() {
       proficiency: input.proficiency,
     }));
 
-    console.log("formattedData", formattedData);
+  
 
     try {
 
       const res = await postSubmitLanguageDetails(formattedData)
 
       if(res?.data?.status){
-        console.log("language", res);
+        
         dispatch(toggleRefetchProfile());
         await dispatch(closeModalLanguageAddModal());
         Toast("success", res?.data?.message);
         setButtonLoad(false);
 
       } else{
-        console.log("language fail", res);
+    
         Toast("error", res?.data?.message);
         setButtonLoad(false);
         // await dispatch(closeModalLanguageAddModal());
@@ -100,7 +96,7 @@ function LanguagePopup() {
   };
 
   return (
-    <div className="TrackPopup h-full w-[65vw] right-0 z-50 flex justify-end fixed">
+    <div className="TrackPopup h-full w-[100vw] md:w-[65vw] right-0 z-50 flex justify-end fixed">
       <img
         onClick={popupCloseFunc}
         className="cursor-pointer absolute sm:left-10 top-[30px]"
@@ -108,7 +104,7 @@ function LanguagePopup() {
         alt="close"
       />
 
-      <div className="bg-white h-full w-[90%] rounded-l-[100px] shadow-lg flex flex-col items-center py-4">
+      <div className="bg-white h-full w-[100%] md:w-[90%] md:rounded-l-[100px] shadow-lg flex flex-col items-center py-4">
         <h4 className="font-bold underline border-solid border-b-[1px]">
           Add Languages
         </h4>
@@ -117,8 +113,8 @@ function LanguagePopup() {
           <div className="h-[85%] w-full border-1 border-solid border-gray-200 p-3 rounded-xl overflow-y-auto handleScrollbarMain">
             {languageInputs.map((input, index) => (
               <div key={index} className="mb-4 flex flex-col gap-2">
-                <div className="flex gap-2 items-end">
-                  <div className="flex flex-col w-[50%] gap-2">
+                <div className="flex flex-col md:flex-row gap-2 items-end">
+                  <div className="flex flex-col w-[100%] md:w-[50%] gap-2">
                     <label
                       htmlFor={`language-${index}`}
                       className="postJobInputTitle font-semibold text-black"
@@ -145,7 +141,7 @@ function LanguagePopup() {
                     </select>
                   </div>
 
-                  <div className="flex flex-col w-[50%] gap-2">
+                  <div className="flex flex-col w-[100%] md:w-[50%] gap-2">
                     <label
                       htmlFor={`proficiency-${index}`}
                       className="postJobInputTitle font-semibold text-black"
@@ -228,7 +224,7 @@ function LanguagePopup() {
           </div>
           <button
             type="submit"
-            className="w-[20%] mt-4 p-2 bg-green-500 text-white rounded-md shadow-sm flex justify-center items-center"
+            className="w-[100%] md:w-[20%] mt-4 p-2 bg-green-500 text-white rounded-md shadow-sm flex justify-center items-center"
           >
             {buttonLoad ? "Submitting..." : "Save Languages"}
           </button>

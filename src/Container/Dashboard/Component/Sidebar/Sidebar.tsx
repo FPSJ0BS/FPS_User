@@ -13,6 +13,7 @@ import useWorkStatus from "@Hooks/Mutation/useWorkStatus";
 import { Toast } from "@Utils/Toast";
 import Switch from "react-switch";
 import Opentowork from "@Assets/dashboard-svg/open-to-work.png";
+import dummyiamge from '@Assets/Icons/Profile/user.png'
 
 const Sidebar = ({
   className,
@@ -82,7 +83,7 @@ const Sidebar = ({
               data-nimg={1}
               className="lazy-img"
               style={{ color: "transparent", height: "75px" }}
-              src={profileDetails?.user?.image}
+              src={profileDetails?.user?.image ? profileDetails?.user?.image : dummyiamge}
             />
             {profileDetails?.user?.work_status === "1" && (
               <img
@@ -181,8 +182,8 @@ const Sidebar = ({
                       <NavLink
                         to={item?.navigate || ""}
                         className={({ isActive }) => {
-                          return `d-flex w-100 align-items-center ${
-                            isActive && "active"
+                          return `d-flex w-100 align-items-center  ${
+                            isActive && "active bg-black"
                           }`;
                         }}
                         onClick={() => {

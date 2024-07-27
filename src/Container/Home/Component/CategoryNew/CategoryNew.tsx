@@ -29,7 +29,6 @@ const CategoryNew = (props: IProps) => {
     5: CATFIVE,
     6: CATSIX,
     7: CATSEVEN,
-    // Map the rest of your icons with their corresponding category IDs or names
   };
 
   const { setCategoryData } = useGlobalContext();
@@ -40,20 +39,26 @@ const CategoryNew = (props: IProps) => {
     text: " Recruitment made easy for candidates searching for IIT JEE, NEET Coaching jobs, Edtech jobs, School teacher jobs & Other Education Sector Jobs",
   });
   const { data: Category } = useCategoryList({});
-  console.log("Category Category Category", Category);
+
   const navigate = useNavigate();
   return (
-    <div className=" mt-[-2vh]  border-t-2 border-solid border-white flex pt-[40px] gap-5 flex-col w-[99.5%] h-[600px] items-start justify-center pl-[10px] md:pl-[50px] lg:pl-[100px] mb-[50px] bg-[url('@Assets/Home/bgcat.svg')] bg-cover bg-no-repeat">
+    <div className="   border-none md:mt-[-2vh]  border-t-2 md:border-solid border-white flex pt-[40px] gap-5 flex-col  min-h-[600px] items-start justify-center px-[20px] md:pl-[50px] lg:pl-[100px] mb-[50px] bg-[#090909] md:bg-[url('@Assets/Home/bgcat.svg')] bg-cover bg-no-repeat">
       <div className=" flex flex-col gap-3">
         <h2 className=" text-white text-[40px] font-bold">Browse By Category</h2>
-        <p className=" mb-0 text-[14px] text-[#cccccc]">
+        <p className=" pr-5 block md:hidden mb-0 text-[14px] text-[#cccccc]">
+          Recruitment made easy for candidates searching for IIT JEE, NEET
+          Coaching jobs, Edtech jobs, School teacher
+          jobs & Other Education Sector Jobs
+        </p>
+        <p className=" hidden md:block mb-0 text-[14px] text-[#cccccc]">
           Recruitment made easy for candidates searching for IIT JEE, NEET
           Coaching jobs, Edtech jobs, School teacher
           <br /> jobs & Other Education Sector Jobs
         </p>
       </div>
       <div className=" flex flex-wrap gap-10  pb-[100px] cursor-pointer">
-        {Category?.data?.map((idx, index) => {
+        {Category?.data?.filter(item => item.status === "1").map((idx, index) => {
+          
           return (
             <div
               key={idx.id}
@@ -74,7 +79,7 @@ const CategoryNew = (props: IProps) => {
             >
               {/* <div className="categorycard "></div> */}
 
-              <div className=" flex w-[320px] px-[20px] h-[60px] bg-[#0e0e0e] border-solid border-2 border-[#2a2a2a] rounded-2xl">
+              <div className=" flex w-[300px] px-[20px] h-[60px] bg-[#0e0e0e] border-solid border-2 border-[#2a2a2a] rounded-2xl">
                 <div className=" w-[20%] flex justify-center items-center h-full">
                   <img
                     className="w-[60%]"

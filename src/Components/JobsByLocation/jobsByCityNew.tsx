@@ -14,7 +14,7 @@ const JobsByCityNew = () => {
   const { data: cityList } = useFilterCity({});
 
   return (
-    <div className="  flex items-end h-[500px] w-full bg-black mt-[-50px] pl-[50px]">
+    <div className=" hidden lg:flex items-end h-[500px] w-full bg-black mt-[-50px] pl-[50px]">
       <div className=" pl-[] w-[50%] h-full text-[30px] p-[50px] flex items-start justify-center flex-col gap-5 ">
         <div className=" flex flex-col gap-2">
           <h2 className=" text-white text-[40px] font-bold">
@@ -39,7 +39,7 @@ const JobsByCityNew = () => {
           className=" text-[14px] bg-[#141414] border-solid border-1 border-[#333333] w-full rounded-[20px] flex justify-center items-center"
         >
           <CustomSelectThree
-            options={cityList?.cities || []}
+            options={cityList?.data || []}
             setSearchJob={(city) => {
               setSearchJob((oldSearchJob) => ({
                 ...oldSearchJob,

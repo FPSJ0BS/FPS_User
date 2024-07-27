@@ -21,7 +21,7 @@ const UserDashboard = () => {
   const { data: JobAppliedList } = useJobAppliedList({
     UID: userData?.UID,
   });
-  console.log('JobAppliedList', JobAppliedList);
+
   const { data: AllFavourite } = useAllFavourite(
     {
       enabled: !!userData?.UID,
@@ -54,25 +54,25 @@ const UserDashboard = () => {
       <Title title={"Dashboard"} />
       <div className="row">
         <Card
-          Icon={<img loading="lazy" decoding="async" src={SAVEDJOBS} className=" w-[50%]" alt="save"/>}
+          Icon={<img loading="lazy" decoding="async" src={SAVEDJOBS} className=" md:w-[50%] " alt="save"/>}
           title={"Saved Jobs"}
           total={AllFavourite?.jobs ? AllFavourite?.jobs?.length : 0}
           navigatePath={`${AppRoute.Dashboard}/${AppRoute.Saved_Job}`}
         />
         <Card
-          Icon={<img loading="lazy" decoding="async" src={APPLIEDJOBS} className=" w-[50%]" alt="save"/>}
+          Icon={<img loading="lazy" decoding="async" src={APPLIEDJOBS} className=" md:w-[50%]" alt="save"/>}
           title={"Applied Job"}
           total={getStatusLength("Applied").length}
           navigatePath={`${AppRoute.Dashboard}/${AppRoute.Applied_Job}`}
         />
         <Card
-          Icon={<img loading="lazy" decoding="async" src={REJECTJOBS} className=" w-[50%]" alt="save"/>}
+          Icon={<img loading="lazy" decoding="async" src={REJECTJOBS} className=" md:w-[50%]" alt="save"/>}
           title={"Rejected Job"}
           total={getStatusLength("Rejected").length}
           navigatePath={`${AppRoute.Dashboard}/${AppRoute.Rejected_Job}`}
         />
         <Card
-          Icon={<img loading="lazy" decoding="async" src={ACCEPTJOBS} className=" w-[50%]" alt="save"/>}
+          Icon={<img loading="lazy" decoding="async" src={ACCEPTJOBS} className=" md:w-[50%]" alt="save"/>}
           title={"Accepted Job"}
           total={getStatusLength("Accepted").length}
           navigatePath={`${AppRoute.Dashboard}/${AppRoute.Accepted_Job}`}

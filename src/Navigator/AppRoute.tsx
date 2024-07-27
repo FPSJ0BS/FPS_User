@@ -31,6 +31,7 @@ export const AppRoute = {
   Forgot_password: "/forgot-password",
   ResumeDesignOne:"resume-one",
   services:"resume-builder",
-  resume:"resume-builder"
+  resume:"resume-builder",
+  ShareProfile:"share-profile",
   
 };

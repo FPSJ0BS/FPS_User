@@ -26,6 +26,7 @@ export const navbar = [
     isDropDown: false,
     dropFor: "services-dropdown",
     main:true,
+    mobile:false
   },
 
   {
@@ -34,9 +35,8 @@ export const navbar = [
     isGlobal: true,
     isDropDown: false,
     dropFor: "services",
+    mobile:false
   },
-
-  
 
   // {
   //   name: "Contact Us",

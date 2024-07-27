@@ -8,7 +8,7 @@ function CourseEducationEdit() {
   const { qualificationDataArray, resultDataArray, educationDataArray, editEducationData } =
   useSelector((state: any) => state.myProfileEducationSlice);
 
-console.log(educationDataArray);
+
 
 
 
@@ -35,8 +35,8 @@ console.log(educationDataArray);
   };
 
   return (
-    <div className="flex w-full">
-      <div className="w-3/5 pr-2">
+    <div className="flex flex-col md:flex-row w-full gap-2 md:gap-0">
+      <div className=" md:w-3/5 ">
         <label className="block mb-2 text-sm font-semibold text-black">
           Select a course
         </label>
@@ -59,9 +59,9 @@ console.log(educationDataArray);
           
         </select>
       </div>
-      <div className="w-2/5 pl-2">
+      <div className=" md:w-2/5 ">
         <label className="block mb-2 text-sm font-semibold text-black">
-          Select Type
+          Select Course Type
         </label>
         <select
           required

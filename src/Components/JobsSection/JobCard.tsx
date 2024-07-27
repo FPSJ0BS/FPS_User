@@ -23,7 +23,7 @@ import { AppRoute } from "@Navigator/AppRoute";
 import Interview from "@Assets/interview.svg";
 
 const JobCard = ({ jobIdSet = new Set(), job, packType }: any) => {
-  console.log('jobjobjobjobjobjobjobjobjobjobjobjobjobjob', job);
+ 
   const { userData } = useGlobalContext();
   const queryClient = useQueryClient();
   const { data: Category } = useCategoryList({});
