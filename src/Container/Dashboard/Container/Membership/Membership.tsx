@@ -237,7 +237,7 @@ const Membership = () => {
               const isCurrentPlan =
                 item.packID === profileDetails?.user?.packID;
               return (
-                
+                isCategory &&
                 !isCurrentPlan && (
                   <div className="col-lg-4 col-md-6">
                     <div className="pricing-card-one border-0 popular-two mt-25">
