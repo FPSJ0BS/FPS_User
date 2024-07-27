@@ -60,9 +60,7 @@ const Dashboard = () => {
     myProfileOtherDetailsModal,
   } = useSelector((state: any) => state.myProfileEducationSlice);
 
-  useEffect(() => {
-    console.log("modal", modalOpen);
-  }, [modalOpen]);
+
 
   const popupCLoseFunc = async () => {
     await dispatch(

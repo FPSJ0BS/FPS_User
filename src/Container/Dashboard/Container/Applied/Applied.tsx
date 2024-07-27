@@ -13,7 +13,7 @@ const Applied = () => {
   const { data: JobAppliedList } = useJobAppliedList({
     UID: userData?.UID,
   });
-  console.log(JobAppliedList);
+
   // const appliedJob = JobAppliedList && JobAppliedList.filter((item) => {
   //   return item?.appliedStatus === "Applied";
   // });
@@ -29,7 +29,7 @@ const Applied = () => {
         name={"Applied Job List Page"}
         type={"Web Page"}
       />
-      <div className="d-flex align-items-center justify-content-between mb-40 lg-mb-30">
+      <div className="d-flex align-items-center justify-content-between mb-20 lg-mb-30">
         <h2 className="  main-title m0 ">Applied Job</h2>
       </div>
       <div className="wrapper flex-wrap">

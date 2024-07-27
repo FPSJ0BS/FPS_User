@@ -18,7 +18,7 @@ function OtherDetails() {
     <div className="bg-white rounded-[20px]  p-[20px] min-h-[200px] w-full career-preference other-details">
       <div className=" flex justify-between items-center gap-2  ">
         <div className=" flex items-center gap-2">
-          <h6 className=" w-ful flex gap-2 cursor-default font-bold">
+          <h6 className="text-[14px] md:text-[16px] w-ful flex gap-2 cursor-default font-bold">
             Other Details
           </h6>
           <img
@@ -30,7 +30,7 @@ function OtherDetails() {
         </div>
         <div
           onClick={() => modalOpen()}
-          className=" cursor-pointer text-[#81b29a] font-semibold hover:bg-[#81b29a] hover:text-white px-3 py-1 border-[2px] border-solid  rounded-3xl flex justify-center items-center"
+          className="text-[11px] md:text-[14px] cursor-pointer text-[#81b29a] font-semibold hover:bg-[#81b29a] hover:text-white px-3 py-1 border-[2px] border-solid  rounded-3xl flex justify-center items-center"
         >
           Add Other Details
         </div>
@@ -48,7 +48,7 @@ function OtherDetails() {
                 {userDataArray?.other_details?.bio
                   ? userDataArray?.other_details?.bio
                   : "Not Provided"}
-                ,
+                
               </p>
             </div>
           </div>
@@ -62,7 +62,7 @@ function OtherDetails() {
                 {userDataArray?.other_details?.address
                   ? userDataArray?.other_details?.address
                   : "Not Provided"}
-                ,
+                
               </p>
             </div>
           </div>

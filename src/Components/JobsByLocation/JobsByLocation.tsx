@@ -10,7 +10,7 @@ const JobsByLocation = ({ data, title, marginTop }: any) => {
   const [showMore, setShowMore] = useState(12);
   const navigate = useNavigate();
   return (
-    <div className={`container mt-${marginTop}`}>
+    <div className={`container mt-${marginTop} pt-[50px] `}>
       <div className="jobs-by-location">
         <h2>{`Jobs By ${title}`}</h2>
         <ul className="d-flex align-items-center justify-content-start w-full">

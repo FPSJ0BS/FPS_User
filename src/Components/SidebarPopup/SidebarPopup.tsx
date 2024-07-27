@@ -1,5 +1,5 @@
 import { AppRoute } from "@Navigator/AppRoute";
-import logo from "../../../public/fps-logo.webp";
+import logo from "@Assets/tallentologodark.png";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
 import { navbar } from "@Const/fakeData/navbar";
@@ -33,6 +33,7 @@ const SidebarPopup = ({ handleMobile }: any) => {
           <TabList className="menu-tab">
             <Tab className="user-tag">Menu</Tab>
             <Tab className="user-tag">Categories</Tab>
+        
           </TabList>
 
           <div className="content-tab">
@@ -43,7 +44,7 @@ const SidebarPopup = ({ handleMobile }: any) => {
                     {userData?.UID
                       ? navbar.map((item, index) => {
                           return (
-                            (item?.isGlobal || item?.isLogin) && (
+                            (item?.isGlobal || item?.isLogin ) && item?.mobile !== false && (
                               <li className={`menu-item `} key={index}>
                                 <NavLink
                                   className={({ isActive }) => {
@@ -68,7 +69,7 @@ const SidebarPopup = ({ handleMobile }: any) => {
                         })
                       : navbar.map((item, index) => {
                           return (
-                            (item?.isGlobal || !item?.isLogin) && (
+                            (item?.isGlobal || !item?.isLogin ) && item?.mobile !== false && (
                               <li key={index} className={`menu-item `}>
                                 <NavLink
                                   to={item.to}
@@ -97,6 +98,9 @@ const SidebarPopup = ({ handleMobile }: any) => {
                 <ul className="pop-up">
                   {Category?.data &&
                     Category?.data?.map((item, index) => {
+                      if (item.status !== "1") {
+                        return null;
+                      }
                       return (
                         <li
                           className="categories-mobile"
@@ -145,7 +149,7 @@ const SidebarPopup = ({ handleMobile }: any) => {
               </span>
             </div>
             <div className="content">
-              <p>Need help? 24/7</p>
+              <p>Need help?</p>
               <h6>
                 <Link to={`tel:${AppConst.MobileNumberOne}`}>
                   {AppConst.MobileNumberOne}

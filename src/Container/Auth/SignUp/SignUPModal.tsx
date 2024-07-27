@@ -342,7 +342,7 @@ const SignUPModal = ({ data }: any) => {
                           className="select border-1 form-select border border-slate-100"
                           value={value}
                           onChange={(e) => {
-                            console.log(e.target.value);
+                          
                             setQuery({
                               ...query,
                               stateID: e.target.value,

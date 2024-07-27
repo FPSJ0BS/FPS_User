@@ -11,6 +11,7 @@ import AccptedJob from "@Container/Dashboard/Container/AccptedJob/AccptedJob";
 import Error from "@Container/Error/Error";
 import JobDetailsUpdate from "@Container/JobDetail/JobDetailsUpdate";
 import Nof from "@Components/Message";
+import ShareProfile from "@Container/Dashboard/Container/Profile/ShareProfile";
 
 const BlogDetails = lazy(() => import("@Container/Blog/BlogDetails"));
 
@@ -173,6 +174,8 @@ const AppRouter = () => {
                 </PrivateRoute>
               }
             >
+              <Route path={AppRoute.ShareProfile} element={<ShareProfile />} />
+
               <Route path={AppRoute.Thank_You} element={<Thankyou />} />
 
               <Route path={AppRoute.Dashboard} element={<DashboardLayout />}>
@@ -213,6 +216,8 @@ const AppRouter = () => {
                 </PublicRoute>
               }
             >
+
+              <Route path={AppRoute.ShareProfile} element={<ShareProfile />} />
               <Route path={AppRoute.Login} element={<Login />} />
 
               <Route path={AppRoute.SignUp} element={<SignUp />} />

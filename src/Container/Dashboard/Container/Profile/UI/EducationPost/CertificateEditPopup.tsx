@@ -39,9 +39,7 @@ function CertificateEditPopup() {
     editCertificateData,
   } = useSelector((state: any) => state.myProfileEducationSlice);
 
-  useEffect(() => {
-    console.log(editCertificateData);
-  }, [editCertificateData]);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -62,13 +60,13 @@ function CertificateEditPopup() {
       const res = await postCertificateDetailsEdit(formData);
 
       if (res?.data?.status) {
-        console.log(res);
+       
         await popupCloseFunc();
         Toast("success", res?.data?.message);
         dispatch(toggleRefetchProfile());
         setButtonLoad(false);
       } else {
-        console.log(res);
+        
         setButtonLoad(false);
 
         await popupCloseFunc();
@@ -110,7 +108,7 @@ function CertificateEditPopup() {
 
           setLoaderState(false);
         } else {
-          console.log("res", res);
+        
         }
       } catch (error) {
         console.log(error);
@@ -121,7 +119,7 @@ function CertificateEditPopup() {
   }, []);
 
   return (
-    <div className="TrackPopup h-full w-[65vw] right-0 z-50 flex justify-end fixed">
+    <div className="TrackPopup h-full w-[100vw] md:w-[65vw] right-0 z-50 flex justify-end fixed">
       <img
         onClick={popupCloseFunc}
         className="cursor-pointer absolute sm:left-10 top-[30px]"
@@ -129,7 +127,7 @@ function CertificateEditPopup() {
         alt="close"
       />
 
-      <div className="bg-white h-full w-[90%] rounded-l-[100px] shadow-lg flex flex-col items-center py-4">
+      <div className="bg-white h-full w-[100%] md:w-[90%] md:rounded-l-[100px] shadow-lg flex flex-col items-center py-4">
         <h4 className="font-bold underline border-solid border-b-[1px]">
           Edit Certificate Details
         </h4>
@@ -141,7 +139,7 @@ function CertificateEditPopup() {
             </div>
           ) : (
             <form className="space-y-6" onSubmit={handleSubmit}>
-              <div className="gap-2 border-1 border-solid border-gray-300 p-3 rounded-lg grid grid-cols-2">
+              <div className="gap-4 border-1 border-solid border-gray-300 p-3 rounded-lg grid grid-cols-1 md:grid-cols-2">
                 <CertificateTitleEdit />
                 <ResumeUploadEdit file={file} setFile={setFile} />
                 <CertificateDescriptionEdit />
@@ -149,7 +147,7 @@ function CertificateEditPopup() {
                 <div className=" col-span-2 w-full">
                   <button
                     type="submit"
-                    className="   w-[30%] mt-4 p-2 bg-green-500 text-white rounded-md shadow-sm flex justify-center items-center"
+                    className="  w-[100%] md:w-[30%] mt-4 p-2 bg-green-500 text-white rounded-md shadow-sm flex justify-center items-center"
                   >
                     {buttonLoad ? "Submitting..." : "Submit Certificate"}
                   </button>

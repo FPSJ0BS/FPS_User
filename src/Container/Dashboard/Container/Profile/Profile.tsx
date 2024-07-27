@@ -52,7 +52,6 @@ import useCity from "@Hooks/Queries/useCity";
 import useCareerPreferenceCity from "@Hooks/Queries/useCareerPreferenceCity";
 import usePercentageData from "@Hooks/Queries/usePercentageData";
 
-
 const Profile = () => {
   const dispatch = useDispatch();
   const { userData } = useGlobalContext();
@@ -113,12 +112,7 @@ const Profile = () => {
       enabled: !!userId, // ensures the query runs only when UID is available
     });
 
-  useEffect(() => {
-    console.log(
-      "percentDatapercentDatapercentDatapercentDatapercentDatapercentDatapercentDatapercentData",
-      percentageData
-    );
-  }, [percentageDataSuccess]);
+ 
 
   useEffect(() => {
     const submitArrays = async () => {
@@ -182,7 +176,7 @@ const Profile = () => {
         const res = await getRefetchUserProfileData(userId);
 
         if (res?.data?.status) {
-          console.log(res);
+     
           const fullUserData = await res?.data?.user;
           await dispatch(addUserData(fullUserData));
         }
@@ -194,7 +188,7 @@ const Profile = () => {
         const response = await getRefetchPercentageDetail(userId);
 
         if (response?.data?.status) {
-          console.log("forrrrr", response);
+    
           const percentData = await response?.data?.data;
           await dispatch(addPercentageData(percentData));
         }

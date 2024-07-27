@@ -26,7 +26,7 @@ const List = ({ data }: any) => {
     return () => document.body.removeEventListener("click", closeDropdown);
   }, []);
   return (
-    <div className="job-list-one style-two position-relative mb-20">
+    <div className="job-list-one style-two position-relative mb-10">
       <div className="row justify-content-between align-items-center">
         <div className="col-xxl-3 col-lg-3">
           <div

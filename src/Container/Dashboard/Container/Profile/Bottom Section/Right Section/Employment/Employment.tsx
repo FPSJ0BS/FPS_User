@@ -16,7 +16,7 @@ function Employment() {
     (state: any) => state.myProfileEducationSlice
   );
 
-  console.log("userDataArray", userDataArray);
+
 
   const employmentData = userDataArray?.experience_data;
 
@@ -70,14 +70,14 @@ function Employment() {
     <div className="bg-white rounded-[20px]  p-[20px] min-h-[200px] w-full employment">
       <div className=" flex justify-between items-center gap-2 h-[40px] ">
         <div className=" flex items-center gap-2">
-          <img className=" w-[65px]" src={EmploymentData} alt="Education-Icon" />
-          <h6 className=" w-ful flex gap-2 cursor-default font-bold">
+          <img className=" w-[55px] md:w-[65px]" src={EmploymentData} alt="Education-Icon" />
+          <h6 className=" text-[14px] md:text-[16px] w-ful flex gap-2 cursor-default font-bold">
             Employment
           </h6>
         </div>
         <div
           onClick={() => modalOpen()}
-          className=" cursor-pointer text-[#81b29a] font-semibold hover:bg-[#81b29a] hover:text-white px-3 py-1 border-[2px] border-solid  rounded-3xl flex justify-center items-center"
+          className="text-[11px] md:text-[14px] cursor-pointer text-[#81b29a] font-semibold hover:bg-[#81b29a] hover:text-white px-2 md:px-3 py-1 border-[2px] border-solid  rounded-3xl flex justify-center items-center"
         >
           Add Employment
         </div>
@@ -120,7 +120,7 @@ function Employment() {
 
                 <div className="flex flex-col items-start  mb-[-5px]">
                   <p className=" font-medium mb-0 capitalize">
-                    {organization},
+                    {organization}
                   </p>
                   <p className=" font-normal mb-0 capitalize leading-[1.4em]">
                     {responsibilities}
@@ -137,7 +137,7 @@ function Employment() {
 
                 <div className="flex items-center gap-2">
                   <p className=" mb-0 capitalize text-gray-400 font-medium">
-                    {parseInt(currently) === 1 ? "Pursuing" : ""}
+                    {parseInt(currently) === 1 ? "Currently Working" : ""}
                   </p>
                 </div>
               </div>

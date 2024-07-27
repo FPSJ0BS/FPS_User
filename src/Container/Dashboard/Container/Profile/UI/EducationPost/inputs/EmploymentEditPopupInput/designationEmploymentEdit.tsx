@@ -30,7 +30,7 @@ export const DesignationEmploymentEdit = () => {
   };
 
   return (
-    <div className=" sm:w-[100%] w-[250px] flex flex-col gap-2 ">
+    <div className=" w-[100%]  flex flex-col gap-2 col-span-2 md:col-span-1">
       <label
         htmlFor="designationEmploymentEdit"
         className=" postJobInputTitle font-semibold text-black "

@@ -22,7 +22,7 @@ function TrackPopup() {
     isSuccess,
 
   } = useJobAppliedStatusTrackData(appliedJobValues?.applyID);
-  console.log(jobAppliedStatus);
+
   const [jobTrackData, setJobTrackData] = useState([]);
   // console.log("job applied data", jobAppliedStatus?.applieddata);
 
@@ -32,7 +32,7 @@ function TrackPopup() {
       try {
         const res = await getTrackingData(appliedJobValues?.applyID);
         if (res?.data?.status) {
-          console.log(res?.data?.applieddata);
+        
           setJobTrackData(res?.data?.applieddata);
         }
       } catch (error) {

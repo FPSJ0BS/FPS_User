@@ -30,7 +30,7 @@ export const InstituteNameEducationEdit = () => {
   };
 
   return (
-    <div className=" sm:w-[100%] w-[250px] flex flex-col gap-2 ">
+    <div className=" sm:w-[100%] w-full flex flex-col gap-2 ">
       <label
         htmlFor="instituteNameEducationEdit"
         className=" postJobInputTitle font-semibold text-black "

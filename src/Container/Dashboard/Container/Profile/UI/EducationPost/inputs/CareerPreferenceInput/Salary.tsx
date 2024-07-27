@@ -57,7 +57,7 @@ export const Salary = ({setSelectedSalary}) => {
     );
 
   return (
-    <div className="relative sm:w-[100%] w-[250px]">
+    <div className="relative w-[100%] col-span-2 md:col-span-1">
       <label
         htmlFor="EmployerPostJobState"
         className="postJobInputTitle pb-1 block font-medium text-gray-700"
@@ -124,7 +124,7 @@ export const Salary = ({setSelectedSalary}) => {
         )}
       </div>
       {showDropdown && (
-        <ul className="postjobHandleScrollbar max-h-[300px] overflow-y-auto absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg">
+        <ul className="postjobHandleScrollbar max-h-[300px] overflow-y-auto absolute z-50 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg pl-0">
           {filteredShifts.slice(0, 50).map((option, index: number) => (
             <li
               key={index}

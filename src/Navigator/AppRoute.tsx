@@ -29,6 +29,9 @@ export const AppRoute = {
   Accepted_Job: "accepted-job",
   Account_Setting: "account-setting",
   Forgot_password: "/forgot-password",
-  ResumeDesignOne:"resume-one"
+  ResumeDesignOne:"resume-one",
+  services:"resume-builder",
+  resume:"resume-builder",
+  ShareProfile:"share-profile",
   
 };

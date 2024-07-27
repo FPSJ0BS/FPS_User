@@ -21,7 +21,7 @@ export const CertificateDescriptionEdit = () => {
   };
 
   return (
-    <div className="sm:w-[100%] w-[250px] flex flex-col gap-2 col-span-2">
+    <div className="w-[100%]  flex flex-col gap-2 col-span-2">
       <label
         htmlFor="certificateDescriptionEditEdit"
         className="postJobInputTitle font-semibold text-black"

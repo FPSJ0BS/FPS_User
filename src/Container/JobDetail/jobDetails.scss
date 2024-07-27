@@ -31329,17 +31329,17 @@
     white-space: nowrap;
     color: #000;
     background-color: transparent;
-    border: 1px solid var(--button);
+    border: 2px solid #000;
     font-size: 15px;
     line-height: 20px;
     border-radius: 8px;
-    font-weight: 400;
+    font-weight: 700;
     padding: 18px 35px 15px;
   }
 
   .btn-style-one:hover {
     color: #fff;
-    background-color: var(--button);
+    background-color: #000;
   }
 
   .btn-style-two {
@@ -39547,9 +39547,11 @@
   .sidebar-widget {
     position: relative;
     padding: 30px;
-    background: #f5f7fc;
+    background: #000;
     border-radius: 8px;
     margin-bottom: 40px;
+    border: 4px solid #dc3d7d;
+
   }
 
   .sidebar-widget .widget-title {

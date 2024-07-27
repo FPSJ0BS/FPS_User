@@ -12,11 +12,16 @@ import { AppConst } from "@/Enum/AppConst";
 import SEO from "@Components/Seo/Seo";
 import { AppRoute } from "@Navigator/AppRoute";
 import { memo } from "react";
+import SAVEDJOBS from "@Assets/Icons/Dashboard/Save.png"
+import APPLIEDJOBS from "@Assets/Icons/Dashboard/Applied Jobs.png"
+import REJECTJOBS from "@Assets/Icons/Dashboard/Rejected Jobs.png"
+import ACCEPTJOBS from "@Assets/Icons/Dashboard/Approved.png"
 const UserDashboard = () => {
   const { userData } = useGlobalContext();
   const { data: JobAppliedList } = useJobAppliedList({
     UID: userData?.UID,
   });
+
   const { data: AllFavourite } = useAllFavourite(
     {
       enabled: !!userData?.UID,
@@ -49,61 +54,25 @@ const UserDashboard = () => {
       <Title title={"Dashboard"} />
       <div className="row">
         <Card
-          Icon={<Saved color={" #FFF"} />}
+          Icon={<img loading="lazy" decoding="async" src={SAVEDJOBS} className=" md:w-[50%] " alt="save"/>}
           title={"Saved Jobs"}
           total={AllFavourite?.jobs ? AllFavourite?.jobs?.length : 0}
           navigatePath={`${AppRoute.Dashboard}/${AppRoute.Saved_Job}`}
         />
         <Card
-          Icon={
-            <img
-              alt="icon"
-              loading="lazy"
-              width={25}
-              height={24}
-              decoding="async"
-              data-nimg={1}
-              className="lazy-img"
-              src={Edit}
-              style={{ color: "transparent" }}
-            />
-          }
+          Icon={<img loading="lazy" decoding="async" src={APPLIEDJOBS} className=" md:w-[50%]" alt="save"/>}
           title={"Applied Job"}
           total={getStatusLength("Applied").length}
           navigatePath={`${AppRoute.Dashboard}/${AppRoute.Applied_Job}`}
         />
         <Card
-          Icon={
-            <img
-              alt="icon"
-              loading="lazy"
-              width={25}
-              height={24}
-              decoding="async"
-              data-nimg={1}
-              className="lazy-img"
-              src={Edit}
-              style={{ color: "transparent" }}
-            />
-          }
+          Icon={<img loading="lazy" decoding="async" src={REJECTJOBS} className=" md:w-[50%]" alt="save"/>}
           title={"Rejected Job"}
           total={getStatusLength("Rejected").length}
           navigatePath={`${AppRoute.Dashboard}/${AppRoute.Rejected_Job}`}
         />
         <Card
-          Icon={
-            <img
-              alt="icon"
-              loading="lazy"
-              width={25}
-              height={24}
-              decoding="async"
-              data-nimg={1}
-              className="lazy-img"
-              src={Edit}
-              style={{ color: "transparent" }}
-            />
-          }
+          Icon={<img loading="lazy" decoding="async" src={ACCEPTJOBS} className=" md:w-[50%]" alt="save"/>}
           title={"Accepted Job"}
           total={getStatusLength("Accepted").length}
           navigatePath={`${AppRoute.Dashboard}/${AppRoute.Accepted_Job}`}
@@ -128,13 +97,14 @@ const UserDashboard = () => {
             </div>
           </div>
         </div>
-        <div className="col-xl-5 col-lg-6 d-flex">
-          <div className="recent-job-tab bg-white border-20 mt-30 w-100">
+        <div className="col-xl-5 col-lg-6 d-flex ">
+          <div className="recent-job-tab bg-white border-20 mt-30 h-[470px] w-100 overflow-y-auto">
             <h4 className="dash-title-two">Recent Applied Job</h4>
-            <div className="wrapper">
+            <div className="wrapper ">
               <FlatList
-                data={JobAppliedList?.slice(0, 5)}
+                data={JobAppliedList}
                 renderItem={(item: any) => <List item={item} />}
+                
               />
             </div>
           </div>

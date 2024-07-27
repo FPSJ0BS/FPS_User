@@ -19,7 +19,21 @@ function EmploymentPostPopup() {
   const { qualificationDataArray, resultDataArray, educationDataArray } =
     useSelector((state: any) => state.myProfileEducationSlice);
 
-    const [employmentDetails, setEmploymentDetails] = useState([
+  const [employmentDetails, setEmploymentDetails] = useState([
+    {
+      faculityID: userData?.UID,
+      organization: "",
+      designation: "",
+      responsibilities: "",
+      start_date: "",
+      end_date: "",
+      currently: 0,
+    },
+  ]);
+
+  const handleAddMore = () => {
+    setEmploymentDetails([
+      ...employmentDetails,
       {
         faculityID: userData?.UID,
         organization: "",
@@ -30,27 +44,7 @@ function EmploymentPostPopup() {
         currently: 0,
       },
     ]);
-  
-    const handleAddMore = () => {
-      setEmploymentDetails([
-        ...employmentDetails,
-        {
-          faculityID: userData?.UID,
-          organization: "",
-          designation: "",
-          responsibilities: "",
-          start_date: "",
-          end_date: "",
-          currently: 0,
-        },
-      ]);
-    };
-
-    // useEffect(()=>{
-
-    //   console.log("employmentDetails", employmentDetails);
-
-    // }, [employmentDetails])
+  };
 
   const handleDelete = (index) => {
     setEmploymentDetails(employmentDetails.filter((_, i) => i !== index));
@@ -72,18 +66,14 @@ function EmploymentPostPopup() {
     try {
       const res = await postSubmitEmploymentDetails(employmentDetails);
       if (res?.data?.status) {
-
         await popupCloseFunc();
         Toast("success", res?.data?.message);
         dispatch(toggleRefetchProfile());
       } else {
-
         await popupCloseFunc();
 
         Toast("error", res?.data?.message);
       }
-
-   
     } catch (error) {
     } finally {
       setButtonLoad(false);
@@ -95,7 +85,7 @@ function EmploymentPostPopup() {
   };
 
   return (
-    <div className="TrackPopup h-full w-[65vw] right-0 z-50 flex justify-end fixed">
+    <div className="TrackPopup h-full w-[100vw] md:w-[65vw] right-0 z-50 flex justify-end fixed">
       <img
         onClick={popupCloseFunc}
         className="cursor-pointer absolute sm:left-10 top-[30px]"
@@ -103,7 +93,7 @@ function EmploymentPostPopup() {
         alt="close"
       />
 
-      <div className="bg-white h-full w-[90%] rounded-l-[100px] shadow-lg flex flex-col items-center py-4">
+      <div className="bg-white h-full w-full md:w-[90%] md:rounded-l-[100px] shadow-lg flex flex-col items-center py-4">
         <h4 className="font-bold underline border-solid border-b-[1px]">
           Add Employment Details
         </h4>
@@ -113,9 +103,9 @@ function EmploymentPostPopup() {
             {employmentDetails.map((detail, index) => (
               <div
                 key={index}
-                className=" border-1 border-solid p-4 border-gray-300 rounded-lg relative grid grid-cols-2 gap-4"
+                className=" border-1 border-solid p-4 border-gray-300 rounded-lg relative grid grid-cols-1 md:grid-cols-2 gap-4"
               >
-                <div className=" flex flex-col gap-2">
+                <div className=" flex flex-col gap-2 col-span-2 md:col-span-1">
                   <label
                     htmlFor="orgId"
                     className="block text-sm font-semibold text-black"
@@ -123,7 +113,7 @@ function EmploymentPostPopup() {
                     Organization
                   </label>
                   <input
-                  required
+                    required
                     id="orgId"
                     type="text"
                     name="organization"
@@ -133,7 +123,7 @@ function EmploymentPostPopup() {
                     className="mt-1 block p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:ring-blue-300"
                   />
                 </div>
-                <div className=" flex flex-col gap-2">
+                <div className=" flex flex-col gap-2 col-span-2 md:col-span-1">
                   <label
                     htmlFor="DesgID"
                     className="block text-sm font-semibold text-black"
@@ -141,8 +131,7 @@ function EmploymentPostPopup() {
                     Designation
                   </label>
                   <input
-                  required
-
+                    required
                     id="DesgID"
                     type="text"
                     name="designation"
@@ -153,7 +142,7 @@ function EmploymentPostPopup() {
                   />
                 </div>
 
-                <div className=" flex flex-col gap-2">
+                <div className=" flex flex-col gap-2 col-span-2 md:col-span-1">
                   <label
                     htmlFor="ResId"
                     className="block text-sm font-semibold text-black"
@@ -161,8 +150,7 @@ function EmploymentPostPopup() {
                     Responsibilities
                   </label>
                   <input
-                  required
-
+                    required
                     id="ResId"
                     type="text"
                     name="responsibilities"
@@ -173,7 +161,7 @@ function EmploymentPostPopup() {
                   />
                 </div>
 
-                <div className=" flex flex-col gap-2">
+                <div className=" flex flex-col gap-2 col-span-2 md:col-span-1">
                   <label
                     htmlFor="DateId"
                     className="block text-sm font-semibold text-black"
@@ -181,8 +169,7 @@ function EmploymentPostPopup() {
                     Start Date
                   </label>
                   <input
-                  required
-
+                    required
                     id="DateId"
                     type="date"
                     name="start_date"
@@ -193,7 +180,7 @@ function EmploymentPostPopup() {
                   />
                 </div>
 
-                <div className=" flex flex-col gap-2">
+                <div className=" flex flex-col gap-2 col-span-2 md:col-span-1">
                   <label
                     htmlFor="endDateid"
                     className="block text-sm font-semibold text-black"
@@ -201,8 +188,7 @@ function EmploymentPostPopup() {
                     End Date
                   </label>
                   <input
-                  required
-
+                    required
                     id="endDateid"
                     type="date"
                     name="end_date"
@@ -214,7 +200,7 @@ function EmploymentPostPopup() {
                 </div>
 
                 <label className="flex items-center col-span-2">
-                <input
+                  <input
                     type="checkbox"
                     name="currently"
                     checked={detail.currently === 1}
@@ -236,17 +222,17 @@ function EmploymentPostPopup() {
                 </div>
               </div>
             ))}
-            <div className="flex gap-2">
+            <div className="flex flex-col md:flex-row gap-2 col-span-2 md:col-span-1">
               <button
                 type="button"
                 onClick={handleAddMore}
-                className="w-[30%] mt-4 p-2 bg-blue-500 text-white rounded-md shadow-sm"
+                className="w-[100%]w-[30%] mt-4 p-2 bg-blue-500 text-white rounded-md shadow-sm"
               >
                 Add More Employment
               </button>
               <button
                 type="submit"
-                className="w-[30%] mt-4 p-2 bg-green-500 text-white rounded-md shadow-sm flex justify-center items-center"
+                className="w-[100%]w-[30%] mt-4 p-2 bg-green-500 text-white rounded-md shadow-sm flex justify-center items-center"
               >
                 {buttonLoad ? "Submitting..." : "Submit Details"}
               </button>

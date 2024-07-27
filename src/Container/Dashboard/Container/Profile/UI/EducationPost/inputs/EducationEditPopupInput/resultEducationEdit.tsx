@@ -12,7 +12,7 @@ function ResultEducationEdit() {
     editEducationData,
   } = useSelector((state: any) => state.myProfileEducationSlice);
 
-  console.log('rr' ,resultDataArray);
+
 
   const handleEducationChange = (event) => {
     const resultType = event.target.value;
@@ -44,29 +44,29 @@ function ResultEducationEdit() {
   };
 
   return (
-    <div className="flex w-[100%] ">
-      <div className="w-3/5 pr-2">
+    <div className="flex flex-col md:flex-row  w-[100%] gap-2 md:gap-0 ">
+      <div className=" w-[100%] md:w-3/5 ">
         <label
           htmlFor="instituteNameEducationEdit"
           className=" postJobInputTitle font-semibold text-black mb-2"
         >
-          University/Institute Name *
+          Result *
         </label>
         <input
           autoComplete="off"
-          placeholder="Enter University/Institute Name..."
+          placeholder="Result..."
           required
           onChange={(e) => handleChange(e)}
           type="text"
           id="instituteNameEducationEdit"
           name="jobTitle"
-          className=" p-2  sm:w-[100%] border-[1px] focus:border-[2px] border-gray-300 rounded-md shadow-sm focus:outline-none border-solid focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+          className=" p-2 w-[100%] border-[1px] focus:border-[2px] border-gray-300 rounded-md shadow-sm focus:outline-none border-solid focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
           value={editEducationData.result}
         />
       </div>
-      <div className="w-[40%] pl-2">
+      <div className=" w-[100%] md:w-[40%] ">
         <label className="block mb-2 text-sm font-semibold text-black">
-          Select Type
+          Select Result Type
         </label>
         <select
           required

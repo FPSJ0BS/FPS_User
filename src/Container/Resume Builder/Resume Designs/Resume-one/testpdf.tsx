@@ -19,9 +19,7 @@ function Testpdf({handlePayment}) {
     (state: any) => state.ResumeBuilderSlice
   );
 
-  useEffect(() => {
-    console.log("resumeDataArray", resumeDataArray);
-  }, [resumeDataArray]);
+
 
   useLayoutEffect(() => {
     Font.register({
@@ -358,7 +356,7 @@ function Testpdf({handlePayment}) {
           </View>
         )}
 
-        {
+        {/* {
           <View style={styles.section}>
             <Text style={styles.sectionHeadings}>Personal Details</Text>
 
@@ -374,7 +372,7 @@ function Testpdf({handlePayment}) {
               Date of Birth:{" 14/02/1988 "}
             </Text>
           </View>
-        }
+        } */}
       </Page>
     </Document>
   );

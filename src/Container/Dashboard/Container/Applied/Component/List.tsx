@@ -9,12 +9,10 @@ import { Querykeys } from "@Hooks/Queries/queryname";
 import { formatDistance } from "date-fns";
 import useCategoryList from "@Hooks/Queries/useCategoryList";
 import { openModal, updateAppliedJobValues } from "@/Redux/appliedJobSlice";
-import {  useDispatch } from "react-redux";
-
+import { useDispatch } from "react-redux";
 
 const List = ({ data }: any) => {
-
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const { userData } = useGlobalContext();
   const [isDropDown, setIsDropDown] = useState(false);
@@ -43,23 +41,17 @@ const List = ({ data }: any) => {
       addSuffix: true,
     });
 
-    const openingModal = async (applyID) => {
-      console.log('we are here');
-
-      await dispatch(updateAppliedJobValues({
-        applyID
-      }))
-      
-      await dispatch(openModal())
-      console.log('we are here');
-
-
-
-    }
- 
+  const openingModal = async (applyID) => {
+    await dispatch(
+      updateAppliedJobValues({
+        applyID,
+      })
+    );
+    await dispatch(openModal());
+  };
 
   return (
-    <div className="job-list-one style-two position-relative mb-20">
+    <div className="job-list-one style-two position-relative mb-10">
       <div className="row justify-content-between align-items-center">
         <div className="col-xxl-3 col-lg-3 ">
           <div

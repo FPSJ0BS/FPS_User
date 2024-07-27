@@ -16,12 +16,12 @@ import Naukri from "@Assets/Icons/naukri.png";
 import Pinterest from "@Assets/Icons/pinterest.png";
 import LinkedIn from "@Assets/Icons/linkedin.png";
 
-function Employment() {
+function SocialMedia() {
   const { userDataArray } = useSelector(
     (state: any) => state.myProfileEducationSlice
   );
 
-  console.log("userDataArray", userDataArray);
+
 
   const dispatch = useDispatch();
 
@@ -35,12 +35,12 @@ function Employment() {
   return (
     <div className="bg-white rounded-[20px]  p-[20px] min-h-[200px] w-full social-media">
       <div className=" flex justify-between items-center gap-2  ">
-        <h6 className=" w-ful flex gap-2 cursor-default font-bold">
+        <h6 className="text-[14px] md:text-[16px] w-ful flex gap-2 cursor-default font-bold">
           Social Media Links
         </h6>
         <div
           onClick={() => modalOpen()}
-          className=" cursor-pointer text-[#81b29a] font-semibold hover:bg-[#81b29a] hover:text-white px-3 py-1 border-[2px] border-solid  rounded-3xl flex justify-center items-center"
+          className="text-[11px] md:text-[14px] cursor-pointer text-[#81b29a] font-semibold hover:bg-[#81b29a] hover:text-white px-3 py-1 border-[2px] border-solid  rounded-3xl flex justify-center items-center"
         >
           Add Social Media Links
         </div>
@@ -96,4 +96,4 @@ function Employment() {
   );
 }
 
-export default memo(Employment);
+export default memo(SocialMedia);

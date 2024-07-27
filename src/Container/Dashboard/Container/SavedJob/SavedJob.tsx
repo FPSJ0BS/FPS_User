@@ -27,7 +27,7 @@ const SavedJob = () => {
         name={"Saved Jobs Page"}
         type={"Web Page"}
       />
-      <div className="d-flex align-items-center justify-content-between mb-40 lg-mb-30">
+      <div className="d-flex align-items-center justify-content-between mb-20 lg-mb-30">
         <h2 className="main-title m0">Saved Job</h2>
       </div>
       <div className="wrapper flex-wrap">

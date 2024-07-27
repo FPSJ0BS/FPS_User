@@ -87,7 +87,7 @@ const Footer = () => {
                     </span>
                   </div>
                   <div className="content">
-                    <p>Need help? 24/7</p>
+                    <p className=" text-white">Need help? </p>
                     <h6>
                       <NavLink
                         to={`tel:${AppConst.MobileNumberSecond}`}
@@ -109,7 +109,7 @@ const Footer = () => {
                   </div>
                 </div>
                 <p className="text-white font-light text-[13px]">
-                  <p className="text-white font-extrabold text-[15px] mr-[-100px]">Find Jobs or Hire Candidates with Tallento.ai</p>
+                  <p className="text-white font-extrabold text-[15px] ">Find Jobs or Hire Candidates with Tallento.ai</p>
                   {` 
 Discover Tallento.ai, the innovative online educational job portal for IIT JEE, NEET, schools, colleges, universities, and other educational institutes. Connect with top talent and premier educational opportunities effortlessly.`}
                 </p>
@@ -208,7 +208,7 @@ Discover Tallento.ai, the innovative online educational job portal for IIT JEE, 
 
             <div className="col-lg-2 col-md-4 col-12 ">
               <div className="footer-cl-5">
-                <h6 className="ft-title text-white mr-[-100px]">Download Tallento App</h6>
+                <h6 className="ft-title text-white ">Download Tallento App</h6>
                 <ul className="ft-download gap-2">
                   <li>
                     <NavLink

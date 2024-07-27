@@ -21,7 +21,7 @@ const JobDetailsUpdate = () => {
     }
   );
 
-  console.log('jobsDetailsjobsDetailsjobsDetailsjobsDetails', jobsDetails);
+
   // const job = jobsDetails?.job;
 
   return (

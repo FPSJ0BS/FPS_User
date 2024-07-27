@@ -23,7 +23,7 @@ const Resume = () => {
       }, 2000);
     }
   }, [showCopiedAlert]);
-  console.log(file);
+
   return (
     <>
       <SEO

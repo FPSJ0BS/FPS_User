@@ -1,6 +1,9 @@
 import CoreAPI from "./CoreAPI";
 import { getQuery } from "@Utils/GetQuery";
+import CoreAPINode from "./CoreAPINode";
 const http = new CoreAPI();
+const httpNode = new CoreAPINode();
+
 
 const getToken = (): string | null => {
   const tokenString = localStorage.getItem("token:fpsjob");
@@ -25,8 +28,26 @@ export const doGetProfileDetails = async (data: any) => {
   return res;
 };
 
+export const doGetProfileDetailsNode = async (data: any) => {
+  const token = getToken();
+  const res = await httpNode.getRequest(
+    `user/facultyProfileAllData?${getQuery(data?.queryKey?.[1])}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return res;
+};
+
 export const doGetExperiences = async () => {
   const res = await http.getRequest(`v2/experiences`);
+  return res;
+};
+
+export const doGetExperiencesNode = async () => {
+  const res = await httpNode.getRequest(`user/jobExperience`);
   return res;
 };
 
@@ -118,6 +139,12 @@ export const doGetSalary = async () => {
   return res;
 };
 
+export const doGetSalaryNode = async () => {
+  const res = await httpNode.getRequest(`user/allSalary`);
+  return res;
+};
+
+
 export const doAllFavourite = async (query: any) => {
   const res = await http.getRequest(
     `v2/allFavourite?${getQuery(query?.queryKey?.[1])}`
@@ -187,6 +214,21 @@ export const doNotifications = async (query: any) => {
   );
   return res;
 };
+
+export const doNotificationsNode = async (query: any) => {
+  const token = getToken();
+  const res = await httpNode.getRequest(
+    `user/notification?${getQuery(query?.queryKey?.[1])}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return res;
+};
+
+
 export const doReadAllNotifications = async (data: any) => {
   const token = getToken();
   const res = await http.getRequest(`v2/notification_read?${getQuery(data)}`, {
@@ -281,6 +323,6 @@ export const doWorkStatus = async (data: any) => {
 };
 
 export const doFeaturedCity = async () => {
-  const res = await http.getRequest("v2/featured_data");
+  const res = await httpNode.getRequest("user/featuredData");
   return res;
 };

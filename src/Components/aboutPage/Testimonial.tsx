@@ -98,7 +98,7 @@ function Testimonial() {
             <div className="col-lg-12">
               <div className="tf-title style-2">
                 <div className="flex md:flex-row flex-col ">
-                  <h1 className="  pr-[100px] xl:text-[35px] 2xltext-[40px] leading-[1.4em] text-left text-black ">
+                  <h1 className="  pr-[100px] xl:text-[30px] 2xltext-[40px] leading-[1.4em] text-left text-black ">
                     Check Out User
                     <br /> Reviews About Our
                     <br /> Platform!
@@ -124,7 +124,7 @@ function Testimonial() {
                   // const _data = item?.details.split(" ");
                   return (
                     <div
-                      className={` flex flex-col  min-h-[250px] rounded-xl bg-[#1d212a] rotate-2 my-5`}
+                      className={` flex flex-col  min-h-[250px] rounded-xl bg-[#1d212a]  my-5`}
                       key={index}
                     >
                       <img
@@ -156,7 +156,7 @@ function Testimonial() {
 
                         <div className={Style.poster}>
                           <span className="text-white pr-2 ">{item?.name}</span>
-                          <span className={Style.credentials}>
+                          <span className='text-white'>
                             {item?.designation}
                           </span>
                         </div>

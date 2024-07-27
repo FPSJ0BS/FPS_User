@@ -75,9 +75,7 @@ function EmploymentEditPopup() {
     fetch();
   }, []);
 
-  useEffect(() => {
-    console.log("editEmploymentData", editEmploymentData);
-  }, [editEmploymentData]);
+  
 
   const onSubmitData = async (e) => {
     e.preventDefault();
@@ -121,7 +119,7 @@ function EmploymentEditPopup() {
   };
 
   return (
-    <div className="TrackPopup h-full w-[65vw] right-0 z-50 flex justify-end fixed">
+    <div className="TrackPopup h-full w-[100vw] md:w-[65vw] right-0 z-50 flex justify-end fixed">
       <img
         onClick={popupCloseFunc}
         className="cursor-pointer absolute sm:left-10 top-[30px]"
@@ -129,7 +127,7 @@ function EmploymentEditPopup() {
         alt="close"
       />
 
-      <div className="bg-white h-full w-[90%] rounded-l-[100px] shadow-lg flex flex-col items-center py-4">
+      <div className="bg-white h-full w-full md:w-[90%] md:rounded-l-[100px] shadow-lg flex flex-col items-center py-4">
         <h4 className="font-bold underline border-solid border-b-[1px]">
           Edit Employment Details
         </h4>
@@ -142,7 +140,7 @@ function EmploymentEditPopup() {
           ) : (
             <form
               onSubmit={(e) => onSubmitData(e)}
-              className=" grid grid-cols-2 gap-4 border-1 border-solid border-[#eff0f2] rounded-lg p-3 m-4"
+              className=" grid grid-cols-1 md:grid-cols-2 gap-4 border-1 border-solid border-[#eff0f2] rounded-lg p-3 m-4"
             >
               <OrganizationEmploymentEdit />
               <DesignationEmploymentEdit />
@@ -153,7 +151,7 @@ function EmploymentEditPopup() {
 
               <button
                 type="submit"
-                className=" col-span-2 w-[30%] mt-4 p-2 bg-green-500 text-white rounded-md shadow-sm flex justify-center items-center"
+                className=" col-span-2 w-[100%] md:w-[30%] mt-4 p-2 bg-green-500 text-white rounded-md shadow-sm flex justify-center items-center"
               >
                 {buttonLoad ? "Submitting..." : "Submit Details"}
               </button>

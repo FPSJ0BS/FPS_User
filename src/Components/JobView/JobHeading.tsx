@@ -16,6 +16,7 @@ const JobHeading = ({ data, packType }: any) => {
     UID: userData?.UID,
   });
 
+
   const { mutateAsync: Favourite } = useFavourite({});
   const { mutateAsync: removeFavourite } = useRemoveFavourite({});
   const navigate = useNavigate();
@@ -65,23 +66,24 @@ const JobHeading = ({ data, packType }: any) => {
           <div className="job-block-seven">
             <div className="inner-box">
               <div className="content">
-                {packType === "Prepaid" || data?.show_all === "1" ? (
+                {packType === "Prepaid" && userData?.UID !== undefined  ? (
+                  <h6 className="mb-3" style={{ color: "#a73358" }}>
+                    {data?.name}
+                  </h6>
+                ) : data?.show_all === "1" ? (
                   <h6 className="mb-3" style={{ color: "#a73358" }}>
                     {data?.name}
                   </h6>
                 ) : (
                   <h6 className="mb-3" style={{ color: "#a73358" }}>
-                    *********-{data?.category_title}
+                    {data?.category_title}
                   </h6>
                 )}
-                {packType === "Prepaid" || data?.show_all === "1" ? (
-                  <h5 className="mb-3">{data?.job_title}</h5>
-                ) : (
-                  <h6 className="mb-3" style={{ color: "#a73358" }}>
-                    *********-{data?.category_title}
-                  </h6>
-                )}
-                
+
+                <h6 className="mb-3" style={{ color: "#a73358" }}>
+                  {data?.job_title}
+                </h6>
+
                 <ul className="job-info">
                   <li>
                     <span className="icon-map-pin icon"></span>
@@ -156,15 +158,26 @@ const JobHeading = ({ data, packType }: any) => {
                     Apply For Job
                   </a>
                 ) : (
-                  <a
-                    className="theme-btn btn-style-one"
-                    data-bs-toggle="modal"
-                    data-bs-target="#applyJobModal"
-                    onClick={() => navigate(`${AppRoute.Login}`)}
-                  >
-                    Login For Apply
-                  </a>
+                  <div className=" flex flex-col gap-2">
+                    <a
+                      className="theme-btn btn-style-one"
+                      data-bs-toggle="modal"
+                      data-bs-target="#applyJobModal"
+                      onClick={() => navigate(`${AppRoute.Login}`)}
+                    >
+                      Login For Apply
+                    </a>
+                    <a
+                      className="theme-btn btn-style-one"
+                      data-bs-toggle="modal"
+                      data-bs-target="#applyJobModal"
+                      onClick={() => navigate(`${AppRoute.SignUp}`)}
+                    >
+                      Register For Apply
+                    </a>
+                  </div>
                 )}
+
                 <button
                   className={`bookmark-btn ${
                     data?.favourite > 0 ? "bookmark-btn-active" : ""

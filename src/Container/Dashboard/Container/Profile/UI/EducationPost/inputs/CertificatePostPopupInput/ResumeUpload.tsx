@@ -15,14 +15,14 @@ const ResumeUpload = ({file, setFile}) => {
     
   };
 
-  console.log(file);
+
 
   const handleButtonClick = () => {
     fileInputRef.current.click();
   };
 
   return (
-    <div className="resume-upload">
+    <div className="resume-upload col-span-2 md:col-span-1">
       <div>
       <label
         htmlFor="resume"

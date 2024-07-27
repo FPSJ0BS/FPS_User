@@ -122,7 +122,7 @@ function Resume() {
           />
         </label>
         
-        <p className=" mb-0 mt-1 font-medium">Supported Formats: doc, docx, rtf, pdf, upto 2 MB</p>
+        <p className=" mb-0 mt-1 font-medium px-2 md:px-0">Supported Formats: doc, docx, rtf, pdf, upto 2 MB</p>
       </div>
     </div>
   );

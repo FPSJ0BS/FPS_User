@@ -19,8 +19,7 @@ const Subjects = () => {
     { categoryId: sub_id }
   );
 
-  console.log('categoryDatacategoryDatacategoryDatacategoryDatacategoryDatacategoryData fro page', categoryData);
-
+ 
   return (
     <>
       {Object.keys(categoryData).length !== 0 ? (
@@ -49,9 +48,6 @@ const Subjects = () => {
       {/* <Breadcrumb className="" title="Subject" /> */}
       <section
         className="testimonials-category-section bg-white"
-        // style={{
-        //   background: "linear-gradient(84.42deg, #f7ecea 0%, #f4f0e7 100%)",
-        // }}
       >
         <div className="w-full flex justify-center items-center md:mt-[-100px] ">
           <div className=" w-[600px] h-[600px] bg-[#302f2f] rounded-[40px] flex justify-start items-start p-[40px] flex-col">
@@ -84,70 +80,6 @@ const Subjects = () => {
             </div>
           </div>
         </div>
-
-        {/* <div className="container ">
-          <div className="row">
-            <div className="col-md-12">
-              <div className="tf-title style-2">
-                <div className="group-title">
-                  <h1 style={{ color: "#123841" }}>
-                    {category?.replaceAll("-", " ").toLocaleUpperCase()}
-                  </h1>
-                  <p className=" mb-5" style={{ color: "#123841" }}>
-                    Find Thousands of Job Title To Choose Your Dream Position
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className=" col-md-12 bg-white">
-              <div className="group-category-job padding wow fadeInUp">
-                <FlatList
-                  data={subjectCategory?.data}
-                  renderItem={(idx: any) => {
-                    return (
-                      <div
-                        className={`job-category-box ${idx.active} hover:scale-110 transition-all`}
-                        onClick={() => {
-                          setSubjectData(idx);
-                          navigate({
-                            pathname: AppRoute.Find_Jobs,
-                            search: createSearchParams({
-                              title: idx?.function,
-                            }).toString(),
-                          });
-                        }}
-                      >
-                        <div className="job-category-header">
-                          <h1>
-                            <a className="d-flex flex-row gap-2 align-items-center">
-                              <Imag
-                                src={`https://admin.fpsjob.com/sources/upload/subImg/${idx?.image}`}
-                                className="imgCategory"
-                              />
-                              {idx?.function}
-                            </a>
-                          </h1>
-                        </div>
-                        <a className="btn-category-job">
-                          Explore Jobs
-                          <span className="icon-keyboard_arrow_right"></span>
-                        </a>
-                      </div>
-                    );
-                  }}
-                  ListEmptyComponent={() => {
-                    return (
-                      <div className="w-full d-flex flex-row justify-content-center">
-                        <NoResults />
-                      </div>
-                    );
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-        </div> */}
       </section>
     </>
   );

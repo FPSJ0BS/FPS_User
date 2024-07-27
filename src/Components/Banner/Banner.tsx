@@ -9,8 +9,11 @@ import PLAYSTORE from "@Assets/Icons/playstore.png";
 import APPLE from "@Assets/Icons/apple.png";
 import STAR from "@Assets/Icons/star.png";
 import HALFSTAR from "@Assets/Icons/halfstar.png";
+import { useGlobalContext } from "@Context/GlobalContextProvider";
 
 const Banner = () => {
+  const { userData } = useGlobalContext();
+
   const [searchJob, setSearchJob] = useState({
     city: "",
     title: "",
@@ -20,12 +23,30 @@ const Banner = () => {
 
   const openLink = () => {
     window.open("https://linkmix.co/24321549", "_blank");
-  }
+  };
 
   return (
     <>
       <section className="tf-slider sl7  over-flow-hidden">
         <div className="container">
+          <div className=" flex md:hidden gap-2">
+            {userData?.UID === undefined && (
+              <button
+                onClick={() => navigate(`${AppRoute.Login}`)}
+                className=" w-[50%]  py-2 border-[#9a3c58] rounded-[30px] bg-white text-[#9a3c58] font-semibold "
+              >
+                Login
+              </button>
+            )}
+            {userData?.UID === undefined && (
+              <button
+                onClick={() => navigate(`${AppRoute.SignUp}`)}
+                className=" w-[50%]  py-2 border-[#9a3c58] rounded-[30px] bg-[#9a3c58] text-white font-semibold "
+              >
+                Register
+              </button>
+            )}
+          </div>
           <div className="row justify-content-center mobile-container">
             <div className="col-lg-9 col-md-12">
               <div className="content wow fadeInUp">
@@ -80,8 +101,11 @@ const Banner = () => {
                     </div>
                   </form>
                 </div>
-                <div className=" flex gap-3 w-full justify-center items-center cursor-pointer">
-                  <div onClick={() => openLink()} className="  bg-white px-4 py-2 rounded-[30px] flex items-center justify-center gap-3">
+                <div className=" flex md:flex-row flex-col gap-3 w-full justify-center items-center cursor-pointer">
+                  <div
+                    onClick={() => openLink()}
+                    className="  bg-white px-4 py-2 rounded-[30px] flex items-center justify-center gap-3"
+                  >
                     <img
                       alt="playstore"
                       className=" w-[25px]"
@@ -101,12 +125,11 @@ const Banner = () => {
                       </div>
                     </div>
                   </div>
-                  <div onClick={() => openLink()} className="  bg-white px-4 py-2 rounded-[30px] flex items-center justify-center gap-3">
-                    <img
-                      alt="playstore"
-                      className=" w-[25px]"
-                      src={APPLE}
-                    />
+                  <div
+                    onClick={() => openLink()}
+                    className="  bg-white px-4 py-2 rounded-[30px] flex items-center justify-center gap-3"
+                  >
+                    <img alt="playstore" className=" w-[25px]" src={APPLE} />
                     <div className="flex flex-col gap-1">
                       <h3 className=" text-black font-bold text-[15px]">
                         App Store
@@ -123,7 +146,7 @@ const Banner = () => {
                   </div>
                 </div>
                 <div className="heading d-flex flex-col items-center mt-4">
-                  <h2 className="text-center font-bold text-5xl leading-[60px] ">
+                  <h2 className="text-center font-bold text-[24px] md:text-5xl md:leading-[60px] ">
                     Finding jobs made{" "}
                     <span className="text-animation">super-easy</span> with the
                     POWER of AI and Humans.

@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleRefetchProfile } from "@/Redux/Dashboard/MyProfile/Education/EducationSlice";
 import { Toast } from "@Utils/Toast";
 import ProgressBarHori from "./Bar";
+import PROGRESSBANNER from "@Assets/Icons/Profile/Profile Interface-bro.svg";
 
 function ProgressBar() {
   const { userData } = useGlobalContext();
@@ -80,20 +81,24 @@ function ProgressBar() {
   };
 
   return (
-    <div className="bg-[#e8f0fc] rounded-[20px] h-[150px] w-full flex">
-      <div className=" w-[20%]  h-[150px] "></div>
-
-      <div className=" w-[60%]  h-[150px]  flex flex-col  items-start justify-center gap-2">
-        <h5 className=" mb-0">Your Profile</h5>
-        <p className=" mb-0 leading-[1.4em] font-medium">
-          Complete atleast 85% of your profile to generate
-          <br /> customized resume for free!
-        </p>
-
-     <ProgressBarHori />
+    <div className="bg-[#e8f0fc] rounded-[20px] min-h-[150px] w-full md:flex flex-col md:flex-row hidden ">
+      <div className=" hidden  w-[20%]  h-[150px] md:flex justify-center items-center ">
+        <img src={PROGRESSBANNER} className="w-[95%]" alt="banner-profile" />
       </div>
 
-      <div className=" w-[20%]  h-[150px] "></div>
+      <div className=" w-[60%]  h-[150px]  flex flex-col  items-start justify-center gap-2 pl-5">
+        <h5 className=" mb-0 font-bold">Your Profile</h5>
+        <p className=" mb-0 leading-[1.4em] font-medium">
+          Complete atleast 85% of your profile to generate
+           customized<br /> resume for free!
+        </p>
+
+        <ProgressBarHori />
+      </div>
+
+      <div className=" w-[20%] hover:text-black h-[150px] flex justify-center items-center ">
+        
+      </div>
     </div>
   );
 }

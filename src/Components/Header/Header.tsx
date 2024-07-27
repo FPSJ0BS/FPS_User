@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, memo } from "react";
-import logo from "../../../public/fps-logo-second.webp";
+import logo from "@Assets/Icons/tallento white (1).png";
+
 import { NavLink, useNavigate } from "react-router-dom";
 import { navbar } from "@Const/fakeData/navbar";
 import { useGlobalContext } from "../../Context/GlobalContextProvider";
@@ -16,24 +17,47 @@ import useReadAllNotification from "@Hooks/Mutation/useReadAllNotification";
 import { useQueryClient } from "@tanstack/react-query";
 import { Querykeys } from "@Hooks/Queries/queryname";
 import { createQueryBySlug } from "@Utils/navigationquery";
+import dummyiamge from '@Assets/Icons/Profile/user.png'
+import useProfileDetailsNode from "@Hooks/Queries/useProfileDetailsNode";
+import useNotificationsNode from "@Hooks/Queries/useNotificationsNode";
 const Header = ({ clname = "", handleMobile }: any) => {
   const { userData, setUserLoginData, setCategoryData } = useGlobalContext();
   const [isDropdown, openDropdown] = useState(false);
   const [isBell, setIsBell] = useState(false);
   const { data: Category } = useCategoryList({});
   const queryClient = useQueryClient();
-  const { data: Notifications } = useNotifications(
+  // const { data: Notifications } = useNotifications(
+  //   { enabled: !!userData?.UID },
+  //   { UID: userData?.UID }
+  // );
+
+  const { data: NotificationsNode } = useNotificationsNode(
     { enabled: !!userData?.UID },
-    { UID: userData?.UID }
+    { facultyID: userData?.UID }
   );
 
   const navigate = useNavigate();
   const btnRef = useRef<any>();
   const bellRef = useRef<any>();
   const userId = userData?.UID;
-  const { data: profileDetails } = useProfileDetails({
-    UID: userId,
+  // const { data: profileDetails } = useProfileDetails({
+  //   UID: userId,
+  // });
+
+  const { data: profileDetailsNode } = useProfileDetailsNode({
+    facultyID: userId,
   });
+
+  const [menuDropDown, setMenuDropDown] = useState({
+    services: false,
+  });
+
+  const toggleMenuDropDown = (menu, value) => {
+    setMenuDropDown((prevState) => ({
+      ...prevState,
+      [menu]: value,
+    }));
+  };
 
   useEffect(() => {
     const closeDropdown = (e: any) => {
@@ -50,15 +74,16 @@ const Header = ({ clname = "", handleMobile }: any) => {
 
   const { mutateAsync: Read } = useReadOneNotification({});
   const { mutateAsync: ReadAll } = useReadAllNotification({});
+
   return (
-    <div style={{ height: 80 }}>
+    <div style={{ height: 80 }} className="">
       <header
         // ${scroll ? "is-fixed is-small" : ""}
         id="header"
-        className={`header header-default is-fixed is-small border-[#9c9595]
+        className={` w-[100%] header header-default is-fixed is-small border-[#9c9595]
         `}
       >
-        <div className="container ct2 w-[75%]">
+        <div className="container ct2   xl:w-[85%] 2xl:w-[75%]">
           <div className="row">
             <div className="col-md-12">
               <div className="sticky-area-wrap">
@@ -78,11 +103,14 @@ const Header = ({ clname = "", handleMobile }: any) => {
                     <a>
                       <span className="icon-grid text-white"></span>
                     </a>
-                    <div className={`sub-categorie`}>
+                    <div className={`sub-categorie min-h-[200px] pt-3`}>
                       <ul className={`pop-up border-end`}>
                         <FlatList
                           data={Category?.data}
                           renderItem={(item: any) => {
+                            if (item.status !== "1") {
+                              return null;
+                            }
                             return (
                               <li
                                 onClick={() => {
@@ -117,7 +145,7 @@ const Header = ({ clname = "", handleMobile }: any) => {
 
                 {/* Navigation Menu */}
 
-                <div className="ml-[5vw] hidden md:block">
+                <div className="ml-[5vw] hidden lg:block ">
                   <div className="nav-wrap">
                     <nav id="main-nav" className="main-nav">
                       <ul id="menu-primary-menu" className={`menu ${clname}`}>
@@ -125,34 +153,269 @@ const Header = ({ clname = "", handleMobile }: any) => {
                           ? navbar.map((item, index) => {
                               return (
                                 (item?.isGlobal || item?.isLogin) &&
-                                !item.isDropDown && (
-                                  <li className={`menu-item`} key={index}>
-                                    <NavLink
-                                      className={({ isActive }) => {
-                                        return isActive ? `active` : "";
+                                !item.isDropDown &&
+                                item.main && (
+                                  <>
+                                    <li
+                                      onMouseLeave={() => {
+                                        if (
+                                          item?.dropFor === "services-dropdown"
+                                        ) {
+                                          toggleMenuDropDown("services", false);
+                                        }
                                       }}
-                                      to={item?.to}
+                                      className={`menu-item flex items-center justify-center gap-2`}
                                     >
-                                      {item.name}
-                                    </NavLink>
-                                  </li>
+                                      <NavLink
+                                        onMouseEnter={() => {
+                                          if (
+                                            item?.dropFor ===
+                                            "services-dropdown"
+                                          ) {
+                                            toggleMenuDropDown(
+                                              "services",
+                                              true
+                                            );
+                                          }
+                                        }}
+                                        onMouseLeave={() => {
+                                          if (
+                                            item?.dropFor ===
+                                            "services-dropdown"
+                                          ) {
+                                            toggleMenuDropDown(
+                                              "services",
+                                              false
+                                            );
+                                          }
+                                        }}
+                                        className={({ isActive }) => {
+                                          return isActive ? `active` : "";
+                                        }}
+                                        to={item?.to}
+                                      >
+                                        {item.name}
+                                      </NavLink>
+                                      {item?.dropFor ===
+                                        "services-dropdown" && (
+                                        <svg
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          width="24"
+                                          height="24"
+                                          viewBox="0 0 24 24"
+                                          fill="none"
+                                          stroke="currentColor"
+                                          strokeWidth="2"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                          className="lucide lucide-chevron-down text-white"
+                                        >
+                                          <path d="m6 9 6 6 6-6" />
+                                        </svg>
+                                      )}
+                                      {item?.dropFor === "services-dropdown" &&
+                                        menuDropDown.services && (
+                                          <div
+                                            onMouseEnter={() => {
+                                              if (
+                                                item?.dropFor ===
+                                                "services-dropdown"
+                                              ) {
+                                                toggleMenuDropDown(
+                                                  "services",
+                                                  true
+                                                );
+                                              }
+                                            }}
+                                            className=" absolute top-[70px] h-[80px] w-[150px] pr-4 justify-center items-center flex flex-col bg-black rounded-lg text-white border-[0.5px] border-solid border-white"
+                                          >
+                                            <div className=" flex flex-col justify-start items-start gap-2 ">
+                                              {navbar?.map((item, index) => {
+                                                if (
+                                                  item?.dropFor === "services"
+                                                ) {
+                                                  return (
+                                                    <div
+                                                      className="flex"
+                                                      key={index}
+                                                    >
+                                                      <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        width="24"
+                                                        height="24"
+                                                        viewBox="0 0 24 24"
+                                                        fill="none"
+                                                        stroke="currentColor"
+                                                        strokeWidth="2"
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        className="lucide lucide-dot"
+                                                      >
+                                                        <circle
+                                                          cx="12.1"
+                                                          cy="12.1"
+                                                          r="1"
+                                                        />
+                                                      </svg>
+                                                      <span>
+                                                        <NavLink
+                                                          to={item.to}
+                                                          className={({
+                                                            isActive,
+                                                          }) => {
+                                                            return isActive
+                                                              ? `active`
+                                                              : "";
+                                                          }}
+                                                        >
+                                                          {item.name}
+                                                        </NavLink>
+                                                      </span>
+                                                    </div>
+                                                  );
+                                                } else {
+                                                  return null;
+                                                }
+                                              })}
+                                            </div>
+                                          </div>
+                                        )}
+                                    </li>
+                                  </>
                                 )
                               );
                             })
                           : navbar.map((item, index) => {
                               return (
                                 (item?.isGlobal || !item?.isLogin) &&
-                                !item.isDropDown && (
-                                  <li key={index} className={`menu-item`}>
-                                    <NavLink
-                                      to={item.to}
-                                      className={({ isActive }) => {
-                                        return isActive ? `active` : "";
+                                !item.isDropDown && item?.main && (
+                                  <>
+                                    <li
+                                      onMouseLeave={() => {
+                                        if (
+                                          item?.dropFor === "services-dropdown"
+                                        ) {
+                                          toggleMenuDropDown("services", false);
+                                        }
                                       }}
+                                      className={`menu-item flex items-center justify-center gap-2`}
                                     >
-                                      {item.name}
-                                    </NavLink>
-                                  </li>
+                                      <NavLink
+                                        onMouseEnter={() => {
+                                          if (
+                                            item?.dropFor ===
+                                            "services-dropdown"
+                                          ) {
+                                            toggleMenuDropDown(
+                                              "services",
+                                              true
+                                            );
+                                          }
+                                        }}
+                                        onMouseLeave={() => {
+                                          if (
+                                            item?.dropFor ===
+                                            "services-dropdown"
+                                          ) {
+                                            toggleMenuDropDown(
+                                              "services",
+                                              false
+                                            );
+                                          }
+                                        }}
+                                        className={({ isActive }) => {
+                                          return isActive ? `active` : "";
+                                        }}
+                                        to={item?.to}
+                                      >
+                                        {item.name}
+                                      </NavLink>
+                                      {item?.dropFor ===
+                                        "services-dropdown" && (
+                                        <svg
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          width="24"
+                                          height="24"
+                                          viewBox="0 0 24 24"
+                                          fill="none"
+                                          stroke="currentColor"
+                                          strokeWidth="2"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                          className="lucide lucide-chevron-down text-white"
+                                        >
+                                          <path d="m6 9 6 6 6-6" />
+                                        </svg>
+                                      )}
+                                      {item?.dropFor === "services-dropdown" &&
+                                        menuDropDown.services && (
+                                          <div
+                                            onMouseEnter={() => {
+                                              if (
+                                                item?.dropFor ===
+                                                "services-dropdown"
+                                              ) {
+                                                toggleMenuDropDown(
+                                                  "services",
+                                                  true
+                                                );
+                                              }
+                                            }}
+                                            className=" absolute top-[70px] h-[80px] w-[150px] pr-4 justify-center items-center flex flex-col bg-black rounded-lg text-white border-[0.5px] border-solid border-white"
+                                          >
+                                            <div className=" flex flex-col justify-start items-start gap-2 ">
+                                              {navbar?.map((item, index) => {
+                                                if (
+                                                  item?.dropFor === "services"
+                                                ) {
+                                                  return (
+                                                    <div
+                                                      className="flex"
+                                                      key={index}
+                                                    >
+                                                      <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        width="24"
+                                                        height="24"
+                                                        viewBox="0 0 24 24"
+                                                        fill="none"
+                                                        stroke="currentColor"
+                                                        strokeWidth="2"
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        className="lucide lucide-dot"
+                                                      >
+                                                        <circle
+                                                          cx="12.1"
+                                                          cy="12.1"
+                                                          r="1"
+                                                        />
+                                                      </svg>
+                                                      <span>
+                                                        <NavLink
+                                                          to={item.to}
+                                                          className={({
+                                                            isActive,
+                                                          }) => {
+                                                            return isActive
+                                                              ? `active`
+                                                              : "";
+                                                          }}
+                                                        >
+                                                          {item.name}
+                                                        </NavLink>
+                                                      </span>
+                                                    </div>
+                                                  );
+                                                } else {
+                                                  return null;
+                                                }
+                                              })}
+                                            </div>
+                                          </div>
+                                        )}
+                                    </li>
+                                  </>
                                 )
                               );
                             })}
@@ -161,12 +424,11 @@ const Header = ({ clname = "", handleMobile }: any) => {
                   </div>
                 </div>
 
-
                 <div className="header-ct-right">
                   {userData?.UID && (
                     <div
                       className={`header-customize-item ${
-                        profileDetails?.unread_notification > 0 && "bell"
+                        profileDetailsNode?.data?.unread_notification > 0 && "bell"
                       }`}
                     >
                       <span
@@ -184,13 +446,13 @@ const Header = ({ clname = "", handleMobile }: any) => {
                               Notification
                             </div>
                             <span>
-                              {Notifications?.notifications &&
-                                Notifications?.notifications.length}
+                              {NotificationsNode?.data?.notification &&
+                                NotificationsNode?.data?.notification.length}
                             </span>
                           </div>
                           <div className="sub-notification-content">
                             <FlatList
-                              data={Notifications?.notifications}
+                              data={NotificationsNode?.data?.notification}
                               renderItem={(item: any) => {
                                 const date =
                                   item?.created_at &&
@@ -218,7 +480,7 @@ const Header = ({ clname = "", handleMobile }: any) => {
                                             });
                                             queryClient.invalidateQueries({
                                               queryKey: [
-                                                Querykeys.profileDetails,
+                                                Querykeys.profileDetailsNode?.data,
                                               ],
                                             });
                                           }
@@ -260,13 +522,13 @@ const Header = ({ clname = "", handleMobile }: any) => {
                                     queryKey: ["notifications"],
                                   });
                                   queryClient.invalidateQueries({
-                                    queryKey: [Querykeys.profileDetails],
+                                    queryKey: [Querykeys.profileDetailsNode?.data],
                                   });
                                 }
                               });
                             }}
                             disabled={
-                              !(profileDetails?.unread_notification > 0)
+                              !(profileDetailsNode?.data?.unread_notification > 0)
                             }
                           >
                             Read All
@@ -304,7 +566,7 @@ const Header = ({ clname = "", handleMobile }: any) => {
                           title="profile"
                         >
                           <Imag
-                            src={profileDetails?.user?.image}
+                            src={profileDetailsNode?.data?.user?.image ? profileDetailsNode?.data?.user?.image : dummyiamge}
                             className="h-full w-full rounded-full"
                             alt=""
                           />

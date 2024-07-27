@@ -21,7 +21,7 @@ function Skills() {
         <div className=" flex gap-2  items-center">
           <div className=" flex items-center gap-2 h-[40px]">
             <img className=" w-[65px]" src={SkillsIcon} alt="Education-Icon" />
-            <h6 className=" w-ful flex gap-2 cursor-default font-bold">
+            <h6 className=" text-[14px] md:text-[16px] w-ful flex gap-2 cursor-default font-bold">
               Skills
             </h6>
           </div>
@@ -34,7 +34,7 @@ function Skills() {
         </div>
         <div
           onClick={() => opnSkillsPopup()}
-          className=" cursor-pointer text-[#81b29a] font-semibold hover:bg-[#81b29a] hover:text-white px-3 py-1 border-[2px] border-solid  rounded-3xl flex justify-center items-center"
+          className="text-[11px] md:text-[14px] cursor-pointer text-[#81b29a] font-semibold hover:bg-[#81b29a] hover:text-white px-3 py-1 border-[2px] border-solid  rounded-3xl flex justify-center items-center"
         >
           Add Skills
         </div>

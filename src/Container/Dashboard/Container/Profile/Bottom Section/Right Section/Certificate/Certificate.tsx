@@ -24,7 +24,7 @@ function Certificate() {
   };
 
   const educationData = userDataArray?.education_data;
-  console.log("useDataarrat", educationData);
+
 
   function getFileExtension(url) {
     const parts = url.split(".");
@@ -90,14 +90,14 @@ function Certificate() {
               src={CertificateIcon}
               alt="Education-Icon"
             />
-            <h6 className=" w-ful flex gap-2 cursor-default font-bold">
+            <h6  className="text-[14px] md:text-[16px] w-ful flex gap-2 cursor-default font-bold">
               Certificate
             </h6>
           </div>
         </div>
         <div
           onClick={() => opnSkillsPopup()}
-          className=" cursor-pointer text-[#81b29a] font-semibold hover:bg-[#81b29a] hover:text-white px-3 py-1 border-[2px] border-solid  rounded-3xl flex justify-center items-center"
+          className="text-[11px] md:text-[14px] cursor-pointer text-[#81b29a] font-semibold hover:bg-[#81b29a] hover:text-white px-2 md:px-3 py-1 border-[2px] border-solid  rounded-3xl flex justify-center items-center"
         >
           Add Certificate
         </div>
@@ -109,13 +109,13 @@ function Certificate() {
           {userDataArray?.certificate_data?.map(
             ({ title, certificate_file, created_at, description, id }) => {
               return (
-                <div className=" flex w-full justify-between ">
-                  <div className=" w-[80%]">
+                <div className=" flex w-full justify-between gap-2 pr-2 md:pr-0">
+                  <div className=" w-[80%] flex-wrap">
                     <div className=" flex gap-2 items-center">
                       <p className=" mb-0 font-semibold capitalize ">
                         {title}
                         <span className=" normal-case">
-                          .{getFileExtension(certificate_file)}
+                          {/* .{getFileExtension(certificate_file)} */}
                         </span>
                       </p>
                       <img
@@ -131,7 +131,7 @@ function Certificate() {
                     <p className="mb-0 text-[13px]">{description}</p>
                   </div>
 
-                  <div className=" flex items-center gap-3">
+                  <div className=" w-[20%] h-full flex items-center justify-end gap-3">
                     {certificate_file && (
                       <img
                         onClick={() => downloadFile(certificate_file, title)}
@@ -142,7 +142,7 @@ function Certificate() {
                     )}
                     <img
                       onClick={() => delPopup(id)}
-                      className="w-[30px] cursor-pointer "
+                      className="w-[30px]  cursor-pointer "
                       src={Delete}
                       alt="Delete"
                     />

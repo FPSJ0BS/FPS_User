@@ -23,9 +23,7 @@ function ResumeThree({ handlePayment }) {
     (state: any) => state.ResumeBuilderSlice
   );
 
-  useEffect(() => {
-    console.log("resumeDataArray", resumeDataArray);
-  }, [resumeDataArray]);
+
 
   useLayoutEffect(() => {
     Font.register({
@@ -124,6 +122,13 @@ function ResumeThree({ handlePayment }) {
         )}
 
         <View style={{ height: "100%", width: "30%" }}>
+        <Image
+            src={`${resumeDataArray?.profileImage}`}
+            style={{
+              width: "70%",
+              borderRadius: "50%",
+            }}
+          />
           <Text
             style={{
               color: "white",
@@ -710,12 +715,12 @@ function ResumeThree({ handlePayment }) {
   return (
     <div className="w-full h-full flex flex-col justify-center items-center ">
       <div className=" w-full flex justify-between mb-3">
-        <button
+        { paymentStatus &&  <button
           className=" px-4 rounded-lg bg-[#da3682] text-white font-semibold leading-3"
           onClick={() => handlePayment()}
         >
           Remove Watermark
-        </button>
+        </button>}
 
         <PDFDownloadLink document={<Doc />} fileName="somename.pdf">
           {({ blob, url, loading, error }) => (

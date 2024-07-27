@@ -9,7 +9,7 @@ export function LinkedInPage() {
       redirectUri={`http://localhost:5173/login`}
       scope="email openid profile w_member_social"
       onSuccess={(code) => {
-        console.log(code,"..........");
+       
       }}
       onError={(error) => {
         console.log(error);

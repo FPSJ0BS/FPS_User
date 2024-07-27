@@ -50,13 +50,13 @@ function CareerPreferncePopup() {
         const city = await res?.data?.data?.city_preferences;
         const salary = await res?.data?.data?.salary_preferences[0];
 
-        console.log("boo", career, city, salary);
+        
 
         await setCarrerPref(career);
         await setCityPref(city);
         await setsalaryPref(salary);
 
-        console.log(res?.data?.data);
+      
         setLoaderState(false);
       } else {
         console.error(res);
@@ -144,7 +144,7 @@ function CareerPreferncePopup() {
   };
 
   return (
-    <div className="TrackPopup h-full w-[65vw] right-0 z-50 flex justify-end fixed">
+    <div className="TrackPopup h-full w-[100vw] md:w-[65vw] right-0 z-50 flex justify-end fixed">
       <img
         onClick={() => dispatch(closeModalCareerPreferenceModal())}
         className="cursor-pointer absolute sm:left-10 top-[30px]"
@@ -152,7 +152,7 @@ function CareerPreferncePopup() {
         alt="close"
       />
 
-      <div className="bg-white h-full w-[90%] rounded-l-[100px] shadow-lg flex flex-col items-center py-4">
+      <div className="bg-white h-full w-[100%] md:w-[90%] md:rounded-l-[100px] shadow-lg flex flex-col items-center py-4">
         <h4 className="font-bold underline border-solid border-b-[1px]">
           Career Preference
         </h4>
@@ -163,7 +163,7 @@ function CareerPreferncePopup() {
           </div>
         ) : (
           <form className="w-full h-full p-5" onSubmit={handleSubmit}>
-            <div className=" grid grid-cols-2 gap-2 h-[85%]  w-full border-1 border-solid border-gray-200 p-3 rounded-xl overflow-y-auto handleScrollbarMain">
+            <div className=" grid grid-cols-1 md:grid-cols-2 gap-2 h-[85%]  w-full border-1 border-solid border-gray-200 p-3 rounded-xl overflow-y-auto handleScrollbarMain">
               <SelectLocation
                 locationArray={locationArray}
                 setLocationArray={setLocationArray}

@@ -185,17 +185,7 @@ const ApplyJob = () => {
                         control={control}
                         rules={{
                           required: "Expected joining date is required",
-                          validate: (value) => {
-                            if (differenceInDays(value, date2) < 7) {
-                              return "Expected joining date should be 7 days after interview";
-                            }
-                            return (
-                              (!isDateBefore(value, date1) &&
-                                !isDateBefore(value, date2) &&
-                                !isDateSame(value, date2)) ||
-                              "Expected joining date cannot be before interview"
-                            );
-                          },
+                          
                         }}
                         render={({ field: { onChange, value } }) => (
                           <DatePicker
