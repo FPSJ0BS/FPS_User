@@ -11,20 +11,20 @@ const JobListing = () => {
   const { userData } = useGlobalContext();
   
   const [searchJob, setSearchJob] = useState<any>({
-    UID: userData?.UID ? userData?.UID : 103082,
-    totalPage: 0,
+    facultyID: userData?.UID ? userData?.UID : 103082,
+   page: 0,
     limit: 12,
   });
 
-  const { data: jobs, refetch } = useSearchJobsQuery(
-    { enabled: !!searchJob?.UID },
-    searchJob
-  );
-
-  // const { data: jobs, refetch } = useSearchJobsQueryNode(
-  //   { enabled: !!searchJob?.facultyID },
+  // const { data: jobs, refetch } = useSearchJobsQuery(
+  //   { enabled: !!searchJob?.UID },
   //   searchJob
   // );
+
+  const { data: jobs, refetch } = useSearchJobsQueryNode(
+    { enabled: !!searchJob?.facultyID },
+    searchJob
+  );
 
   return (
     <>

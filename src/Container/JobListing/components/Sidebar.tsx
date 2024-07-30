@@ -107,7 +107,7 @@ const Sidebar = (props: any) => {
   useEffect(() => {
     const _query = {
       city: searchParams.get("city"),
-      title: searchParams.get("title"),
+      job_title: searchParams.get("job_title"),
       jobType: searchParams.get("jobType") || "",
       min_salary: searchParams.get("min_salary") || "",
       min_experience: searchParams.get("min_experience") || "",
@@ -123,7 +123,7 @@ const Sidebar = (props: any) => {
       setSearchJob({
         ...searchJob,
         ..._query,
-        title: query?.title ? query?.title : subjects?.replaceAll("-", " "),
+        job_title: query?.job_title ? query?.job_title : subjects?.replaceAll("-", " "),
         city: query?.city,
         jobType: query?.jobType,
         min_salary: query?.min_salary,
@@ -222,11 +222,11 @@ const Sidebar = (props: any) => {
                 name={"title"}
                 type="text"
                 placeholder="Enter title "
-                value={query?.title}
+                value={query?.job_title}
                 onChange={(e) => {
                   setQuery({
                     ...query,
-                    title: e.target.value,
+                    job_title: e.target.value,
                   });
                 }}
               />
