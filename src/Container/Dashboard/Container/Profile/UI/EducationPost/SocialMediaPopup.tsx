@@ -78,16 +78,7 @@ function SocialMediaPopup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Validate all URLs
-    for (let key in formData.social_link) {
-      if (
-        formData.social_link[key] !== "#" &&
-        !validateURL(formData.social_link[key])
-      ) {
-        alert(`${key} contains an invalid URL`);
-        return;
-      }
-    }
+    
 
     
     // Post the form data to the API

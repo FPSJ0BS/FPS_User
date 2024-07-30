@@ -9,6 +9,9 @@ import Cancel from "@Assets/gif/cancel.gif";
 import { useEffect, useState } from "react";
 import { getTrackingData } from "@/api/api";
 import { RootState } from "@/store/store";
+import Loader from "@Container/Dashboard/Loader/laoder";
+import './Trackpopup.scss'
+
 
 function TrackPopup() {
   const dispatch = useDispatch();
@@ -17,21 +20,18 @@ function TrackPopup() {
   // const [loading, setLoading] = useState(false);
 
   // Use React Query's useQuery hook to fetch data
-  const {
-    data: jobAppliedStatus,
-    isSuccess,
-
-  } = useJobAppliedStatusTrackData(appliedJobValues?.applyID);
+ 
 
   const [jobTrackData, setJobTrackData] = useState([]);
-  // console.log("job applied data", jobAppliedStatus?.applieddata);
+  const [dataLoad, setDataLoad] = useState(true)
 
   useEffect(() => {
-    // console.log('id ->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>' ,appliedJobValues?.applyID);
+
     const fetch = async () => {
       try {
         const res = await getTrackingData(appliedJobValues?.applyID);
         if (res?.data?.status) {
+          setDataLoad(false)
         
           setJobTrackData(res?.data?.applieddata);
         }
@@ -67,7 +67,7 @@ function TrackPopup() {
     const minutes = ("0" + date.getMinutes()).slice(-2);
     const ampm = hours >= 12 ? "PM" : "AM";
     hours = hours % 12;
-    hours = hours ? hours : 12; // Handle midnight
+    hours = hours ? hours : 12; 
     const formattedDateTime = `${month} ${day}, ${year} - ${("0" + hours).slice(
       -2
     )}:${minutes} ${ampm}`;
@@ -84,7 +84,7 @@ function TrackPopup() {
   };
 
   return (
-    <div className="TrackPopup  h-full w-[400px]  right-0 z-50 flex justify-end fixed ">
+    <div className="TrackPopup  h-full w-[400px]  right-0  flex justify-end fixed ">
       {/* <X
         onClick={() => dispatch(closeModal())}
         className=" cursor-pointer absolute left-0 top-[30px] text-[100px] text-white bg-black rounded-full "
@@ -97,23 +97,23 @@ function TrackPopup() {
       />
 
       <div className=" bg-white h-full w-[90%] rounded-l-[100px] shadow-lg flex flex-col items-center py-4">
-        <h4 className="  font-bold underline border-solid border-b-[1px] ">
+        <h4 className=" text-[25px] font-bold underline border-solid border-b-[1px] ">
           Track Application
         </h4>
 
-        <div className=" w-full border-b-[1.5px] border-dashed border-[#4a4e69] mt-20"></div>
+        <div className=" w-full border-b-[1.5px] border-dashed border-[#4a4e69] mt-10"></div>
 
        
-          <div className="  w-full overflow-y-auto px-5 py-4">
-            {isSuccess &&
-              jobTrackData.map((item:any, index) => {
-                let iconSrc = Process; // Default icon
+          <div className=" h-full  w-full overflow-y-auto px-5 py-4">
+            {dataLoad ? (<div className=" w-full h-full flex justify-center items-center"><Loader /></div>) :
+              (jobTrackData.map((item:any, index) => {
+                let iconSrc = Process; 
 
                 if (item?.completed  === 1) {
                   if (item?.label === "Hired") {
                     iconSrc = Success;
                   } else if (item?.label === "Rejected") {
-                    iconSrc = Cancel; // Assuming you have a 'Cancel' icon
+                    iconSrc = Cancel; 
                   } else {
                     iconSrc = Checked;
                   }
@@ -121,6 +121,7 @@ function TrackPopup() {
 
                 return (
                   <div className="flex flex-col" key={index}>
+                    
                     <div>
                       <div className="h-[5vh] flex flex-col justify-start items-start gap-2">
                         <div className="flex justify-start items-start gap-3">
@@ -134,7 +135,7 @@ function TrackPopup() {
                             src={iconSrc}
                             alt={item?.completed === 1 ? "checked" : "process"}
                           />
-                          <h6 className={`${item?.created_at ? "" : " mt-5"}`}>
+                          <h6 className={`${ " font-semibold text-[16px] "}`}>
                             {item?.label} <br />{" "}
                             <p className="text-[13px]">
                               {item?.created_at
@@ -157,7 +158,7 @@ function TrackPopup() {
                     </div>
                   </div>
                 );
-              })}
+              }))}
           </div>
         
       </div>

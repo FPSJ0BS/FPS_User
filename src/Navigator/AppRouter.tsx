@@ -12,6 +12,8 @@ import Error from "@Container/Error/Error";
 import JobDetailsUpdate from "@Container/JobDetail/JobDetailsUpdate";
 import Nof from "@Components/Message";
 import ShareProfile from "@Container/Dashboard/Container/Profile/ShareProfile";
+import TrackPopup from "@Container/Dashboard/Container/Applied/Component/TrackPopup";
+import { useSelector } from "react-redux";
 
 const BlogDetails = lazy(() => import("@Container/Blog/BlogDetails"));
 
@@ -106,10 +108,14 @@ const AppRouter = () => {
   });
   ScrollToTop();
 
+  const { modalOpen } = useSelector((state: any) => state.appliedJobSlice);
+
+
   return (
     <>
       {isFetching || isMutating ? <Preloader /> : null}
       <Nof />
+      {modalOpen && <TrackPopup />}
       <Suspense fallback={<Preloader />}>
         <Routes>
           <Route path="/" element={<Layout />}>

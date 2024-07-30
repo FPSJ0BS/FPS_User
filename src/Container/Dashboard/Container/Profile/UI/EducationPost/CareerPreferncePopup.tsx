@@ -91,6 +91,8 @@ function CareerPreferncePopup() {
   //   empType,
   // ]);
 
+  
+
   const getAllIds = () => {
     // Assuming empType, jobType, selectedShift, and roleArray are defined as state variables
     const empTypeIds = empType?.id ? [empType.id] : [];

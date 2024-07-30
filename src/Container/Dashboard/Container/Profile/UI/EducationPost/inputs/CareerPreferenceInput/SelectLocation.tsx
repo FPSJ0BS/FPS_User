@@ -6,6 +6,10 @@ export const SelectLocation = ({ locationArray, setLocationArray }) => {
     (state: any) => state.myProfileEducationSlice
   );
 
+  
+
+  console.log(cityDataArray);
+
   const [inputValue, setInputValue] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);

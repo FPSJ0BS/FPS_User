@@ -10,6 +10,7 @@ import TopSection from "../../Top Section/TopSection";
 import SocialMedia from "./Social Media/SocialMedia";
 import OtherDetails from "./Other Details/OtherDetails";
 import ProgressBar from "./ProgressBar/ProgressBar";
+import BannerProfile from "./Banner/BannerProfile";
 
 function RightSection() {
   return (

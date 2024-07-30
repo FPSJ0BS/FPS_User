@@ -36,11 +36,13 @@ function SkillsPopup() {
   const [buttonLoad, setButtonLoad] = useState(false);
   const [loaderState, setLoaderState] = useState(false);
 
-  const { skillsDataArray, skillsDataAddArray, refetchProfile } = useSelector(
+  const { skillsDataArray, skillsDataAddArray, refetchProfile, skillsDataArrayAfter } = useSelector(
     (state: any) => state.myProfileEducationSlice
   );
 
-
+useEffect(()=>{
+console.log('skillsDataArrayAfter' ,skillsDataArrayAfter);
+}, [skillsDataArrayAfter])
 
   const popupCloseFunc = async () => {
     await dispatch(closeModalSkillsAddModal());
@@ -84,7 +86,7 @@ function SkillsPopup() {
   };
 
   const getCommaSeparatedSkillIds = () => {
-    return skillsDataAddArray
+    return skillsDataArrayAfter
       ?.filter((item) => item.active === 1)
       ?.map((skill) => skill.skillId)
       .join(",");
@@ -144,7 +146,7 @@ function SkillsPopup() {
                 skillsDataAddArray.length > 0 ? "mb-[30px] " : ""
               } `}
             >
-              {skillsDataAddArray
+              {skillsDataArrayAfter
                 ?.filter((item) => item.active === 1)?.map(({ skill, id, skillId }) => {
                   return (
                     <div
