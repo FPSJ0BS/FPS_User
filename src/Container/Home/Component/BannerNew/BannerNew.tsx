@@ -19,7 +19,7 @@ const BannerNew = () => {
   const navigate = useNavigate();
   const [searchJob, setSearchJob] = useState({
     city: "",
-    title: "",
+    job_title: "",
   });
   const { data: cityList } = useFilterCity({});
 
@@ -46,7 +46,7 @@ const BannerNew = () => {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            if (searchJob?.title) {
+            if (searchJob?.job_title) {
               navigate({
                 pathname: AppRoute.Find_Jobs,
                 search: createSearchParams(searchJob).toString(),
@@ -80,7 +80,7 @@ const BannerNew = () => {
               onChange={(e) => {
                 setSearchJob({
                   ...searchJob,
-                  title: e.target.value,
+                  job_title: e.target.value,
                 });
               }}
             />

@@ -38,7 +38,6 @@ const List = ({ data, setQuery, query, refetch, setSearchJob, searchJob }) => {
   const getRelativeTime = (dateString) => {
     const date = new Date(dateString);
     const now = new Date();
-
     const differenceInTime = now.getTime() - date.getTime();
     const differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
     const differenceInMonths = Math.floor(differenceInDays / 30);
@@ -119,7 +118,6 @@ const List = ({ data, setQuery, query, refetch, setSearchJob, searchJob }) => {
     }));
   };
 
- 
   return (
     <div className=" flex flex-col  h-full ">
       <div className=" mb-4 w-full xl:flex justify-end gap-2 items-center hidden ">
@@ -163,7 +161,7 @@ const List = ({ data, setQuery, query, refetch, setSearchJob, searchJob }) => {
           colors={colors}
         />
       )}
-      <div className="my-[50px] ">
+      <div className="pb-[150px] pt-[50px] ">
         <Pagination
           total={data?.data?.totalPages}
           current={searchJob?.page}

@@ -130,7 +130,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
           height={height}
           itemCount={filteredOptions.length}
           itemSize={30}
-          width={"150%"}
+          width={"100%"}
           style={{
             position: "absolute",
             top: "100%",
