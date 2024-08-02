@@ -126,6 +126,13 @@ export const dogetJobDetails = async (req: any) => {
   return res;
 };
 
+export const dogetJobDetailsNode = async (req: any) => {
+  const res = await httpNode.getRequest(
+    `user/jobDetail?${getQuery(req?.queryKey[1])}`
+  );
+  return res;
+};
+
 export const doaddFavourite = async (req: any) => {
   const token = getToken();
   const res = await http.getRequest(

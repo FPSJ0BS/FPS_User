@@ -48,7 +48,7 @@ function OtherDetailsPopup() {
     for (const key in formData) {
       formDataToSend.append(key, formData[key]);
     }
-    // Use formDataToSend to send data to the server
+ 
 
    
 

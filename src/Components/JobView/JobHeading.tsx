@@ -16,7 +16,6 @@ const JobHeading = ({ data, packType }: any) => {
     UID: userData?.UID,
   });
 
-
   const { mutateAsync: Favourite } = useFavourite({});
   const { mutateAsync: removeFavourite } = useRemoveFavourite({});
   const navigate = useNavigate();
@@ -26,6 +25,7 @@ const JobHeading = ({ data, packType }: any) => {
         addSuffix: true,
       })
     : "";
+    
   const setJobFavourite = (
     e: React.MouseEvent<HTMLSpanElement, MouseEvent>
   ) => {
@@ -42,6 +42,7 @@ const JobHeading = ({ data, packType }: any) => {
       }
     });
   };
+
   const setRemoveFavourite = (
     e: React.MouseEvent<HTMLSpanElement, MouseEvent>
   ) => {
@@ -70,7 +71,7 @@ const JobHeading = ({ data, packType }: any) => {
                   <h6 className="mb-3" style={{ color: "#a73358" }}>
                     {data?.name}
                   </h6>
-                ) : data?.show_all === "1" ? (
+                ) : data?.show_all === 1 ? (
                   <h6 className="mb-3" style={{ color: "#a73358" }}>
                     {data?.name}
                   </h6>

@@ -4,9 +4,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { openModalUserDetailsModal } from "@/Redux/Dashboard/MyProfile/Education/EducationSlice";
 import dummyimage from "@Assets/Icons/Profile/user.png";
 import defaultBanner from "@Assets/1706638372435.jpeg";
+import { Toast } from "@Utils/Toast";
+import { toggleRefetchProfile } from "@/Redux/Resume Builder/resumeBuilderSlice";
+import { postOtherDetails } from "@/api/api";
+import { useGlobalContext } from "@Context/GlobalContextProvider";
 
 function TopSection() {
   const dispatch = useDispatch();
+  const { userData } = useGlobalContext();
+  const userId = userData?.UID;
 
   const { userDataArray } = useSelector(
     (state) => state.myProfileEducationSlice
@@ -53,19 +59,32 @@ function TopSection() {
 
   const [backgroundImage, setBackgroundImage] = useState('@Assets/1706638372435.jpeg');
   
-  const handleFileChange = (event) => {
+  const handleFileChange = async (event) => {
     const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setBackgroundImage(reader.result);
-      };
-      reader.readAsDataURL(file);
+  
+    console.log(file);
+  
+    const formdata = new FormData();
+    formdata.append('banner', file);
+    formdata.append('faculityID', userId);
+  
+    try {
+      const res = await postOtherDetails(formdata);
+      if (res?.data?.status) {
+        window.location.reload()
+        Toast("success", "Banner uploaded");
+      } else {
+        Toast("error", "Banner failed to upload");
+      }
+    } catch (error) {
+      console.error(error);
     }
+    
   };
+  
 
   const handleDragOver = (event) => {
-    event.preventDefault(); // Necessary to allow dropping
+    event.preventDefault(); 
   };
 
   const handleDrop = (event) => {
@@ -95,7 +114,7 @@ function TopSection() {
           onChange={handleFileChange}
           className="absolute inset-0 opacity-0 cursor-pointer"
         />
-        <div className="flex justify-center items-center bg-white w-[40px] h-[40px] rounded-full absolute top-3 right-5">
+        {/* <div className="flex justify-center items-center bg-white w-[40px] h-[40px] rounded-full absolute top-3 right-5">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"
@@ -110,7 +129,7 @@ function TopSection() {
           >
             <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" />
           </svg>
-        </div>
+        </div> */}
       </div>
       <div className="flex flex-col md:flex-row justify-center items-center">
         <div className=" w-[100%] md:w-[30%]  h-full flex justify-center items-center">

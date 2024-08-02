@@ -66,7 +66,7 @@ const Subjects = () => {
                         navigate({
                           pathname: AppRoute.Find_Jobs,
                           search: createSearchParams({
-                            title: idx?.function,
+                            job_title: idx?.function,
                           }).toString(),
                         });
                       }}
