@@ -11,9 +11,13 @@ import { AppConst } from "@/Enum/AppConst";
 import { memo } from "react";
 
 const SidebarPopup = ({ handleMobile }: any) => {
+
   const { userData, setUserLoginData } = useGlobalContext();
+
   const { data: Category } = useCategoryList({});
+  
   const navigate = useNavigate();
+
   return (
     <div className="menu-mobile-popup">
       <div className="modal-menu__backdrop" onClick={handleMobile}></div>
@@ -134,7 +138,7 @@ const SidebarPopup = ({ handleMobile }: any) => {
         <div className="mobile-footer">
           {!userData?.UID && (
             <div className="header-customize-item button mb-5">
-              <NavLink to="https://employer.fpsjob.com/" target={"_blank"}>
+              <NavLink to="https://employer.tallento.ai/" target={"_blank"}>
                 Post Job
               </NavLink>
             </div>

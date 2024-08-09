@@ -43,12 +43,14 @@ const GlobalProvider = (props: any) => {
   const [progress, setProgress] = useState(0);
   const [jobDetails, setJobDetails] = useState<any>(null);
   const setUserLoginData = useCallback((userdata: any) => {
+    console.log('userdata',userdata);
     StorageInstance.saveUserToken(JSON.stringify(userdata));
     setUserData(userdata);
   }, []);
 
   useLayoutEffect(() => {
     const userData = StorageInstance.getUserToken();
+    console.log('userData load',JSON.parse(userData));
     setIsAppLoaded(true);
     if (userData) {
       setUserData(JSON.parse(userData));

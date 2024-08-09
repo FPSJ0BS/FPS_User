@@ -34,6 +34,8 @@ import Imag from "@Components/Image/Image";
 import { downloadResumePdf } from "@Utils/downloadFile";
 import { useGlobalContext } from "@Context/GlobalContextProvider";
 import "./inputs/profilesection.scss";
+import DefaultImage from "@Assets/Icons/Profile/user.png"
+
 
 function UserDetailsPopup() {
   const dispatch = useDispatch();
@@ -135,7 +137,7 @@ function UserDetailsPopup() {
   //   });
   // }, [profileDetails?.user?.city, profileDetails?.user?.state]);
   useEffect(() => {
-    setTimeout(() => {
+   
       setValue("name", profileDetails?.user?.name || "");
       setValue("email", profileDetails?.user?.email || "");
       setValue(
@@ -181,8 +183,8 @@ function UserDetailsPopup() {
         "alternate_contact",
         profileDetails?.user?.alternate_contact || ""
       );
-      setValue("gender", profileDetails?.user?.other_details?.gender || "");
-    }, 2000);
+      setValue("gender", profileDetails?.user?.gender || "");
+   
   }, [profileDetails, query.stateID, State?.states, cityList?.cities]);
 
   const eighteenYearsAgo = new Date();
@@ -223,7 +225,9 @@ function UserDetailsPopup() {
         refetchProfile();
         dispatch(toggleRefetchProfile());
         Toast("success", res?.message);
+        popupCloseFunc()
       } else {
+        popupCloseFunc()
         Toast("error", res?.message);
       }
     });
@@ -248,7 +252,8 @@ function UserDetailsPopup() {
             <div className="bg-white card-box border-20 my-4">
 
               <div className="user-avatar-setting d-flex align-items-center mb-30 flex-col md:flex-row">
-                <Imag
+                
+                <img
                   alt="avatar"
                   loading="lazy"
                   width={68}
@@ -257,7 +262,7 @@ function UserDetailsPopup() {
                   data-nimg={1}
                   className="lazy-img user-img"
                   style={{ color: "transparent" }}
-                  src={profileDetails?.user?.image}
+                  src={profileDetails?.user?.image || DefaultImage}
                 />
                 <div
                   className={`border-dashed border-2 border-black upload-btn position-relative tran3s ms-4 me-3 cursor-pointer videoButton flex gap-3 ${

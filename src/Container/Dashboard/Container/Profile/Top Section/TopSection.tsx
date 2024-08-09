@@ -57,21 +57,23 @@ function TopSection() {
     dispatch(openModalUserDetailsModal());
   };
 
-  const [backgroundImage, setBackgroundImage] = useState('@Assets/1706638372435.jpeg');
-  
+  const [backgroundImage, setBackgroundImage] = useState(
+    "@Assets/1706638372435.jpeg"
+  );
+
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
-  
+
     console.log(file);
-  
+
     const formdata = new FormData();
-    formdata.append('banner', file);
-    formdata.append('faculityID', userId);
-  
+    formdata.append("banner", file);
+    formdata.append("faculityID", userId);
+
     try {
       const res = await postOtherDetails(formdata);
       if (res?.data?.status) {
-        window.location.reload()
+        window.location.reload();
         Toast("success", "Banner uploaded");
       } else {
         Toast("error", "Banner failed to upload");
@@ -79,12 +81,10 @@ function TopSection() {
     } catch (error) {
       console.error(error);
     }
-    
   };
-  
 
   const handleDragOver = (event) => {
-    event.preventDefault(); 
+    event.preventDefault();
   };
 
   const handleDrop = (event) => {
@@ -108,28 +108,30 @@ function TopSection() {
         onDragOver={handleDragOver}
       >
         {/* Drag-and-drop or click to upload */}
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleFileChange}
-          className="absolute inset-0 opacity-0 cursor-pointer"
-        />
-        {/* <div className="flex justify-center items-center bg-white w-[40px] h-[40px] rounded-full absolute top-3 right-5">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="lucide lucide-pen"
-          >
-            <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" />
-          </svg>
-        </div> */}
+        <label className="relative cursor-pointer">
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            className="absolute inset-0 opacity-0 cursor-pointer"
+          />
+          <div className="flex justify-center items-center bg-white w-[40px] h-[40px] rounded-full absolute top-3 right-5">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="lucide lucide-pen"
+            >
+              <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" />
+            </svg>
+          </div>
+        </label>
       </div>
       <div className="flex flex-col md:flex-row justify-center items-center">
         <div className=" w-[100%] md:w-[30%]  h-full flex justify-center items-center">

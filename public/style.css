@@ -2671,3 +2671,19 @@ textarea {
 .TrackPopup{
   z-index: 9999999 !important;
 }
+
+.postjobHandleScrollbar::-webkit-scrollbar {
+  width: 8px; /* Set the width of the scrollbar */
+  
+}
+
+.postjobHandleScrollbar::-webkit-scrollbar-thumb {
+  background-color: #4a5568; /* Change the color of the scrollbar thumb */
+  border-radius: 4px; /* Set border radius to make it sleek */
+}
+
+.postjobHandleScrollbar::-webkit-scrollbar-track {
+  background-color: #cbd5e0; /* Change the color of the scrollbar track */
+  border-radius: 20px;
+}
+

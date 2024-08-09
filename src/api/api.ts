@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const BASE_URL = "https://admin.fpsjob.com/api";
+const BASE_URL_NODE = "https://empapi.fpsjob.com";
 
 const getToken = (): string | null => {
   const tokenString = localStorage.getItem("token:fpsjob");
@@ -16,7 +17,7 @@ export const getTrackingData = async (applyID) => {
   const token = getToken();
   try {
     const response = await axios.get(
-      `${BASE_URL}/v2/appliedJobsStatus?applyID=${applyID}`,
+      `${BASE_URL_NODE}/user/appliedJobsStatus?applyID=${applyID}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
