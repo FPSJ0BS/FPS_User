@@ -21,7 +21,6 @@ function AddSkills({selectList}) {
   const [searchTerm, setSearchTerm] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-
   const handleCourseChange = async (skill) => {
     const foundItem = skillsDataAddArray?.find(
       (item) => item.skillId === skill
@@ -70,7 +69,6 @@ function AddSkills({selectList}) {
 
   useEffect(() => {
     const fetchSkills = async () => {
-      // Create FormData object
       const formData = new FormData();
       formData.append("faculity_id", userId);
       formData.append("keyword", searchTerm);
@@ -84,8 +82,6 @@ function AddSkills({selectList}) {
         
           await dispatch(addMultipleSkillsFromAPI(skillsDataFull));
         } else{
-
-     
         }
 
       } catch (error) {

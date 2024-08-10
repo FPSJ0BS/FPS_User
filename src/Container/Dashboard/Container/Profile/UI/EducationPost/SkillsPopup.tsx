@@ -3,29 +3,21 @@ import { useEffect, useState } from "react";
 import CloseIcon from "@Assets/Icons/remove.png";
 import {
   addSkill,
-  closeModalEducationEditModal,
-  closeModalEducationModal,
+ 
   closeModalSkillsAddModal,
   deleteSkill,
-  editEducationDataJobValues,
+
   toggleRefetchProfile,
 } from "@/Redux/Dashboard/MyProfile/Education/EducationSlice";
 import {
-  getEducationDetailsSingle,
+
   getSelectedListSkill,
-  postSubmitEducationDetails,
-  postSubmitEducationEditDetails,
+
   postSubmitSkillsData,
 } from "@/api/api";
 import { Toast } from "@Utils/Toast";
-import { InstituteNameEducationEdit } from "./inputs/EducationEditPopupInput/instituteNameEducationEdit";
 import { useGlobalContext } from "@Context/GlobalContextProvider";
-import CourseEducationEdit from "./inputs/EducationEditPopupInput/courseEducationEdit";
-import StartDateEducationEdit from "./inputs/EducationEditPopupInput/startDateEducationEdit";
-import EndDateEducationEdit from "./inputs/EducationEditPopupInput/endDateEducationEdit";
-import ResultEducationEdit from "./inputs/EducationEditPopupInput/resultEducationEdit";
-import { SpecializationEducationEdit } from "./inputs/EducationEditPopupInput/specializationEducationEdit";
-import Loader from "@Container/Dashboard/Loader/laoder";
+
 import AddSkills from "./inputs/skills/addSkills";
 
 function SkillsPopup() {
@@ -34,9 +26,9 @@ function SkillsPopup() {
   const dispatch = useDispatch();
 
   const [buttonLoad, setButtonLoad] = useState(false);
-  const [loaderState, setLoaderState] = useState(false);
 
-  const { skillsDataArray, skillsDataAddArray, refetchProfile } = useSelector(
+
+  const {  skillsDataAddArray,  skillsDataArrayAfter } = useSelector(
     (state: any) => state.myProfileEducationSlice
   );
 
@@ -84,7 +76,7 @@ function SkillsPopup() {
   };
 
   const getCommaSeparatedSkillIds = () => {
-    return skillsDataAddArray
+    return skillsDataArrayAfter
       ?.filter((item) => item.active === 1)
       ?.map((skill) => skill.skillId)
       .join(",");
@@ -136,7 +128,7 @@ function SkillsPopup() {
         </h4>
         <div className="w-full border-b-[1.5px] border-dashed border-[#4a4e69] mt-6"></div>
         <div className="w-full h-full pl-[30px] pr-[10px] py-2 md:pl-[50px] md:pr-[50px] md:mt-[20px]">
-          <div className=" h-[80%] md:h-[85%] w-full border-1 border-solid border-gray-200 p-3 rounded-xl overflow-y-auto handleScrollbarMain">
+          <div className=" h-[80%] md:h-[75%] w-full border-1 border-solid border-gray-200 p-3 rounded-xl overflow-y-auto handleScrollbarMain">
 
 
             <div
@@ -144,7 +136,7 @@ function SkillsPopup() {
                 skillsDataAddArray.length > 0 ? "mb-[30px] " : ""
               } `}
             >
-              {skillsDataAddArray
+              {skillsDataArrayAfter
                 ?.filter((item) => item.active === 1)?.map(({ skill, id, skillId }) => {
                   return (
                     <div

@@ -12,6 +12,7 @@ import "react-calendar/dist/Calendar.css";
 import { Provider } from "react-redux";
 import { AccessTokenProvider } from "@Context/AccessTokenContextProvider.tsx";
 import store from "./store/store.ts";
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -20,6 +21,7 @@ const queryClient = new QueryClient({
     },
   },
 });
+
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   // <React.StrictMode>

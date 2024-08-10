@@ -468,7 +468,7 @@ const SignUp = () => {
                   </div>
 
                   <div className="d-flex w-full flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2">
-                    <label className="fw-bolder text-white ">Industry</label>
+                    <label className="fw-bolder text-white ">Industry, looking for a job in?</label>
                     <Controller
                       name="industry"
                       control={control}

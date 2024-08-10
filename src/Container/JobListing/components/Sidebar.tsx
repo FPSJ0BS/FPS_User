@@ -94,7 +94,7 @@ const Sidebar = (props: any) => {
       navigate({
 
         pathname: `${AppRoute.Find_Jobs}/${category}/${
-          query?.title ? query?.title : subjects
+          query?.job_title ? query?.job_title : subjects
         }`,
 
         search: queryParams.toString(),
@@ -107,9 +107,9 @@ const Sidebar = (props: any) => {
   useEffect(() => {
     const _query = {
       city: searchParams.get("city"),
-      title: searchParams.get("title"),
-      jobType: searchParams.get("jobType") || "",
-      min_salary: searchParams.get("min_salary") || "",
+      job_title: searchParams.get("job_title"),
+      job_type: searchParams.get("job_type") || "",
+      salary_minimum: searchParams.get("salary_minimum") || "",
       min_experience: searchParams.get("min_experience") || "",
       state: searchParams.get("state") || "",
     };
@@ -123,18 +123,18 @@ const Sidebar = (props: any) => {
       setSearchJob({
         ...searchJob,
         ..._query,
-        title: query?.title ? query?.title : subjects?.replaceAll("-", " "),
+        job_title: query?.job_title ? query?.job_title : subjects?.replaceAll("-", " "),
         city: query?.city,
-        jobType: query?.jobType,
-        min_salary: query?.min_salary,
+        job_type: query?.job_type,
+        salary_minimum: query?.salary_minimum,
         min_experience: query?.min_experience,
-        pageNo: 0,
+        page: 0,
       });
     } else {
       setSearchJob({
         ...searchJob,
         ..._query,
-        pageNo: 0,
+        page: 0,
       });
     }
   }, [setSearchParams]);
@@ -226,7 +226,7 @@ const Sidebar = (props: any) => {
                 onChange={(e) => {
                   setQuery({
                     ...query,
-                    title: e.target.value,
+                    job_title: e.target.value,
                   });
                 }}
               />
@@ -389,10 +389,10 @@ const Sidebar = (props: any) => {
                 onChange={(value) => {
                   setQuery({
                     ...query,
-                    min_salary: value.value,
+                    salary_minimum: value.value,
                   });
                 }}
-                value={query?.min_salary}
+                value={query?.salary_minimum}
               />
             </div>
           </div>
@@ -423,14 +423,14 @@ const Sidebar = (props: any) => {
               <Dropdown
                 placeholder="Select Job Type"
                 options={jobType || []}
-                className="react-dropdown select2 bg-black border-t-0 border-r-0 border-l-0 text-white text-[13px] text-[12px] 2xl:text-[14px]"
+                className="react-dropdown select2 bg-black border-t-0 border-r-0 border-l-0 text-white text-[13px]  2xl:text-[14px]"
                 onChange={(value) => {
                   setQuery({
                     ...query,
-                    jobType: value.value,
+                    job_type: value.value,
                   });
                 }}
-                value={query?.jobType}
+                value={query?.job_type}
               />
             </div>
           </div>

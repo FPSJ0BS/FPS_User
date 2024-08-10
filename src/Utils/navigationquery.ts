@@ -1,7 +1,7 @@
 import { AppRoute } from "@Navigator/AppRoute";
 
 export const createQueryBySlug = (item: any, Category: any) => {
-  console.log(item);
+
   const categoryItem =
     Category?.data &&
     Category?.data.filter((_item) => _item.ID.toString() === item?.catID.toString());

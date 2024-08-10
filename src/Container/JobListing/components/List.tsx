@@ -10,17 +10,18 @@ import Pagination from "@Components/Pagination";
 import { createQueryBySlug } from "@Utils/navigationquery";
 import { useNavigate } from "react-router-dom";
 import useCategoryList from "@Hooks/Queries/useCategoryList";
+import { openModal, updateAppliedJobValues } from "@/Redux/appliedJobSlice";
+import { useDispatch } from "react-redux";
 
 const List = ({ data, setQuery, query, refetch, setSearchJob, searchJob }) => {
+  const jobLists = data?.data?.jobsList;
   const { mutateAsync: removeFavourite } = useRemoveFavourite({});
   const { mutateAsync: Favourite } = useFavourite({});
   const { userData } = useGlobalContext();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { data: Category } = useCategoryList({});
-  console.log('salary_minimum', data);
-
- 
+  const dispatch = useDispatch();
 
   const colors = [
     "bg-[#fae1cd]",
@@ -111,22 +112,33 @@ const List = ({ data, setQuery, query, refetch, setSearchJob, searchJob }) => {
 
   const handleOpenInNewTab = (item, category) => {
     const url = createQueryBySlug(item, category);
-    window.open(url, "_blank"); // '_blank' opens the URL in a new tab
+    window.open(url, "_blank");
+  };
+
+  const openingModal = async (applyID) => {
+    await dispatch(
+      updateAppliedJobValues({
+        applyID,
+      })
+    );
+    await dispatch(openModal());
   };
 
   return (
     <div className=" flex flex-col  h-full ">
       {
-        <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4   gap-4  ml-0 cursor-pointer place-items-center sm:place-items-stretch  ">
-          {data?.jobs?.map((item, index) => {
+        <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4   gap-4  ml-0  place-items-center sm:place-items-stretch  ">
+          {jobLists?.map((item, index) => {
             const bgColor = colors[index % colors.length];
             return (
               <div
-                onClick={() => handleOpenInNewTab(item, Category)}
                 key={index}
-                className=" w-[90vw] sm:w-[44vw] md:w-[28vw] lg:w-[22vw] gap-2 min-h-[300px]  bg-white rounded-[20px] p-[10px] flex flex-col items-start justify-start shadow-md border-1 border-solid border-[#e1e1df]"
+                className=" w-[90vw] sm:w-[44vw] md:w-[40vw] lg:w-[22vw] gap-2 min-h-[300px]  bg-white rounded-[20px] p-[10px] flex flex-col items-start justify-start shadow-md border-1 border-solid border-[#e1e1df]"
               >
-                <div className={`  h-[75%] rounded-2xl ${bgColor} p-[10px]`}>
+                <div
+                  onClick={() => handleOpenInNewTab(item, Category)}
+                  className={` cursor-pointer  h-[75%] rounded-2xl ${bgColor} p-[10px]`}
+                >
                   <div className=" flex flex-col gap-3">
                     <div className=" flex justify-between items-center ">
                       <div>
@@ -170,12 +182,12 @@ const List = ({ data, setQuery, query, refetch, setSearchJob, searchJob }) => {
                         {item?.job_title}
                       </h2>
 
-
-                      {data?.pack_type === "Prepaid" && userData?.UID !== undefined ? (
+                      {data?.data?.pack_type === "Prepaid" &&
+                      userData?.UID !== undefined ? (
                         <h2 className="text-semibold font-bold mb-0 text-[12px] uppercase leading-[1.4em] line-clamp-2">
                           {item?.company_name}
                         </h2>
-                      ) : item?.show_all === "1" ? (
+                      ) : item?.show_all === 1 ? (
                         <h2 className="text-semibold font-bold mb-0 text-[12px] uppercase leading-[1.4em] line-clamp-2">
                           {item?.company_name}
                         </h2>
@@ -184,8 +196,6 @@ const List = ({ data, setQuery, query, refetch, setSearchJob, searchJob }) => {
                           {item?.category_title}
                         </h2>
                       )}
-
-
                     </div>
 
                     <div className=" flex  flex-wrap gap-2">
@@ -222,7 +232,7 @@ const List = ({ data, setQuery, query, refetch, setSearchJob, searchJob }) => {
                   </div>
                 </div>
 
-                <div className=" w-full flex justify-between items-center pt-2">
+                <div className=" cursor-default w-full flex justify-between items-center pt-2">
                   <div>
                     <p className=" text-[12px] font-semibold mb-0 text-black">{`${item?.salary_unit} Max.`}</p>
                     <p className=" text-[12px] font-semibold mb-0 text-gray-500">
@@ -230,14 +240,39 @@ const List = ({ data, setQuery, query, refetch, setSearchJob, searchJob }) => {
                     </p>
                   </div>
 
-                  <div className=" bg-black flex justify-center items-center text-[12px] text-white rounded-[30px] px-3 h-[25px] ">
-                    Details
+                  <div className=" flex flex-col gap-2">
+                    <div
+                      onClick={() => handleOpenInNewTab(item, Category)}
+                      className={`${
+                        item?.applied_job === "Rejected"
+                          ? "bg-red-700 cursor-default"
+                          : item?.applied_job
+                          ? "bg-green-700 cursor-default"
+                          : "bg-black cursor-pointer"
+                      } font-semibold flex justify-center items-center text-[12px] text-white rounded-[30px] px-3 py-1 text-center leading-[1.2em]`}
+                    >
+                      {item?.applied_job ? item.applied_job : "Apply"}
+                    </div>
+
+                    {item?.applied_job && (
+                      <div
+                        onClick={() => openingModal(item?.applyID)}
+                        className={` cursor-pointer bg-[#6d597a] font-semibold flex justify-center items-center text-[12px] text-white rounded-[30px] px-3 h-[25px] `}
+                      >
+                        Track
+                      </div>
+                    )}
+                    {/* {!(item?.applied_job) && <div
+                      className={` bg-[#38a3a5] font-semibold flex justify-center items-center text-[12px] text-white rounded-[30px] px-3 h-[25px] `}
+                    >
+                      View Job
+                    </div>} */}
                   </div>
                 </div>
 
                 <div className=" border-[1px] border-solid border-gray-300 w-full"></div>
 
-                <div className="  flex w-full  justify-between items-center ">
+                <div className=" cursor-default  flex w-full  justify-between items-center ">
                   <div className="flex gap-1 justify-start items-center ">
                     <img
                       className=" w-[22px]"
@@ -266,12 +301,12 @@ const List = ({ data, setQuery, query, refetch, setSearchJob, searchJob }) => {
       }
       <div className="my-[50px] ">
         <Pagination
-          total={data?.totalPage}
-          current={searchJob?.totalPage}
+          total={data?.data?.totalPages}
+          current={searchJob?.page}
           onChange={(page) => {
             setSearchJob({
               ...searchJob,
-              pageNo: page,
+              page: page ,
             });
           }}
           pageSize={searchJob?.limit}

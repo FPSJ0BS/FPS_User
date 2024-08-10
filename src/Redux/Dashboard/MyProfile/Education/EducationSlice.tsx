@@ -26,19 +26,18 @@ interface EmploymentTtpes {
 
 interface CertificateTypes {
   file: null;
-  certificateTitle:string;
-  certificateDescription:string;
+  certificateTitle: string;
+  certificateDescription: string;
 
   fileEdit: null;
-  certificateTitleEdit:string;
-  certificateDescriptionEdit:string;
+  certificateTitleEdit: string;
+  certificateDescriptionEdit: string;
 
-  certId: number | null
+  certId: number | null;
 }
 
 interface LanguageTypes {
-  
-  languageId: number | null
+  languageId: number | null;
 }
 
 interface QualificationData {
@@ -75,16 +74,14 @@ interface AppliedJobState {
   myProfileEmploymentEditModal: boolean;
   myProfileCertificatePostModal: boolean;
   myProfileCertificateEditModal: boolean;
-  myProfileCertificateDeleteModal:boolean;
-  myProfileLanguageAddModal:boolean;
-  myProfileLanguageDeleteModal:boolean;
-  myProfileLanguageEditModal:boolean;
-  myProfileCareerPreferenceModal:boolean;
-  myProfileUserDetailsModal:boolean;
-  myProfileSocialMediaModal: boolean,
-  myProfileOtherDetailsModal: boolean,
-
-
+  myProfileCertificateDeleteModal: boolean;
+  myProfileLanguageAddModal: boolean;
+  myProfileLanguageDeleteModal: boolean;
+  myProfileLanguageEditModal: boolean;
+  myProfileCareerPreferenceModal: boolean;
+  myProfileUserDetailsModal: boolean;
+  myProfileSocialMediaModal: boolean;
+  myProfileOtherDetailsModal: boolean;
 
   editEducationData: AppliedJobValues;
   editEmploymentData: EmploymentTtpes;
@@ -95,6 +92,7 @@ interface AppliedJobState {
   educationDataArray: EducationData[];
   userDataArray: UserData[];
   skillsDataArray: SkillData[];
+  skillsDataArrayAfter: SkillData[];
   skillsDataAddArray: SkillData[];
   skillsDataFilteredArray: SkillData[];
   languageDataArray: SkillData[];
@@ -131,6 +129,7 @@ const initialState: AppliedJobState = {
   educationDataArray: [],
   userDataArray: [],
   skillsDataArray: [],
+  skillsDataArrayAfter: [],
   skillsDataAddArray: [],
   skillsDataFilteredArray: [],
   languageDataArray: [],
@@ -168,19 +167,18 @@ const initialState: AppliedJobState = {
 
   editCertificateData: {
     file: null,
-    certificateTitle:"",
-    certificateDescription:"",
+    certificateTitle: "",
+    certificateDescription: "",
 
     fileEdit: null,
-    certificateTitleEdit:"",
-    certificateDescriptionEdit:"",
+    certificateTitleEdit: "",
+    certificateDescriptionEdit: "",
 
-    certId:null
+    certId: null,
   },
 
   editLanguageData: {
-    
-    languageId:null
+    languageId: null,
   },
 };
 
@@ -357,9 +355,6 @@ const myProfileEducationSlice = createSlice({
       state.percentageDataToAddArray = action.payload;
     },
 
-
-   
-
     addCityData: (state, action: PayloadAction<SkillData[]>) => {
       state.cityDataArray = action.payload;
     },
@@ -371,9 +366,6 @@ const myProfileEducationSlice = createSlice({
     addCareerPreferenceData: (state, action: PayloadAction<SkillData[]>) => {
       state.careerPreferenceDataArray = action.payload;
     },
-
-
-
 
     editEducationDataJobValues(
       state,
@@ -416,52 +408,92 @@ const myProfileEducationSlice = createSlice({
     },
 
     addSkill: (state, action) => {
-      const { skillId } = action.payload;
+      const { skillId, skill } = action.payload;
       const existingSkill = state.skillsDataAddArray.find(
-        (skill) => skill.skillId === skillId
+          (skill) => skill.skillId === skillId
       );
-
+  
       if (existingSkill) {
-        existingSkill.active = 1;
+          existingSkill.active = 1;
       } else {
-        const newSkill = {
-          id: state.idCounter,
-          skill: action.payload.skill,
-          skillId: action.payload.skillId,
-          active: 1,
-          created_at: new Date().toISOString(),
-        };
-        state.skillsDataAddArray.push(newSkill);
-        state.idCounter += 1; 
+          const newSkill = {
+              id: state.idCounter,
+              skill: skill,
+              skillId: skillId,
+              active: 1,
+              created_at: new Date().toISOString(),
+          };
+          state.skillsDataAddArray.push(newSkill);
+          state.idCounter += 1;
       }
-    },
+  
+      const combinedSkills = [...state.skillsDataArrayAfter, ...state.skillsDataAddArray];
+  
+      const uniqueSkillsMap = new Map();
+      combinedSkills.forEach(skill => {
+          if (skill.active === 1) {
+              uniqueSkillsMap.set(skill.skillId, skill);
+          }
+      });
+  
+      state.skillsDataArrayAfter = Array.from(uniqueSkillsMap.values());
+  },
+  
 
-    deleteSkill: (state, action) => {
-      const skillIdToDelete = action.payload; 
-      const skillToDelete = state.skillsDataAddArray.find(
+  deleteSkill: (state, action) => {
+    const skillIdToDelete = action.payload;
+    const skillToDelete = state.skillsDataAddArray.find(
         (skill) => skill.skillId === skillIdToDelete
-      );
+    );
 
-      if (skillToDelete) {
+    if (skillToDelete) {
         skillToDelete.active = 0;
-      }
-    },
+    }
+
+    state.skillsDataArrayAfter = state.skillsDataArrayAfter.filter(
+        (skill) => skill.skillId !== skillIdToDelete
+    );
+},
+
 
     addMultipleSkillsFromAPI: (state, action: PayloadAction<SkillData[]>) => {
-    const newSkills = action.payload.map((skill, index) => ({
+      const newSkills = action.payload.map((skill, index) => ({
         id: state.idCounter + index,
         skill: skill.skill,
         skillId: skill.id, // Map 'id' from API data to 'skillId'
         active: skill.active,
         created_at: skill.created_at,
-    }));
+      }));
 
-    // Replace the existing skills array with the new one
-    state.skillsDataAddArray = newSkills;
+  
+      state.skillsDataAddArray = newSkills;
 
-    // Update idCounter to start after the last added skill's id
-    state.idCounter += newSkills.length;
-},
+
+      state.idCounter += newSkills.length;
+
+      const newSkillsAdd = action.payload
+        .filter((skill) => skill.active === 1) // Filter skills where active is 1
+        .map((skill, index) => ({
+          id: state.idCounter + index,
+          skill: skill.skill,
+          skillId: skill.id, // Map 'id' from API data to 'skillId'
+          active: skill.active,
+          created_at: skill.created_at,
+        }));
+
+      // Combine existing skills with new skills
+      const combinedSkills = [...state.skillsDataArrayAfter, ...newSkillsAdd];
+      const uniqueSkillsMap = new Map();
+      combinedSkills.forEach(skill => {
+          uniqueSkillsMap.set(skill.skillId, skill);
+      });
+  
+      // Convert the Map back to an array to get unique skills
+      const uniqueSkillsArray = Array.from(uniqueSkillsMap.values());
+  
+      // Update the state with the unique skills
+      state.skillsDataArrayAfter = uniqueSkillsArray;
+    },
 
     // Reducer to toggle refetchProfile
     toggleRefetchProfile: (state) => {
@@ -470,8 +502,6 @@ const myProfileEducationSlice = createSlice({
         refetchProfile: !state.refetchProfile,
       };
     },
-
-    
   },
 });
 
@@ -491,25 +521,25 @@ export const {
   openModalEmploymentEditModal,
   closeModalEmploymentEditModal,
   openModalCertificateEditModal,
-closeModalCertificateEditModal,
-openModalCertificateEditDataModal,
-closeModalCertificateEditDataModal,
-openModalCertificateDeleteDataModal,
-closeModalCertificateDeleteDataModal,
-openModalLanguageAddModal,
-closeModalLanguageAddModal,
-openModalLanguageDeleteModal,
-closeModalLanguageDeleteModal,
-openModalLanguageEditModal,
-closeModalLanguageEditModal,
-openModalCareerPreferenceModal,
-closeModalCareerPreferenceModal,
-openModalUserDetailsModal,
-closeModalUserDetailsModal,
-openModalSocialMediaModal,
-closeModalSocialMediaModal,
-openModalOtherDetailsModal,
-closeModalOtherDetailsModal,
+  closeModalCertificateEditModal,
+  openModalCertificateEditDataModal,
+  closeModalCertificateEditDataModal,
+  openModalCertificateDeleteDataModal,
+  closeModalCertificateDeleteDataModal,
+  openModalLanguageAddModal,
+  closeModalLanguageAddModal,
+  openModalLanguageDeleteModal,
+  closeModalLanguageDeleteModal,
+  openModalLanguageEditModal,
+  closeModalLanguageEditModal,
+  openModalCareerPreferenceModal,
+  closeModalCareerPreferenceModal,
+  openModalUserDetailsModal,
+  closeModalUserDetailsModal,
+  openModalSocialMediaModal,
+  closeModalSocialMediaModal,
+  openModalOtherDetailsModal,
+  closeModalOtherDetailsModal,
 
   editEducationDataJobValues,
   editEmploymentDataJobValues,
@@ -523,8 +553,8 @@ closeModalOtherDetailsModal,
   addLanguageData,
   addPercentageData,
   addCityData,
-addSalaryData,
-addCareerPreferenceData,
+  addSalaryData,
+  addCareerPreferenceData,
   addSkill,
   deleteSkill,
   addMultipleSkillsFromAPI,

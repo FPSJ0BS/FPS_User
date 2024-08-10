@@ -5,6 +5,7 @@ export const JobListingNew = (props: any) => {
 
   return (
     <div className=" h-full ">
+      
       <Sidebar data={data} searchJob={searchJob} setSearchJob={setSearchJob} refetch = {refetch}/>
     </div>
   );
