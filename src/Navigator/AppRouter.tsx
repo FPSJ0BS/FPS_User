@@ -1,5 +1,5 @@
-import { Navigate, Outlet, Route, Routes } from "react-router-dom";
-import { Suspense, lazy } from "react";
+import { Navigate, Outlet, Route, Routes, useLocation } from "react-router-dom";
+import { Suspense, lazy, useEffect } from "react";
 import { AppRoute } from "./AppRoute";
 import { useIsFetching, useIsMutating } from "@tanstack/react-query";
 import Preloader from "@Components/Loader";
@@ -14,6 +14,10 @@ import Nof from "@Components/Message";
 import ShareProfile from "@Container/Dashboard/Container/Profile/ShareProfile";
 import TrackPopup from "@Container/Dashboard/Container/Applied/Component/TrackPopup";
 import { useSelector } from "react-redux";
+import ReactGA from "react-ga4";
+ReactGA.initialize("G-41YD1SK57B");
+
+
 
 const BlogDetails = lazy(() => import("@Container/Blog/BlogDetails"));
 
@@ -22,7 +26,10 @@ const ChooseTemplate = lazy(
 );
 
 const ResumeDesignsOne = lazy(
-  () => import("@Container/Resume Builder/Resume Designs/Resume-one/ResumeDesignsOne")
+  () =>
+    import(
+      "@Container/Resume Builder/Resume Designs/Resume-one/ResumeDesignsOne"
+    )
 );
 const Info = lazy(() => import("@Container/Resume Builder/Info/Info"));
 
@@ -76,6 +83,14 @@ const Privacypolicy = lazy(
 const RefundPolicy = lazy(() => import("@Container/RefundPolicy/RefundPolicy"));
 
 const AppRouter = () => {
+
+  
+  
+  const location = useLocation();
+  useEffect(() => {
+    ReactGA.send({ hitType: "pageview", page: location.pathname + location.search, title: location.pathname });
+  }, [location]);
+
   const isFetching = useIsFetching({
     predicate: (query) => {
       const notLoadingApisQueryKey = [
@@ -109,7 +124,6 @@ const AppRouter = () => {
   ScrollToTop();
 
   const { modalOpen } = useSelector((state: any) => state.appliedJobSlice);
-
 
   return (
     <>
@@ -167,7 +181,10 @@ const AppRouter = () => {
                   element={<ChooseTemplate />}
                 />
                 <Route path={AppRoute.ResumeMain} element={<ResumeMain />} />
-                <Route path={AppRoute.ResumeDesignOne} element={<ResumeDesignsOne />} />
+                <Route
+                  path={AppRoute.ResumeDesignOne}
+                  element={<ResumeDesignsOne />}
+                />
               </Route>
               {/* Other private routes */}
             </Route>
@@ -222,7 +239,6 @@ const AppRouter = () => {
                 </PublicRoute>
               }
             >
-
               <Route path={AppRoute.ShareProfile} element={<ShareProfile />} />
               <Route path={AppRoute.Login} element={<Login />} />
 

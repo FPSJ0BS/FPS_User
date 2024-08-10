@@ -61,7 +61,7 @@ const CategoryNew = (props: IProps) => {
           
           return (
             <div
-              key={idx.id}
+              key={index}
               className={` gap-3 `}
               onClick={() => {
                 setCategoryData(idx);
