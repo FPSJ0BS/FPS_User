@@ -2,7 +2,7 @@ import useReg from "@Hooks/Mutation/useReg";
 import useGetCityList from "@Hooks/Queries/useGetCityList";
 import useIndustryList from "@Hooks/Queries/useIndustryList";
 import useStatesList from "@Hooks/Queries/useStatesList";
-import { memo, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import useJobTitle from "@Hooks/Queries/useJobTitle";
@@ -30,6 +30,9 @@ import JOBMATCHING from "@Assets/Icons/jobmatching.png";
 import AIICON from "@Assets/Icons/ai.png";
 import RESUMEICON from "@Assets/Icons/resume.png";
 import OtpSignUp from "../Component/OtpSignUp";
+import useSendOtp from "@Hooks/Mutation/useSendOtp";
+import useOtpCheck from "@Hooks/Mutation/useOtpCheck";
+import useStatesListNode from "@Hooks/Queries/useStatesListNode";
 // import useExperiences from "@Hooks/Queries/useExperiences";
 const SignUp = () => {
   const { setUserLoginData } = useGlobalContext();
@@ -48,7 +51,7 @@ const SignUp = () => {
   const [industry, setIndustry] = useState({
     industry_id: "",
   });
-  const { data: State } = useStatesList({});
+  const { data: State } = useStatesListNode({});
   const { data: cityList } = useGetCityList(
     { enabled: !!query.stateID },
     query
@@ -63,14 +66,21 @@ const SignUp = () => {
   } = useForm<IRegType>();
   const { mutateAsync: reg, isPending } = useReg({});
   const { mutateAsync: verify, isPending: isSendOtp } = useVerificationOtp({});
+  const { mutateAsync: sendOtp, isPending: isSendOtpLoader } = useSendOtp({});
+  const { mutateAsync: OtpCheck, isPending: isOtpCheckLoader } = useOtpCheck(
+    {}
+  );
+
+  const [hashValue, sethashValue] = useState("");
+  const [otpSendData, setOtpSendData] = useState({});
 
   let pwd = watch("password");
 
   const onSubmit: SubmitHandler<IRegType> = async (data) => {
     setMobileNumber(data?.mobile);
     const filterState =
-      State?.states &&
-      State?.states?.filter((item) => {
+      State?.data &&
+      State?.data?.filter((item) => {
         return item?.id === data.state;
       });
     const filterCity =
@@ -82,16 +92,32 @@ const SignUp = () => {
       ...data,
       city: filterCity?.[0]?.name,
       state: filterState?.[0]?.name,
+      added_by: "web",
     };
     const formData: any = FormDataAppend(_data);
     try {
       // setModal(true);
       // console.log(formData);
       await reg(formData).then((res) => {
-        if (res?.success) {
+        if (res?.statusCode === 200) {
+          sendOtp({
+            mobile: _data?.mobile,
+          }).then( async (res) => {
+            if (res?.statusCode === 200) {
+              await sethashValue(res?.data[0]);
+              setOtpSendData({
+                hash: res?.data[0],
+                fcm_token: "no token",
+                device_type: "Web",
+              });
+            } else {
+              Toast("error", res?.message);
+            }
+          });
           Toast("success", res?.message);
           setIsOtpPage(false);
         } else {
+          Toast("error", res?.message);
         }
       });
     } catch (e: any) {
@@ -106,30 +132,21 @@ const SignUp = () => {
     industry
   );
   const onVerificationOtp: SubmitHandler<any> = (data) => {
-    const _data = { mobile: data?.mobile, otp: data?.otp };
+    console.log("datadatadatadata", hashValue);
+
     try {
-      verify(_data)
-        .then((res) => {
-          if (res.success) {
-            setUserLoginData({
-              ...res?.data,
-              UID: res?.data?.faculityID,
-            });
-            Toast("success", "Login successful! Enjoy your experience.");
-            navigate(AppRoute.Home);
-          }
-        })
-        .catch((_) => {
-          Toast("error", "Invalid  Otp");
-        });
+      OtpCheck(data).then((res) => {
+        if (res?.statusCode === 200) {
+          setUserLoginData(res?.data);
+          navigate(AppRoute.Dashboard);
+          Toast("success", "Login successful! Enjoy your experience.");
+        } else {
+          Toast("error", res?.message);
+        }
+      });
     } catch (e: any) {}
   };
-  const validTypes = [
-    'application/pdf',
-    'application/msword',
-
-    'image/jpeg',
-  ];
+  const validTypes = ["application/pdf", "application/msword", "image/jpeg"];
   return (
     <>
       <SEO
@@ -409,8 +426,8 @@ const SignUp = () => {
                           <option className="text-black" value="">
                             <span className="text-black">Select State</span>
                           </option>
-                          {State?.states &&
-                            State?.states?.map((item: any, index) => {
+                          {State?.data &&
+                            State?.data?.map((item: any, index) => {
                               return (
                                 <option
                                   className="text-black"
@@ -468,7 +485,9 @@ const SignUp = () => {
                   </div>
 
                   <div className="d-flex w-full flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2">
-                    <label className="fw-bolder text-white ">Industry, looking for a job in?</label>
+                    <label className="fw-bolder text-white ">
+                      Industry, looking for a job in?
+                    </label>
                     <Controller
                       name="industry"
                       control={control}
@@ -568,7 +587,7 @@ const SignUp = () => {
                       id="formFile"
                       accept=".pdf,.doc,.docx,image/jpeg"
                       name="resume"
-                      style={{ height: "100px", width:"100%" }}
+                      style={{ height: "100px", width: "100%" }}
                       onChange={(e: any) => {
                         const file = e.target.files[0];
                         const validTypes = [
@@ -634,7 +653,8 @@ const SignUp = () => {
                     <button
                       onClick={handleSubmit(onSubmit)}
                       className={`bg-white border-2 text-[15px] font-bold border-black border-solid text-black reg w-full ${
-                        isPending && "d-flex w-full flex-row justify-content-center"
+                        isPending &&
+                        "d-flex w-full flex-row justify-content-center"
                       }`}
                       disabled={isPending ? true : false}
                     >
@@ -664,15 +684,23 @@ const SignUp = () => {
                   <OtpSignUp
                     name={"otp"}
                     cb={(_data) => {
-                      const data = { mobile: mobileNumber, ..._data };
+                      const data = {
+                        phone_number: mobileNumber,
+                        ..._data,
+                        ...otpSendData,
+                      };
                       onVerificationOtp(data);
                     }}
-                    digit={4}
+                    digit={6}
                     label={
                       " Please enter your verification code to complete your registration."
                     }
                     isResendOtp={false}
                     isPending={isSendOtp}
+                    mobile={mobileNumber}
+                    sethashValue={sethashValue}
+                    setOtpSendData = {setOtpSendData}
+                    otpSendData = {otpSendData}
                   />
                 </div>
               </>

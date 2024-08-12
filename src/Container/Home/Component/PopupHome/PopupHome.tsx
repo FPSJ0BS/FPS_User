@@ -5,7 +5,6 @@ const PopupHome = () => {
   const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
-    // Show the popup every time the component mounts
     setShowPopup(true);
   }, []);
 

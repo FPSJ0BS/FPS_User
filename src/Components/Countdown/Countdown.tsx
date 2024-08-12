@@ -35,7 +35,7 @@ const Countdown = ({
   return (
     <div className="d-flex flex-row justify-content-center mt-5 gap-1">
       <span
-        className={`text-white countdown  ${seconds !== 0 ? "" : "sendOtp"}`}
+        className={`text-black countdown  ${seconds !== 0 ? "" : "sendOtp"}`}
         onClick={
           seconds == 0
             ? async () => {

@@ -23,10 +23,15 @@ export const loginwithEmail = async (req: ILoginWithEmailType) => {
 };
 
 export const doSignUp = async (req: IRegType) => {
-  const res = await http.postRequestForm("register", req);
+  const res = await httpNode.postRequestForm("user/authentication/registration", req);
   // const res = await http.postRequestForm("Web_api_V3_test/signup", req);
   return res;
 };
+// export const doSignUp = async (req: IRegType) => {
+//   const res = await http.postRequestForm("register", req);
+//   // const res = await http.postRequestForm("Web_api_V3_test/signup", req);
+//   return res;
+// };
 
 export const doVerificationOtp = async (req: any) => {
   const formData = new FormData();
@@ -41,13 +46,32 @@ export const doMobileNumberCheck = async (data: any) => {
   return res;
 };
 
+// export const sendOtp = async (req: any) => {
+//   const res = await http.getRequest(`v2/sendotp?${getQuery(req)}`);
+//   return res;
+// };
+
 export const sendOtp = async (req: any) => {
-  const res = await http.getRequest(`v2/sendotp?${getQuery(req)}`);
+  const main = {
+    phone_number: req?.mobile,
+  };
+  const res = await httpNode.postRequest(
+    `user/authentication/mobileSendOTP`,
+    main
+  );
   return res;
 };
 
+// export const otpCheck = async (req: any) => {
+//   const res = await http.getRequest(`v2/otpCheck?${getQuery(req)}`);
+//   return res;
+// };
+
 export const otpCheck = async (req: any) => {
-  const res = await http.getRequest(`v2/otpCheck?${getQuery(req)}`);
+  const res = await httpNode.postRequest(
+    `user/authentication/mobileVerifyOTP`,
+    req
+  );
   return res;
 };
 
@@ -111,8 +135,6 @@ export const doSearchJobsNode = async (data) => {
   );
   return res;
 };
-
-
 
 export const doLatestJobs = async () => {
   const res = await http.postRequest(`v2/searchJobs`, {});
