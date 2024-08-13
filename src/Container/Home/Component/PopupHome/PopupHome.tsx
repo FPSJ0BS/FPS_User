@@ -6,18 +6,15 @@ const PopupHome = () => {
   const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
-    const lastShown = localStorage.getItem("popupLastShown");
-    const now = new Date().getTime();
+// Choose the logic that ensures the popup shows only once every 24 hours.
+const lastShown = localStorage.getItem("popupLastShown");
+const now = new Date().getTime();
 
-    // If lastShown doesn't exist or 24 hours have passed since the last popup
-    if (!lastShown || now - lastShown > 24 * 60 * 60 * 1000) {
-
-      setShowPopup(true);
-
-      localStorage.setItem("popupLastShown", now);
-      
-    }
-
+// If lastShown doesn't exist or 24 hours have passed since the last popup
+if (!lastShown || now - lastShown > 24 * 60 * 60 * 1000) {
+  setShowPopup(true);
+  localStorage.setItem("popupLastShown", now);
+}
   }, []);
 
   const handleClose = () => {

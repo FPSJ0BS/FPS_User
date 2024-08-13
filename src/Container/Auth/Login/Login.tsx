@@ -59,22 +59,19 @@ const Login = () => {
       setSendOtpObj(data);
       if (res?.userStatus) {
         sendOtp(data).then((res) => {
-       
-          if (res?.status === "success") {
+          if (res?.statusCode === 200) {
             Toast(
               "success",
               "Your Verification Code Send Successfully,Please Check Your Mobile"
             );
             setIsOtp(true);
             setData({
-              UID: res?.UID,
-              regToken: res?.smsResult?.result,
+              phone_number: data?.mobile,
+              hash: res?.data[0],
+              fcm_token: "no token",
               device_type: "Web",
-              ip_address: "192.54.565",
             });
           } else {
-         
-
             Toast("error", res?.message);
           }
         });
@@ -271,8 +268,8 @@ const Login = () => {
                               cb={(_data) => {
                                 const query = { ..._data, ...data };
                                 OtpCheck(query).then((res) => {
-                                  if (res?.status === "success") {
-                                    setUserLoginData(res);
+                                  if (res?.statusCode === 200) {
+                                    setUserLoginData(res?.data);
                                     navigate(AppRoute.Dashboard);
                                     Toast(
                                       "success",
