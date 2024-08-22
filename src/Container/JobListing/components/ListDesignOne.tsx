@@ -24,13 +24,13 @@ const ListDesignOne = ({
   ];
 
   return (
-    <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4   gap-4  ml-0  place-items-center sm:place-items-stretch  ">
+    <div className=" grid grid-cols-1 sm:grid-cols-2  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4   gap-4  ml-0  place-items-center sm:place-items-stretch  ">
       {jobLists?.map((item, index) => {
         const bgColor = colors[index % colors.length];
         return (
           <div
             key={index}
-            className=" w-[90vw] sm:w-[44vw] md:w-[40vw] lg:w-[22vw] gap-2 min-h-[300px]  bg-white rounded-[20px] p-[10px] flex flex-col items-start justify-start shadow-md border-1 border-solid border-[#e1e1df]"
+            className=" w-[90vw] sm:w-[44vw] md:w-[40vw] lg:w-[30vw] xl:w-[23vw] 2xl:w-[22vw] gap-2 min-h-[300px]  bg-white rounded-[20px] p-[10px] flex flex-col items-start justify-start shadow-md border-1 border-solid border-[#e1e1df]"
           >
             <div
               onClick={() => handleOpenInNewTab(item, Category)}

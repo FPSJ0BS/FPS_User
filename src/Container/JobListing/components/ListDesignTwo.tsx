@@ -23,6 +23,8 @@ const ListDesignTwo = ({
     "bg-[#eceef3]",
   ];
 
+  console.log("jobLists", jobLists);
+
   return (
     <div className=" grid grid-cols-1    gap-4  ml-0  place-items-center sm:place-items-stretch  ">
       {jobLists?.map((item, index) => {
@@ -36,61 +38,65 @@ const ListDesignTwo = ({
               onClick={() => handleOpenInNewTab(item, Category)}
               className={` cursor-pointer  h-[75%] rounded-2xl ${bgColor} p-[10px]`}
             >
-              <div className=" flex flex-col gap-3">
-                <div className=" flex justify-between items-center ">
-                  <div>
-                    <p className=" text-[12px] font-semibold mb-0 text-black bg-white px-3 py-1 rounded-[30px]">
-                      {getRelativeTime(item?.created_at)}
-                    </p>
-                  </div>
-                  {userData?.UID !== undefined && (
-                    <div
-                      onClick={(e) =>
-                        item?.favourite === "1"
-                          ? setRemoveFavourite(e, item?.jobID)
-                          : setJobFavourite(e, item?.jobID)
-                      }
-                      className=" bg-white p-[6px] rounded-full"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill={item?.favourite === "1" ? "black" : "none"}
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className={`  lucide lucide-bookmark  ${
-                          item?.favourite === "1" ? "text-black" : "text-black"
-                        }  cursor-pointer`}
-                      >
-                        <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z" />
-                      </svg>
+              <div className=" flex flex-col gap-2">
+                <div className="flex flex-row-reverse">
+                  <div className=" w-full flex justify-end items-center gap-2">
+                    <div className="">
+                      <p className=" text-[12px] font-semibold mb-0 text-black bg-white px-3 py-1 rounded-[30px]">
+                        {getRelativeTime(item?.created_at)}
+                      </p>
                     </div>
-                  )}
-                </div>
+                    {userData?.UID !== undefined && (
+                      <div
+                        onClick={(e) =>
+                          item?.favourite === "1"
+                            ? setRemoveFavourite(e, item?.jobID)
+                            : setJobFavourite(e, item?.jobID)
+                        }
+                        className=" bg-white p-[6px] rounded-full"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill={item?.favourite === "1" ? "black" : "none"}
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className={`  lucide lucide-bookmark  ${
+                            item?.favourite === "1"
+                              ? "text-black"
+                              : "text-black"
+                          }  cursor-pointer`}
+                        >
+                          <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z" />
+                        </svg>
+                      </div>
+                    )}
+                  </div>
 
-                <div className=" flex flex-col w-full">
-                  <h2 className="text-black font-bold mb-0 text-[15px] uppercase leading-[1.4em] line-clamp-1">
-                    {item?.job_title}
-                  </h2>
+                  <div className=" flex w-full items-center gap-2">
+                    <h2 className="text-black font-bold mb-0 text-[18px] uppercase leading-[1.4em] line-clamp-1">
+                      {item?.job_title}
+                    </h2>
 
-                  {data?.data?.pack_type === "Prepaid" &&
-                  userData?.UID !== undefined ? (
-                    <h2 className="text-semibold font-bold mb-0 text-[12px] uppercase leading-[1.4em] line-clamp-2">
-                      {item?.company_name}
-                    </h2>
-                  ) : item?.show_all === 1 ? (
-                    <h2 className="text-semibold font-bold mb-0 text-[12px] uppercase leading-[1.4em] line-clamp-2">
-                      {item?.company_name}
-                    </h2>
-                  ) : (
-                    <h2 className="text-semibold font-bold mb-0 text-[12px] uppercase leading-[1.4em] line-clamp-2">
-                      {item?.category_title}
-                    </h2>
-                  )}
+                    {data?.data?.pack_type === "Prepaid" &&
+                    userData?.UID !== undefined ? (
+                      <h2 className="text-semibold font-bold mb-0 text-[12px] uppercase leading-[1.4em] line-clamp-2">
+                        {item?.company_name}
+                      </h2>
+                    ) : item?.show_all === 1 ? (
+                      <h2 className="text-semibold font-bold mb-0 text-[12px] uppercase leading-[1.4em] line-clamp-2">
+                        {item?.company_name}
+                      </h2>
+                    ) : (
+                      <h2 className="text-semibold font-bold mb-0 text-[12px] uppercase leading-[1.4em] line-clamp-2">
+                        {item?.category_title}
+                      </h2>
+                    )}
+                  </div>
                 </div>
 
                 <div className=" flex  flex-wrap gap-2">
@@ -120,7 +126,7 @@ const ListDesignTwo = ({
                 </div>
 
                 <div>
-                  <p className=" mb-0 line-clamp-2 font-medium text-[12px]">
+                  <p className=" mb-0 line-clamp-4 font-medium text-[12px]">
                     {removeSpecificTextAndTags(item?.job_description)}
                   </p>
                 </div>
@@ -129,13 +135,13 @@ const ListDesignTwo = ({
 
             <div className=" cursor-default w-full flex justify-between items-center pt-2">
               <div>
-                <p className=" text-[12px] font-semibold mb-0 text-black">{`${item?.salary_unit} Max.`}</p>
-                <p className=" text-[12px] font-semibold mb-0 text-gray-500">
+                <p className=" text-[13px] font-semibold mb-0 text-black">{`${item?.salary_unit} Max.`}</p>
+                <p className=" text-[13px] font-semibold mb-0 text-gray-500">
                   {item?.state}, {item?.city}
                 </p>
               </div>
 
-              <div className=" flex flex-col gap-2">
+              <div className=" flex  gap-2">
                 <div
                   onClick={() => handleOpenInNewTab(item, Category)}
                   className={`${

@@ -147,9 +147,6 @@ const AppRouter = () => {
         const res = await getGoogleAPIOAuth(encodedCode);
 
         console.log('res -> res ->',res);
-
-
-
         
       } catch (error) {
         console.log(error);

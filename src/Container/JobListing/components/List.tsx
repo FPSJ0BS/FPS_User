@@ -15,7 +15,7 @@ import { useDispatch } from "react-redux";
 import ListDesignOne from "./ListDesignOne";
 import ListDesignTwo from "./ListDesignTwo";
 
-const List = ({ data, setQuery, query, refetch, setSearchJob, searchJob }) => {
+const List = ({ data, setQuery, query, refetch, setSearchJob, searchJob, selectedValue }) => {
   const jobLists = data?.data?.jobsList;
   const { mutateAsync: removeFavourite } = useRemoveFavourite({});
   const { mutateAsync: Favourite } = useFavourite({});
@@ -129,7 +129,7 @@ const List = ({ data, setQuery, query, refetch, setSearchJob, searchJob }) => {
   return (
     <div className=" flex flex-col  h-full ">
       
-        {/* <ListDesignOne
+       {selectedValue === 'column view' && <ListDesignOne
           jobLists={jobLists}
           handleOpenInNewTab={handleOpenInNewTab}
           getRelativeTime={getRelativeTime}
@@ -140,9 +140,9 @@ const List = ({ data, setQuery, query, refetch, setSearchJob, searchJob }) => {
           Category={Category}
           removeSpecificTextAndTags={removeSpecificTextAndTags}
           openingModal={openingModal}
-        /> */}
+        />}
         
-        <ListDesignTwo
+        { selectedValue === 'list view' && <ListDesignTwo
           jobLists={jobLists}
           handleOpenInNewTab={handleOpenInNewTab}
           getRelativeTime={getRelativeTime}
@@ -153,7 +153,7 @@ const List = ({ data, setQuery, query, refetch, setSearchJob, searchJob }) => {
           Category={Category}
           removeSpecificTextAndTags={removeSpecificTextAndTags}
           openingModal={openingModal}
-        />
+        />}
 
       
       <div className="my-[50px] ">
