@@ -33,12 +33,7 @@ function CareerPreferncePopup() {
   const [cityPref, setCityPref] = useState([]);
   const [salaryPref, setsalaryPref] = useState([]);
 
-  const {
-    languageDataArray,
-    cityDataArray,
-    salaryDataArray,
-    careerPreferenceDataArray,
-  } = useSelector((state: any) => state.myProfileEducationSlice);
+
 
   useLayoutEffect(() => {
     setLoaderState(true);
@@ -50,13 +45,10 @@ function CareerPreferncePopup() {
         const city = await res?.data?.data?.city_preferences;
         const salary = await res?.data?.data?.salary_preferences[0];
 
-        
-
         await setCarrerPref(career);
         await setCityPref(city);
         await setsalaryPref(salary);
 
-      
         setLoaderState(false);
       } else {
         console.error(res);
@@ -81,7 +73,6 @@ function CareerPreferncePopup() {
   //   console.log("jobType", jobType);
   //   console.log("empType", empType.id);
 
-   
   // }, [
   //   locationArray,
   //   roleArray,
@@ -90,8 +81,6 @@ function CareerPreferncePopup() {
   //   jobType,
   //   empType,
   // ]);
-
-  
 
   const getAllIds = () => {
     // Assuming empType, jobType, selectedShift, and roleArray are defined as state variables
@@ -113,21 +102,29 @@ function CareerPreferncePopup() {
     return allIds;
   };
 
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setButtonLoad(true);
 
     const allId = await getAllIds();
-    const locationdata = await locationArray?.map(item => item.id).join(",")
-    const salaryId = selectedSalary?.id
-
-
+    const locationdata = await locationArray?.map((item) => item.id).join(",");
+    const salaryId = selectedSalary?.id;
+    const roleArrayIds = roleArray?.map((item) => item.id) || [];
+    const loca = locationArray.map(item => Number(item.id))
     try {
+
       const res = await postSubmitCareerPreferenceDetails({
-        faculityID: userId,
-        career_id: allId,
-        preferred_city: locationdata,
+        facultyID: userId,
+        job_role: parseInt(roleArrayIds[0]),
+        preferred_city: loca,
         preferred_salary: salaryId,
+        job_type: parseInt(jobType?.id),
+        preferred_shift: parseInt(selectedShift?.id),
+        nature_of_employment: parseInt(empType?.id),
+
+
       });
 
       if (res?.data?.status) {
@@ -180,7 +177,7 @@ function CareerPreferncePopup() {
               <EmploymentType setSelectedEmpType={setSelectedEmpType} />
             </div>
             <button
-            disabled = {locationArray.length < 1 || roleArray.length < 1}
+              disabled={locationArray.length < 1 || roleArray.length < 1}
               type="submit"
               className=" mt-4 p-2 bg-green-500 text-white rounded-md shadow-sm flex justify-center items-center"
             >

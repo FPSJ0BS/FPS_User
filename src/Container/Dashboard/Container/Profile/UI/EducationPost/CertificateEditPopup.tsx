@@ -96,19 +96,18 @@ function CertificateEditPopup() {
         );
 
         if (res?.data?.status) {
-          // console.log("res", res?.data?.data?.certificate[0]);
-          const data = await res?.data?.data?.certificate[0];
-
+          const data = await res?.data?.data[0];
           await dispatch(
             editCertificateDataJobValues({
               certificateTitleEdit: data?.title,
               certificateDescriptionEdit: data?.description,
             })
           );
-
           setLoaderState(false);
         } else {
-        
+
+          console.log(res);
+      
         }
       } catch (error) {
         console.log(error);

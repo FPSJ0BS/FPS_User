@@ -221,7 +221,7 @@ const Sidebar = (props: any) => {
                 className="border-t-0 border-r-0 border-l-0 placeholder-white text-white pl-3 h-[40px] text-[12px] 2xl:text-[14px]"
                 name={"title"}
                 type="text"
-                placeholder="Enter title "
+                placeholder="Enter title... "
                 value={query?.title}
                 onChange={(e) => {
                   setQuery({
@@ -263,7 +263,7 @@ const Sidebar = (props: any) => {
               </svg>
 
               <Dropdown
-                placeholder="Select State"
+                placeholder="State..."
                 options={_state || []}
                 className="react-dropdown select2 bg-black border-t-0 border-r-0 border-l-0 text-white text-[12px] 2xl:text-[14px]"
                 onChange={(value) => {
@@ -347,7 +347,7 @@ const Sidebar = (props: any) => {
               <Dropdown
                 options={_experiences || []}
                 className="react-dropdown select2 bg-black border-t-0 border-r-0 border-l-0 text-white text-[12px] 2xl:text-[14px]"
-                placeholder="Select Experience"
+                placeholder="Experience..."
                 onChange={(value) => {
                   setQuery({
                     ...query,
@@ -385,7 +385,7 @@ const Sidebar = (props: any) => {
               <Dropdown
                 options={_salary || []}
                 className="react-dropdown select2 bg-black border-t-0 border-r-0 border-l-0 text-white text-[12px] 2xl:text-[14px]"
-                placeholder="Select Salary"
+                placeholder="Salary..."
                 onChange={(value) => {
                   setQuery({
                     ...query,
@@ -421,7 +421,7 @@ const Sidebar = (props: any) => {
                 <path d="M8 18h8" />
               </svg>
               <Dropdown
-                placeholder="Select Job Type"
+                placeholder="Job Type..."
                 options={jobType || []}
                 className="react-dropdown select2 bg-black border-t-0 border-r-0 border-l-0 text-white text-[13px]  2xl:text-[14px]"
                 onChange={(value) => {

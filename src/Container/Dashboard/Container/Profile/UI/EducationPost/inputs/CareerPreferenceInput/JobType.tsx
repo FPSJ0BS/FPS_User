@@ -1,16 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 
-export const JobType = ({setSelectedJobType}) => {
+export const JobType = ({ setSelectedJobType }) => {
   const { careerPreferenceDataArray } = useSelector(
     (state: any) => state.myProfileEducationSlice
   );
 
-
   const [inputValue, setInputValue] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-
 
   const openDropdown = () => {
     setShowDropdown(true);
@@ -50,11 +48,9 @@ export const JobType = ({setSelectedJobType}) => {
     setShowDropdown(true);
   };
 
-  const filteredShifts = careerPreferenceDataArray
-    .filter((item) => item.type === "job_type")
-    .filter((option) =>
-      option.value.toLowerCase().includes(inputValue.toLowerCase())
-    );
+  const filteredShifts = careerPreferenceDataArray?.job_type?.filter((option) =>
+    option.value.toLowerCase().includes(inputValue.toLowerCase())
+  );
 
   return (
     <div className="relative w-[100%] col-span-2 md:col-span-1">
@@ -125,7 +121,7 @@ export const JobType = ({setSelectedJobType}) => {
       </div>
       {showDropdown && (
         <ul className="postjobHandleScrollbar max-h-[300px] overflow-y-auto absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg pl-0">
-          {filteredShifts.slice(0, 50).map((option, index: number) => (
+          {filteredShifts?.slice(0, 50).map((option, index: number) => (
             <li
               key={index}
               className="cursor-pointer hover:bg-gray-100 py-1 px-3"
@@ -136,7 +132,6 @@ export const JobType = ({setSelectedJobType}) => {
           ))}
         </ul>
       )}
-     
     </div>
   );
 };

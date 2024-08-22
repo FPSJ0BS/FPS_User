@@ -15,6 +15,7 @@ function OtherDetailsPopup() {
   const { userDataArray } = useSelector(
     (state: any) => state.myProfileEducationSlice
   );
+  const getDate = (isoString) => new Date(isoString).toISOString().split('T')[0];
   const dispatch = useDispatch();
   const [buttonLoad, setButtonLoad] = useState(false);
 
@@ -27,7 +28,7 @@ function OtherDetailsPopup() {
     address: userDataArray?.other_details?.address || "",
     hometown: userDataArray?.other_details?.hometown || "",
     pincode: userDataArray?.other_details?.pincode || "",
-    faculityID: userId,
+    facultyID: userId,
     gender: userDataArray?.other_details?.gender || "",
     dob: userDataArray?.other_details?.dob || "",
     banner: null,

@@ -55,9 +55,9 @@ const Login = () => {
   };
   const { mutateAsync: sendOtp, isPending: isSendOtpLoader } = useSendOtp({});
   const onMobileNumberCheck: SubmitHandler<ILoginWithEmailType> = (data) => {
-    MobileCheck(data).then((res) => {
+    
       setSendOtpObj(data);
-      if (res?.userStatus) {
+  
         sendOtp(data).then((res) => {
           if (res?.statusCode === 200) {
             Toast(
@@ -75,10 +75,8 @@ const Login = () => {
             Toast("error", res?.message);
           }
         });
-      } else {
-        Toast("error", res?.message);
-      }
-    });
+     
+  
   };
 
   useEffect(() => {
@@ -90,6 +88,34 @@ const Login = () => {
       setFocus("email");
     }
   }, [tabIndex, isOtp]);
+
+  useEffect(() => {
+    const storeData = async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const data = urlParams.get('data');
+
+ 
+
+      if (data) {
+        try {
+          // Decode and parse the JSON string
+    
+        
+          Toast("error", "Email id already exisits, please login...");
+          
+
+          
+        
+        } catch (error) {
+          console.error('Error parsing data:', error);
+        }
+      } else {
+        console.log('No data found in query parameters.');
+      }
+    };
+
+    storeData();
+  }, []);
 
   return (
     <>

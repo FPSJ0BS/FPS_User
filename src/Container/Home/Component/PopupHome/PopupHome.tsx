@@ -27,7 +27,7 @@ if (!lastShown || now - lastShown > 24 * 60 * 60 * 1000) {
     <>
       {showPopup && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-90 z-50 w-full h-full popuphome">
-          <div className="p-8 rounded-lg shadow-lg w-[55%] h-[50%] bg-[url('@Assets/24hours-popup.png')] bg-contain bg-no-repeat relative">
+          <div className="p-8 rounded-lg shadow-lg w-[98%] md:w-[70%] xl:w-[60%] 2xl:w-[55%] h-[50%] bg-[url('@Assets/24hours-popup.png')] bg-contain xl:bg-cover bg-no-repeat relative">
             <svg
               onClick={handleClose}
               xmlns="http://www.w3.org/2000/svg"
@@ -39,7 +39,7 @@ if (!lastShown || now - lastShown > 24 * 60 * 60 * 1000) {
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="lucide lucide-x absolute right-5 text-white cursor-pointer"
+              className="lucide lucide-x absolute right-5 text-white cursor-pointer top-5"
             >
               <path d="M18 6 6 18" />
               <path d="m6 6 12 12" />

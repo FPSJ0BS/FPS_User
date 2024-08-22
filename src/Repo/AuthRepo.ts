@@ -87,9 +87,14 @@ export const dogetSubjectCategory = async (req: any) => {
 };
 
 export const dogetJobTitle = async (data) => {
+  console.log('data.queryKey[1]?.industry_id',data.queryKey[1]?.industry_id);
   const res = await http.postRequest(`v3/job-title`, {
     industry_id: data.queryKey[1]?.industry_id,
   });
+  return res;
+};
+export const dogetJobTitleNode = async (data) => {
+  const res = await httpNode.getRequest(`user/subCategories?categoryID=${data.queryKey[1]?.industry_id}`);
   return res;
 };
 
@@ -107,10 +112,20 @@ export const dogetindustryList = async () => {
   const res = await http.getRequest(`v3/industry`);
   return res;
 };
+export const dogetindustryListNode = async () => {
+  const res = await httpNode.getRequest(`user/categories`);
+  return res;
+};
 
 export const dogetCityList = async (data) => {
   const res = await http.getRequest(
     `v2/cities?stateID=${data?.queryKey?.[1]?.stateID}`
+  );
+  return res;
+};
+export const dogetCityListNode = async (data) => {
+  const res = await httpNode.getRequest(
+    `user/stateCities/${data?.queryKey?.[1]?.stateID}`
   );
   return res;
 };
@@ -157,8 +172,8 @@ export const dogetJobDetailsNode = async (req: any) => {
 
 export const doaddFavourite = async (req: any) => {
   const token = getToken();
-  const res = await http.getRequest(
-    `Web_api_V3_test/addFavourite?${getQuery(req)}`,
+  const res = await httpNode.postRequest(
+    `user/addFavourite`,req,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -170,7 +185,7 @@ export const doaddFavourite = async (req: any) => {
 
 export const doRemoveFavourite = async (req: any) => {
   const token = getToken();
-  const res = await http.getRequest(`v2/removeFavourite?${getQuery(req)},`, {
+  const res = await httpNode.postRequest(`user/removeFavourite`,req, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -184,17 +199,17 @@ export const doJobFilter = async (req: any) => {
 };
 
 export const doQualification = async () => {
-  const res = await http.getRequest(`v2/qualifications`);
+  const res = await httpNode.getRequest(`user/qualifications`);
   return res;
 };
 
 export const doResultType = async () => {
-  const res = await http.getRequest(`Faculity/resultType`);
+  const res = await httpNode.getRequest(`user/jobResultType`);
   return res;
 };
 
 export const doEducationType = async () => {
-  const res = await http.getRequest(`Faculity/educationType`);
+  const res = await httpNode.getRequest(`user/jobType`);
   return res;
 };
 

@@ -77,10 +77,10 @@ const List = ({ data, setQuery, query, refetch, setSearchJob, searchJob }) => {
   ) => {
     e.stopPropagation();
     Favourite({
-      UID: userData?.UID,
+      facultyID: userData?.UID,
       jobID: id,
     }).then((res) => {
-      if (res?.status === "success") {
+      if (res?.status) {
         queryClient.invalidateQueries({ queryKey: ["allFavourite"] });
         Toast("success", "Job add sucessfully favourite");
 
@@ -97,10 +97,10 @@ const List = ({ data, setQuery, query, refetch, setSearchJob, searchJob }) => {
   ) => {
     e.stopPropagation();
     removeFavourite({
-      UID: userData?.UID,
+      facultyID: userData?.UID,
       jobID: id,
     }).then((res) => {
-      if (res?.status === "success") {
+      if (res?.status) {
         queryClient.invalidateQueries({ queryKey: ["allFavourite"] });
         Toast("success", "Job removed from favourites" || res?.message);
         refetch();

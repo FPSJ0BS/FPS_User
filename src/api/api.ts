@@ -35,7 +35,7 @@ export const postSubmitEducationDetails = async (postData) => {
   const token = getToken();
   try {
     const response = await axios.post(
-      `${BASE_URL}/Faculity/faculity_education_save`,
+      `${BASE_URL_NODE}/user/facultyEducationSave`,
       postData,
       {
         headers: {
@@ -53,8 +53,8 @@ export const postSubmitEducationDetails = async (postData) => {
 export const postSubmitEducationEditDetails = async (postData) => {
   const token = getToken();
   try {
-    const response = await axios.post(
-      `${BASE_URL}/Faculity/faculity_education_edit`,
+    const response = await axios.patch(
+      `${BASE_URL_NODE}/user/facultyEducationUpdate`,
       postData,
       {
         headers: {
@@ -70,9 +70,16 @@ export const postSubmitEducationEditDetails = async (postData) => {
 };
 
 export const getEducationDetailsSingle = async (eduId, facultyId) => {
+  const token = getToken();
+
   try {
     const response = await axios.get(
-      `${BASE_URL}/Faculity/faculity_education?education=${eduId}&faculity_id=${facultyId}`
+      `${BASE_URL_NODE}/user/facultyEducation?facultyID=${facultyId}&id=${eduId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
     return response;
   } catch (error) {
@@ -82,9 +89,16 @@ export const getEducationDetailsSingle = async (eduId, facultyId) => {
 };
 
 export const getDeleteEducationDetails = async (eduId) => {
+  const token = getToken();
+
   try {
-    const response = await axios.get(
-      `${BASE_URL}/Faculity/faculity_education_delete?education=${eduId}`
+    const response = await axios.delete(
+      `${BASE_URL_NODE}/user/facultyEducationDelete?id=${eduId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
     return response;
   } catch (error) {
@@ -116,11 +130,14 @@ export const getRefetchUserProfileData = async (UID) => {
   try {
     const token = getToken();
 
-    const response = await axios.get(`${BASE_URL}/v2/userDetail?UID=${UID}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axios.get(
+      `${BASE_URL_NODE}/user/facultyProfileAllData?facultyID=${UID}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return response;
   } catch (error) {
     console.error("Error fetching user data:", error);
@@ -132,15 +149,13 @@ export const postSubmitEmploymentDetails = async (postData) => {
   const token = getToken();
   try {
     const response = await axios.post(
-      `${BASE_URL}/Faculity/faculity_experience_save`,
+      `${BASE_URL_NODE}/user/facultyExperienceSave`,
       postData,
       {
         headers: {
-          'Authorization': `Bearer ${token}`,
-          
-        }
+          Authorization: `Bearer ${token}`,
+        },
       }
-
     );
     return response;
   } catch (error) {
@@ -152,14 +167,13 @@ export const postSubmitEmploymentDetails = async (postData) => {
 export const getDeleteEmploymentDetails = async (empId) => {
   const token = getToken();
   try {
-    const response = await axios.get(
-      `${BASE_URL}/Faculity/faculity_experience_delete?experience=${empId}`,
+    const response = await axios.delete(
+      `${BASE_URL_NODE}/user/facultyExperienceDelete?id=${empId}`,
       {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       }
-
     );
     return response;
   } catch (error) {
@@ -173,13 +187,12 @@ export const getEmploymentDetailsSingle = async (empId, facultyId) => {
 
   try {
     const response = await axios.get(
-      `${BASE_URL}/Faculity/faculity_experience?experience=${empId}&faculity_id=${facultyId}`,
+      `${BASE_URL_NODE}/user/facultyExperienceAllData?facultyID=${facultyId}&id=${empId}`,
       {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       }
-
     );
     return response;
   } catch (error) {
@@ -191,15 +204,14 @@ export const getEmploymentDetailsSingle = async (empId, facultyId) => {
 export const postSubmitEmploymentEditDetails = async (postData) => {
   const token = getToken();
   try {
-    const response = await axios.post(
-      `${BASE_URL}/Faculity/faculity_experience_edit`,
+    const response = await axios.patch(
+      `${BASE_URL_NODE}/user/facultyExperienceUpdate`,
       postData,
       {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       }
-
     );
     return response;
   } catch (error) {
@@ -212,7 +224,7 @@ export const postCertificateDetails = async (formData) => {
   const token = getToken();
   try {
     const response = await axios.post(
-      `${BASE_URL}/Faculity/faculityCertificateSave`,
+      `${BASE_URL_NODE}/user/facultyCertificateSave`,
       formData,
       {
         headers: {
@@ -232,13 +244,12 @@ export const getCertificateDetailsSingle = async (certId, facultyId) => {
   const token = getToken();
   try {
     const response = await axios.get(
-      `${BASE_URL}/Faculity/faculityCertificate?faculityID=${facultyId}&certificate_id=${certId}`,
+      `${BASE_URL_NODE}/user/facultyCertificate?facultyID=${facultyId}&id=${certId}`,
       {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       }
-
     );
     return response;
   } catch (error) {
@@ -250,13 +261,13 @@ export const getCertificateDetailsSingle = async (certId, facultyId) => {
 export const postCertificateDetailsEdit = async (formData) => {
   const token = getToken();
   try {
-    const response = await axios.post(
-      `${BASE_URL}/Faculity/faculityCertificateEdit`,
+    const response = await axios.patch(
+      `${BASE_URL_NODE}/user/facultyCertificateUpdate`,
       formData,
       {
         headers: {
           "Content-Type": "multipart/form-data",
-          'Authorization': `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -270,14 +281,13 @@ export const postCertificateDetailsEdit = async (formData) => {
 export const getDeleteCertificateDetails = async (empId) => {
   const token = getToken();
   try {
-    const response = await axios.get(
-      `${BASE_URL}/Faculity/faculityCertificateDelete?certificate_id=${empId}`,
+    const response = await axios.delete(
+      `${BASE_URL_NODE}/user/facultyCertificateDelete?id=${empId}`,
       {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       }
-
     );
     return response;
   } catch (error) {
@@ -290,7 +300,7 @@ export const postSubmitLanguageDetails = async (postData) => {
   const token = getToken();
   try {
     const response = await axios.post(
-      `${BASE_URL}/Faculity/languageAdd`,
+      `${BASE_URL_NODE}/user/facultyLanguageSave`,
       postData,
       {
         headers: {
@@ -308,8 +318,8 @@ export const postSubmitLanguageDetails = async (postData) => {
 export const getDeleteLanguageDetails = async (lanId) => {
   const token = getToken();
   try {
-    const response = await axios.get(
-      `${BASE_URL}/Faculity/faculityLanguageDelete?language=${lanId}`,
+    const response = await axios.delete(
+      `${BASE_URL_NODE}/user/facultyLanguageDelete?id=${lanId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -327,7 +337,7 @@ export const getSingleLanguageDetails = async (facId, lanId) => {
   const token = getToken();
   try {
     const response = await axios.get(
-      `${BASE_URL}/Faculity/faculityLanguage?faculity_id=${facId}&id=${lanId}`,
+      `${BASE_URL_NODE}/user/facultyLanguage?facultyID=${facId}&id=${lanId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -345,8 +355,8 @@ export const postSubmitEditLanguageDetails = async (postData) => {
   const token = getToken();
 
   try {
-    const response = await axios.post(
-      `${BASE_URL}/Faculity/faculityLanguageEdit`,
+    const response = await axios.patch(
+      `${BASE_URL_NODE}/user/facultyLanguageUpdate`,
       postData,
       {
         headers: {
@@ -374,10 +384,17 @@ export const getCareerPreferenceDetails = async (facId) => {
 };
 
 export const postSubmitCareerPreferenceDetails = async (postData) => {
+  const token = getToken();
+
   try {
     const response = await axios.post(
-      `${BASE_URL}/Faculity/faculityCareerPreferencesSave`,
-      postData
+      `${BASE_URL_NODE}/user/facultyCareerPreferenceSave`,
+      postData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
     return response;
   } catch (error) {
@@ -390,7 +407,7 @@ export const postUploadResume = async (formData) => {
   const token = getToken();
   try {
     const response = await axios.post(
-      `${BASE_URL}/Web_api_V3_test/profileCv`,
+      `${BASE_URL_NODE}/user/resume-upload`,
       formData,
       {
         headers: {
@@ -410,14 +427,13 @@ export const postSubmitSocialMediaLinksDetails = async (postData) => {
   const token = getToken();
   try {
     const response = await axios.post(
-      `${BASE_URL}/Faculity/saveSocialLink`,
+      `${BASE_URL_NODE}/user/facultySocialLinkSave`,
       postData,
       {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       }
-
     );
     return response;
   } catch (error) {
@@ -430,12 +446,12 @@ export const postOtherDetails = async (formData) => {
   const token = getToken();
   try {
     const response = await axios.post(
-      `${BASE_URL}/Faculity/updateOtherDetails`,
+      `${BASE_URL_NODE}/user/facultyOtherDetails`,
       formData,
       {
         headers: {
           "Content-Type": "multipart/form-data",
-            'Authorization': `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -450,13 +466,12 @@ export const getRefetchPercentageDetail = async (UID) => {
   const token = getToken();
   try {
     const response = await axios.get(
-      `${BASE_URL}/Faculity/checkProfilePercentage?faculityID=${UID}`,
+      `${BASE_URL_NODE}/user/facultyProfilePercentage?facultyID=${UID}`,
       {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       }
-
     );
     return response;
   } catch (error) {
@@ -473,10 +488,9 @@ export const getResumeDetail = async (tempId, UID) => {
       `${BASE_URL}/Faculity/useTemplate?template_id=${tempId}&faculityID=${UID}`,
       {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       }
-
     );
     return response;
   } catch (error) {
@@ -485,15 +499,14 @@ export const getResumeDetail = async (tempId, UID) => {
   }
 };
 
-export const postSkillsAPI = async (formData) => {
+export const postSkillsAPI = async (data) => {
   const token = getToken();
   try {
     const response = await axios.post(
-      `${BASE_URL}/Faculity/skill_list`,
-      formData,
+      `${BASE_URL_NODE}/user/skillSearch`,
+      data,
       {
         headers: {
-          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
       }
@@ -509,7 +522,7 @@ export const getSelectedListSkill = async (UID) => {
   const token = getToken();
   try {
     const response = await axios.get(
-      `${BASE_URL}/Faculity/skill?faculity_id=${UID}`,
+      `${BASE_URL_NODE}/user/facultySkill?facultyID=${UID}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -556,19 +569,24 @@ export const getResumeData = async (UID) => {
   }
 };
 
-
 export const findJobsSearch = async (formData) => {
-
-
   try {
-    const response = await axios.post(
-      `${BASE_URL}/v2/Jobs_filter`,
-      formData,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      }
+    const response = await axios.post(`${BASE_URL}/v2/Jobs_filter`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response;
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    throw error;
+  }
+};
+
+export const getEmailVerify = async (emailIdentity, auth) => {
+  try {
+    const response = await axios.get(
+      `${BASE_URL_NODE}/user/authentication/verifyEmailLinkApprove?emailIdentity=${emailIdentity}&auth=${auth}`
     );
     return response;
   } catch (error) {
@@ -576,3 +594,39 @@ export const findJobsSearch = async (formData) => {
     throw error;
   }
 };
+
+export const getEmailVerifyInitiate = async (faculityID) => {
+  try {
+    const response = await axios.get(
+      `${BASE_URL_NODE}/user/authentication/verifyEmailLink?facultyID=${faculityID}`
+    );
+    return response;
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    throw error;
+  }
+};
+
+export const getGoogleAPI = async () => {
+  try {
+    const response = await axios.get(
+      `${BASE_URL_NODE}/request/request`
+    );
+    return response;
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    throw error;
+  }
+};
+export const getGoogleAPIOAuth = async (code) => {
+  try {
+    const response = await axios.get(
+      `${BASE_URL_NODE}/request/oAuth?code=${code}`
+    );
+    return response;
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    throw error;
+  }
+};
+
