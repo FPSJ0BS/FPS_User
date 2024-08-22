@@ -30,6 +30,16 @@ function EducationEditPopup() {
   const [buttonLoad, setButtonLoad] = useState(false);
   const [loaderState, setLoaderState] = useState(false);
 
+  function formatDateForInput(isoDate) {
+    const date = new Date(isoDate);
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  }
+
   useLayoutEffect(() => {
     setLoaderState(true);
     const fetch = async () => {
@@ -40,7 +50,6 @@ function EducationEditPopup() {
         );
 
         if (res?.data?.status) {
-       
           const data = await res?.data?.data[0];
 
           await dispatch(
@@ -48,8 +57,8 @@ function EducationEditPopup() {
               instituteName: data?.institute_name,
               course: data?.course,
               courseType: data?.type,
-              startDate: data?.start_date,
-              endDate: data?.end_date,
+              startDate: formatDateForInput(data?.start_date),
+              endDate: formatDateForInput(data?.end_date),
               result: data?.result,
               resultType: data?.result_type,
               specialization: data?.specialization,
@@ -58,7 +67,6 @@ function EducationEditPopup() {
 
           setLoaderState(false);
         } else {
-        
         }
       } catch (error) {
         console.log(error);
@@ -72,14 +80,13 @@ function EducationEditPopup() {
     (state: any) => state.myProfileEducationSlice
   );
 
- 
-
   const onSubmitData = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     setButtonLoad(true);
 
     try {
-      const res = await postSubmitEducationEditDetails([{
+      const res = await postSubmitEducationEditDetails({
+        faculityID: userId.toString(),
         education: editEducationData.individualId,
         institute_name: editEducationData.instituteName,
         course: parseInt(editEducationData.course),
@@ -90,17 +97,16 @@ function EducationEditPopup() {
         type: parseInt(editEducationData.courseType),
         result_type: parseInt(editEducationData.resultType),
         specialization: editEducationData.specialization,
-      }]);
+      });
       if (res?.data?.status) {
-        dispatch(toggleRefetchProfile())
+        dispatch(toggleRefetchProfile());
         await dispatch(closeModalEducationEditModal());
         Toast("success", res?.data?.message);
-        setButtonLoad(false)
+        setButtonLoad(false);
       } else {
         Toast("error", res?.data?.message);
-        setButtonLoad(false)
+        setButtonLoad(false);
         await dispatch(closeModalEducationEditModal());
-
       }
     } catch (error) {
       console.log(error);

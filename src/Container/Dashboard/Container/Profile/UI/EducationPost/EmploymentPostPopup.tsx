@@ -13,11 +13,9 @@ import { postSubmitEmploymentDetails } from "@/api/api";
 function EmploymentPostPopup() {
   const { userData } = useGlobalContext();
   const dispatch = useDispatch();
-  const { mutateAsync } = useProfileEducationPost({});
   const [buttonLoad, setButtonLoad] = useState(false);
 
-  const { qualificationDataArray, resultDataArray, educationDataArray } =
-    useSelector((state: any) => state.myProfileEducationSlice);
+ 
 
   const [employmentDetails, setEmploymentDetails] = useState([
     {

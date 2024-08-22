@@ -118,14 +118,14 @@ function CareerPreference() {
             </p>
             <div className=" flex gap-2">
               {userDataArray?.career_preferences?.map(
-                ({ carrer_value, carrer_type }, index) => {
-                  if (carrer_type === "job_role") {
+                ({ career_value, career_type }, index) => {
+                  if (career_type === "job_role") {
                     return (
                       <p
                         key={index}
                         className="capitalize cursor-pointer text-black font-semibold mb-0"
                       >
-                        {carrer_value}
+                        {career_value}
                       </p>
                     );
                   }
@@ -160,14 +160,14 @@ function CareerPreference() {
               </p>
               <div className=" flex gap-2">
                 {userDataArray?.career_preferences?.map(
-                  ({ carrer_value, carrer_type }, index) => {
-                    if (carrer_type === "nature_of_employment") {
+                  ({ career_value, career_type }, index) => {
+                    if (career_type === "nature_of_employment") {
                       return (
                         <p
                           key={index}
                           className="capitalize cursor-pointer text-black font-semibold mb-0"
                         >
-                          {carrer_value}
+                          {career_value}
                         </p>
                       );
                     }
@@ -185,14 +185,14 @@ function CareerPreference() {
               </p>
               <div className=" flex gap-2">
                 {userDataArray?.career_preferences?.map(
-                  ({ carrer_value, carrer_type }, index) => {
-                    if (carrer_type === "job_type") {
+                  ({ career_value, career_type }, index) => {
+                    if (career_type === "job_type") {
                       return (
                         <p
                           key={index}
                           className="capitalize cursor-pointer text-black font-semibold mb-0"
                         >
-                          {carrer_value}
+                          {career_value}
                         </p>
                       );
                     }
@@ -208,14 +208,14 @@ function CareerPreference() {
               </p>
               <div className=" flex gap-2">
                 {userDataArray?.career_preferences?.map(
-                  ({ carrer_value, carrer_type }, index) => {
-                    if (carrer_type === "preferred_shift") {
+                  ({ career_value, career_type }, index) => {
+                    if (career_type === "preferred_shift") {
                       return (
                         <p
                           key={index}
                           className="capitalize cursor-pointer text-black font-semibold mb-0"
                         >
-                          {carrer_value}
+                          {career_value}
                         </p>
                       );
                     }

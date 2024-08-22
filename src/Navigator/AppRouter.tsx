@@ -1,5 +1,5 @@
 import { Navigate, Outlet, Route, Routes, useLocation } from "react-router-dom";
-import { Suspense, lazy, useEffect } from "react";
+import { Suspense, lazy, useEffect, useLayoutEffect } from "react";
 import { AppRoute } from "./AppRoute";
 import { useIsFetching, useIsMutating } from "@tanstack/react-query";
 import Preloader from "@Components/Loader";
@@ -15,9 +15,8 @@ import ShareProfile from "@Container/Dashboard/Container/Profile/ShareProfile";
 import TrackPopup from "@Container/Dashboard/Container/Applied/Component/TrackPopup";
 import { useSelector } from "react-redux";
 import ReactGA from "react-ga4";
+import { getGoogleAPIOAuth } from "@/api/api";
 ReactGA.initialize("G-41YD1SK57B");
-
-
 
 const BlogDetails = lazy(() => import("@Container/Blog/BlogDetails"));
 
@@ -83,12 +82,13 @@ const Privacypolicy = lazy(
 const RefundPolicy = lazy(() => import("@Container/RefundPolicy/RefundPolicy"));
 
 const AppRouter = () => {
-
-  
-  
   const location = useLocation();
   useEffect(() => {
-    ReactGA.send({ hitType: "pageview", page: location.pathname + location.search, title: location.pathname });
+    ReactGA.send({
+      hitType: "pageview",
+      page: location.pathname + location.search,
+      title: location.pathname,
+    });
   }, [location]);
 
   const isFetching = useIsFetching({
@@ -125,9 +125,46 @@ const AppRouter = () => {
 
   const { modalOpen } = useSelector((state: any) => state.appliedJobSlice);
 
+  useLayoutEffect(() => {
+    const params = new URLSearchParams(location.search);
+  
+    // Extract individual parameters
+    const code = params.get("code");
+
+  
+    // Re-encode the code parameter
+    const encodedCode = encodeURIComponent(code);
+  
+
+    console.log('Re-encoded code ->>>>>>>>>', encodedCode);
+
+    const fetchAPI =  async () => {
+
+
+
+      try {
+
+        const res = await getGoogleAPIOAuth(encodedCode);
+
+        console.log('res -> res ->',res);
+
+
+
+        
+      } catch (error) {
+        console.log(error);
+      }
+
+
+    }
+
+    fetchAPI()
+  
+  }, []);
+
   return (
     <>
-      {isFetching || isMutating ? <Preloader /> : null}
+      {/* {isFetching || isMutating ? <Preloader /> : null} */}
       <Nof />
       {modalOpen && <TrackPopup />}
       <Suspense fallback={<Preloader />}>

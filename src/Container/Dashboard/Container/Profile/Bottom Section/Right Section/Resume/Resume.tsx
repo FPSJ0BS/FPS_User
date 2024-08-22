@@ -35,8 +35,8 @@ function Resume() {
     try {
       setButtonLoad(true)
       const formData = new FormData();
-      formData.append("UID", userId); // Append UID
-      formData.append("cvDoc", selectedFile); // Append selected file
+      formData.append("facultyID", userId); // Append UID
+      formData.append("resume", selectedFile); // Append selected file
 
       const res = await postUploadResume(formData);
 

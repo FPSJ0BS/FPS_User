@@ -55,7 +55,7 @@ const Membership = () => {
           order_id: response?.order_id,
           handler: (res) => {
             packUpdate({
-              UID: userData?.UID,
+              facultyID: userData?.UID,
               packID: item?.packID,
               amount: item?.price,
               type: item?.type,
@@ -63,10 +63,10 @@ const Membership = () => {
               transaction_id: res?.razorpay_payment_id,
               transaction_signature: res?.razorpay_signature,
               transaction_order_id: res?.razorpay_order_id,
-              payment_type: "Card",
+              payment_type: "razorpay",
               payment_status: "Capture",
             }).then((res) => {
-              if (res?.status === "success") {
+              if (res?.status) {
                 queryClient.invalidateQueries({
                   queryKey: [Querykeys.profileDetails],
                 });
@@ -106,13 +106,11 @@ const Membership = () => {
     if (item?.type === "Postpaid") {
       if (confirm("Do you really want to choose postpaid package") === true) {
         packUpdate({
-          UID: userData?.UID,
+          facultyID: userData?.UID,
           packID: item?.packID,
-          amount: item?.price,
           type: item?.type,
-          subscription_day: item?.days,
         }).then((res) => {
-          if (res?.status === "success") {
+          if (res?.status) {
             queryClient.invalidateQueries({
               queryKey: [Querykeys.profileDetails],
             });

@@ -40,6 +40,16 @@ function EmploymentEditPopup() {
     (state: any) => state.myProfileEducationSlice
   );
 
+  function formatDateForInput(isoDate) {
+    const date = new Date(isoDate);
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  }
+
   useEffect(() => {
     setLoaderState(true);
     const fetch = async () => {
@@ -57,8 +67,8 @@ function EmploymentEditPopup() {
               organization: data?.organization,
               designation: data?.designation,
               responsibilities: data?.responsibilities,
-              startDate: data?.start_date,
-              endDate: data?.end_date,
+              startDate: formatDateForInput(data?.start_date),
+              endDate: formatDateForInput(data?.end_date),
               currently: parseInt(data?.currently),
             })
           );
@@ -82,9 +92,9 @@ function EmploymentEditPopup() {
     setButtonLoad(true);
 
     try {
-      const res = await postSubmitEmploymentEditDetails([
+      const res = await postSubmitEmploymentEditDetails(
         {
-          experience: editEmploymentData.employmentId,
+          id: editEmploymentData.employmentId,
           faculityID: userId,
           organization: editEmploymentData.organization,
           designation: editEmploymentData.designation,
@@ -93,7 +103,7 @@ function EmploymentEditPopup() {
           end_date: editEmploymentData.endDate,
           currently: editEmploymentData.currently,
         },
-      ]);
+      );
       if (res?.data?.status) {
        
         dispatch(toggleRefetchProfile());

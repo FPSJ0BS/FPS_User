@@ -33,7 +33,13 @@ import OtpSignUp from "../Component/OtpSignUp";
 import useSendOtp from "@Hooks/Mutation/useSendOtp";
 import useOtpCheck from "@Hooks/Mutation/useOtpCheck";
 import useStatesListNode from "@Hooks/Queries/useStatesListNode";
+import { getEmailVerifyInitiate, getGoogleAPI } from "@/api/api";
+import useGetCityListNode from "@Hooks/Queries/useGetCityListNode";
+import useIndustryListNode from "@Hooks/Queries/useIndustryListNode";
+import useJobTitleNode from "@Hooks/Queries/useJobTitleNode";
+import GoogleAuth from "../Component/GoogleAuth";
 // import useExperiences from "@Hooks/Queries/useExperiences";
+import googleIcon from "@Assets/search.png";
 const SignUp = () => {
   const { setUserLoginData } = useGlobalContext();
   const [isOtpPage, setIsOtpPage] = useState(true);
@@ -52,7 +58,7 @@ const SignUp = () => {
     industry_id: "",
   });
   const { data: State } = useStatesListNode({});
-  const { data: cityList } = useGetCityList(
+  const { data: cityList } = useGetCityListNode(
     { enabled: !!query.stateID },
     query
   );
@@ -84,8 +90,8 @@ const SignUp = () => {
         return item?.id === data.state;
       });
     const filterCity =
-      cityList?.cities &&
-      cityList?.cities.filter((item) => {
+      cityList?.data &&
+      cityList?.data.filter((item) => {
         return item?.id === data.city;
       });
     const _data = {
@@ -96,13 +102,13 @@ const SignUp = () => {
     };
     const formData: any = FormDataAppend(_data);
     try {
-      // setModal(true);
-      // console.log(formData);
       await reg(formData).then((res) => {
         if (res?.statusCode === 200) {
+          const facID = res?.data;
+
           sendOtp({
             mobile: _data?.mobile,
-          }).then( async (res) => {
+          }).then(async (res) => {
             if (res?.statusCode === 200) {
               await sethashValue(res?.data[0]);
               setOtpSendData({
@@ -114,6 +120,23 @@ const SignUp = () => {
               Toast("error", res?.message);
             }
           });
+
+          const fetchEmailVerifyLink = async () => {
+            try {
+              const resp = await getEmailVerifyInitiate(facID);
+
+              if (resp?.status) {
+                Toast("success", resp?.message);
+              } else {
+                Toast("error", resp?.message);
+              }
+            } catch (error) {
+              console.log(error);
+            }
+          };
+
+          fetchEmailVerifyLink();
+
           Toast("success", res?.message);
           setIsOtpPage(false);
         } else {
@@ -126,14 +149,12 @@ const SignUp = () => {
     }
   };
 
-  const { data: Industry } = useIndustryList({});
-  const { data: Jobs } = useJobTitle(
+  const { data: Industry } = useIndustryListNode({});
+  const { data: Jobs } = useJobTitleNode(
     { enabled: !!industry.industry_id },
     industry
   );
   const onVerificationOtp: SubmitHandler<any> = (data) => {
-    console.log("datadatadatadata", hashValue);
-
     try {
       OtpCheck(data).then((res) => {
         if (res?.statusCode === 200) {
@@ -147,6 +168,34 @@ const SignUp = () => {
     } catch (e: any) {}
   };
   const validTypes = ["application/pdf", "application/msword", "image/jpeg"];
+
+
+
+  const auth = async () => {
+
+    try {
+      const res = await getGoogleAPI();
+
+      if(res.data.status){
+
+        const path = res?.data?.data;
+        window.open(path,"_self")
+
+        console.log(res?.data?.data);
+
+      }
+      
+    } catch (error) {
+      
+    }
+
+
+
+    // navigate(data?.data);
+  };
+
+
+
   return (
     <>
       <SEO
@@ -379,7 +428,7 @@ const SignUp = () => {
                             onChange={onChange}
                           />
                           <Link
-                            className={`password-addon ${
+                            className={`text-white password-addon ${
                               showPass ? "icon-eye" : "icon-eye-off"
                             }`}
                             id="password-addon"
@@ -460,11 +509,11 @@ const SignUp = () => {
                       className="select border-1 form-select border border-slate-100 text-white bg-transparent"
                       autoComplete="off"
                     >
-                      <option value="">
+                      <option className="text-black" value="">
                         <span className="text-black">Select City</span>
                       </option>
-                      {cityList?.cities &&
-                        cityList?.cities.map((item, index) => {
+                      {cityList?.data &&
+                        cityList?.data.map((item, index) => {
                           return (
                             <option
                               className="text-black"
@@ -507,13 +556,13 @@ const SignUp = () => {
                             onChange(e);
                           }}
                         >
-                          <option value="">
+                          <option className=" text-black" value="">
                             <span className="text-black">
                               Select Your Industry
                             </span>
                           </option>
-                          {Industry?.industries &&
-                            Industry?.industries.map((item, index) => {
+                          {Industry?.data &&
+                            Industry?.data.map((item, index) => {
                               return (
                                 <option
                                   className="text-black"
@@ -545,11 +594,11 @@ const SignUp = () => {
                       name="subject"
                       className="select border-1 form-select border border-slate-100 text-white bg-transparent"
                     >
-                      <option value="">
+                      <option className="text-black" value="">
                         <span className="text-black">Select Job Title </span>
                       </option>
-                      {Jobs?.jobs &&
-                        Jobs?.jobs.map((item, index) => {
+                      {Jobs?.data &&
+                        Jobs?.data.map((item, index) => {
                           return (
                             <option
                               className="text-black"
@@ -649,10 +698,10 @@ const SignUp = () => {
                       </small>
                     )}
                   </div>
-                  <div className="flex flex-row justify-center mt-1  col-span-2 ">
+                  <div className="flex flex-col xl:flex-row justify-center items-center mt-1  col-span-2 gap-4  ">
                     <button
                       onClick={handleSubmit(onSubmit)}
-                      className={`bg-white border-2 text-[15px] font-bold border-black border-solid text-black reg w-full ${
+                      className={`bg-black  text-[15px] font-bold  text-white reg w-full border-[1px] border-solid border-white ${
                         isPending &&
                         "d-flex w-full flex-row justify-content-center"
                       }`}
@@ -664,6 +713,23 @@ const SignUp = () => {
                         "Register Now"
                       )}
                     </button>
+
+                    <p className=" mb-0 text-white font-bold text-[18px]">OR</p>
+
+                    <div
+                      typeof="button"
+                      onClick={() => auth()}
+                      className=" flex gap-2 items-center justify-center px-2 py-[10px] bg-white cursor-pointer rounded-[30px] w-[100%] xl:w-[50%]"
+                    >
+                      <img
+                        src={googleIcon}
+                        alt="google icon"
+                        className=" w-[30px]"
+                      />
+                      <p className="mb-0 text-black xl:text-[14px] 2xl:text-[16px] font-semibold ">
+                        Sign-Up with Google
+                      </p>
+                    </div>
                   </div>
                   <div
                     typeof="button"
@@ -699,8 +765,8 @@ const SignUp = () => {
                     isPending={isSendOtp}
                     mobile={mobileNumber}
                     sethashValue={sethashValue}
-                    setOtpSendData = {setOtpSendData}
-                    otpSendData = {otpSendData}
+                    setOtpSendData={setOtpSendData}
+                    otpSendData={otpSendData}
                   />
                 </div>
               </>

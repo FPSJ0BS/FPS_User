@@ -32,7 +32,7 @@ const SavedJob = () => {
       </div>
       <div className="wrapper flex-wrap">
         <FlatList
-          data={AllFavourite?.jobs}
+          data={AllFavourite?.data}
           renderItem={(item) => <List data={item} />}
         />
       </div>

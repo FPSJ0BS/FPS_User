@@ -69,18 +69,14 @@ function LanguagePopup() {
   
 
     try {
-
       const res = await postSubmitLanguageDetails(formattedData)
 
       if(res?.data?.status){
-        
         dispatch(toggleRefetchProfile());
         await dispatch(closeModalLanguageAddModal());
         Toast("success", res?.data?.message);
         setButtonLoad(false);
-
       } else{
-    
         Toast("error", res?.data?.message);
         setButtonLoad(false);
         // await dispatch(closeModalLanguageAddModal());
@@ -89,9 +85,6 @@ function LanguagePopup() {
     } catch (error) {
       console.log(error);
     }
-
-   
-
     setButtonLoad(false);
   };
 

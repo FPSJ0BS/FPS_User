@@ -32,7 +32,7 @@ function CertificatePostPopup() {
     
       // Create a new FormData object
       const formData = new FormData();
-      formData.append('faculityID', userData.UID);
+      formData.append('facultyID', userData.UID);
       formData.append('certificate_file', file);
       formData.append('title', editCertificateData.certificateTitle);
       formData.append('description', editCertificateData.certificateDescription);

@@ -21,10 +21,8 @@ export const PreferredRole = ({ roleArray, setRoleArray }) => {
   };
 
   const handleOptionSelect = (option: string, id: number) => {
-    if (!roleArray.some((city) => city.id === id)) {
-      setRoleArray([...roleArray, { name: option, id }]);
-    }
-    setInputValue("");
+    setRoleArray([{ name: option, id }]); // Replace the existing array with the new selected option
+    setInputValue(option);
     setShowDropdown(false);
   };
 
@@ -54,11 +52,9 @@ export const PreferredRole = ({ roleArray, setRoleArray }) => {
     setRoleArray(roleArray.filter((city) => city.id !== id));
   };
 
-  const filteredCities = careerPreferenceDataArray
-    .filter((item) => item.type === "job_role")
-    .filter((option) =>
-      option?.value?.toLowerCase().includes(inputValue.toLowerCase())
-    );
+  const filteredCities = careerPreferenceDataArray?.job_role?.filter((option) =>
+    option?.value?.toLowerCase().includes(inputValue.toLowerCase())
+  );
 
   return (
     <div className="relative w-[100%]  col-span-2">
@@ -139,33 +135,7 @@ export const PreferredRole = ({ roleArray, setRoleArray }) => {
           ))}
         </ul>
       )}
-      <div className="flex flex-wrap gap-2 mt-2">
-        {roleArray.map(({ name, id }) => (
-          <div
-            key={id}
-            className="flex gap-2 items-center  p-2 bg-gray-300 rounded-full px-3"
-          >
-            <span>{name}</span>
-
-            <svg
-              onClick={() => handleRemoveCity(id)}
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="lucide lucide-x text-red-500 cursor-pointer"
-            >
-              <path d="M18 6 6 18" />
-              <path d="m6 6 12 12" />
-            </svg>
-          </div>
-        ))}
-      </div>
+      <div className="flex flex-wrap gap-2 mt-2"></div>
     </div>
   );
 };

@@ -87,11 +87,11 @@ function UserDetailsPopup() {
       ...data,
       city: filterCity?.[0]?.name,
       state: filterState?.[0]?.name,
-      UID: userData?.UID,
+      facultyID: userData?.UID,
     };
 
     ProfileUpdate(_data).then((res) => {
-      if (res.status === "success") {
+      if (res.status) {
         dispatch(toggleRefetchProfile());
         navigate(`${AppRoute.Dashboard}/${AppRoute.Profile}`);
         Toast("success", res?.message);
@@ -304,7 +304,7 @@ function UserDetailsPopup() {
                       placeholder=" Your Name"
                       aria-invalid="true"
                       type="text"
-                      disabled
+                      
                       autoComplete="false"
                       style={{ color: "#000" }}
                     />
@@ -327,7 +327,7 @@ function UserDetailsPopup() {
                         },
                       })}
                       name="email"
-                      disabled
+                      
                       placeholder="email"
                       aria-invalid="true"
                       type="email"
