@@ -127,40 +127,46 @@ const AppRouter = () => {
 
   useLayoutEffect(() => {
     const params = new URLSearchParams(location.search);
-  
-    // Extract individual parameters
-    const code = params.get("code");
 
-  
-    // Re-encode the code parameter
-    const encodedCode = encodeURIComponent(code);
-  
+    // Extract the profile parameter from the URL
+    const profileParam = params.get("profile");
 
-    console.log('Re-encoded code ->>>>>>>>>', encodedCode);
-
-    const fetchAPI =  async () => {
-
-
-
+    if (profileParam) {
       try {
+        // Decode and parse the profile parameter (assuming it's URL-encoded JSON)
+        const profileData = JSON.parse(decodeURIComponent(profileParam));
 
-        const res = await getGoogleAPIOAuth(encodedCode);
+        console.log("Decoded profileData ->>>>>>>>>", profileData);
 
-        console.log('res -> res ->',res);
+        // Access the individual data within profileData if it exists
+        if (profileData && profileData.userData) {
+          const { message } = profileData;
+          const { status, loginToken, UID } = profileData.userData;
+
+          console.log("Message:", message);
+          console.log("Status:", status);
+          console.log("Login Token:", loginToken);
+          console.log("UID:", UID);
+
+          const main = {
+            status,
+            loginToken,
+            UID
+          }
+
+          localStorage.setItem('token:fpsjob',JSON.stringify(main))
 
 
-
-        
+        } else {
+          console.log("Invalid profile data.");
+        }
       } catch (error) {
-        console.log(error);
+        console.error("Error decoding or parsing profile data:", error);
       }
-
-
+    } else {
+      console.log("No profile parameter found in the URL.");
     }
-
-    fetchAPI()
-  
-  }, []);
+  }, [location]);
 
   return (
     <>

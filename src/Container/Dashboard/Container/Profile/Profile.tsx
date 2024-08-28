@@ -115,6 +115,7 @@ const Profile = () => {
 
         if (res?.status) {
           const fullUserData = await res?.data?.data?.user;
+          console.log('res?.data?.data?.user',res?.data?.data);
           await dispatch(addUserData(fullUserData));
         }
       } catch (error) {

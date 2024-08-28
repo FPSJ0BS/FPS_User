@@ -104,7 +104,7 @@ const SignUp = () => {
     try {
       await reg(formData).then((res) => {
         if (res?.statusCode === 200) {
-          const facID = res?.data;
+          const facID = res?.data[0];
 
           sendOtp({
             mobile: _data?.mobile,
@@ -714,7 +714,7 @@ const SignUp = () => {
                       )}
                     </button>
 
-                    <p className=" mb-0 text-white font-bold text-[18px]">OR</p>
+                    {/* <p className=" mb-0 text-white font-bold text-[18px]">OR</p>
 
                     <div
                       typeof="button"
@@ -729,7 +729,7 @@ const SignUp = () => {
                       <p className="mb-0 text-black xl:text-[14px] 2xl:text-[16px] font-semibold ">
                         Sign-Up with Google
                       </p>
-                    </div>
+                    </div> */}
                   </div>
                   <div
                     typeof="button"

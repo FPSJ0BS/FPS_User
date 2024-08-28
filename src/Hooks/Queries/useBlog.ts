@@ -14,7 +14,7 @@ function useBlog(props: IProps) {
     queryFn: () => doGetBlog(query),
     select(blog) {
       const data = blog;
-      const _data = blog?.data?.data.sort((a, b) => {
+      const _data = blog?.data?.blogs?.sort((a, b) => {
         const _a: any = new Date(a.created_at);
         const _b: any = new Date(b.created_at);
         return _b - _a;

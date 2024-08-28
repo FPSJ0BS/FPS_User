@@ -54,13 +54,10 @@ const Sidebar = (props: any) => {
     queryTwo
   );
 
- 
-
   let [searchParams, setSearchParams] = useSearchParams();
   //   console.log("queryquery", query, searchParams);
 
   const findJob = (e: React.FormEvent<HTMLFormElement>) => {
-
     e.preventDefault();
 
     setSearchParams((params) => {
@@ -69,39 +66,30 @@ const Sidebar = (props: any) => {
         const value = query[param] || "";
         params.delete(param);
         if (value && !subjects) {
-
           params.set(param, value);
-
         }
-
       });
 
       return params;
     });
 
     if (subjects) {
-
       let queryParam = Object.keys(query);
 
       queryParam.forEach((param) => {
-
         const value = query[param] || "";
 
         queryParams.set(param, value);
-
       });
 
       navigate({
-
         pathname: `${AppRoute.Find_Jobs}/${category}/${
           query?.job_title ? query?.job_title : subjects
         }`,
 
         search: queryParams.toString(),
-
       });
     }
-
   };
 
   useEffect(() => {
@@ -123,7 +111,9 @@ const Sidebar = (props: any) => {
       setSearchJob({
         ...searchJob,
         ..._query,
-        job_title: query?.job_title ? query?.job_title : subjects?.replaceAll("-", " "),
+        job_title: query?.job_title
+          ? query?.job_title
+          : subjects?.replaceAll("-", " "),
         city: query?.city,
         job_type: query?.job_type,
         salary_minimum: query?.salary_minimum,
@@ -171,7 +161,7 @@ const Sidebar = (props: any) => {
       return state.name === query.state;
     });
 
-    console.log('filterState',filterState);
+    console.log("filterState", filterState);
 
     const id = filterState?.id;
 
@@ -179,8 +169,6 @@ const Sidebar = (props: any) => {
       ...queryTwo,
       stateID: id,
     });
-
-   
   }, [query.state]);
 
   const _cities = cityStateList?.cities &&
@@ -190,6 +178,41 @@ const Sidebar = (props: any) => {
       }),
     ];
 
+  const [selectedValue, setSelectedValue] = useState("column view"); 
+
+
+  const options = [
+    { value: "list view", label: "List" },
+    { value: "column view", label: "Column" },
+
+  ];
+
+  const handleChange = (event) => {
+    setSelectedValue(event.target.value);
+  };
+
+  useEffect(() => {
+    // Function to execute when the screen width hits 768px
+    const handleScreenWidthChange = (e) => {
+      if (e.matches) {
+        setSelectedValue('column view'); // Change selectedValue to 'column view'
+        console.log('Screen width is 768px or less, setting selectedValue to "column view".');
+      } 
+    };
+
+    // Set up a media query listener
+    const mediaQuery = window.matchMedia('(max-width: 768px)');
+    mediaQuery.addEventListener('change', handleScreenWidthChange);
+
+    // Check the current screen width on component mount
+    handleScreenWidthChange(mediaQuery);
+
+    // Clean up the listener on component unmount
+    return () => {
+      mediaQuery.removeEventListener('change', handleScreenWidthChange);
+    };
+  }, []);
+
   return (
     <form
       onSubmit={(e) => findJob(e)}
@@ -197,10 +220,12 @@ const Sidebar = (props: any) => {
     >
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
 
-      <div className=" bg-black w-full min-h-[100px] md:h-[110px] p-[10px] ">
+      <div className=" bg-black w-full min-h-[100px] md:h-[60px] p-[10px] ">
         <div className=" grid grid-cols-2  place-content-center place-items-start w-full h-full md:flex gap-4 md:gap-2  justify-between items-center px-[5px] 2xl:px-5">
           <div className=" w-full md:w-[50%] bg-black h-full flex flex-col items-start justify-end ">
-            <label className=" text-white text-[12px] 2xl:text-[14px]">Job Title</label>
+            <label className=" text-white text-[12px] 2xl:text-[14px]">
+              Job Title
+            </label>
             <div className=" flex items-center w-full">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -236,7 +261,9 @@ const Sidebar = (props: any) => {
           <div className=" hidden md:block h-[70%] border-1 border-solid border-gray-500"></div>
 
           <div className=" w-full md:w-[50%] md:px-3 flex flex-col justify-end h-full">
-            <label className=" text-white text-[12px] 2xl:text-[14px]">State</label>
+            <label className=" text-white text-[12px] 2xl:text-[14px]">
+              State
+            </label>
 
             <div className="flex items-center  ">
               <svg
@@ -280,7 +307,9 @@ const Sidebar = (props: any) => {
           <div className=" hidden md:block h-[70%] border-1 border-solid border-gray-500"></div>
 
           <div className="w-full md:w-[60%] md:px-3 flex flex-col justify-end items-start h-full">
-            <label className="title text-white text-[12px] 2xl:text-[14px]">City</label>
+            <label className="title text-white text-[12px] 2xl:text-[14px]">
+              City
+            </label>
             <div className="flex items-center justify-start w-full ">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -319,7 +348,6 @@ const Sidebar = (props: any) => {
                   fontSize: "13px",
                   height: "40px",
                 }}
-                
               />
             </div>
           </div>
@@ -327,7 +355,9 @@ const Sidebar = (props: any) => {
           <div className=" hidden md:block h-[70%] border-1 border-solid border-gray-500"></div>
 
           <div className=" w-full md:w-[50%] md:px-3 flex flex-col justify-end h-full">
-            <label className=" text-white text-[12px] 2xl:text-[14px]">Experience</label>
+            <label className=" text-white text-[12px] 2xl:text-[14px]">
+              Experience
+            </label>
             <div className=" flex items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -362,7 +392,9 @@ const Sidebar = (props: any) => {
           <div className=" hidden md:block h-[70%] border-1 border-solid border-gray-500"></div>
 
           <div className="w-full md:w-1/2  md:px-3 flex flex-col justify-end h-full">
-            <label className=" text-white text-[12px] 2xl:text-[14px]">Salary</label>
+            <label className=" text-white text-[12px] 2xl:text-[14px]">
+              Salary
+            </label>
             <div className=" flex items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -400,7 +432,9 @@ const Sidebar = (props: any) => {
           <div className=" hidden md:block h-[70%] border-1 border-solid border-gray-500"></div>
 
           <div className="w-full md:w-[60%] bg-black flex flex-col justify-end h-full ">
-            <label className=" text-white text-[12px] 2xl:text-[14px]">Job Types</label>
+            <label className=" text-white text-[12px] 2xl:text-[14px]">
+              Job Types
+            </label>
             <div className=" flex items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -475,6 +509,27 @@ const Sidebar = (props: any) => {
         </div>
 
         <div className="  w-[100%] h-[100%] flex justify-center items-center flex-col overflow-y-auto px-[30px] pt-[20px] pb-[20px]">
+          <div className=" w-full  justify-end mb-4 mr-[80px] hidden xl:flex">
+            <div>
+              <label className=" hidden" htmlFor="dropdown">Select an option:</label>
+              <select
+                id="dropdown"
+                value={selectedValue}
+                onChange={handleChange}
+                className=" border-2 border-solid border-gray-400 rounded-lg px-2  text-[14px] font-semibold h-[25px]"
+              >
+                <option value="" disabled>
+                  Select View
+                </option>
+                {options.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
           <List
             data={data}
             setQuery={setQuery}
@@ -482,6 +537,7 @@ const Sidebar = (props: any) => {
             refetch={refetch}
             setSearchJob={setSearchJob}
             searchJob={searchJob}
+            selectedValue = {selectedValue}
           />
         </div>
       </div>

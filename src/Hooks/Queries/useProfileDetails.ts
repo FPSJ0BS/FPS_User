@@ -5,7 +5,7 @@ function useProfileDetails(query?: any) {
   return useQuery({
     queryKey: [Querykeys.profileDetails, query],
     queryFn: doGetProfileDetails,
-    enabled: !!query?.UID
+    enabled: !!query?.facultyID
   });
 }
 
