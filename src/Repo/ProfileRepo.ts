@@ -79,10 +79,16 @@ export const doProfileEducation = async (data) => {
   return res;
 };
 
+// ////////////////////////////////
+
 export const doGetBlog = async (data) => {
-  const res = await http.postRequestForm(`blog/blogs`, data);
+
+  console.log('data beta',data?.page_num);
+  const res = await httpNode.getRequest(`user/blogs?page=${data?.page_num}`);
   return res;
 };
+
+// //////////////////////////////////
 
 export const doGetBlogDetails = async (data) => {
   const res = await http.postRequestForm(`blog/blog_details`, data);

@@ -220,7 +220,7 @@ const Sidebar = (props: any) => {
     >
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
 
-      <div className=" bg-black w-full min-h-[100px] md:h-[110px] p-[10px] ">
+      <div className=" bg-black w-full min-h-[100px] md:h-[60px] p-[10px] ">
         <div className=" grid grid-cols-2  place-content-center place-items-start w-full h-full md:flex gap-4 md:gap-2  justify-between items-center px-[5px] 2xl:px-5">
           <div className=" w-full md:w-[50%] bg-black h-full flex flex-col items-start justify-end ">
             <label className=" text-white text-[12px] 2xl:text-[14px]">
@@ -516,7 +516,7 @@ const Sidebar = (props: any) => {
                 id="dropdown"
                 value={selectedValue}
                 onChange={handleChange}
-                className=" border-2 border-solid border-gray-400 rounded-lg px-2  text-[16px] font-semibold"
+                className=" border-2 border-solid border-gray-400 rounded-lg px-2  text-[14px] font-semibold h-[25px]"
               >
                 <option value="" disabled>
                   Select View

@@ -63,7 +63,7 @@ const BlogDetails = () => {
                     <h4 className="font-bold fs-4">Recent Post</h4>
                     <div className="mt-4">
                       <FlatList
-                        data={blog?.data?.data.slice(0, 3)}
+                        data={blog?.data?.data?.slice(0, 3)}
                         renderItem={(item?: any) => {
                           const date =
                             item?.created_at &&

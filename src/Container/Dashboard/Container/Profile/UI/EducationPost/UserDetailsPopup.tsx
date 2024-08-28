@@ -34,17 +34,22 @@ import Imag from "@Components/Image/Image";
 import { downloadResumePdf } from "@Utils/downloadFile";
 import { useGlobalContext } from "@Context/GlobalContextProvider";
 import "./inputs/profilesection.scss";
-import DefaultImage from "@Assets/Icons/Profile/user.png"
-
+import DefaultImage from "@Assets/Icons/Profile/user.png";
+import useProfileDetailsNode from "@Hooks/Queries/useProfileDetailsNode";
+import useSalaryNode from "@Hooks/Queries/useSalaryNode";
 
 function UserDetailsPopup() {
+  const { userDataArray } = useSelector(
+    (state) => state.myProfileEducationSlice
+  );
   const dispatch = useDispatch();
   const { userData } = useGlobalContext();
   const userId = userData?.UID;
   const navigate = useNavigate();
-  const { data: profileDetails, refetch: refetchProfile } = useProfileDetails({
-    UID: userId,
-  });
+  const { data: profileDetails, refetch: refetchProfile } =
+    useProfileDetailsNode({
+      facultyID: userId,
+    });
   const { mutateAsync: UploadImage } = useUploadProfileImage({});
   const [query, setQuery] = useState({
     stateID: "",
@@ -65,7 +70,7 @@ function UserDetailsPopup() {
   const current_salary = watch("salary");
   const { data: Qualification } = useQualification({});
   const { data: Experiences } = useExperiences({});
-  const { data: Salary } = useSalary({});
+  const { data: Salary } = useSalaryNode({});
   const { data: State } = useStatesList({});
   const { mutateAsync: ProfileUpdate } = useProfileUpdate({});
   const { data: cityList } = useGetCityList(
@@ -83,11 +88,13 @@ function UserDetailsPopup() {
       cityList?.cities.filter((item) => {
         return item?.id === data.city;
       });
+    const formattedDate = new Date(data?.dob).toISOString().split("T")[0];
     const _data = {
       ...data,
       city: filterCity?.[0]?.name,
       state: filterState?.[0]?.name,
       facultyID: userData?.UID,
+      dob: formattedDate,
     };
 
     ProfileUpdate(_data).then((res) => {
@@ -136,56 +143,68 @@ function UserDetailsPopup() {
   //       })?.id,
   //   });
   // }, [profileDetails?.user?.city, profileDetails?.user?.state]);
+
   useEffect(() => {
-   
-      setValue("name", profileDetails?.user?.name || "");
-      setValue("email", profileDetails?.user?.email || "");
-      setValue(
-        "dob",
-        profileDetails?.user?.dob === "0000-00-00"
-          ? new Date()
-          : profileDetails?.user?.dob
-      );
-      setValue("experience", profileDetails?.user?.experience_id || "");
-      setValue("qualification", profileDetails?.user?.qualification_id || "");
-      setValue("university", profileDetails?.user?.university || "");
-      setValue("passing_year", profileDetails?.user?.passing_year || "");
-      setValue("salary", profileDetails?.user?.salary_id || "");
-      setValue(
-        "expected_salary",
-        profileDetails?.user?.expected_salary_id || ""
-      );
-      setValue(
-        "state",
-        (State?.states &&
-          State?.states?.filter((item) => {
-            return item?.name === profileDetails?.user?.state;
-          })?.[0]?.id) ||
-          ""
-      );
-      setValue(
-        "city",
-        (cityList?.cities &&
-          cityList?.cities.filter((item) => {
-            return item?.name === profileDetails?.user?.city;
-          })?.[0]?.id) ||
-          ""
-      );
-      setValue(
-        "current_employer",
-        profileDetails?.user?.current_employer || ""
-      );
-      setValue("last_employer", profileDetails?.user?.last_employer || "");
-      setValue("demolecture", profileDetails?.user?.demolecture || "");
-      setValue("industry", profileDetails?.user?.CID || "");
-      setValue("job_function", profileDetails?.user?.job_function_id || "");
-      setValue(
-        "alternate_contact",
-        profileDetails?.user?.alternate_contact || ""
-      );
-      setValue("gender", profileDetails?.user?.gender || "");
-   
-  }, [profileDetails, query.stateID, State?.states, cityList?.cities]);
+    if (userDataArray?.CID) {
+      setIndustry((prevState) => ({
+        ...prevState, // Spread the previous state to preserve other properties (if any)
+        industry_id: userDataArray?.CID, // Update the industry_id with the new value
+      }));
+    }
+  }, [userDataArray]);
+
+  useEffect(() => {
+    const findSalary = Salary?.data?.find(
+      (item) => item.salary === userDataArray?.salary
+    );
+    const salId = findSalary?.ID;
+
+    console.log(
+      "userDataArray?.salary_preferences?.salary_id",
+      userDataArray?.salary_preferences
+    );
+
+    // console.log('profileDetails?.user?',userDataArray);
+
+    setValue("name", userDataArray?.name || "");
+    setValue("email", userDataArray?.email || "");
+    setValue(
+      "dob",
+      userDataArray?.dob === "0000-00-00" ? new Date() : userDataArray?.dob
+    );
+    setValue("experience", userDataArray?.experience_id || "");
+    setValue("qualification", userDataArray?.qualification_id || "");
+    setValue("university", userDataArray?.university || "");
+    setValue("passing_year", userDataArray?.passing_year || "");
+    setValue("salary", salId || "");
+    setValue(
+      "expected_salary",
+      userDataArray?.salary_preferences[0]?.salary_id || ""
+    );
+    setValue(
+      "state",
+      (State?.states &&
+        State?.states?.filter((item) => {
+          return item?.name === userDataArray?.state;
+        })?.[0]?.id) ||
+        ""
+    );
+    setValue(
+      "city",
+      (cityList?.cities &&
+        cityList?.cities.filter((item) => {
+          return item?.name === userDataArray?.city;
+        })?.[0]?.id) ||
+        ""
+    );
+    setValue("current_employer", userDataArray?.current_employer || "");
+    setValue("last_employer", userDataArray?.last_employer || "");
+    setValue("demolecture", userDataArray?.demolecture || "");
+    setValue("industry", userDataArray?.CID || "");
+    setValue("job_function", userDataArray?.job_function_id || "");
+    setValue("alternate_contact", userDataArray?.alternate_contact || "");
+    setValue("gender", userDataArray?.other_details?.gender || "");
+  }, [userDataArray, query.stateID, State?.states, cityList?.cities]);
 
   const eighteenYearsAgo = new Date();
   eighteenYearsAgo.setTime(
@@ -225,9 +244,9 @@ function UserDetailsPopup() {
         refetchProfile();
         dispatch(toggleRefetchProfile());
         Toast("success", res?.message);
-        popupCloseFunc()
+        popupCloseFunc();
       } else {
-        popupCloseFunc()
+        popupCloseFunc();
         Toast("error", res?.message);
       }
     });
@@ -250,9 +269,7 @@ function UserDetailsPopup() {
         <div className="w-full overflow-y-auto px-5 py-4 handleScrollbarMain">
           <form id="update-profile" onSubmit={handleSubmit(onSubmit)}>
             <div className="bg-white card-box border-20 my-4">
-
               <div className="user-avatar-setting d-flex align-items-center mb-30 flex-col md:flex-row">
-                
                 <img
                   alt="avatar"
                   loading="lazy"
@@ -304,9 +321,9 @@ function UserDetailsPopup() {
                       placeholder=" Your Name"
                       aria-invalid="true"
                       type="text"
-                      
                       autoComplete="false"
                       style={{ color: "#000" }}
+                      className="pl-2"
                     />
                     {errors.name && (
                       <small className="text-danger mt-2">
@@ -327,12 +344,12 @@ function UserDetailsPopup() {
                         },
                       })}
                       name="email"
-                      
                       placeholder="email"
                       aria-invalid="true"
                       type="email"
                       autoComplete="false"
                       style={{ color: "#000" }}
+                      className="pl-2"
                     />
                     {errors.email && (
                       <small className="text-danger mt-2">
@@ -411,35 +428,37 @@ function UserDetailsPopup() {
                     )}
                   </div>
                 </div>
-                {/* <div className="">
-              <div className="dash-input-wrapper ">
-                <label htmlFor="">Skill</label>
-                <select
-                  {...register("job_function", {
-                    required: "Please add a skill",
-                  })}
-                  name="job_function"
-                  className="form-select form-input border border-slate-100  block w-full "
-                >
-                  <option value={""}>
-                    <span className="text-black">Select Skill</span>
-                  </option>
-                  {Jobs?.jobs &&
-                    Jobs?.jobs.map((item, index) => {
-                      return (
-                        <option value={item?.ID} key={index}>
-                          <span className="text-black">{item?.function}</span>
-                        </option>
-                      );
-                    })}
-                </select>
-                {errors.job_function && (
-                  <small className="text-danger mt-2">
-                    {errors.job_function.message}
-                  </small>
-                )}
-              </div>
-            </div> */}
+                <div className="">
+                  <div className="dash-input-wrapper ">
+                    <label htmlFor="">Sub Category</label>
+                    <select
+                      {...register("job_function", {
+                        required: "Please add a sub category",
+                      })}
+                      name="job_function"
+                      className="form-select form-input border border-slate-100  block w-full "
+                    >
+                      <option value={""}>
+                        <span className="text-black">Select Sub Category</span>
+                      </option>
+                      {Jobs?.jobs &&
+                        Jobs?.jobs.map((item, index) => {
+                          return (
+                            <option value={item?.ID} key={index}>
+                              <span className="text-black">
+                                {item?.function}
+                              </span>
+                            </option>
+                          );
+                        })}
+                    </select>
+                    {errors.job_function && (
+                      <small className="text-danger mt-2">
+                        {errors.job_function.message}
+                      </small>
+                    )}
+                  </div>
+                </div>
                 <div className="">
                   <div className="dash-input-wrapper ">
                     <label htmlFor="">Alternate Mobile</label>
@@ -456,7 +475,7 @@ function UserDetailsPopup() {
                       placeholder="Alternate Mobile Number"
                       aria-invalid="true"
                       type="text"
-                      // className="p-2 border-1"
+                      className="pl-2"
                       autoComplete="false"
                     />
                     {errors.alternate_contact && (
@@ -496,6 +515,100 @@ function UserDetailsPopup() {
                       </small>
                     )}
                   </div>
+                </div>
+                <div className="">
+                  <div className="dash-input-wrapper ">
+                    <label htmlFor=""> Current Salary (Annual)</label>
+                    <select
+                      {...register("salary", {
+                        required: "Please select Current Salary",
+                      })}
+                      name="salary"
+                      className="select border-1 form-select border border-slate-100"
+                    >
+                      {Salary?.data &&
+                        Salary?.data.map((item, index) => {
+                          return (
+                            <option value={item?.ID} key={index}>
+                              <span className="text-black">{item?.salary}</span>
+                            </option>
+                          );
+                        })}
+                    </select>
+
+                    {errors.salary && (
+                      <small className="text-danger mt-2">
+                        {errors.salary.message}
+                      </small>
+                    )}
+                  </div>
+                </div>
+
+                <div className="">
+                  <div className="dash-input-wrapper ">
+                    <label>Expected Salary (Annual)</label>
+                    <Controller
+                      name="expected_salary"
+                      control={control}
+                      rules={{
+                        required: "Expected salary is required",
+                        validate: (value) => {
+                          if (Number(value) < Number(current_salary)) {
+                            return "Your expected salary is lower than your current salary. Please re-select your expected salary.";
+                          }
+                        },
+                      }}
+                      render={({ field: { onChange, value } }) => (
+                        <select
+                          name="expected_salary"
+                          className="select border-1 form-select border border-slate-100"
+                          value={value}
+                          onChange={onChange}
+                        >
+                          <option value="">
+                            <span className="text-black">
+                              Select Your Expected Salary (Annual)
+                            </span>
+                          </option>
+                          {Salary?.data &&
+                            Salary?.data.map((item, index) => {
+                              return (
+                                <option value={item?.ID} key={index}>
+                                  <span className="text-black">
+                                    {item?.salary}
+                                  </span>
+                                </option>
+                              );
+                            })}
+                        </select>
+                      )}
+                    />
+
+                    {errors.expected_salary && (
+                      <small className="text-danger">
+                        {errors.expected_salary.message}
+                      </small>
+                    )}
+                  </div>
+                </div>
+
+                <div className="bg-white card-box border-20">
+
+                    <div className="dash-input-wrapper ">
+                      <label htmlFor="">Currently working Company </label>
+                      <input
+                        {...register("current_employer", {
+                          required: false,
+                        })}
+                        name="current_employer"
+                        placeholder=" Currently working Company"
+                        aria-invalid="true"
+                        type="text"
+                        autoComplete="false"
+                        style={{ paddingLeft: 10, color: "#000" }}
+                      />
+                    </div>
+    
                 </div>
                 {/* <div className=" ">
               <div className="dash-input-wrapper ">
@@ -625,78 +738,8 @@ function UserDetailsPopup() {
                 )}
               </div>
             </div>
-            <div className="">
-              <div className="dash-input-wrapper ">
-                <label htmlFor=""> Current Salary (Annual)</label>
-                <select
-                  {...register("salary", {
-                    required: "Please select Current Salary",
-                  })}
-                  name="salary"
-                  className="select border-1 form-select border border-slate-100"
-                >
-                  {Salary?.salaries &&
-                    Salary?.salaries.map((item, index) => {
-                      return (
-                        <option value={item?.ID} key={index}>
-                          <span className="text-black">{item?.salary}</span>
-                        </option>
-                      );
-                    })}
-                </select>
-
-                {errors.salary && (
-                  <small className="text-danger mt-2">
-                    {errors.salary.message}
-                  </small>
-                )}
-              </div>
-            </div>
-            <div className="">
-              <div className="dash-input-wrapper ">
-                <label>Expected Salary (Annual)</label>
-                <Controller
-                  name="expected_salary"
-                  control={control}
-                  rules={{
-                    required: "Expected salary is required",
-                    validate: (value) => {
-                      if (Number(value) < Number(current_salary)) {
-                        return "Your expected salary is lower than your current salary. Please re-select your expected salary.";
-                      }
-                    },
-                  }}
-                  render={({ field: { onChange, value } }) => (
-                    <select
-                      name="expected_salary"
-                      className="select border-1 form-select border border-slate-100"
-                      value={value}
-                      onChange={onChange}
-                    >
-                      <option value="">
-                        <span className="text-black">
-                          Select Your Expected Salary (Annual)
-                        </span>
-                      </option>
-                      {Salary?.salaries &&
-                        Salary?.salaries.map((item, index) => {
-                          return (
-                            <option value={item?.ID} key={index}>
-                              <span className="text-black">{item?.salary}</span>
-                            </option>
-                          );
-                        })}
-                    </select>
-                  )}
-                />
-
-                {errors.expected_salary && (
-                  <small className="text-danger">
-                    {errors.expected_salary.message}
-                  </small>
-                )}
-              </div>
-            </div>
+            
+            
             <div className="">
               <div className="dash-input-wrapper">
                 <label htmlFor="">State</label>
@@ -802,43 +845,7 @@ function UserDetailsPopup() {
             </div>
           </div>
         </div> */}
-            {/* <div className="bg-white card-box border-20 my-4">
-          <h4 className="main-title fs-5">Current Company Info</h4>
-          <div className=" grid grid-cols-2 gap-4">
-            <div className="">
-              <div className="dash-input-wrapper ">
-                <label htmlFor="">Currently working Company </label>
-                <input
-                  {...register("current_employer", {
-                    required: false,
-                  })}
-                  name="current_employer"
-                  placeholder=" Currently working Company"
-                  aria-invalid="true"
-                  type="text"
-                  autoComplete="false"
-                  style={{ paddingLeft: 10, color: "#000" }}
-                />
-              </div>
-            </div>{" "}
-            <div className="">
-              <div className="dash-input-wrapper ">
-                <label htmlFor="">Past Company </label>
-                <input
-                  {...register("last_employer", {
-                    required: false,
-                  })}
-                  name="last_employer"
-                  placeholder="Name of the company"
-                  aria-invalid="true"
-                  type="text"
-                  autoComplete="false"
-                  style={{ paddingLeft: 10, color: "#000" }}
-                />
-              </div>
-            </div>{" "}
-          </div>
-        </div> */}
+            {/*  */}
 
             <div className="flex gap-3 mt-30">
               <button
