@@ -145,7 +145,6 @@ const SignUp = () => {
       });
     } catch (e: any) {
       Toast("error", e?.response?.data?.data);
-      console.log(e);
     }
   };
 
@@ -169,32 +168,20 @@ const SignUp = () => {
   };
   const validTypes = ["application/pdf", "application/msword", "image/jpeg"];
 
-
-
   const auth = async () => {
-
     try {
       const res = await getGoogleAPI();
 
-      if(res.data.status){
-
+      if (res.data.status) {
         const path = res?.data?.data;
-        window.open(path,"_self")
+        window.open(path, "_self");
 
         console.log(res?.data?.data);
-
       }
-      
-    } catch (error) {
-      
-    }
-
-
+    } catch (error) {}
 
     // navigate(data?.data);
   };
-
-
 
   return (
     <>
@@ -591,6 +578,7 @@ const SignUp = () => {
                       {...register("subject", {
                         required: "Job Title is required",
                       })}
+                      disabled={industry?.industry_id === ""}
                       name="subject"
                       className="select border-1 form-select border border-slate-100 text-white bg-transparent"
                     >
@@ -612,6 +600,7 @@ const SignUp = () => {
                           );
                         })}
                     </select>
+                    {industry?.industry_id === "" && <p className=" mb-0 text-white font-semibold">*Please Select Industry First.</p>}
                     {errors.subject && (
                       <small className="text-danger">
                         {errors.subject.message}

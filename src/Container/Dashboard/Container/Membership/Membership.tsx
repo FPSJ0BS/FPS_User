@@ -10,12 +10,13 @@ import { Querykeys } from "@Hooks/Queries/queryname";
 import useProfileDetails from "@Hooks/Queries/useProfileDetails";
 import { Toast } from "@Utils/Toast";
 import { useQueryClient } from "@tanstack/react-query";
-import { memo, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import useRazorpay from "react-razorpay";
 import { AppRoute } from "@Navigator/AppRoute";
 import { NavLink, useNavigate } from "react-router-dom";
 import useCreateOrder from "@Hooks/Mutation/useCreateOrder";
 import usePackUpdate from "@Hooks/Mutation/usePackUpdate";
+import { getRefetchUserProfileData } from "@/api/api";
 const Membership = () => {
   const { userData } = useGlobalContext();
   const [isMore, setIsMore] = useState(false);
@@ -24,16 +25,49 @@ const Membership = () => {
     enabled: !!userData?.UID,
   });
 
-  const { data: profileDetails } = useProfileDetails({
-    UID: userData?.UID,
-  });
+  
+  // const { data: profileDetails } = useProfileDetails({
+  //   UID: userData?.UID,
+  // });
+
+  const [profileDetails, setProfileDetails] = useState(null)
+
+  useEffect(() => {
+    const fetchApi = async () => {
+      try {
+        const res = await getRefetchUserProfileData(userData?.UID);
+
+        
+        if (res?.data?.status) {
+          setProfileDetails(res?.data?.data)
+          console.log('res',profileDetails?.user?.packID);
+        } else {
+          console.log(res);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchApi();
+  }, []);
+
+
+
+  useEffect(()=>{
+console.log('packageData',packageData,);
+console.log('profileDetails',profileDetails);
+  },[packageData])
+
   const navigate = useNavigate();
   const { mutateAsync: packUpdate } = usePackUpdate({});
   const { mutateAsync: createOrder } = useCreateOrder({});
   const queryClient = useQueryClient();
-  const currentPlan = packageData?.packages.filter((item) => {
-    return item.packID === profileDetails?.user?.packID;
+  const currentPlan = packageData?.packages?.filter((item) => {
+    return item.packID === String(profileDetails?.user?.packID);
   });
+
+  console.log('currentPlan',currentPlan);
   const _currentPlan = currentPlan?.[0];
   const currentPlanDetails = _currentPlan?.details.split(" ");
   const { mutateAsync: PackCancel } = usePackCancel({});
