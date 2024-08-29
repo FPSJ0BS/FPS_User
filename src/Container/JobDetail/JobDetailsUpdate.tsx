@@ -32,7 +32,7 @@ const JobDetailsUpdate = () => {
 
   const jobWhole = jobsDetails?.data?.job ;
 
-  // console.log('jobsDetails?.data?.job[0] ',jobsDetails?.data?.job[0] );
+  console.log('jobsDetails?.data?.job[0] ',jobsDetails);
 
   // const job = jobsDetails?.job;
 
