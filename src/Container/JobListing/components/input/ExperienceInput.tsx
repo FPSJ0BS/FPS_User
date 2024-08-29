@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 
-export const StateInput = ({ query, setQuery, State }) => {
+export const ExperienceInput = ({ query, setQuery, experiences }) => {
   const [inputValue, setInputValue] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const [filteredStates, setFilteredStates] = useState([]);
@@ -9,19 +9,18 @@ export const StateInput = ({ query, setQuery, State }) => {
   const dropdownRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
-    if (State?.data) {
-      setInitialStates(State.data.slice(0, 50));
-      setFilteredStates(State.data);
+    if (experiences) {
+      setInitialStates(experiences.slice(0, 50));
+      // setFilteredStates(experiences);
     }
-  }, [State]);
+  }, [experiences]);
 
   const openDropdown = () => {
     setShowDropdown(true);
     setInputValue("");
     setQuery({
       ...query,
-      state: "",
-      city: "",
+      min_experience: "",
     });
   };
 
@@ -31,11 +30,11 @@ export const StateInput = ({ query, setQuery, State }) => {
     setShowDropdown(true);
     setQuery({
       ...query,
-      state: value,
+      min_experience: value,
     });
 
-    const filtered = State?.data.filter((option) =>
-      option.name.toLowerCase().includes(value.toLowerCase())
+    const filtered = experiences?.filter((option) =>
+      option?.name?.toLowerCase().includes(value?.toLowerCase())
     );
     setFilteredStates(filtered);
   };
@@ -45,7 +44,7 @@ export const StateInput = ({ query, setQuery, State }) => {
     setShowDropdown(false);
     setQuery({
       ...query,
-      state: option,
+      min_experience: option,
     });
   };
 
@@ -72,42 +71,35 @@ export const StateInput = ({ query, setQuery, State }) => {
       <div className="flex items-center gap-3 mb-1">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="18"
-          height="18"
+          width="20"
+          height="20"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="lucide lucide-castle text-white"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          className="lucide lucide-square-chevron-up text-white"
         >
-          <path d="M22 20v-9H2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2Z" />
-          <path d="M18 11V4H6v7" />
-          <path d="M15 22v-4a3 3 0 0 0-3-3a3 3 0 0 0-3 3v4" />
-          <path d="M22 11V9" />
-          <path d="M2 11V9" />
-          <path d="M6 4V2" />
-          <path d="M18 4V2" />
-          <path d="M10 4V2" />
-          <path d="M14 4V2" />
+          <rect width="18" height="18" x="3" y="3" rx="2" />
+          <path d="m8 14 4-4 4 4" />
         </svg>
         <label
           htmlFor="EmployerPostJobState"
           className="postJobInputTitle block font-medium text-white"
         >
-          State
+          Experience
         </label>
       </div>
       <div className="relative">
         <input
-          placeholder="Search State..."
+          placeholder="Search Experience..."
           autoComplete="off"
           ref={inputRef}
           type="text"
           id="EmployerPostJobState"
           name="EmployerPostJobState"
-          value={query?.state}
+          value={query?.min_experience}
           onChange={handleInputChange}
           onClick={openDropdown}
           className="h-[30px] mt-1 p-2 text-white placeholder-white w-full border-[1px] focus:border-[2px] border-gray-300 rounded-md shadow-sm focus:outline-none border-solid focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"

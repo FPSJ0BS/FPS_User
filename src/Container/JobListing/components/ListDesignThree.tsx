@@ -28,14 +28,14 @@ const ListDesignThree = ({
     return noHtmlTags.trim();
   };
   return (
-    <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3   gap-4  ml-0 cursor-pointer place-items-center sm:place-items-stretch  ">
+    <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3   gap-4  ml-0 cursor-pointer place-items-center sm:place-items-stretch  ">
       {jobsData?.map((item, index) => {
         const bgColor = colors[index % colors.length];
         return (
           <div
             onClick={() => handleOpenInNewTab(item, Category)}
             key={index}
-            className=" w-[90vw] sm:w-[44vw] md:w-[28vw] lg:w-[23vw] gap-2 min-h-[300px]  bg-white rounded-[20px] p-[10px] flex flex-col items-start justify-start shadow-md border-1 border-solid border-[#e1e1df]"
+            className=" w-[90vw] sm:w-[44vw] md:w-[50vw] lg:w-[35vw] xl:w-[23vw] gap-2 min-h-[300px]  bg-white rounded-[20px] p-[10px] flex flex-col items-start justify-start shadow-md border-1 border-solid border-[#e1e1df]"
           >
             <div className={`  h-[75%] rounded-2xl ${bgColor} p-[10px] w-full`}>
               <div className=" flex flex-col gap-3 w-full">

@@ -16,7 +16,6 @@ const JobHeading = ({ data, packType }: any) => {
     UID: userData?.UID,
   });
 
-
   const { mutateAsync: Favourite } = useFavourite({});
   const { mutateAsync: removeFavourite } = useRemoveFavourite({});
   const navigate = useNavigate();
@@ -66,7 +65,7 @@ const JobHeading = ({ data, packType }: any) => {
           <div className="job-block-seven">
             <div className="inner-box">
               <div className="content">
-                {packType === "Prepaid" && userData?.UID !== undefined  ? (
+                {packType === "Prepaid" && userData?.UID !== undefined ? (
                   <h6 className="mb-3" style={{ color: "#a73358" }}>
                     {data?.name}
                   </h6>
@@ -121,9 +120,13 @@ const JobHeading = ({ data, packType }: any) => {
                   </li>
                 </ul>
                 <ul className="job-other-info">
-                  <li className="time">{data?.job_type}</li>
-                  <li className="privacy">{data?.selection_process}</li>
-                  <li className="time">{data?.job_level}</li>
+                  {data?.job_type && <li className="time">{data?.job_type}</li>}
+                  {data?.selection_process && (
+                    <li className="privacy">{data?.selection_process}</li>
+                  )}
+                  {data?.job_level && (
+                    <li className="time">{data?.job_level}</li>
+                  )}
                 </ul>
               </div>
               <div className="btn-box">

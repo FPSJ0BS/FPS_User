@@ -2,12 +2,12 @@
 export const JobTitle = ({ query, setQuery }) => {
  
   return (
-    <div className=" sm:w-[100%] w-[250px] flex flex-col gap-2 ">
+    <div className=" w-[100%]  flex flex-col gap-2 ">
       <div className=" flex items-center gap-3">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
+          width="20"
+          height="20"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -40,7 +40,7 @@ export const JobTitle = ({ query, setQuery }) => {
         type="text"
         id="EmployerPostJobJobTitle"
         name="jobTitle"
-        className=" text-white p-2 placeholder-white sm:w-[100%] border-[1px] focus:border-[2px] border-gray-300 rounded-md shadow-sm focus:outline-none border-solid focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+        className=" h-[30px] text-white p-2 placeholder-white sm:w-[100%] border-[1px] focus:border-[2px] border-gray-300 rounded-md shadow-sm focus:outline-none border-solid focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
       />
     </div>
   );
