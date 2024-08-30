@@ -12,7 +12,9 @@ const JobListing = () => {
 
   const [searchJob, setSearchJob] = useState<any>({
     facultyID: userData?.UID ? userData?.UID : 103082,
+
     totalPage: 0,
+
     limit: 12,
   });
 

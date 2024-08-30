@@ -1,6 +1,3 @@
-import INFOVERIFIED from "@Assets/approved.png";
-import STAR from "@Assets/Icons/star.png";
-import HALFSTAR from "@Assets/Icons/halfstar.png";
 import { Toast } from "@Utils/Toast";
 import useRemoveFavourite from "@Hooks/Mutation/useRemoveFavourite";
 import useFavourite from "@Hooks/Mutation/useFavourite";
@@ -10,20 +7,41 @@ import Pagination from "@Components/Pagination";
 import { createQueryBySlug } from "@Utils/navigationquery";
 import { useNavigate } from "react-router-dom";
 import useCategoryList from "@Hooks/Queries/useCategoryList";
-import { openModal, updateAppliedJobValues } from "@/Redux/appliedJobSlice";
-import { useDispatch } from "react-redux";
-import ListDesignOne from "./ListDesignOne";
-import ListDesignTwo from "./ListDesignTwo";
 
-const List = ({ data, setQuery, query, refetch, setSearchJob, searchJob, selectedValue }) => {
-  const jobLists = data?.data?.jobsList;
+import ListDesignTwo from "./ListDesignTwo";
+import ListIconTwo from "@Assets/two-columns-layout.png";
+import ListIconThree from "@Assets/columns three.png";
+import ListIconOne from "@Assets/single-column.png";
+import ListDesignThree from "./ListDesignThree";
+import { useEffect, useState } from "react";
+import ListDesignOne from "./ListDesignOne";
+import useMediaQuery from "@Hooks/useMediaQuery";
+        import { openModal, updateAppliedJobValues } from "@/Redux/appliedJobSlice";
+import { useDispatch } from "react-redux";
+
+const List = ({
+  data,
+  setQuery,
+  query,
+  refetch,
+  setSearchJob,
+  searchJob,
+  setShowSidebar,
+}) => {
+
+   const jobLists = data?.data?.jobsList;
   const { mutateAsync: removeFavourite } = useRemoveFavourite({});
   const { mutateAsync: Favourite } = useFavourite({});
   const { userData } = useGlobalContext();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { data: Category } = useCategoryList({});
+
+
+  const jobsData = data?.data?.jobsList;
+
   const dispatch = useDispatch();
+
 
   const colors = [
     "bg-[#fae1cd]",
@@ -34,23 +52,9 @@ const List = ({ data, setQuery, query, refetch, setSearchJob, searchJob, selecte
     "bg-[#eceef3]",
   ];
 
-  const removeSpecificTextAndTags = (htmlContent) => {
-    let cleanedContent = htmlContent.replace(
-      /<h3>Job Description:\s*(.*)<\/h3>/i,
-      "<h3>$1</h3>"
-    );
-    cleanedContent = cleanedContent.replace(
-      /<p><strong>Job Responsibilities:<\/strong><\/p>\s*<ul>.*<\/ul>/is,
-      ""
-    );
-    const noHtmlTags = cleanedContent.replace(/<\/?[^>]+(>|$)/g, "");
-    return noHtmlTags.trim();
-  };
-
   const getRelativeTime = (dateString) => {
     const date = new Date(dateString);
     const now = new Date();
-
     const differenceInTime = now.getTime() - date.getTime();
     const differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
     const differenceInMonths = Math.floor(differenceInDays / 30);
@@ -117,6 +121,20 @@ const List = ({ data, setQuery, query, refetch, setSearchJob, searchJob, selecte
     window.open(url, "_blank");
   };
 
+
+  const [listSet, setListSet] = useState({
+    listOne: false,
+    listTwo: false,
+    listThree: true,
+  });
+
+  const handleListSetChange = (listName) => {
+    setListSet((prevListSet) => ({
+      listOne: listName === "listOne",
+      listTwo: listName === "listTwo",
+      listThree: listName === "listThree",
+    }));
+
   const openingModal = async (applyID) => {
     await dispatch(
       updateAppliedJobValues({
@@ -124,39 +142,80 @@ const List = ({ data, setQuery, query, refetch, setSearchJob, searchJob, selecte
       })
     );
     await dispatch(openModal());
+
   };
 
   return (
     <div className=" flex flex-col  h-full ">
+
+    
       
-       {selectedValue === 'column view' && <ListDesignOne
-          jobLists={jobLists}
-          handleOpenInNewTab={handleOpenInNewTab}
-          getRelativeTime={getRelativeTime}
-          userData={userData}
-          setRemoveFavourite={setRemoveFavourite}
-          setJobFavourite={setJobFavourite}
+
+
+
+      <div className=" mb-4 w-full xl:flex justify-end gap-2 items-center hidden ">
+        <img
+          onClick={() => handleListSetChange("listOne")}
+          src={ListIconOne}
+          className=" cursor-pointer w-[30px] h-[25px]"
+          alt="menu"
+        />
+        <img
+          onClick={() => handleListSetChange("listTwo")}
+          src={ListIconTwo}
+          className=" cursor-pointer w-[30px] h-[22px]"
+          alt="menu"
+        />
+        <img
+          onClick={() => handleListSetChange("listThree")}
+          src={ListIconThree}
+          className=" cursor-pointer w-[30px] h-[30px]"
+          alt="menu"
+        />
+      </div>
+      {listSet.listThree && (
+        <ListDesignThree
+          jobsData={jobsData}
           data={data}
-          Category={Category}
-          removeSpecificTextAndTags={removeSpecificTextAndTags}
-          openingModal={openingModal}
-        />}
-        
-        { selectedValue === 'list view' && <ListDesignTwo
-          jobLists={jobLists}
-          handleOpenInNewTab={handleOpenInNewTab}
-          getRelativeTime={getRelativeTime}
-          userData={userData}
-          setRemoveFavourite={setRemoveFavourite}
           setJobFavourite={setJobFavourite}
-          data={data}
+          setRemoveFavourite={setRemoveFavourite}
+          getRelativeTime={getRelativeTime}
+          handleOpenInNewTab={handleOpenInNewTab}
           Category={Category}
-          removeSpecificTextAndTags={removeSpecificTextAndTags}
-          openingModal={openingModal}
-        />}
+          colors={colors}
+          setShowSidebar = {setShowSidebar}
+        />
+      )}
+      {listSet.listTwo && (
+        <ListDesignTwo
+          jobsData={jobsData}
+          data={data}
+          setJobFavourite={setJobFavourite}
+          setRemoveFavourite={setRemoveFavourite}
+          getRelativeTime={getRelativeTime}
+          handleOpenInNewTab={handleOpenInNewTab}
+          Category={Category}
+          colors={colors}
+        />
+      )}
+      {listSet.listOne && (
+        <ListDesignOne
+          jobsData={jobsData}
+          data={data}
+          setJobFavourite={setJobFavourite}
+          setRemoveFavourite={setRemoveFavourite}
+          getRelativeTime={getRelativeTime}
+          handleOpenInNewTab={handleOpenInNewTab}
+          Category={Category}
+          colors={colors}
+        />
+      )}
+      <div className="pb-[150px] pt-[50px] ">
+
 
       
       <div className="my-[50px] ">
+
         <Pagination
           total={data?.data?.totalPages}
           current={searchJob?.page}

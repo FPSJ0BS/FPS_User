@@ -18,6 +18,7 @@ const JobHeading = ({ data, packType }: any) => {
   //   facultyID: userData?.UID,
   // });
 
+
   const [profileDetails, setProfileDetails] = useState(null)
 
   useEffect(() => {
@@ -43,6 +44,7 @@ const JobHeading = ({ data, packType }: any) => {
   useEffect(() => {
     console.log("profileDetails", profileDetails);
   }, [profileDetails]);
+
 
   const { mutateAsync: Favourite } = useFavourite({});
   const { mutateAsync: removeFavourite } = useRemoveFavourite({});
@@ -150,9 +152,13 @@ const JobHeading = ({ data, packType }: any) => {
                   </li>
                 </ul>
                 <ul className="job-other-info">
-                  <li className="time">{data?.job_type}</li>
-                  <li className="privacy">{data?.selection_process}</li>
-                  <li className="time">{data?.job_level}</li>
+                  {data?.job_type && <li className="time">{data?.job_type}</li>}
+                  {data?.selection_process && (
+                    <li className="privacy">{data?.selection_process}</li>
+                  )}
+                  {data?.job_level && (
+                    <li className="time">{data?.job_level}</li>
+                  )}
                 </ul>
               </div>
               <div className="btn-box">

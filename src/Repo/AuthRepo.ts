@@ -130,6 +130,13 @@ export const dogetCityListNode = async (data) => {
   return res;
 };
 
+export const dogetCityListNode = async (data) => {
+  const res = await httpNode.getRequest(
+    `user/stateCities/${data?.queryKey?.[1]?.stateID}`
+  );
+  return res;
+};
+
 export const dogetFiterCityList = async () => {
   const res = await httpNode.getRequest(`user/allCities`);
   return res;

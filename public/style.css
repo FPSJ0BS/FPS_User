@@ -2668,9 +2668,11 @@ textarea {
   background-color: #fff;
 }
 
+
 .TrackPopup{
   z-index: 9999999 !important;
 }
+
 
 .postjobHandleScrollbar::-webkit-scrollbar {
   width: 8px; /* Set the width of the scrollbar */
@@ -2686,4 +2688,5 @@ textarea {
   background-color: #cbd5e0; /* Change the color of the scrollbar track */
   border-radius: 20px;
 }
+
 
