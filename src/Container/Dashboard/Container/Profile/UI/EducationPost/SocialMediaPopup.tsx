@@ -32,10 +32,10 @@ function SocialMediaPopup() {
   };
 
   const initialData = {
-    faculityID: userId,
+    facultyID: userId,
     social_link: {
       Facebook: userDataArray?.social_link?.Facebook,
-      linkedin: userDataArray?.social_link?.linkedin,
+      Linkedin: userDataArray?.social_link?.linkedin,
       Instagram: userDataArray?.social_link?.Instagram,
       Github: userDataArray?.social_link?.Github,
       Naukri: userDataArray?.social_link?.Naukri,
@@ -57,18 +57,7 @@ function SocialMediaPopup() {
     }));
   };
 
-  const validateURL = (url) => {
-    const urlPattern = new RegExp(
-      "^(https?:\\/\\/)?" + // protocol
-        "((([a-zA-Z\\d]([a-zA-Z\\d-]*[a-zA-Z\\d])*)\\.)+[a-zA-Z]{2,}|" + // domain name
-        "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
-        "(\\:\\d+)?(\\/[-a-zA-Z\\d%_.~+]*)*" + // port and path
-        "(\\?[;&a-zA-Z\\d%_.~+=-]*)?" + // query string
-        "(\\#[-a-zA-Z\\d_]*)?$",
-      "i" // fragment locator
-    );
-    return !!urlPattern.test(url);
-  };
+  
 
   const preventHashInput = (e) => {
     if (e.key === "#") {
@@ -78,22 +67,23 @@ function SocialMediaPopup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Validate all URLs
-    for (let key in formData.social_link) {
-      if (
-        formData.social_link[key] !== "#" &&
-        !validateURL(formData.social_link[key])
-      ) {
-        alert(`${key} contains an invalid URL`);
-        return;
-      }
+
+
+    const finArray = {
+      ...formData,
+      social_link: Object.entries(formData.social_link)
+        .filter(([_, value]) => value) // Filter out entries with empty values
+        .map(([key, value]) => ({
+          [key]: value
+        }))
     }
+    
 
     
     // Post the form data to the API
     try {
       setButtonLoad(true);
-      const res = await postSubmitSocialMediaLinksDetails(formData);
+      const res = await postSubmitSocialMediaLinksDetails(finArray);
       if (res?.data?.status) {
         dispatch(toggleRefetchProfile());
         await dispatch(closeModalSocialMediaModal());

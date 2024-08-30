@@ -55,33 +55,28 @@ const Login = () => {
   };
   const { mutateAsync: sendOtp, isPending: isSendOtpLoader } = useSendOtp({});
   const onMobileNumberCheck: SubmitHandler<ILoginWithEmailType> = (data) => {
-    MobileCheck(data).then((res) => {
+    
       setSendOtpObj(data);
-      if (res?.userStatus) {
+  
         sendOtp(data).then((res) => {
-       
-          if (res?.status === "success") {
+          if (res?.statusCode === 200) {
             Toast(
               "success",
               "Your Verification Code Send Successfully,Please Check Your Mobile"
             );
             setIsOtp(true);
             setData({
-              UID: res?.UID,
-              regToken: res?.smsResult?.result,
+              phone_number: data?.mobile,
+              hash: res?.data[0],
+              fcm_token: "no token",
               device_type: "Web",
-              ip_address: "192.54.565",
             });
           } else {
-         
-
             Toast("error", res?.message);
           }
         });
-      } else {
-        Toast("error", res?.message);
-      }
-    });
+     
+  
   };
 
   useEffect(() => {
@@ -93,6 +88,34 @@ const Login = () => {
       setFocus("email");
     }
   }, [tabIndex, isOtp]);
+
+  useEffect(() => {
+    const storeData = async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const data = urlParams.get('data');
+
+ 
+
+      if (data) {
+        try {
+          // Decode and parse the JSON string
+    
+        
+          Toast("error", "Email id already exisits, please login...");
+          
+
+          
+        
+        } catch (error) {
+          console.error('Error parsing data:', error);
+        }
+      } else {
+        console.log('No data found in query parameters.');
+      }
+    };
+
+    storeData();
+  }, []);
 
   return (
     <>
@@ -271,8 +294,8 @@ const Login = () => {
                               cb={(_data) => {
                                 const query = { ..._data, ...data };
                                 OtpCheck(query).then((res) => {
-                                  if (res?.status === "success") {
-                                    setUserLoginData(res);
+                                  if (res?.statusCode === 200) {
+                                    setUserLoginData(res?.data);
                                     navigate(AppRoute.Dashboard);
                                     Toast(
                                       "success",

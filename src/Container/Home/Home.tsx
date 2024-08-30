@@ -13,7 +13,7 @@ import Testimonial from "@Components/aboutPage/Testimonial";
 import SignUPModal from "@Container/Auth/SignUp/SignUPModal";
 import useFeaturedCity from "@Hooks/Queries/useFeaturedCity";
 import Modal from "@Container/Home/Component/Modal/Modal";
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect, useLayoutEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAccessTokenGenerate from "@Hooks/Mutation/useAccessTokenGenerate";
 import { useAccessTokenContext } from "@Context/AccessTokenContextProvider";
@@ -22,23 +22,100 @@ import BannerNew from "./Component/BannerNew/BannerNew";
 import CategoryNew from "./Component/CategoryNew/CategoryNew";
 import Jobs from "@Components/Jobs/Jobs";
 import BannerMobile from "./Component/BannerMobile/BannerMobile";
-import RESUMEBANNER from "@Assets/Home/craft resume.svg"
+import RESUMEBANNER from "@Assets/Home/craft resume.svg";
 import GetAppNew from "@Components/GetApp/GetAppNew";
 import JobsByCityNew from "@Components/JobsByLocation/jobsByCityNew";
 import WhyChoose from "./Component/WhyChoose/WhyChoose";
 import { AppRoute } from "@Navigator/AppRoute";
 import PopupHome from "./Component/PopupHome/PopupHome";
+import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { getEmailVerify } from "@/api/api";
+import { Toast } from "@Utils/Toast";
+import { useGlobalContext } from "@Context/GlobalContextProvider";
 
 const Home = () => {
+
+
+  useEffect(() => {
+    const storeData = async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const data = urlParams.get('data');
+
+      console.log('data->>>>>>>',data);
+
+      if (data) {
+        try {
+        
+    
+          const parsedData = await JSON.parse(data);
+
+          const userData = await parsedData.userData;
+
+ 
+          console.log('User Data:', userData);
+
+       
+          await localStorage.setItem('token:fpsjob', JSON.stringify(userData));
+
+        
+
+          Toast("success", "Registration Successful, redirecting...");
+          
+
+          setTimeout(() => {
+            window.location.href = "http://localhost:5173/dashboard/profile";
+        }, 2000);
+        
+        } catch (error) {
+          console.error('Error parsing data:', error);
+        }
+      } else {
+        console.log('No data found in query parameters.');
+      }
+    };
+
+    storeData();
+  }, []);
+
+
+
   const { authorization, setUserLoginData } = useAccessTokenContext();
   const navigate = useNavigate();
   let accessToken;
+
   const { data: cityList } = useFeaturedCity({});
+
+
   const [isModal, setIsModal] = useState(false);
   const { mutateAsync: GenerateToken } = useAccessTokenGenerate({});
   const { data: linkedinProfile } = useLinkedinProfile({
     enabled: !!authorization?.access_token,
   });
+  const location = useLocation();
+
+  const queryParams = new URLSearchParams(location.search);
+  const emailIdentity = queryParams.get("emailIdentity");
+  const auth = queryParams.get("auth");
+
+  useEffect(() => {
+    const emailVerifyAPI = async () => {
+      try {
+        const res = await getEmailVerify(emailIdentity, auth);
+
+        if (res?.data?.status) {
+          Toast("success", res?.data?.message);
+        } else {
+          Toast("error", res?.data?.message);
+        }
+      } catch (error) {}
+    };
+
+    if (emailIdentity && auth) {
+      emailVerifyAPI();
+    }
+  }, [emailIdentity, auth]);
+
   const handleLogin = async (code: string) => {
     GenerateToken({ code: code })
       .then((res) => {
@@ -96,6 +173,10 @@ const Home = () => {
     }
   }, []);
 
+ 
+
+  
+
   return (
     <>
       <SEO
@@ -107,24 +188,20 @@ const Home = () => {
         name={`${AppConst.LogoName}`}
         type={"Job Board"}
       />
-      {/* <PopupHome /> */}
+      <PopupHome />
       <BannerMobile />
       <BannerNew />
-
 
       {/* <Banner /> */}
 
       <Couter />
 
-
-
-        <div onClick={() => navigate(`${AppRoute.resume}`)} className=" cursor-pointer  hidden    md:flex justify-center items-start">
-
-          <img src={RESUMEBANNER} className=" w-[100%] "  alt="resume"/>
-
-        </div>
-
-
+      <div
+        onClick={() => navigate(`${AppRoute.resume}`)}
+        className=" cursor-pointer  hidden    md:flex justify-center items-start"
+      >
+        <img src={RESUMEBANNER} className=" w-[100%] " alt="resume" />
+      </div>
 
       {/* <Partner /> */}
       <CategoryNew className="job-category-section" />

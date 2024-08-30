@@ -2668,6 +2668,12 @@ textarea {
   background-color: #fff;
 }
 
+
+.TrackPopup{
+  z-index: 9999999 !important;
+}
+
+
 .postjobHandleScrollbar::-webkit-scrollbar {
   width: 8px; /* Set the width of the scrollbar */
   
@@ -2683,6 +2689,4 @@ textarea {
   border-radius: 20px;
 }
 
-.postJobInputTitle{
-  font-size: 15px;
-}
+

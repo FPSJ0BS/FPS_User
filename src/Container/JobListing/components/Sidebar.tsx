@@ -12,7 +12,6 @@ import useExperiences from "@Hooks/Queries/useExperiences";
 import useSalary from "@Hooks/Queries/useSalary";
 import CustomSelect from "@Components/Dropdown";
 import CustomSelectTwo from "@Components/Dropdown/indexTwo";
-
 import { AppRoute } from "@Navigator/AppRoute";
 import useStatesList from "@Hooks/Queries/useStatesList";
 import useGetCityList from "@Hooks/Queries/useGetCityList";
@@ -43,22 +42,13 @@ const Sidebar = (props: any) => {
   const queryParams = new URLSearchParams(location.search);
   const { subjects, category } = useParams();
   const [query, setQuery] = useState<any>({});
-  // const { data: cityList } = useFilterCity({});
-  // const { data: Salary } = useSalary({});
   const { data: Salary } = useSalaryNode({});
-  // const { data: Experiences } = useExperiences({});
   const { data: Experiences } = useExperiencesNode({});
-  // const { data: State } = useStatesList({});
   const { data: State } = useStatesListNode({});
 
   const [queryTwo, setQueryTwo] = useState({
     stateID: "",
   });
-
-  // const { data: cityStateList } = useGetCityList(
-  //   { enabled: !!queryTwo.stateID },
-  //   queryTwo
-  // );
 
   const { data: cityStateList } = useGetCityListNode(
     { enabled: !!queryTwo.stateID },
@@ -66,7 +56,6 @@ const Sidebar = (props: any) => {
   );
 
   let [searchParams, setSearchParams] = useSearchParams();
-  //   console.log("queryquery", query, searchParams);
 
   const findJob = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -95,9 +84,8 @@ const Sidebar = (props: any) => {
 
       navigate({
         pathname: `${AppRoute.Find_Jobs}/${category}/${
-          query?.title ? query?.title : subjects
+          query?.job_title ? query?.job_title : subjects
         }`,
-
         search: queryParams.toString(),
       });
     }
@@ -129,13 +117,13 @@ const Sidebar = (props: any) => {
         job_type: query?.job_type,
         salary_minimum: query?.salary_minimum,
         min_experience: query?.min_experience,
-        pageNo: 0,
+        page: 0,
       });
     } else {
       setSearchJob({
         ...searchJob,
         ..._query,
-        pageNo: 0,
+        page: 0,
       });
     }
   }, [setSearchParams]);
@@ -150,7 +138,8 @@ const Sidebar = (props: any) => {
     }),
   ];
 
-  const _salary = Salary?.data &&
+  const _salary =
+    Salary?.data &&
     Salary?.data?.length && [
       { value: "", label: "Select Salary" },
       ...(Salary?.data || [])?.map((salary) => {
@@ -172,7 +161,8 @@ const Sidebar = (props: any) => {
     });
   }, [query.state]);
 
-  const _cities = cityStateList?.data &&
+  const _cities =
+    cityStateList?.data &&
     cityStateList?.data?.length && [
       ...(cityStateList?.data || []).map((city) => {
         return { id: city?.id, city: city?.name };
@@ -181,36 +171,68 @@ const Sidebar = (props: any) => {
 
   const [showSidebar, setShowSidebar] = useState(false);
 
+  const [selectedValue, setSelectedValue] = useState("column view");
+
+  const options = [
+    { value: "list view", label: "List" },
+    { value: "column view", label: "Column" },
+  ];
+
+  const handleChange = (event) => {
+    setSelectedValue(event.target.value);
+  };
+
+  useEffect(() => {
+    const handleScreenWidthChange = (e) => {
+      if (e.matches) {
+        setSelectedValue("column view");
+      }
+    };
+
+    const mediaQuery = window.matchMedia("(max-width: 768px)");
+    mediaQuery.addEventListener("change", handleScreenWidthChange);
+
+    handleScreenWidthChange(mediaQuery);
+
+    return () => {
+      mediaQuery.removeEventListener("change", handleScreenWidthChange);
+    };
+  }, []);
+
   return (
-    <form onSubmit={(e) => findJob(e)} className="  h-[100vh] w-full flex  ">
-      {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
-
-      <div className={` absolute sm:relative  ${!showSidebar ? "block" : "hidden"} sm:block w-[80%] md:w-[40%] bg-black  lg:w-[20%] h-[100%] p-[10px] overflow-y-auto postjobHandleScrollbar ${!showSidebar ? "pb-[30px]" : "pt-[30px]"} `}>
-        <div className=" w-full justify-end flex">
-          { !showSidebar && (<svg
-          onClick={() => setShowSidebar(true)}
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="lucide lucide-x cursor-pointer text-white sm:hidden block "
-          >
-            <path d="M18 6 6 18" />
-            <path d="m6 6 12 12" />
-          </svg>)
-
-         }
+    <form onSubmit={(e) => findJob(e)} className="h-[100vh] w-full flex">
+      <div
+        className={`absolute sm:relative ${
+          !showSidebar ? "block" : "hidden"
+        } sm:block w-[80%] md:w-[40%] bg-black lg:w-[20%] h-[100%] p-[10px] overflow-y-auto postjobHandleScrollbar ${
+          !showSidebar ? "pb-[30px]" : "pt-[30px]"
+        }`}
+      >
+        <div className="w-full justify-end flex">
+          {!showSidebar && (
+            <svg
+              onClick={() => setShowSidebar(true)}
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="lucide lucide-x cursor-pointer text-white sm:hidden block"
+            >
+              <path d="M18 6L6 18" />
+              <path d="M6 6l12 12" />
+            </svg>
+          )}
         </div>
 
-        <div className=" gap-4 flex flex-col w-full h-full  items-center px-[5px] 2xl:px-5">
-          <div className=" col-span-2 w-full flex justify-center items-center ">
+        <div className="gap-4 flex flex-col w-full h-full items-center px-[5px] 2xl:px-5">
+          <div className="col-span-2 w-full flex justify-center items-center">
             <button
-              className=" h-[30px] w-full  text-white bg-green-500 rounded-lg"
+              className="h-[30px] w-full text-white bg-green-500 rounded-lg"
               type="submit"
               aria-label="Search for jobs"
             >
@@ -220,14 +242,8 @@ const Sidebar = (props: any) => {
 
           <JobTitle query={query} setQuery={setQuery} />
           <StateInput query={query} setQuery={setQuery} State={State} />
-          {/* <CityInput
-            query={query}
-            setQuery={setQuery}
-            cityStateList={cityStateList}
-          /> */}
-
-          <div className="w-full  flex flex-col justify-end items-start ">
-            <div className=" flex items-center gap-3 mb-1">
+          <div className="w-full flex flex-col justify-end items-start">
+            <div className="flex items-center gap-3 mb-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
@@ -241,102 +257,91 @@ const Sidebar = (props: any) => {
                 className="lucide lucide-land-plot text-white"
               >
                 <path d="m12 8 6-3-6-3v10" />
-                <path d="m8 11.99-5.5 3.14a1 1 0 0 0 0 1.74l8.5 4.86a2 2 0 0 0 2 0l8.5-4.86a1 1 0 0 0 0-1.74L16 12" />
-                <path d="m6.49 12.85 11.02 6.3" />
-                <path d="M17.51 12.85 6.5 19.15" />
+                <path d="m8 11.99-5.5 3.14a1 1 0 0 0 0 1.74L12 21l9.5-5.49a1 1 0 0 0 0-1.74l-5.5-3.14" />
+                <path d="M12 22V11.25" />
               </svg>
-              <label className="title text-white text-[12px] 2xl:text-[14px]">
-                City
-              </label>
+              <p className="text-white">City</p>
             </div>
-
-            <CustomSelect
-              options={_cities || []}
-              setSearchJob={(city) => {
-                setQuery((query) => ({
-                  ...query,
-                  city,
-                }));
-              }}
-              searchJob={query}
-              style={{
-                width: "100%",
-                border: "1px solid #D1D5DB",
-                color: "#fff",
-                fontSize: "13px",
-                height: "30px",
-                borderRadius: "0.375rem",
-                boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
-                padding: "0.5rem",
-                marginTop: "0.25rem",
-                outline: "none",
-                borderStyle: "solid",
-              }}
+            <CityInput
+              query={query}
+              setQuery={setQuery}
+              _cities={_cities}
+              queryTwo={queryTwo}
             />
           </div>
-
           <ExperienceInput
             query={query}
             setQuery={setQuery}
-            experiences={_experiences}
+            _experiences={_experiences}
           />
-          <SalaryInput query={query} setQuery={setQuery} salary={_salary} />
-
-          <div className="w-full  bg-black flex flex-col justify-end  ">
-            <div className=" flex gap-2 mb-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="lucide lucide-backpack text-white"
-              >
-                <path d="M4 10a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z" />
-                <path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2" />
-                <path d="M8 21v-5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v5" />
-                <path d="M8 10h8" />
-                <path d="M8 18h8" />
-              </svg>
-              <label className=" text-white text-[12px] 2xl:text-[14px]">
-                Job Types
-              </label>
-            </div>
-            <Dropdown
-              placeholder="Select Job Type"
-              options={jobType || []}
-              className="h-[30px] flex items-center react-dropdown select2 bg-black border-[1px] focus:border-[2px] border-gray-300  text-white text-[12px] 2xl:text-[14px] rounded-md shadow-sm focus:outline-none border-solid focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
-              onChange={(value) => {
-                setQuery({
-                  ...query,
-                  job_type: value.value,
-                });
-              }}
-              value={query?.job_type}
-            />
-          </div>
+          <SalaryInput
+            query={query}
+            setQuery={setQuery}
+            _salary={_salary}
+          />
         </div>
       </div>
 
-      {/* ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
+      <div
+        className={`absolute sm:relative ${
+          showSidebar ? "block" : "hidden"
+        } sm:block w-full sm:w-[60%] lg:w-[80%] bg-black sm:ml-[0px] h-[100%] overflow-y-auto postjobHandleScrollbar ${
+          showSidebar ? "pt-[30px]" : "pb-[30px]"
+        }`}
+      >
+        <div className="flex justify-between items-center px-[10px]">
+          <div className="text-white">
+            <p>Job Listing</p>
+          </div>
+          <div className="sm:flex items-center justify-center text-white hidden">
+            <label htmlFor="view-select" className="mr-2">
+              View:
+            </label>
+            <Dropdown
+              options={options}
+              onChange={handleChange}
+              value={selectedValue}
+              placeholder="Select a view"
+              className="bg-gray-700"
+              controlClassName="control"
+              menuClassName="menu"
+              arrowClassName="arrow"
+            />
+          </div>
 
-      <div className="  w-[100%] sm:w-[80%] h-[100%] flex justify-center items-center flex-col overflow-y-auto px-[30px] pt-[20px] pb-[20px]">
+          {showSidebar && (
+            <svg
+              onClick={() => setShowSidebar(false)}
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="lucide lucide-list cursor-pointer text-white sm:hidden block"
+            >
+              <path d="M8 6h13" />
+              <path d="M8 12h13" />
+              <path d="M8 18h13" />
+              <path d="M3 6h.01" />
+              <path d="M3 12h.01" />
+              <path d="M3 18h.01" />
+            </svg>
+          )}
+        </div>
+
         <List
           data={data}
-          setQuery={setQuery}
-          query={query}
-          refetch={refetch}
-          setSearchJob={setSearchJob}
           searchJob={searchJob}
-          setShowSidebar = {setShowSidebar}
+          refetch={refetch}
+          selectedValue={selectedValue}
         />
       </div>
     </form>
   );
 };
 
-export default Sidebar;
+export default memo(Sidebar);

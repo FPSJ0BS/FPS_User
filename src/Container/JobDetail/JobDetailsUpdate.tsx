@@ -6,27 +6,38 @@ import { useGlobalContext } from "@Context/GlobalContextProvider";
 import useJobDetails from "@Hooks/Queries/useJobDetails";
 // import SEO from "@Components/Seo/Seo";
 // import { AppConst } from "@/Enum/AppConst";
-import { memo} from "react";
+import { memo } from "react";
+import useJobDetailsNode from "@Hooks/Queries/useJobDetailsNode";
 // import Modal from "@Container/Home/Component/Modal/Modal";
 // import LoginModal from "@Container/Auth/Login/LoginModal";
 const JobDetailsUpdate = () => {
   const { id } = useParams();
   const { userData } = useGlobalContext();
   const uid = userData?.UID ? userData?.UID : 103082;
-  const { data: jobsDetails } = useJobDetails(
+  // const { data: jobsDetails } = useJobDetails(
+  //   { enabled: !!uid },
+  //   {
+  //     UID: uid,
+  //     jobID: id || "",
+  //   }
+  // );
+
+  const { data: jobsDetails } = useJobDetailsNode(
     { enabled: !!uid },
     {
-      UID: uid,
+      facultyID: uid,
       jobID: id || "",
     }
   );
 
+  const jobWhole = jobsDetails?.data?.job ;
+
+  console.log('jobsDetails?.data?.job[0] ',jobsDetails);
 
   // const job = jobsDetails?.job;
 
   return (
     <div className="container">
-      
       {/* {jobsDetails && (
         <SEO
           title={job?.meta_title || `${job?.job_title} - ${job?.name}`}
@@ -42,17 +53,11 @@ const JobDetailsUpdate = () => {
 
       <div className="job-details__update">
         <section className="job-detail-section">
-          <JobHeading
-            data={jobsDetails?.job}
-           
-            packType={jobsDetails?.pack_type}
-          />
-          <JobDescription data={jobsDetails?.job} id={id} />
+          <JobHeading data={jobWhole } packType={jobsDetails?.data?.pack_type} />
+          <JobDescription data={jobWhole} id={id} />
         </section>
       </div>
 
-
-      
       {/* {isModal && (
         <Modal
           children={<LoginModal setIsModal={setIsModal} />}
@@ -61,9 +66,6 @@ const JobDetailsUpdate = () => {
           isFull={true}
         />
       )} */}
-
-
-
     </div>
   );
 };

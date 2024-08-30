@@ -14,6 +14,8 @@ function OtherDetails() {
     dispatch(openModalOtherDetailsModal());
   };
 
+  const getDate = (isoString) => new Date(isoString).toISOString().split('T')[0];
+
   return (
     <div className="bg-white rounded-[20px]  p-[20px] min-h-[200px] w-full career-preference other-details">
       <div className=" flex justify-between items-center gap-2  ">
@@ -75,7 +77,7 @@ function OtherDetails() {
               <div className=" flex gap-2">
                 <p className=" capitalize cursor-pointer text-black font-semibold mb-0">
                   {userDataArray?.other_details?.dob
-                    ? userDataArray?.other_details?.dob
+                    ? getDate(userDataArray?.other_details?.dob)
                     : "Not Provided"}
                 </p>
               </div>

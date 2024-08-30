@@ -43,9 +43,9 @@ function LanguageEditPopup() {
         setSingleLanData(data);
         setLanguageInputs({
           language: data.language,
-          read: data.can_read === "1",
-          write: data.can_write === "1",
-          speak: data.can_speak === "1",
+          read: data.can_read === 1,
+          write: data.can_write === 1,
+          speak: data.can_speak === 1,
           proficiency: data.proficiency,
         });
         setLoaderState(false);
@@ -76,7 +76,7 @@ function LanguageEditPopup() {
     };
 
     try {
-      const res = await postSubmitEditLanguageDetails([formattedData]);
+      const res = await postSubmitEditLanguageDetails(formattedData);
 
       if (res?.data?.status) {
         dispatch(toggleRefetchProfile());

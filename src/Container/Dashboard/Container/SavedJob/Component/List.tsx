@@ -77,10 +77,10 @@ const List = ({ data }: any) => {
             onClick={(e) => {
               e.stopPropagation();
               removeFavourite({
-                UID: userData?.UID,
+                facultyID: userData?.UID,
                 jobID: data?.jobID,
               }).then((res) => {
-                if (res?.status === "success") {
+                if (res?.status) {
                   queryClient.invalidateQueries({
                     queryKey: ["allFavourite"],
                   });

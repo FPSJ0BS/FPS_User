@@ -18,18 +18,9 @@ function Education() {
 
   const dispatch = useDispatch();
 
-  function getYearOnly(dateString) {
-    // Ensure the input string is in the expected format "YYYY-MM-DD"
-    if (
-      typeof dateString === "string" &&
-      dateString.match(/^\d{4}-\d{2}-\d{2}$/)
-    ) {
-      return dateString.split("-")[0];
-    } else {
-      throw new Error(
-        "Input string is not in the expected format 'YYYY-MM-DD'"
-      );
-    }
+  function getYearFromDate(dateString) {
+    const date = new Date(dateString);
+    return date.getFullYear();
   }
 
   const handlePopupFunc = async (id) => {
@@ -99,7 +90,7 @@ function Education() {
                 {edu?.institute_name}
               </p>
               <p className=" text-gray-400 mb-[-12px] font-medium">
-                {getYearOnly(edu?.start_date)} - {getYearOnly(edu?.end_date)} |{" "}
+                {getYearFromDate(edu?.start_date)} - {getYearFromDate(edu?.end_date)} |{" "}
                 {edu?.education_type}
               </p>
               <p className=" mb-0 text-gray-400 font-medium">

@@ -10,12 +10,13 @@ import { Querykeys } from "@Hooks/Queries/queryname";
 import useProfileDetails from "@Hooks/Queries/useProfileDetails";
 import { Toast } from "@Utils/Toast";
 import { useQueryClient } from "@tanstack/react-query";
-import { memo, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import useRazorpay from "react-razorpay";
 import { AppRoute } from "@Navigator/AppRoute";
 import { NavLink, useNavigate } from "react-router-dom";
 import useCreateOrder from "@Hooks/Mutation/useCreateOrder";
 import usePackUpdate from "@Hooks/Mutation/usePackUpdate";
+import { getRefetchUserProfileData } from "@/api/api";
 const Membership = () => {
   const { userData } = useGlobalContext();
   const [isMore, setIsMore] = useState(false);
@@ -24,111 +25,154 @@ const Membership = () => {
     enabled: !!userData?.UID,
   });
 
-  const { data: profileDetails } = useProfileDetails({
-    UID: userData?.UID,
-  });
+  
+  // const { data: profileDetails } = useProfileDetails({
+  //   UID: userData?.UID,
+  // });
+
+  const [profileDetails, setProfileDetails] = useState(null)
+
+  useEffect(() => {
+    const fetchApi = async () => {
+      try {
+        const res = await getRefetchUserProfileData(userData?.UID);
+
+        
+        if (res?.data?.status) {
+          setProfileDetails(res?.data?.data)
+          console.log('res',profileDetails?.user?.packID);
+        } else {
+          console.log(res);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchApi();
+  }, []);
+
+
+
+  useEffect(()=>{
+console.log('packageData',packageData,);
+console.log('profileDetails',profileDetails);
+  },[packageData])
+
   const navigate = useNavigate();
   const { mutateAsync: packUpdate } = usePackUpdate({});
   const { mutateAsync: createOrder } = useCreateOrder({});
   const queryClient = useQueryClient();
-  const currentPlan = packageData?.packages.filter((item) => {
-    return item.packID === profileDetails?.user?.packID;
+  const currentPlan = packageData?.packages?.filter((item) => {
+    return item.packID === String(profileDetails?.user?.packID);
   });
+
+  console.log('currentPlan',currentPlan);
   const _currentPlan = currentPlan?.[0];
   const currentPlanDetails = _currentPlan?.details.split(" ");
   const { mutateAsync: PackCancel } = usePackCancel({});
   const [Razorpay] = useRazorpay();
 
   const handlePayment = (item: any) => {
-    
-      if (item?.type === "Prepaid") {
-        createOrder({
-          user_id: userData?.UID,
-          amount: Number(item?.price * 100),
-          type: "INR",
-        }).then((response) => {
-         
-          const options: any = {
-            key: String(import.meta.env.VITE_Razorpay_KEY),
-            amount: String(item?.price * 100),
-            currency: "INR",
-            name: AppConst.LogoName,
-            image: logo,
-            order_id: response?.order_id,
-            handler: (res) => {
-             
-              packUpdate({
-                UID: userData?.UID,
-                packID: item?.packID,
-                amount: item?.price,
-                type: item?.type,
-                subscription_day: item?.days,
-                transaction_id: res?.razorpay_payment_id,
-                transaction_signature: res?.razorpay_signature,
-                transaction_order_id: res?.razorpay_order_id,
-                payment_type: "Card",
-                payment_status: "Capture",
-              }).then((res) => {
-                if (res?.status === "success") {
-                  queryClient.invalidateQueries({
-                    queryKey: [Querykeys.profileDetails],
-                  });
-                  Toast("success", res?.message);
-                } else {
-                  navigate(`${AppRoute.Dashboard}/${AppRoute.User_Dashboard}`);
-                  Toast("error", res?.message);
-                }
-              });
-            },
-            prefill: {
-              name: profileDetails?.user?.name,
-              email: profileDetails?.user?.email,
-              contact: profileDetails?.user?.mobile,
-            },
-            theme: {
-              color: "#a73358",
-            },
-          };
+    if (item?.type === "Prepaid") {
+      createOrder({
+        user_id: userData?.UID,
+        amount: Number(item?.price * 100),
+        type: "INR",
+      }).then((response) => {
+        const options: any = {
+          key: String(import.meta.env.VITE_Razorpay_KEY),
+          amount: String(item?.price * 100),
+          currency: "INR",
+          name: AppConst.LogoName,
+          image: logo,
+          order_id: response?.order_id,
+          handler: (res) => {
+            packUpdate({
+              facultyID: userData?.UID,
+              packID: item?.packID,
+              amount: item?.price,
+              type: item?.type,
+              subscription_day: item?.days,
+              transaction_id: res?.razorpay_payment_id,
+              transaction_signature: res?.razorpay_signature,
+              transaction_order_id: res?.razorpay_order_id,
+              payment_type: "razorpay",
+              payment_status: "Capture",
+            }).then((res) => {
+              if (res?.status) {
+                queryClient.invalidateQueries({
+                  queryKey: [Querykeys.profileDetails],
+                });
+                Toast("success", res?.message);
+              } else {
+                navigate(`${AppRoute.Dashboard}/${AppRoute.User_Dashboard}`);
+                Toast("error", res?.message);
+              }
+            });
+          },
+          prefill: {
+            name: profileDetails?.user?.name,
+            email: profileDetails?.user?.email,
+            contact: profileDetails?.user?.mobile,
+          },
+          theme: {
+            color: "#a73358",
+          },
+        };
 
-          const rzp1 = new Razorpay(options);
+        const rzp1 = new Razorpay(options);
 
-          rzp1.on("payment.failed", function (response) {
-            alert(response.error.code);
-            alert(response.error.description);
-            alert(response.error.source);
-            alert(response.error.step);
-            alert(response.error.reason);
-            alert(response.error.metadata.order_id);
-            alert(response.error.metadata.payment_id);
-          });
+        rzp1.on("payment.failed", function (response) {
+          alert(response.error.code);
+          alert(response.error.description);
+          alert(response.error.source);
+          alert(response.error.step);
+          alert(response.error.reason);
+          alert(response.error.metadata.order_id);
+          alert(response.error.metadata.payment_id);
+        });
 
-          rzp1.open();
+        rzp1.open();
+      });
+    }
+
+    if (item?.type === "Postpaid") {
+      if (confirm("Do you really want to choose postpaid package") === true) {
+        packUpdate({
+          facultyID: userData?.UID,
+          packID: item?.packID,
+          type: item?.type,
+        }).then((res) => {
+          if (res?.status) {
+            queryClient.invalidateQueries({
+              queryKey: [Querykeys.profileDetails],
+            });
+            Toast("success", res?.message);
+          } else {
+            navigate(`${AppRoute.Dashboard}/${AppRoute.User_Dashboard}`);
+            Toast("error", res?.message);
+          }
         });
       }
-      
-      if (item?.type === "Postpaid") {
-        if (confirm("Do you really want to choose postpaid package") === true) {
-          packUpdate({
-            UID: userData?.UID,
-            packID: item?.packID,
-            amount: item?.price,
-            type: item?.type,
-            subscription_day: item?.days,
-          }).then((res) => {
-            if (res?.status === "success") {
-              queryClient.invalidateQueries({
-                queryKey: [Querykeys.profileDetails],
-              });
-              Toast("success", res?.message);
-            } else {
-              navigate(`${AppRoute.Dashboard}/${AppRoute.User_Dashboard}`);
-              Toast("error", res?.message);
-            }
-          });
-        }
-      }
-   
+    }
   };
+
+  function calculateAmountWith18Percent(amount) {
+    const numericAmount = parseFloat(amount);
+
+    const percentage = 18 / 100;
+    const result = numericAmount * percentage;
+    return result.toFixed(2);
+  }
+
+  function calculateAmountWith18PercentIncluded(amount) {
+    const numericAmount = parseFloat(amount);
+
+    const percentage = 18 / 100;
+    const result = numericAmount + numericAmount * percentage;
+    return result.toFixed(2); // Format the result to 2 decimal places
+  }
 
   return (
     <>
@@ -226,7 +270,7 @@ const Membership = () => {
         </div>
       )}
       <section className="pricing-section">
-        <div className="row justify-content-center">
+        <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-7  ">
           <FlatList
             data={packageData?.packages}
             renderItem={(item: any) => {
@@ -239,19 +283,67 @@ const Membership = () => {
               return (
                 isCategory &&
                 !isCurrentPlan && (
-                  <div className="col-lg-4 col-md-6">
+                  <div className=" w-full h-full ">
                     <div className="pricing-card-one border-0 popular-two mt-25">
                       <div className="popular-badge">popular</div>
                       <div className="pack-name">{item?.type}</div>
                       <h5 className="mt-3">{item?.package}</h5>
-                      <div
+                      <div className=" flex justify-center items-center">
+                        <div className=" flex">
+                          {isPriceNumber && (
+                            <p className=" mt-1  mr-2 font-semibold text-[15px]">
+                              ₹
+                            </p>
+                          )}
+                          <p
+                            className={`${
+                              !isPriceNumber
+                                ? "text-[16px] my-3 mb-3 leading-[1.2em]"
+                                : "text-[25px]"
+                            } mb-0  font-semibold`}
+                          >
+                            {item?.non_gst_price}
+                          </p>
+                        </div>
+                        {isPriceNumber && (
+                          <div className=" flex  gap-1">
+                            <p className=" mb-0  mr-2 font-semibold text-[15px] pl-2">
+                              +
+                            </p>
+
+                            <p className=" mb-0 text-[16px] font-semibold">
+                              ₹{" "}
+                              {item?.gst}
+                            </p>
+                            <p className=" mb-0">(18% GST)</p>
+                          </div>
+                        )}
+                      </div>
+                      {isPriceNumber && <div className=" flex justify-center">
+                        {isPriceNumber && (
+                          <p className=" mb-0 mt-2 mr-2 font-semibold text-[15px]">
+                            ₹
+                          </p>
+                        )}
+                        <p
+                          className={`${
+                            !isPriceNumber
+                              ? "text-[16px] my-3 mb-3 leading-[1.2em]"
+                              : "text-[35px]"
+                          } mb-0  font-semibold`}
+                        >
+                          {item?.price_label}
+                        </p>
+                      </div>}
+                      {/* <div
                         className={`price fw-500 ${
                           !isPriceNumber && "price-less"
                         }`}
                       >
                         {isPriceNumber && <sub>₹</sub>}
-                        {item?.price}
-                      </div>
+                        {item?.price} 
+                      </div> */}
+
                       <ul className="style-none">
                         <li>{`${item?.no_of_jobs} job Apply `}</li>
                         <li> Days: {item?.days}</li>

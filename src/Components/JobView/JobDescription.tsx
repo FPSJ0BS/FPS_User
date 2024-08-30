@@ -15,16 +15,18 @@ import { memo, useState } from "react";
 import useSearchJobsQuery from "@Hooks/Queries/useSearchJobsQuery";
 import FlatList from "@Components/FlatList/FlatLIst";
 import RelatedJobCard from "@Components/JobView/RelatedJobCard";
+import useSearchJobsQueryNode from "@Hooks/Queries/useSearchJobsQueryNode";
 
 const JobDescription = ({ data, id }: any) => {
   const { userData } = useGlobalContext();
   const [searchJob] = useState<any>({
-    UID: userData?.UID ? userData?.UID : 103082,
-    pageNo: 0,
+    facultyID: userData?.UID ? userData?.UID : 103082,
+    page: 0,
     limit: 10,
   });
-  const { data: jobs } = useSearchJobsQuery(
-    { enabled: !!searchJob?.UID },
+  
+  const { data: jobs } = useSearchJobsQueryNode(
+    { enabled: !!searchJob?.facultyID },
     searchJob
   );
 
@@ -34,9 +36,11 @@ const JobDescription = ({ data, id }: any) => {
       })
     : "";
 
+ 
+
   const relatedJob =
-    jobs?.jobs &&
-    jobs?.jobs?.filter((item) => {
+    jobs?.data?.jobsList &&
+    jobs?.data?.jobsList?.filter((item) => {
       return item?.catID === data?.catID && item?.slug !== id;
     });
 

@@ -50,10 +50,18 @@ const GlobalProvider = (props: any) => {
   useLayoutEffect(() => {
     const userData = StorageInstance.getUserToken();
     setIsAppLoaded(true);
-    if (userData) {
-      setUserData(JSON.parse(userData));
+  
+    try {
+      if (userData) {
+        const parsedData = JSON.parse(userData);
+        setUserData(parsedData);
+      }
+    } catch (error) {
+      console.error("Failed to parse user data:", error);
+      // Handle the error, maybe clear the storage or set a default value
     }
   }, []);
+  
 
   const GlobalContextValue = useMemo(
     () => ({

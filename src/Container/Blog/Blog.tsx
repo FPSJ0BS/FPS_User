@@ -7,7 +7,7 @@ import SEO from "@Components/Seo/Seo";
 import useBlog from "@Hooks/Queries/useBlog";
 import { AppRoute } from "@Navigator/AppRoute";
 import { formatDistance } from "date-fns";
-import { memo, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Blog = () => {
@@ -16,7 +16,14 @@ const Blog = () => {
     limit: 10,
   });
   const { data: blog } = useBlog({ query });
-  const navigate = useNavigate()
+
+  // useEffect(()=>{
+
+  //   console.log('blog?.data?.data?.blogs',blog?.data?.totalPages);
+
+  // },[blog])
+
+  const navigate = useNavigate();
   return (
     <>
       <SEO
@@ -33,7 +40,7 @@ const Blog = () => {
         <div className="container">
           <div className="group-col-3">
             <FlatList
-              data={blog?.data?.data}
+              data={blog?.data?.blogs}
               renderItem={(item?: any) => {
                 const date =
                   item?.created_at &&
@@ -54,7 +61,7 @@ const Blog = () => {
                   >
                     <div className="img-blog">
                       <Imag
-                        src={`${blog?.data?.img_base_url}${item?.blogimage}`}
+                        src={`${item?.blogimage}`}
                         alt="image"
                       />
                     </div>
@@ -78,10 +85,10 @@ const Blog = () => {
               }}
             />
           </div>
-          {blog?.data?.data && blog?.data?.data?.length > 0 && (
+          {blog?.data?.blogs && blog?.data?.blogs?.length > 0 && (
             <div className="mb-4">
               <Pagination
-                total={blog?.data?.total_page_count}
+                total={blog?.data?.totalPages}
                 current={query?.page_num - 1}
                 onChange={(page) => {
                   setQuery({

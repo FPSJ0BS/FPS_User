@@ -1,6 +1,6 @@
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import OTPInput from "otp-input-react";
-import { memo, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import Countdown from "@Components/Countdown/Countdown";
 import useSendOtp from "@Hooks/Mutation/useSendOtp";
 import { Toast } from "@Utils/Toast";
@@ -14,6 +14,10 @@ const OtpSignUp = ({
   digit,
   isResendOtp = true,
   isPending,
+  mobile,
+  sethashValue,
+  setOtpSendData,
+  otpSendData
 }: {
   name: string;
   cb: (value: any) => void;
@@ -22,8 +26,14 @@ const OtpSignUp = ({
   digit: number;
   isPending: boolean;
   isResendOtp?: boolean;
+  mobile:any;
+  sethashValue : any
+  setOtpSendData : any
+  otpSendData : any
 }) => {
+
   const [initialSeconds, setInitialSeconds] = useState(30);
+ 
   const {
     handleSubmit,
     control,
@@ -31,9 +41,11 @@ const OtpSignUp = ({
   } = useForm<any>();
 
   const { mutateAsync: sendOtp } = useSendOtp({});
+
   const onSubmit: SubmitHandler<any> = (data) => {
     cb(data);
   };
+
   return (
     <div className="flex flex-col justify-center items-center ">
       <h6 className="fs-6 text-center mb-16 text-black">{label}</h6>
@@ -65,13 +77,23 @@ const OtpSignUp = ({
             </small>
           )}
         </div>
-        {isResendOtp && (
+        {(
           <Countdown
             initialSeconds={initialSeconds}
             setInitialSeconds={setInitialSeconds}
             onPress={() => {
-              sendOtp(sendOtpObj).then((res) => {
-                if (res?.status === "success") {
+
+              sendOtp({
+                mobile
+              }).then((res) => {
+              
+                sethashValue(res?.data[0])
+                setOtpSendData({
+                  ...otpSendData,
+                  hash : res?.data[0]
+
+                })
+                if (res?.statusCode === 200) {
                   Toast(
                     "success",
                     "Your Verification Code Send Successfully,Please Check Your Mobile"

@@ -7,7 +7,7 @@ import Title from "@Container/Dashboard/Component/Title/Title";
 import Card from "./Component/Card";
 import useAllFavourite from "@Hooks/Queries/useAllFavourite";
 import FlatList from "@Components/FlatList/FlatLIst";
-import List from "./Component/List";
+import List from "./Component/List"
 import { AppConst } from "@/Enum/AppConst";
 import SEO from "@Components/Seo/Seo";
 import { AppRoute } from "@Navigator/AppRoute";
@@ -56,7 +56,7 @@ const UserDashboard = () => {
         <Card
           Icon={<img loading="lazy" decoding="async" src={SAVEDJOBS} className=" md:w-[50%] " alt="save"/>}
           title={"Saved Jobs"}
-          total={AllFavourite?.jobs ? AllFavourite?.jobs?.length : 0}
+          total={AllFavourite?.data ? AllFavourite?.data?.length : 0}
           navigatePath={`${AppRoute.Dashboard}/${AppRoute.Saved_Job}`}
         />
         <Card

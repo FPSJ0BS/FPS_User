@@ -39,6 +39,7 @@ const CategoryNew = (props: IProps) => {
     text: " Recruitment made easy for candidates searching for IIT JEE, NEET Coaching jobs, Edtech jobs, School teacher jobs & Other Education Sector Jobs",
   });
   const { data: Category } = useCategoryList({});
+  
 
   const navigate = useNavigate();
   return (
@@ -61,7 +62,7 @@ const CategoryNew = (props: IProps) => {
           
           return (
             <div
-              key={idx.id}
+              key={index}
               className={` gap-3 `}
               onClick={() => {
                 setCategoryData(idx);

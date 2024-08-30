@@ -4,7 +4,6 @@ import CoreAPINode from "./CoreAPINode";
 const http = new CoreAPI();
 const httpNode = new CoreAPINode();
 
-
 const getToken = (): string | null => {
   const tokenString = localStorage.getItem("token:fpsjob");
   if (tokenString === null) {
@@ -53,9 +52,9 @@ export const doGetExperiencesNode = async () => {
 
 export const doProfileUpdate = async (data) => {
   const token = getToken();
-  const res = await http.postRequest(`v2/profileUpdate?`, data, {
+  const res = await httpNode.postRequest(`user/authentication/profileUpdate`, data, {
     headers: {
-      Logintoken: `${token}`,
+      Authorization: `Bearer ${token}`,
     },
   });
   return res;
@@ -73,50 +72,44 @@ export const doProfileEducation = async (data) => {
     data,
     {
       headers: {
-        'Authorization': `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     } as any
-
   );
   return res;
 };
 
+// ////////////////////////////////
+
 export const doGetBlog = async (data) => {
-  const res = await http.postRequestForm(`blog/blogs`, data);
+
+  console.log('data beta',data?.page_num);
+  const res = await httpNode.getRequest(`user/blogs?page=${data?.page_num}`);
   return res;
 };
 
+// //////////////////////////////////
 
 export const doGetBlogDetails = async (data) => {
   const res = await http.postRequestForm(`blog/blog_details`, data);
   return res;
 };
 
-
 export const doUploadProfileImage = async (data) => {
   const token = getToken();
 
-
-
-  const res = await http.postRequestForm(`Web_api_V3_test/profileImage`, data, 
-
+  const res = await http.postRequestForm(
+    `Web_api_V3_test/profileImage`,
+    data,
 
     {
-     headers: {
-      Authorization: `Bearer ${token}`,
-     },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     } as any
-
-
-);
-
-
+  );
 
   return res;
-
-
-
-
 };
 
 export const doUploadProfileCv = async (data, setProgress) => {
@@ -144,10 +137,9 @@ export const doGetSalaryNode = async () => {
   return res;
 };
 
-
 export const doAllFavourite = async (query: any) => {
-  const res = await http.getRequest(
-    `v2/allFavourite?${getQuery(query?.queryKey?.[1])}`
+  const res = await httpNode.getRequest(
+    `user/allFavourite?facultyID=${query?.queryKey?.[1]?.UID}`
   );
   return res;
 };
@@ -161,7 +153,7 @@ export const doAllFeaturedJobs = async (query: any) => {
 
 export const doApplyJob = async (query: any) => {
   const token = getToken();
-  const res = await http.getRequest(`v2/applyJob?${getQuery(query)}`, {
+  const res = await httpNode.postRequest(`user/applyJob`, query, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -181,8 +173,8 @@ export const doCancelJob = async (query: any) => {
 
 export const doAppliedJobs = async (query: any) => {
   const token = getToken();
-  const res = await http.getRequest(
-    `v2/appliedJobs?${getQuery(query?.queryKey?.[1])}`,
+  const res = await httpNode.getRequest(
+    `user/appliedJobs?facultyID=${query?.queryKey?.[1]?.UID}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -191,6 +183,8 @@ export const doAppliedJobs = async (query: any) => {
   );
   return res;
 };
+
+
 
 export const doAppliedJobsTrackData = async (applyID: string) => {
   const token = getToken();
@@ -227,7 +221,6 @@ export const doNotificationsNode = async (query: any) => {
   );
   return res;
 };
-
 
 export const doReadAllNotifications = async (data: any) => {
   const token = getToken();
@@ -295,7 +288,7 @@ export const doCreateOrderId = async (data: any) => {
 
 export const doPackUpdate = async (data: any) => {
   const token = getToken();
-  const res = await http.postRequest("v2/packUpdate", data, {
+  const res = await httpNode.postRequest("user/packUpdate", data, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -310,15 +303,12 @@ export const doResumeBuy = async (data: any) => {
 
 export const doWorkStatus = async (data: any) => {
   const token = getToken();
-  const res = await http.postRequestForm("faculity/workStatus", data,
-    {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      } 
-    }as any
-  )
-  
-;
+  const res = await http.postRequestForm("faculity/workStatus", data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  } as any);
+
   return res;
 };
 

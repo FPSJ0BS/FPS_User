@@ -14,6 +14,8 @@ import { Toast } from "@Utils/Toast";
 import Switch from "react-switch";
 import Opentowork from "@Assets/dashboard-svg/open-to-work.png";
 import dummyiamge from '@Assets/Icons/Profile/user.png'
+import useProfileDetailsNode from "@Hooks/Queries/useProfileDetailsNode";
+import { getRefetchUserProfileData } from "@/api/api";
 
 const Sidebar = ({
   className,
@@ -29,9 +31,46 @@ const Sidebar = ({
   const [percentage, setPercentage] = useState<any>(0);
   const navigate = useNavigate();
   const userId = userData?.UID;
-  const { data: profileDetails, refetch: refetchProfile } = useProfileDetails({
-    UID: userId,
-  });
+  // const { data: profileDetails, refetch: refetchProfile } = useProfileDetailsNode({
+  //   facultyID: userId,
+  // });
+
+  const [profileDetails, setProfileDetails] = useState([])
+
+  useEffect(()=>{
+
+    const fetchApi = async () => {
+
+
+      try {
+
+        const res = await getRefetchUserProfileData(userId);
+
+        if(res?.status){
+
+  
+          setProfileDetails(res?.data?.data)
+
+ 
+
+        }
+
+
+        
+      } catch (error) {
+        console.log(error);
+      }
+
+
+    }
+
+    fetchApi()
+
+
+
+  },[])
+
+
   const user = profileDetails?.user;
   const [isDropdown, setIsDropDown] = useState(false);
   const btnRef = useRef<any>();

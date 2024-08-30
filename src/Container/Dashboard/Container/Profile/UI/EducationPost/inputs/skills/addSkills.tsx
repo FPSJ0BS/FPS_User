@@ -8,7 +8,7 @@ import {
 import { getSelectedListSkill, postSkillsAPI } from "@/api/api";
 import { useGlobalContext } from "@Context/GlobalContextProvider";
 
-function AddSkills({selectList}) {
+function AddSkills({ selectList }) {
   const { userData } = useGlobalContext();
   const userId = userData?.UID;
   const dispatch = useDispatch();
@@ -17,10 +17,12 @@ function AddSkills({selectList}) {
   const { skillsDataAddArray } = useSelector(
     (state: any) => state.myProfileEducationSlice
   );
+  useEffect(() => {
+    console.log("skillsDataAddArrayskillsDataAddArray", skillsDataAddArray);
+  }, [skillsDataAddArray]);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
 
   const handleCourseChange = async (skill) => {
     const foundItem = skillsDataAddArray?.find(
@@ -38,7 +40,7 @@ function AddSkills({selectList}) {
 
   const handleFocus = () => {
     setIsDropdownOpen(true);
-    setSearchTerm(""); // Reset search term to show all items
+
   };
 
   const handleOptionClick = (skill) => {
@@ -70,24 +72,22 @@ function AddSkills({selectList}) {
 
   useEffect(() => {
     const fetchSkills = async () => {
-      // Create FormData object
-      const formData = new FormData();
-      formData.append("faculity_id", userId);
-      formData.append("keyword", searchTerm);
+      const data = {
+        facultyID: userId,
+        skill: searchTerm,
+      };
 
       try {
-        const res = await postSkillsAPI(formData);
+        const res = await postSkillsAPI(data);
 
         if (res?.data?.status) {
-          await selectList();
+          console.log("res?.data?.data", res?.data?.data);
           const skillsDataFull = await res?.data?.data;
-        
+          
           await dispatch(addMultipleSkillsFromAPI(skillsDataFull));
-        } else{
-
-     
+          // await selectList();
+        } else {
         }
-
       } catch (error) {
         console.error("Error fetching skills:", error);
       }
@@ -95,8 +95,6 @@ function AddSkills({selectList}) {
 
     fetchSkills();
   }, [searchTerm]);
-
- 
 
   return (
     <div className="flex w-full">

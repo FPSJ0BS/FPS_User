@@ -1,16 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 
-export const PreferredShift = ({setSelectedShift}) => {
+export const PreferredShift = ({ setSelectedShift }) => {
   const { careerPreferenceDataArray } = useSelector(
     (state: any) => state.myProfileEducationSlice
   );
 
-
   const [inputValue, setInputValue] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-
 
   const openDropdown = () => {
     setShowDropdown(true);
@@ -50,11 +48,9 @@ export const PreferredShift = ({setSelectedShift}) => {
     setShowDropdown(true);
   };
 
-  const filteredShifts = careerPreferenceDataArray
-    .filter((item) => item.type === "preferred_shift")
-    .filter((option) =>
-      option.value.toLowerCase().includes(inputValue.toLowerCase())
-    );
+  const filteredShifts = careerPreferenceDataArray?.preferred_shift?.filter(
+    (option) => option.value.toLowerCase().includes(inputValue.toLowerCase())
+  );
 
   return (
     <div className="relative w-[100%] col-span-2 md:col-span-1">
@@ -136,7 +132,6 @@ export const PreferredShift = ({setSelectedShift}) => {
           ))}
         </ul>
       )}
-     
     </div>
   );
 };

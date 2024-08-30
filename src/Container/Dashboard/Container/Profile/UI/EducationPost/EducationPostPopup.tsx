@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CloseIcon from "@Assets/Icons/remove.png";
 import { closeModalEducationModal, closeModalEmploymentAddModal, toggleRefetchProfile } from "@/Redux/Dashboard/MyProfile/Education/EducationSlice";
 import { postSubmitEducationDetails } from "@/api/api";
@@ -19,7 +19,7 @@ function EducationPost() {
   const { qualificationDataArray, resultDataArray, educationDataArray } = useSelector((state: any) => state.myProfileEducationSlice);
 
 
-
+  const inputRef = useRef(null);
 
 
   const {
@@ -138,8 +138,9 @@ function EducationPost() {
                     )}
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold text-black">Start Date</label>
+                    <label className="block text-sm font-semibold text-black edu-start-date">Start Date</label>
                     <input
+                    
                       type="date"
                       {...register(`education.${index}.start_date`)}
                       className="mt-1 h-[50px] block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:ring-blue-300"

@@ -21,16 +21,21 @@ function SocialMedia() {
     (state: any) => state.myProfileEducationSlice
   );
 
-
+  const iconMapping = {
+    linkedin: LinkedIn,
+    Facebook: Facebook,
+    Github: Github,
+    Instagram: Instagram,
+    Naukri: Naukri,
+    Pinterest: Pinterest,
+    Indeed: Indeed,
+  };
 
   const dispatch = useDispatch();
 
   const modalOpen = () => {
     dispatch(openModalSocialMediaModal());
   };
-
- 
- 
 
   return (
     <div className="bg-white rounded-[20px]  p-[20px] min-h-[200px] w-full social-media">
@@ -49,47 +54,20 @@ function SocialMedia() {
 
       <div className=" flex flex-col  justify-start items-start mt-[20px] w-full">
         <div className=" flex  justify-start items-start gap-4 w-full">
-          {userDataArray?.social_link?.linkedin && (
-            <img
-              className=" w-[6%] cursor-pointer"
-              src={LinkedIn}
-              alt="Linkedin"
-            />
-          )}
-          {userDataArray?.social_link?.Facebook && (
-            <img
-              className=" w-[6%] cursor-pointer"
-              src={Facebook}
-              alt="Facebook"
-            />
-          )}
-          {userDataArray?.social_link?.Github && (
-            <img className=" w-[6%] cursor-pointer" src={Github} alt="Github" />
-          )}
-          {userDataArray?.social_link?.Instagram && (
-            <img
-              className=" w-[6%] cursor-pointer"
-              src={Instagram}
-              alt="Instagram"
-            />
-          )}
-          {userDataArray?.social_link?.Naukri && (
-            <img
-              className=" w-[6%] rounded-full cursor-pointer"
-              src={Naukri}
-              alt="Naukri"
-            />
-          )}
-          {userDataArray?.social_link?.Pinterest && (
-            <img
-              className=" w-[6%] cursor-pointer"
-              src={Pinterest}
-              alt="Pinterest"
-            />
-          )}
-          {userDataArray?.social_link?.Indeed && (
-            <img className=" w-[6%] cursor-pointer" src={Indeed} alt="Indeed" />
-          )}
+          {userDataArray?.social_link?.map((link, index) => {
+            const IconSrc = iconMapping[link.platform];
+            return (
+              IconSrc && (
+                <img
+                  key={index}
+                  className="w-[6%] cursor-pointer rounded-[50%]"
+                  src={IconSrc}
+                  alt={link.platform}
+                  onClick={() => window.open(link.value, "_blank")}
+                />
+              )
+            );
+          })}
         </div>
       </div>
     </div>

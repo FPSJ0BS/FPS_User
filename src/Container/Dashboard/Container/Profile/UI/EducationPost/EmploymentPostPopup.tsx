@@ -13,11 +13,9 @@ import { postSubmitEmploymentDetails } from "@/api/api";
 function EmploymentPostPopup() {
   const { userData } = useGlobalContext();
   const dispatch = useDispatch();
-  const { mutateAsync } = useProfileEducationPost({});
   const [buttonLoad, setButtonLoad] = useState(false);
 
-  const { qualificationDataArray, resultDataArray, educationDataArray } =
-    useSelector((state: any) => state.myProfileEducationSlice);
+ 
 
   const [employmentDetails, setEmploymentDetails] = useState([
     {
@@ -180,7 +178,7 @@ function EmploymentPostPopup() {
                   />
                 </div>
 
-                <div className=" flex flex-col gap-2 col-span-2 md:col-span-1">
+                {detail.currently === 0 && <div className=" flex flex-col gap-2 col-span-2 md:col-span-1">
                   <label
                     htmlFor="endDateid"
                     className="block text-sm font-semibold text-black"
@@ -188,7 +186,6 @@ function EmploymentPostPopup() {
                     End Date
                   </label>
                   <input
-                    required
                     id="endDateid"
                     type="date"
                     name="end_date"
@@ -197,7 +194,7 @@ function EmploymentPostPopup() {
                     placeholder="End Date"
                     className="mt-1 block p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:ring-blue-300"
                   />
-                </div>
+                </div>}
 
                 <label className="flex items-center col-span-2">
                   <input

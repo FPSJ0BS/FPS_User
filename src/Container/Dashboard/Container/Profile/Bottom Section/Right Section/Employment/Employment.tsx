@@ -16,8 +16,6 @@ function Employment() {
     (state: any) => state.myProfileEducationSlice
   );
 
-
-
   const employmentData = userDataArray?.experience_data;
 
   const dispatch = useDispatch();
@@ -70,7 +68,11 @@ function Employment() {
     <div className="bg-white rounded-[20px]  p-[20px] min-h-[200px] w-full employment">
       <div className=" flex justify-between items-center gap-2 h-[40px] ">
         <div className=" flex items-center gap-2">
-          <img className=" w-[55px] md:w-[65px]" src={EmploymentData} alt="Education-Icon" />
+          <img
+            className=" w-[55px] md:w-[65px]"
+            src={EmploymentData}
+            alt="Education-Icon"
+          />
           <h6 className=" text-[14px] md:text-[16px] w-ful flex gap-2 cursor-default font-bold">
             Employment
           </h6>
@@ -119,9 +121,7 @@ function Employment() {
                 </div>
 
                 <div className="flex flex-col items-start  mb-[-5px]">
-                  <p className=" font-medium mb-0 capitalize">
-                    {organization}
-                  </p>
+                  <p className=" font-medium mb-0 capitalize">{organization}</p>
                   <p className=" font-normal mb-0 capitalize leading-[1.4em]">
                     {responsibilities}
                   </p>
@@ -129,9 +129,17 @@ function Employment() {
 
                 <div className="flex items-center gap-2 mb-[-10px]">
                   <p className=" mb-0 capitalize text-gray-400 font-medium">
-                    {formatDate(start_date)}{" "}
-                    <span className=" normal-case">to Present -</span>{" "}
-                    {getDuration(start_date, end_date)}
+                    {parseInt(currently) === 1 ? (
+                      <>
+                        {formatDate(start_date)}{" "}
+                        <span className="normal-case">to Present</span>
+                        {/* {getDuration(start_date, end_date)} */}
+                      </>
+                    ) : (
+                      <>
+                        {formatDate(start_date)} - {formatDate(end_date)}
+                      </>
+                    )}
                   </p>
                 </div>
 

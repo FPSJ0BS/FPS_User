@@ -6,6 +6,10 @@ export const SelectLocation = ({ locationArray, setLocationArray }) => {
     (state: any) => state.myProfileEducationSlice
   );
 
+  
+
+  
+
   const [inputValue, setInputValue] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -54,7 +58,7 @@ export const SelectLocation = ({ locationArray, setLocationArray }) => {
     setLocationArray(locationArray.filter((city) => city.id !== id));
   };
 
-  const filteredCities = cityDataArray.filter((option) =>
+  const filteredCities = cityDataArray?.filter((option) =>
     option?.city?.toLowerCase().includes(inputValue.toLowerCase())
   );
 
@@ -126,7 +130,7 @@ export const SelectLocation = ({ locationArray, setLocationArray }) => {
       </div>
       {showDropdown && (
         <ul className=" pl-0 postjobHandleScrollbar max-h-[300px] overflow-y-auto absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg">
-          {filteredCities.slice(0, 50).map((option, index: number) => (
+          {filteredCities?.slice(0, 50)?.map((option, index: number) => (
             <li
               key={index}
               className="cursor-pointer hover:bg-gray-100 py-1 px-3"
@@ -138,7 +142,7 @@ export const SelectLocation = ({ locationArray, setLocationArray }) => {
         </ul>
       )}
       <div className="flex flex-wrap gap-2 mt-2">
-        {locationArray.map(({ name, id }) => (
+        {locationArray?.map(({ name, id }) => (
           <div
             key={id}
             className="flex gap-2 items-center  p-2 bg-gray-300 rounded-full px-3"

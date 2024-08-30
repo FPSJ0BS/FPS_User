@@ -7,14 +7,44 @@ import { formatDistance } from "date-fns";
 import useRemoveFavourite from "@Hooks/Mutation/useRemoveFavourite";
 import { useQueryClient } from "@tanstack/react-query";
 import useProfileDetails from "@Hooks/Queries/useProfileDetails";
-import { memo } from "react";
+import { memo, useEffect, useState } from "react";
+import useProfileDetailsNode from "@Hooks/Queries/useProfileDetailsNode";
+import { getRefetchUserProfileData } from "@/api/api";
 
 const JobHeading = ({ data, packType }: any) => {
   const { userData } = useGlobalContext();
   const queryClient = useQueryClient();
-  const { data: profileDetails } = useProfileDetails({
-    UID: userData?.UID,
-  });
+  // const { data: profileDetails } = useProfileDetailsNode({
+  //   facultyID: userData?.UID,
+  // });
+
+
+  const [profileDetails, setProfileDetails] = useState(null)
+
+  useEffect(() => {
+    const fetchApi = async () => {
+      try {
+        const res = await getRefetchUserProfileData(userData?.UID);
+
+        console.log('res',res?.data);
+
+        if (res?.data?.status) {
+          setProfileDetails(res?.data?.data?.user)
+        } else {
+          console.log(res);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchApi();
+  }, []);
+
+  useEffect(() => {
+    console.log("profileDetails", profileDetails);
+  }, [profileDetails]);
+
 
   const { mutateAsync: Favourite } = useFavourite({});
   const { mutateAsync: removeFavourite } = useRemoveFavourite({});
@@ -25,6 +55,7 @@ const JobHeading = ({ data, packType }: any) => {
         addSuffix: true,
       })
     : "";
+
   const setJobFavourite = (
     e: React.MouseEvent<HTMLSpanElement, MouseEvent>
   ) => {
@@ -41,6 +72,7 @@ const JobHeading = ({ data, packType }: any) => {
       }
     });
   };
+
   const setRemoveFavourite = (
     e: React.MouseEvent<HTMLSpanElement, MouseEvent>
   ) => {
@@ -69,7 +101,7 @@ const JobHeading = ({ data, packType }: any) => {
                   <h6 className="mb-3" style={{ color: "#a73358" }}>
                     {data?.name}
                   </h6>
-                ) : data?.show_all === "1" ? (
+                ) : data?.show_all === 1 ? (
                   <h6 className="mb-3" style={{ color: "#a73358" }}>
                     {data?.name}
                   </h6>
@@ -143,7 +175,7 @@ const JobHeading = ({ data, packType }: any) => {
                     data-bs-toggle="modal"
                     data-bs-target="#applyJobModal"
                     onClick={() => {
-                      if (Number(profileDetails?.user?.packID) > 0) {
+                      if (Number(profileDetails?.packID) > 0) {
                         navigate(AppRoute.Apply_job, {
                           state: data,
                         });

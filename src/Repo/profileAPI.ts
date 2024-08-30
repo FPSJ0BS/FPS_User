@@ -1,8 +1,10 @@
 import { useGlobalContext } from "@Context/GlobalContextProvider";
 import CoreAPI from "./CoreAPI";
 import { getQuery } from "@Utils/GetQuery";
+import CoreAPINode from "./CoreAPINode";
 
 const http = new CoreAPI();
+const httpNode = new CoreAPINode();
 
 const getToken = (): string | null => {
   const tokenString = localStorage.getItem("token:fpsjob");
@@ -22,10 +24,9 @@ export const doProfileEducationPost = async (data) => {
     data,
     {
       headers: {
-        'Authorization': `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     } as any
-
   );
   return res;
 };
@@ -39,13 +40,9 @@ export const doGetUserDetailByUID = async (UID) => {
   });
   return res;
 };
-
-export const doSkillsType = async (faculty_id) => {
+export const doGetUserDetailByUIDNode = async (UID) => {
   const token = getToken();
-  const formData = new FormData();
-  formData.append("faculty_id", faculty_id);
-
-  const res = await http.postRequest("/Faculity/skill_list", formData, {
+  const res = await httpNode.getRequest(`/user/facultyProfileAllData?facultyID=${UID}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -53,16 +50,37 @@ export const doSkillsType = async (faculty_id) => {
   return res;
 };
 
-export const doLanguagesType = async (UID) => {
+export const doSkillsType = async (faculty_id) => {
   const token = getToken();
-  const res = await http.getRequest(
-    `/Faculity/languageList?faculity_id=${UID}`,
-    {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    }
+  const formData = {
+    facultyID: faculty_id,
+    skill: "",
+  };
 
+  const res = await httpNode.postRequest("/user/skillSearch", formData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return res;
+};
+// export const doSkillsType = async (faculty_id) => {
+//   const token = getToken();
+//   const formData = new FormData();
+//   formData.append("faculty_id", faculty_id);
+
+//   const res = await http.postRequest("/Faculity/skill_list", formData, {
+//     headers: {
+//       Authorization: `Bearer ${token}`,
+//     },
+//   });
+//   return res;
+// };
+
+export const doLanguagesType = async (UID) => {
+ 
+  const res = await httpNode.getRequest(
+    `user/languageList`
   );
   return res;
 };
@@ -78,25 +96,37 @@ export const doSkillsSubmittedType = async (UID) => {
 };
 
 export const doCityType = async () => {
-  const res = await http.getRequest(`v2/filter_city?limit=&offset=`);
+  const res = await httpNode.getRequest(`user/allCities`);
   return res;
 };
 
 export const doCareerPreferenceType = async () => {
-  const res = await http.getRequest(`/Faculity/careerPreferencesList`);
+  const res = await httpNode.getRequest(`user/careerPreferenceList`);
   return res;
 };
 
 export const doProfilePercentage = async (UID) => {
   const token = getToken();
-  const res = await http.getRequest(
-    `/Faculity/checkProfilePercentage?faculityID=${UID}`,
+  const res = await httpNode.getRequest(
+    `user/facultyProfilePercentage?facultyID=${UID}`,
     {
       headers: {
-        'Authorization': `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     }
-
   );
   return res;
 };
+// export const doProfilePercentage = async (UID) => {
+//   const token = getToken();
+//   const res = await http.getRequest(
+//     `/Faculity/checkProfilePercentage?faculityID=${UID}`,
+//     {
+//       headers: {
+//         'Authorization': `Bearer ${token}`
+//       }
+//     }
+
+//   );
+//   return res;
+// };

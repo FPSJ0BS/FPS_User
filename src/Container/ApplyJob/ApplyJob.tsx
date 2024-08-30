@@ -33,16 +33,31 @@ const ApplyJob = () => {
   let date1 = watch("date1");
   let date2 = watch("date2");
 
+  const formatDate = (isoDateString) => {
+    const date = new Date(isoDateString);
+    const year = date.getUTCFullYear();
+    const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+    const day = String(date.getUTCDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
+  
+
   const { mutateAsync } = useApplyJob({});
   const onSubmit: SubmitHandler<any> = async (data) => {
     const _data = {
       ...data,
-      UID: userData?.UID,
+      facultyID: userData?.UID,
       jobID: state.jobID,
+      regToken: "",
+      duration_notice_period: "",
+      date1: formatDate(data.date1),
+      date2: formatDate(data.date2),
+      expected_joining_date: formatDate(data.expected_joining_date),
     };
     try {
       await mutateAsync(_data).then((res) => {
-        if (res?.status === "success") {
+        if (res?.status) {
           navigate(AppRoute.Thank_You);
           Toast("success", res?.message);
         } else {
@@ -55,7 +70,6 @@ const ApplyJob = () => {
   };
   useEffect(() => {
     if (navType === "POP" && !hasN.current) {
-    
       navigate(-1);
       hasN.current = true;
     }
@@ -73,7 +87,10 @@ const ApplyJob = () => {
         <div className="container">
           <div className="md:flex justify-center">
             <div className="lg:w-2/4 md:w-2/3">
-              <div className="p-6 bg-white dark:bg-slate-900 shadow border border-danger rounded-md" style ={{paddingBottom:"40px"}}>
+              <div
+                className="p-6 bg-white dark:bg-slate-900 shadow border border-danger rounded-md"
+                style={{ paddingBottom: "40px" }}
+              >
                 <div className="d-flex justify-content-center">
                   <img
                     id="trans-logo"
@@ -185,7 +202,6 @@ const ApplyJob = () => {
                         control={control}
                         rules={{
                           required: "Expected joining date is required",
-                          
                         }}
                         render={({ field: { onChange, value } }) => (
                           <DatePicker

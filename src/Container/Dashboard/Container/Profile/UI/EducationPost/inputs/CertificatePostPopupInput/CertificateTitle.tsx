@@ -12,7 +12,6 @@ export const CertificateTitle = () => {
   const handleChange = (e: any) => {
     const inputValue = e.target.value;
 
-    if (TextInputValidEmployer(inputValue)) {
       if (inputValue ?? false) {
         dispatch(
           editCertificateDataJobValues({
@@ -26,7 +25,7 @@ export const CertificateTitle = () => {
           })
         );
       }
-    }
+    
   };
 
   return (

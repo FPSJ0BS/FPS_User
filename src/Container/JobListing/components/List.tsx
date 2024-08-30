@@ -7,6 +7,7 @@ import Pagination from "@Components/Pagination";
 import { createQueryBySlug } from "@Utils/navigationquery";
 import { useNavigate } from "react-router-dom";
 import useCategoryList from "@Hooks/Queries/useCategoryList";
+
 import ListDesignTwo from "./ListDesignTwo";
 import ListIconTwo from "@Assets/two-columns-layout.png";
 import ListIconThree from "@Assets/columns three.png";
@@ -15,6 +16,8 @@ import ListDesignThree from "./ListDesignThree";
 import { useEffect, useState } from "react";
 import ListDesignOne from "./ListDesignOne";
 import useMediaQuery from "@Hooks/useMediaQuery";
+        import { openModal, updateAppliedJobValues } from "@/Redux/appliedJobSlice";
+import { useDispatch } from "react-redux";
 
 const List = ({
   data,
@@ -25,6 +28,8 @@ const List = ({
   searchJob,
   setShowSidebar,
 }) => {
+
+   const jobLists = data?.data?.jobsList;
   const { mutateAsync: removeFavourite } = useRemoveFavourite({});
   const { mutateAsync: Favourite } = useFavourite({});
   const { userData } = useGlobalContext();
@@ -32,7 +37,11 @@ const List = ({
   const navigate = useNavigate();
   const { data: Category } = useCategoryList({});
 
+
   const jobsData = data?.data?.jobsList;
+
+  const dispatch = useDispatch();
+
 
   const colors = [
     "bg-[#fae1cd]",
@@ -74,10 +83,10 @@ const List = ({
   ) => {
     e.stopPropagation();
     Favourite({
-      UID: userData?.UID,
+      facultyID: userData?.UID,
       jobID: id,
     }).then((res) => {
-      if (res?.status === "success") {
+      if (res?.status) {
         queryClient.invalidateQueries({ queryKey: ["allFavourite"] });
         Toast("success", "Job add sucessfully favourite");
 
@@ -94,10 +103,10 @@ const List = ({
   ) => {
     e.stopPropagation();
     removeFavourite({
-      UID: userData?.UID,
+      facultyID: userData?.UID,
       jobID: id,
     }).then((res) => {
-      if (res?.status === "success") {
+      if (res?.status) {
         queryClient.invalidateQueries({ queryKey: ["allFavourite"] });
         Toast("success", "Job removed from favourites" || res?.message);
         refetch();
@@ -112,6 +121,7 @@ const List = ({
     window.open(url, "_blank");
   };
 
+
   const [listSet, setListSet] = useState({
     listOne: false,
     listTwo: false,
@@ -124,10 +134,20 @@ const List = ({
       listTwo: listName === "listTwo",
       listThree: listName === "listThree",
     }));
+
+  const openingModal = async (applyID) => {
+    await dispatch(
+      updateAppliedJobValues({
+        applyID,
+      })
+    );
+    await dispatch(openModal());
+
   };
 
   return (
     <div className=" flex flex-col  h-full ">
+
     
       
 
@@ -191,6 +211,11 @@ const List = ({
         />
       )}
       <div className="pb-[150px] pt-[50px] ">
+
+
+      
+      <div className="my-[50px] ">
+
         <Pagination
           total={data?.data?.totalPages}
           current={searchJob?.page}
