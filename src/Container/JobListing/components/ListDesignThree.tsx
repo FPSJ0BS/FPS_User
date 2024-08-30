@@ -12,6 +12,7 @@ const ListDesignThree = ({
   handleOpenInNewTab,
   Category,
   colors,
+  setShowSidebar,
 }) => {
   const { userData } = useGlobalContext();
 
@@ -28,14 +29,33 @@ const ListDesignThree = ({
     return noHtmlTags.trim();
   };
   return (
-    <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3   gap-4  ml-0 cursor-pointer place-items-center sm:place-items-stretch  ">
+    <div className="  grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4  ml-0 cursor-pointer place-items-center sm:place-items-stretch  ">
+      <div className=" sm:hidden flex w-full  justify-start pl-10 ">
+        <svg
+        onClick={() => setShowSidebar(false)}
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="lucide lucide-menu text-black cursor-pointer "
+        >
+          <line x1="4" x2="20" y1="12" y2="12" />
+          <line x1="4" x2="20" y1="6" y2="6" />
+          <line x1="4" x2="20" y1="18" y2="18" />
+        </svg>
+      </div>
       {jobsData?.map((item, index) => {
         const bgColor = colors[index % colors.length];
         return (
           <div
             onClick={() => handleOpenInNewTab(item, Category)}
             key={index}
-            className=" w-[90vw] sm:w-[44vw] md:w-[50vw] lg:w-[35vw] xl:w-[23vw] gap-2 min-h-[300px]  bg-white rounded-[20px] p-[10px] flex flex-col items-start justify-start shadow-md border-1 border-solid border-[#e1e1df]"
+            className="  w-[80vw] sm:w-[44vw] md:w-[45vw] lg:w-[35vw] xl:w-[22vw] gap-2 min-h-[300px]  bg-white rounded-[20px] p-[10px] flex flex-col items-start justify-start shadow-md border-1 border-solid border-[#e1e1df]"
           >
             <div className={`  h-[75%] rounded-2xl ${bgColor} p-[10px] w-full`}>
               <div className=" flex flex-col gap-3 w-full">

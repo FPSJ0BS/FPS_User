@@ -16,7 +16,15 @@ import { useEffect, useState } from "react";
 import ListDesignOne from "./ListDesignOne";
 import useMediaQuery from "@Hooks/useMediaQuery";
 
-const List = ({ data, setQuery, query, refetch, setSearchJob, searchJob }) => {
+const List = ({
+  data,
+  setQuery,
+  query,
+  refetch,
+  setSearchJob,
+  searchJob,
+  setShowSidebar,
+}) => {
   const { mutateAsync: removeFavourite } = useRemoveFavourite({});
   const { mutateAsync: Favourite } = useFavourite({});
   const { userData } = useGlobalContext();
@@ -106,9 +114,9 @@ const List = ({ data, setQuery, query, refetch, setSearchJob, searchJob }) => {
 
   const [listSet, setListSet] = useState({
     listOne: false,
-    listTwo:false,
+    listTwo: false,
     listThree: true,
-  })
+  });
 
   const handleListSetChange = (listName) => {
     setListSet((prevListSet) => ({
@@ -120,10 +128,30 @@ const List = ({ data, setQuery, query, refetch, setSearchJob, searchJob }) => {
 
   return (
     <div className=" flex flex-col  h-full ">
+    
+      
+
+
+
       <div className=" mb-4 w-full xl:flex justify-end gap-2 items-center hidden ">
-        <img onClick={() => handleListSetChange("listOne")} src={ListIconOne} className=" cursor-pointer w-[30px] h-[25px]" alt="menu" />
-        <img onClick={() => handleListSetChange("listTwo")} src={ListIconTwo} className=" cursor-pointer w-[30px] h-[22px]" alt="menu" />
-        <img onClick={() => handleListSetChange("listThree")} src={ListIconThree} className=" cursor-pointer w-[30px] h-[30px]" alt="menu" />
+        <img
+          onClick={() => handleListSetChange("listOne")}
+          src={ListIconOne}
+          className=" cursor-pointer w-[30px] h-[25px]"
+          alt="menu"
+        />
+        <img
+          onClick={() => handleListSetChange("listTwo")}
+          src={ListIconTwo}
+          className=" cursor-pointer w-[30px] h-[22px]"
+          alt="menu"
+        />
+        <img
+          onClick={() => handleListSetChange("listThree")}
+          src={ListIconThree}
+          className=" cursor-pointer w-[30px] h-[30px]"
+          alt="menu"
+        />
       </div>
       {listSet.listThree && (
         <ListDesignThree
@@ -135,6 +163,7 @@ const List = ({ data, setQuery, query, refetch, setSearchJob, searchJob }) => {
           handleOpenInNewTab={handleOpenInNewTab}
           Category={Category}
           colors={colors}
+          setShowSidebar = {setShowSidebar}
         />
       )}
       {listSet.listTwo && (

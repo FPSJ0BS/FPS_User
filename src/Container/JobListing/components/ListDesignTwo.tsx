@@ -35,7 +35,7 @@ const ListDesignTwo = ({
           <div
             onClick={() => handleOpenInNewTab(item, Category)}
             key={index}
-            className=" w-[90vw] sm:w-[44vw] md:w-[28vw] lg:w-[45vw] gap-2 min-h-[300px]  bg-white rounded-[20px] p-[10px] flex flex-col items-start justify-start shadow-md border-1 border-solid border-[#e1e1df]"
+            className=" w-[90vw] sm:w-[44vw] md:w-[28vw] lg:w-[35vw] gap-2 min-h-[280px]  bg-white rounded-[20px] p-[10px] flex flex-col items-start justify-start shadow-md border-1 border-solid border-[#e1e1df]"
           >
             <div className={`  h-[75%] rounded-2xl ${bgColor} p-[10px] w-full`}>
               <div className=" flex flex-col gap-3 w-full">

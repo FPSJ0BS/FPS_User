@@ -35,14 +35,15 @@ const ListDesignOne = ({
           <div
             onClick={() => handleOpenInNewTab(item, Category)}
             key={index}
-            className=" w-[90vw] sm:w-[44vw] md:w-[28vw] lg:w-[93vw] gap-2 min-h-[300px]  bg-white rounded-[20px] p-[10px] flex flex-col items-start justify-start shadow-md border-1 border-solid border-[#e1e1df]"
+            className=" w-[90vw] sm:w-[44vw] md:w-[28vw] lg:w-[70vw] gap-2 min-h-[300px] 2xl:min-h-[250px]  bg-white rounded-[20px] p-[10px] flex flex-col items-start justify-start shadow-md border-1 border-solid border-[#e1e1df]"
           >
             <div className={`  h-[60%] rounded-2xl ${bgColor} p-[10px] w-full`}>
               <div className=" flex flex-col gap-3">
                 <div className=" flex  justify-between w-full">
                   <div className=" flex w-[85%] gap-4  items-center">
                     <div className=" flex flex-col  ">
-                      <h2 className="text-black font-bold mb-0 text-[20px] uppercase leading-[1.4em] break-all">
+                      
+                      <h2 className="text-black font-bold mb-0 text-[17px] 2xl:text-[20px] uppercase leading-[1.4em] break-all">
                         {item?.job_title}
                       </h2>
 
@@ -128,7 +129,7 @@ const ListDesignOne = ({
                 </div>
 
                 <div>
-                  <p className=" mb-0 line-clamp-3 font-medium text-[14px]">
+                  <p className=" mb-0 line-clamp-2 font-medium text-[14px]">
                     {removeSpecificTextAndTags(item?.job_description)}
                   </p>
                 </div>

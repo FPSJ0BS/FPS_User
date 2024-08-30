@@ -179,14 +179,35 @@ const Sidebar = (props: any) => {
       }),
     ];
 
+  const [showSidebar, setShowSidebar] = useState(false);
+
   return (
     <form onSubmit={(e) => findJob(e)} className="  h-[100vh] w-full flex  ">
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
 
-      <div className=" absolute sm:relative hidden sm:block w-[80%] bg-black  lg:w-[20%] h-[100%] p-[10px] overflow-y-auto postjobHandleScrollbar pt-[30px]">
+      <div className={` absolute sm:relative  ${!showSidebar ? "block" : "hidden"} sm:block w-[80%] md:w-[40%] bg-black  lg:w-[20%] h-[100%] p-[10px] overflow-y-auto postjobHandleScrollbar ${!showSidebar ? "pb-[30px]" : "pt-[30px]"} `}>
+        <div className=" w-full justify-end flex">
+          { !showSidebar && (<svg
+          onClick={() => setShowSidebar(true)}
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="lucide lucide-x cursor-pointer text-white sm:hidden block "
+          >
+            <path d="M18 6 6 18" />
+            <path d="m6 6 12 12" />
+          </svg>)
+
+         }
+        </div>
+
         <div className=" gap-4 flex flex-col w-full h-full  items-center px-[5px] 2xl:px-5">
-         
-         
           <div className=" col-span-2 w-full flex justify-center items-center ">
             <button
               className=" h-[30px] w-full  text-white bg-green-500 rounded-lg"
@@ -196,7 +217,6 @@ const Sidebar = (props: any) => {
               Filter Jobs
             </button>
           </div>
-
 
           <JobTitle query={query} setQuery={setQuery} />
           <StateInput query={query} setQuery={setQuery} State={State} />
@@ -238,7 +258,6 @@ const Sidebar = (props: any) => {
                   city,
                 }));
               }}
-              
               searchJob={query}
               style={{
                 width: "100%",
@@ -256,12 +275,12 @@ const Sidebar = (props: any) => {
             />
           </div>
 
-          <ExperienceInput query={query} setQuery={setQuery} experiences={_experiences}/>
-          <SalaryInput query={query} setQuery={setQuery} salary={_salary}/>
-
-          
-
-         
+          <ExperienceInput
+            query={query}
+            setQuery={setQuery}
+            experiences={_experiences}
+          />
+          <SalaryInput query={query} setQuery={setQuery} salary={_salary} />
 
           <div className="w-full  bg-black flex flex-col justify-end  ">
             <div className=" flex gap-2 mb-2">
@@ -300,7 +319,6 @@ const Sidebar = (props: any) => {
               value={query?.job_type}
             />
           </div>
-          
         </div>
       </div>
 
@@ -314,6 +332,7 @@ const Sidebar = (props: any) => {
           refetch={refetch}
           setSearchJob={setSearchJob}
           searchJob={searchJob}
+          setShowSidebar = {setShowSidebar}
         />
       </div>
     </form>
