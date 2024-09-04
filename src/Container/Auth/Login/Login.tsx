@@ -55,9 +55,7 @@ const Login = () => {
   };
   const { mutateAsync: sendOtp, isPending: isSendOtpLoader } = useSendOtp({});
   const onMobileNumberCheck: SubmitHandler<ILoginWithEmailType> = (data) => {
-    
       setSendOtpObj(data);
-  
         sendOtp(data).then((res) => {
           if (res?.statusCode === 200) {
             Toast(
@@ -72,11 +70,15 @@ const Login = () => {
               device_type: "Web",
             });
           } else {
+            const msg = 'Sorry, account is not found on this number...'
+            if(res?.message === msg){
+              setTimeout(() => {
+                navigate(AppRoute.SignUp) 
+              }, 3000);
+            }
             Toast("error", res?.message);
           }
         });
-     
-  
   };
 
   useEffect(() => {
@@ -94,17 +96,11 @@ const Login = () => {
       const urlParams = new URLSearchParams(window.location.search);
       const data = urlParams.get('data');
 
- 
-
       if (data) {
         try {
           // Decode and parse the JSON string
     
-        
           Toast("error", "Email id already exisits, please login...");
-          
-
-          
         
         } catch (error) {
           console.error('Error parsing data:', error);
@@ -274,7 +270,7 @@ const Login = () => {
                                 to={AppRoute.SignUp}
                                 className="text-white underline"
                               >
-                                Sign Up
+                                Register
                               </NavLink>
                             </div>
                           </form>
@@ -374,7 +370,7 @@ const Login = () => {
                                 to={AppRoute.SignUp}
                                 className="text-white underline"
                               >
-                                Sign Up
+                                Register
                               </NavLink>
                             </div>
                             {/* <LinkedInOAuth /> */}

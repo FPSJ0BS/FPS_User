@@ -123,7 +123,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
         value={searchValue}
         onChange={handleInputChange}
         style={style ? style : { width: "100%", border: "none", color: "#fff" }}
-        className=" placeholder-white"
+        className=" placeholder-black"
       />
       {isDropDown && (
         <List

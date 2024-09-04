@@ -16,6 +16,7 @@ import TrackPopup from "@Container/Dashboard/Container/Applied/Component/TrackPo
 import { useSelector } from "react-redux";
 import ReactGA from "react-ga4";
 import { getGoogleAPIOAuth } from "@/api/api";
+import { PaymentPopup } from "@Container/Dashboard/Container/Membership/components/PaymentPopup";
 ReactGA.initialize("G-41YD1SK57B");
 
 const BlogDetails = lazy(() => import("@Container/Blog/BlogDetails"));
@@ -123,7 +124,7 @@ const AppRouter = () => {
   });
   ScrollToTop();
 
-  const { modalOpen } = useSelector((state: any) => state.appliedJobSlice);
+  const { modalOpen, modalOpenMembership } = useSelector((state: any) => state.appliedJobSlice);
 
   useLayoutEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -136,7 +137,6 @@ const AppRouter = () => {
         // Decode and parse the profile parameter (assuming it's URL-encoded JSON)
         const profileData = JSON.parse(decodeURIComponent(profileParam));
 
-        console.log("Decoded profileData ->>>>>>>>>", profileData);
 
         // Access the individual data within profileData if it exists
         if (profileData && profileData.userData) {
@@ -173,6 +173,7 @@ const AppRouter = () => {
       {/* {isFetching || isMutating ? <Preloader /> : null} */}
       <Nof />
       {modalOpen && <TrackPopup />}
+      {modalOpenMembership &&  <PaymentPopup />}
       <Suspense fallback={<Preloader />}>
         <Routes>
           <Route path="/" element={<Layout />}>

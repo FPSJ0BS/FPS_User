@@ -2690,3 +2690,6 @@ textarea {
 }
 
 
+.paymentPopupCss{
+  z-index: 9999999999 !important;
+}

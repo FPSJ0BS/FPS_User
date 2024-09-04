@@ -630,3 +630,35 @@ export const getGoogleAPIOAuth = async (code) => {
   }
 };
 
+
+export const postDbtandUpi = async (data) => {
+  const token = getToken();
+  
+  try {
+    const response = await axios.post(
+      `${BASE_URL_NODE}/user/packUpdate`,
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    throw error;
+  }
+};
+
+export const getBankDetails = async () => {
+  try {
+    const response = await axios.get(
+      `${BASE_URL_NODE}/user/bankDetails`
+    );
+    return response;
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    throw error;
+  }
+};
