@@ -188,7 +188,7 @@ const Home = () => {
         name={`${AppConst.LogoName}`}
         type={"Job Board"}
       />
-      <PopupHome />
+      {/* <PopupHome /> */}
       <BannerMobile />
       <BannerNew />
 

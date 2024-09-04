@@ -79,14 +79,14 @@ export const ExperienceInput = ({ query, setQuery, experiences }) => {
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
-          className="lucide lucide-square-chevron-up text-white"
+          className="lucide lucide-square-chevron-up text-black"
         >
           <rect width="18" height="18" x="3" y="3" rx="2" />
           <path d="m8 14 4-4 4 4" />
         </svg>
         <label
           htmlFor="EmployerPostJobState"
-          className="postJobInputTitle block font-medium text-white"
+          className="postJobInputTitle block font-medium text-black"
         >
           Experience
         </label>
@@ -102,7 +102,7 @@ export const ExperienceInput = ({ query, setQuery, experiences }) => {
           value={query?.min_experience}
           onChange={handleInputChange}
           onClick={openDropdown}
-          className="h-[30px] mt-1 p-2 text-white placeholder-white w-full border-[1px] focus:border-[2px] border-gray-300 rounded-md shadow-sm focus:outline-none border-solid focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+          className="h-[30px] mt-1 p-2 text-black placeholder-black w-full border-[1px] focus:border-[2px] border-gray-300 rounded-md shadow-sm focus:outline-none border-solid focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
         />
       </div>
       {showDropdown && (

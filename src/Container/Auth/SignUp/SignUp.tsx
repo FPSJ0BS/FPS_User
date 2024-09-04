@@ -140,6 +140,16 @@ const SignUp = () => {
           Toast("success", res?.message);
           setIsOtpPage(false);
         } else {
+          const msg = 'This phone number already linked to another account...'
+          if(res?.message === msg){
+
+            setTimeout(() => {
+
+              navigate(AppRoute.Login)
+              
+            }, 3000);
+
+          }
           Toast("error", res?.message);
         }
       });
@@ -153,6 +163,7 @@ const SignUp = () => {
     { enabled: !!industry.industry_id },
     industry
   );
+  
   const onVerificationOtp: SubmitHandler<any> = (data) => {
     try {
       OtpCheck(data).then((res) => {
@@ -166,9 +177,11 @@ const SignUp = () => {
       });
     } catch (e: any) {}
   };
+
   const validTypes = ["application/pdf", "application/msword", "image/jpeg"];
 
   const auth = async () => {
+
     try {
       const res = await getGoogleAPI();
 
@@ -181,6 +194,7 @@ const SignUp = () => {
     } catch (error) {}
 
     // navigate(data?.data);
+
   };
 
   return (
@@ -260,7 +274,7 @@ const SignUp = () => {
                         },
                       })}
                       name="first_name"
-                      placeholder="Fill in your first name"
+                      placeholder="What is your First Name..."
                       aria-invalid="true"
                       type="text"
                       className="p-2 border-1 text-white bg-transparent  placeholder-white"
@@ -284,7 +298,7 @@ const SignUp = () => {
                         },
                       })}
                       name="last_name"
-                      placeholder="Last Name"
+                      placeholder="What is your Last Name..."
                       aria-invalid="true"
                       type="text"
                       className="p-2 border-1 text-white bg-transparent placeholder-white "
@@ -308,7 +322,7 @@ const SignUp = () => {
                         },
                       })}
                       name="email"
-                      placeholder="Email Address"
+                      placeholder="Tell us your Email Id..."
                       aria-invalid="true"
                       type="undefined"
                       className="p-2 border-1 text-white bg-transparent placeholder-white "
@@ -332,7 +346,7 @@ const SignUp = () => {
                         },
                       })}
                       name="mobile"
-                      placeholder="Mobile Number"
+                      placeholder="Enter your Mobile Number"
                       aria-invalid="true"
                       type="text"
                       className="p-2 border-1 text-white bg-transparent placeholder-white"
@@ -347,6 +361,8 @@ const SignUp = () => {
                   </div>
                   <div className="d-flex w-full flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2 ">
                     <label className="fw-bolder text-white">Password</label>
+
+                    <p className=" text-white text-[10px]">Password must contain atleast 8 characters, including 1 UPPER, lowercase, special character and numbers</p>
 
                     <Controller
                       name="password"
@@ -364,7 +380,7 @@ const SignUp = () => {
                             name="password"
                             type={showPassOne ? "text" : "password"}
                             className="p-2 border-1 text-white bg-transparent placeholder-white"
-                            placeholder="Password"
+                            placeholder="Please Enter your Password..."
                             id="password-input"
                             value={value}
                             onChange={onChange}
@@ -395,6 +411,8 @@ const SignUp = () => {
                     <label className="fw-bolder text-white">
                       Confirm Password
                     </label>
+                    <p className=" text-white text-[10px]">Password must contain atleast 8 characters, including 1 UPPER, lowercase, special character and numbers</p>
+
                     <Controller
                       name="confirm_password"
                       control={control}
@@ -409,7 +427,7 @@ const SignUp = () => {
                             name="confirm_password"
                             type={showPass ? "text" : "password"}
                             className="p-2 border-1 text-white bg-transparent placeholder-white"
-                            placeholder="Confirm Password"
+                            placeholder="Confirm your Password..."
                             id="password-input"
                             value={value}
                             onChange={onChange}
@@ -460,7 +478,7 @@ const SignUp = () => {
                           autoComplete="off"
                         >
                           <option className="text-black" value="">
-                            <span className="text-black">Select State</span>
+                            <span className="text-black">Please select your State...</span>
                           </option>
                           {State?.data &&
                             State?.data?.map((item: any, index) => {
@@ -497,7 +515,7 @@ const SignUp = () => {
                       autoComplete="off"
                     >
                       <option className="text-black" value="">
-                        <span className="text-black">Select City</span>
+                        <span className="text-black">Please select your City...</span>
                       </option>
                       {cityList?.data &&
                         cityList?.data.map((item, index) => {
@@ -545,7 +563,7 @@ const SignUp = () => {
                         >
                           <option className=" text-black" value="">
                             <span className="text-black">
-                              Select Your Industry
+                              Please select Your Industry...
                             </span>
                           </option>
                           {Industry?.data &&
@@ -583,7 +601,7 @@ const SignUp = () => {
                       className="select border-1 form-select border border-slate-100 text-white bg-transparent"
                     >
                       <option className="text-black" value="">
-                        <span className="text-black">Select Job Title </span>
+                        <span className="text-black">Please select Job Title...</span>
                       </option>
                       {Jobs?.data &&
                         Jobs?.data.map((item, index) => {
@@ -661,9 +679,7 @@ const SignUp = () => {
                         className="form-check-label w-lg-[50%] text-white"
                         htmlFor="flexCheckDefault"
                       >
-                        By submitting our webform, we agree to receive
-                        promotional calls on the number shared, and such calls
-                        and SMS would be coming from a third-party platform.I
+                        By submitting our webform, I
                         agreed to the{" "}
                         <NavLink
                           to={AppRoute.Terms_of_use}
@@ -728,7 +744,7 @@ const SignUp = () => {
                       Already have an account?
                     </span>
                     <NavLink to={AppRoute.Login} className="text-white">
-                      &nbsp;Sign in
+                      &nbsp;Login
                     </NavLink>
                   </div>
                 </form>

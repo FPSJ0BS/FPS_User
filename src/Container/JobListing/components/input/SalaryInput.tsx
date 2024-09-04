@@ -80,7 +80,7 @@ export const SalaryInput = ({ query, setQuery, salary }) => {
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="lucide lucide-indian-rupee text-white"
+          className="lucide lucide-indian-rupee text-black"
         >
           <path d="M6 3h12" />
           <path d="M6 8h12" />
@@ -90,7 +90,7 @@ export const SalaryInput = ({ query, setQuery, salary }) => {
         </svg>
         <label
           htmlFor="EmployerPostJobState"
-          className="postJobInputTitle block font-medium text-white"
+          className="postJobInputTitle block font-medium text-black"
         >
           Salary
         </label>
@@ -106,7 +106,7 @@ export const SalaryInput = ({ query, setQuery, salary }) => {
           value={query?.salary_minimum}
           onChange={handleInputChange}
           onClick={openDropdown}
-          className="h-[30px] mt-1 p-2 text-white placeholder-white w-full border-[1px] focus:border-[2px] border-gray-300 rounded-md shadow-sm focus:outline-none border-solid focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+          className="h-[30px] mt-1 p-2 text-black placeholder-black w-full border-[1px] focus:border-[2px] border-gray-300 rounded-md shadow-sm focus:outline-none border-solid focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
         />
       </div>
       {showDropdown && (

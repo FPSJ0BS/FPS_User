@@ -17,6 +17,8 @@ import { NavLink, useNavigate } from "react-router-dom";
 import useCreateOrder from "@Hooks/Mutation/useCreateOrder";
 import usePackUpdate from "@Hooks/Mutation/usePackUpdate";
 import { getRefetchUserProfileData } from "@/api/api";
+import { useDispatch } from "react-redux";
+import { openModalMembership, setModalOpenMembershipItemData } from "@/Redux/appliedJobSlice";
 const Membership = () => {
   const { userData } = useGlobalContext();
   const [isMore, setIsMore] = useState(false);
@@ -24,6 +26,7 @@ const Membership = () => {
     uid: userData?.UID,
     enabled: !!userData?.UID,
   });
+  const dispatch = useDispatch()
 
   
   // const { data: profileDetails } = useProfileDetails({
@@ -53,11 +56,6 @@ const Membership = () => {
   }, []);
 
 
-
-  useEffect(()=>{
-console.log('packageData',packageData,);
-console.log('profileDetails',profileDetails);
-  },[packageData])
 
   const navigate = useNavigate();
   const { mutateAsync: packUpdate } = usePackUpdate({});
@@ -172,6 +170,40 @@ console.log('profileDetails',profileDetails);
     const percentage = 18 / 100;
     const result = numericAmount + numericAmount * percentage;
     return result.toFixed(2); // Format the result to 2 decimal places
+  }
+
+  const openingmembershipModalAndData = (item) => {
+
+    if(item?.type === "Postpaid"){
+
+      if (confirm("Do you really want to choose postpaid package") === true) {
+        packUpdate({
+          facultyID: userData?.UID,
+          packID: item?.packID,
+          type: item?.type,
+        }).then((res) => {
+          if (res?.status) {
+            queryClient.invalidateQueries({
+              queryKey: [Querykeys.profileDetails],
+            });
+            Toast("success", res?.message);
+          } else {
+            navigate(`${AppRoute.Dashboard}/${AppRoute.User_Dashboard}`);
+            Toast("error", res?.message);
+          }
+        });
+      }
+
+    } else{
+
+      dispatch(setModalOpenMembershipItemData(item))
+  
+      dispatch(openModalMembership())
+    }
+
+
+
+
   }
 
   return (
@@ -351,7 +383,7 @@ console.log('profileDetails',profileDetails);
                       <div className="d-flex flex-row justify-content-center">
                         <button
                           className="get-plan-btn tran3s w-100 mt-30 videoButton"
-                          onClick={() => handlePayment(item)}
+                          onClick={() => openingmembershipModalAndData(item)}
                         >
                           Choose Plan
                         </button>

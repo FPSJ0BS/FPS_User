@@ -80,7 +80,7 @@ export const StateInput = ({ query, setQuery, State }) => {
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="lucide lucide-castle text-white"
+          className="lucide lucide-castle text-black"
         >
           <path d="M22 20v-9H2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2Z" />
           <path d="M18 11V4H6v7" />
@@ -94,7 +94,7 @@ export const StateInput = ({ query, setQuery, State }) => {
         </svg>
         <label
           htmlFor="EmployerPostJobState"
-          className="postJobInputTitle block font-medium text-white"
+          className="postJobInputTitle block font-medium text-black"
         >
           State
         </label>
@@ -110,7 +110,7 @@ export const StateInput = ({ query, setQuery, State }) => {
           value={query?.state}
           onChange={handleInputChange}
           onClick={openDropdown}
-          className="h-[30px] mt-1 p-2 text-white placeholder-white w-full border-[1px] focus:border-[2px] border-gray-300 rounded-md shadow-sm focus:outline-none border-solid focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+          className="h-[30px] mt-1 p-2 text-black placeholder-black w-full border-[1px] focus:border-[2px] border-gray-300 rounded-md shadow-sm focus:outline-none border-solid focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
         />
       </div>
       {showDropdown && (

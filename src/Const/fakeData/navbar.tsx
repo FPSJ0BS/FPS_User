@@ -46,7 +46,7 @@ export const navbar = [
   // },
 
   {
-    name: "Sign Up",
+    name: "Register",
     to: AppRoute.SignUp,
     isLogin: false,
     isDropDown: false,
@@ -54,7 +54,7 @@ export const navbar = [
 
   },
   {
-    name: "Sign In",
+    name: "Login",
     to: AppRoute.Login,
     isLogin: false,
     isDropDown: false,

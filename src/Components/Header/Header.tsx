@@ -17,7 +17,7 @@ import useReadAllNotification from "@Hooks/Mutation/useReadAllNotification";
 import { useQueryClient } from "@tanstack/react-query";
 import { Querykeys } from "@Hooks/Queries/queryname";
 import { createQueryBySlug } from "@Utils/navigationquery";
-import dummyiamge from '@Assets/Icons/Profile/user.png'
+import dummyiamge from "@Assets/Icons/Profile/user.png";
 import useProfileDetailsNode from "@Hooks/Queries/useProfileDetailsNode";
 import useNotificationsNode from "@Hooks/Queries/useNotificationsNode";
 const Header = ({ clname = "", handleMobile }: any) => {
@@ -164,7 +164,7 @@ const Header = ({ clname = "", handleMobile }: any) => {
                                           toggleMenuDropDown("services", false);
                                         }
                                       }}
-                                      className={`menu-item flex items-center justify-center gap-2`}
+                                      className={`menu-item flex items-center justify-center gap-2 `}
                                     >
                                       <NavLink
                                         onMouseEnter={() => {
@@ -288,9 +288,27 @@ const Header = ({ clname = "", handleMobile }: any) => {
                           : navbar.map((item, index) => {
                               return (
                                 (item?.isGlobal || !item?.isLogin) &&
-                                !item.isDropDown && item?.main && (
-                                  <>
-                                    <li
+                                !item.isDropDown &&
+                                item?.main && (
+                                  <li
+                                    key={index}
+                                    onMouseLeave={() => {
+                                      if (
+                                        item?.dropFor === "services-dropdown"
+                                      ) {
+                                        toggleMenuDropDown("services", false);
+                                      }
+                                    }}
+                                    className={`menu-item flex items-center justify-center gap-2`}
+                                  >
+                                    <NavLink
+                                      onMouseEnter={() => {
+                                        if (
+                                          item?.dropFor === "services-dropdown"
+                                        ) {
+                                          toggleMenuDropDown("services", true);
+                                        }
+                                      }}
                                       onMouseLeave={() => {
                                         if (
                                           item?.dropFor === "services-dropdown"
@@ -298,75 +316,63 @@ const Header = ({ clname = "", handleMobile }: any) => {
                                           toggleMenuDropDown("services", false);
                                         }
                                       }}
-                                      className={`menu-item flex items-center justify-center gap-2`}
+                                      className={({ isActive }) => {
+                                        return isActive ? `active` : "";
+                                      }}
+                                      to={item?.to}
+                                      className={`
+                                      ${
+                                        item.name === "Register"
+                                          ? " bg-[#c24d2f] text-white px-4  rounded-sm h-[30px] b-0 flex items-center "
+                                          : ""
+                                      }
+                                      ${
+                                        item.name === "Login"
+                                          ? "bg-blue-600 text-white px-4  rounded-sm h-[30px] b-0 flex items-center"
+                                          : ""
+                                      }
+                                    `}
                                     >
-                                      <NavLink
-                                        onMouseEnter={() => {
-                                          if (
-                                            item?.dropFor ===
-                                            "services-dropdown"
-                                          ) {
-                                            toggleMenuDropDown(
-                                              "services",
-                                              true
-                                            );
-                                          }
-                                        }}
-                                        onMouseLeave={() => {
-                                          if (
-                                            item?.dropFor ===
-                                            "services-dropdown"
-                                          ) {
-                                            toggleMenuDropDown(
-                                              "services",
-                                              false
-                                            );
-                                          }
-                                        }}
-                                        className={({ isActive }) => {
-                                          return isActive ? `active` : "";
-                                        }}
-                                        to={item?.to}
+                                      {item.name}
+                                    </NavLink>
+                                    {item?.dropFor === "services-dropdown" && (
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        className="lucide lucide-chevron-down text-white"
                                       >
-                                        {item.name}
-                                      </NavLink>
-                                      {item?.dropFor ===
-                                        "services-dropdown" && (
-                                        <svg
-                                          xmlns="http://www.w3.org/2000/svg"
-                                          width="24"
-                                          height="24"
-                                          viewBox="0 0 24 24"
-                                          fill="none"
-                                          stroke="currentColor"
-                                          strokeWidth="2"
-                                          strokeLinecap="round"
-                                          strokeLinejoin="round"
-                                          className="lucide lucide-chevron-down text-white"
+                                        <path d="m6 9 6 6 6-6" />
+                                      </svg>
+                                    )}
+                                    {item?.dropFor === "services-dropdown" &&
+                                      menuDropDown.services && (
+                                        <div
+                                          onMouseEnter={() => {
+                                            if (
+                                              item?.dropFor ===
+                                              "services-dropdown"
+                                            ) {
+                                              toggleMenuDropDown(
+                                                "services",
+                                                true
+                                              );
+                                            }
+                                          }}
+                                          className="absolute top-[70px] h-[80px] w-[150px] pr-4 justify-center items-center flex flex-col bg-black rounded-lg text-white border-[0.5px] border-solid border-white"
                                         >
-                                          <path d="m6 9 6 6 6-6" />
-                                        </svg>
-                                      )}
-                                      {item?.dropFor === "services-dropdown" &&
-                                        menuDropDown.services && (
-                                          <div
-                                            onMouseEnter={() => {
-                                              if (
-                                                item?.dropFor ===
-                                                "services-dropdown"
-                                              ) {
-                                                toggleMenuDropDown(
-                                                  "services",
-                                                  true
-                                                );
-                                              }
-                                            }}
-                                            className=" absolute top-[70px] h-[80px] w-[150px] pr-4 justify-center items-center flex flex-col bg-black rounded-lg text-white border-[0.5px] border-solid border-white"
-                                          >
-                                            <div className=" flex flex-col justify-start items-start gap-2 ">
-                                              {navbar?.map((item, index) => {
+                                          <div className="flex flex-col justify-start items-start gap-2">
+                                            {navbar?.map(
+                                              (dropdownItem, index) => {
                                                 if (
-                                                  item?.dropFor === "services"
+                                                  dropdownItem?.dropFor ===
+                                                  "services"
                                                 ) {
                                                   return (
                                                     <div
@@ -393,7 +399,7 @@ const Header = ({ clname = "", handleMobile }: any) => {
                                                       </svg>
                                                       <span>
                                                         <NavLink
-                                                          to={item.to}
+                                                          to={dropdownItem.to}
                                                           className={({
                                                             isActive,
                                                           }) => {
@@ -402,7 +408,7 @@ const Header = ({ clname = "", handleMobile }: any) => {
                                                               : "";
                                                           }}
                                                         >
-                                                          {item.name}
+                                                          {dropdownItem.name}
                                                         </NavLink>
                                                       </span>
                                                     </div>
@@ -410,12 +416,12 @@ const Header = ({ clname = "", handleMobile }: any) => {
                                                 } else {
                                                   return null;
                                                 }
-                                              })}
-                                            </div>
+                                              }
+                                            )}
                                           </div>
-                                        )}
-                                    </li>
-                                  </>
+                                        </div>
+                                      )}
+                                  </li>
                                 )
                               );
                             })}
@@ -428,7 +434,8 @@ const Header = ({ clname = "", handleMobile }: any) => {
                   {userData?.UID && (
                     <div
                       className={`header-customize-item ${
-                        profileDetailsNode?.data?.unread_notification > 0 && "bell"
+                        profileDetailsNode?.data?.unread_notification > 0 &&
+                        "bell"
                       }`}
                     >
                       <span
@@ -480,7 +487,8 @@ const Header = ({ clname = "", handleMobile }: any) => {
                                             });
                                             queryClient.invalidateQueries({
                                               queryKey: [
-                                                Querykeys.profileDetailsNode?.data,
+                                                Querykeys.profileDetailsNode
+                                                  ?.data,
                                               ],
                                             });
                                           }
@@ -522,13 +530,18 @@ const Header = ({ clname = "", handleMobile }: any) => {
                                     queryKey: ["notifications"],
                                   });
                                   queryClient.invalidateQueries({
-                                    queryKey: [Querykeys.profileDetailsNode?.data],
+                                    queryKey: [
+                                      Querykeys.profileDetailsNode?.data,
+                                    ],
                                   });
                                 }
                               });
                             }}
                             disabled={
-                              !(profileDetailsNode?.data?.unread_notification > 0)
+                              !(
+                                profileDetailsNode?.data?.unread_notification >
+                                0
+                              )
                             }
                           >
                             Read All
@@ -538,7 +551,7 @@ const Header = ({ clname = "", handleMobile }: any) => {
                     </div>
                   )}
                   {!userData?.UID && (
-                    <div className="header-customize-item button border-white border-1 border-solid">
+                    <div className="header-customize-item button border-white border-1 border-solid  ">
                       <NavLink
                         to="https://employer.tallento.ai/"
                         target={"_blank"}
@@ -566,7 +579,11 @@ const Header = ({ clname = "", handleMobile }: any) => {
                           title="profile"
                         >
                           <Imag
-                            src={profileDetailsNode?.data?.user?.image ? profileDetailsNode?.data?.user?.image : dummyiamge}
+                            src={
+                              profileDetailsNode?.data?.user?.image
+                                ? profileDetailsNode?.data?.user?.image
+                                : dummyiamge
+                            }
                             className="h-full w-full rounded-full"
                             alt=""
                           />
