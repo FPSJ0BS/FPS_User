@@ -104,7 +104,15 @@ export const dogetStateList = async () => {
 };
 
 export const dogetStateListNode = async () => {
-  const res = await httpNode.getRequest(`user/state`);
+  const res = await httpNode.getRequest(`user/filter_stateList`);
+  return res;
+};
+export const dogetAllCityListNode = async () => {
+  const res = await httpNode.getRequest(`user/filter_allCities`);
+  return res;
+};
+export const dogetAllSubjects = async () => {
+  const res = await httpNode.getRequest(`user/subCategories`);
   return res;
 };
 
@@ -125,7 +133,7 @@ export const dogetCityList = async (data) => {
 };
 export const dogetCityListNode = async (data) => {
   const res = await httpNode.getRequest(
-    `user/stateCities/${data?.queryKey?.[1]?.stateID}`
+    `user/filter_stateCities/${data?.queryKey?.[1]?.stateID}`
   );
   return res;
 };

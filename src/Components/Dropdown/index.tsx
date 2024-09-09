@@ -3,13 +3,16 @@ import { FixedSizeList as List } from "react-window";
 
 interface Option {
   label: string;
-  value: string;
+  value: number;
+  city: string;
+  jobs:number
 }
 
 interface CustomSelectProps {
   options: Option[];
   setSearchJob: any;
   searchJob: any;
+  setQuery: any;
   style?: React.CSSProperties;
 }
 
@@ -17,25 +20,31 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
   options,
   searchJob,
   setSearchJob,
+  setQuery,
   style,
 }) => {
   const [filteredOptions, setFilteredOptions] = useState<Option[]>(options);
   const [isDropDown, setIsDropDown] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
- 
-  
   const [selectIndex, setSelectIndex] = useState<any>(null);
   const btnRef = useRef<any>();
   const _data = useMemo(() => {
     if (!options) {
       return [];
     }
-    let d: any = Array.from(new Set(options.map((d: any) => d.city)));
+    // let d: any = Array.from(new Set(options.map((d: any) => d.city)));
+
     return (
-      d?.map((item, index: number) => ({ value: index + 1, label: item })) || []
+      options?.map((item, index: number) => ({
+        value: index + 1,
+        label: item.city,
+        jobs: item.jobs,
+      })) || []
     );
   }, [options]);
+
+
   useEffect(() => {
     filterOptions();
   }, [searchValue]);
@@ -43,6 +52,8 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
   useEffect(() => {
     setSearchValue(searchJob?.city || "");
   }, [searchJob]);
+
+  
 
   const filterOptions = () => {
     const filtered = _data.filter((option: any) =>
@@ -82,7 +93,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
         }}
         className={`select-row ${option.value === selectIndex && "active"}`}
       >
-        {option.label}
+        {option.label}{option.jobs}
       </div>
     );
   };
@@ -123,7 +134,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
         value={searchValue}
         onChange={handleInputChange}
         style={style ? style : { width: "100%", border: "none", color: "#fff" }}
-        className=" placeholder-black"
+        className=" placeholder-white"
       />
       {isDropDown && (
         <List
@@ -137,7 +148,6 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
             backgroundColor: "#fff",
             borderRadius: "5px",
             zIndex: "1000",
-            
           }}
         >
           {Row}

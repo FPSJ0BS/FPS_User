@@ -87,6 +87,8 @@ function Resume() {
       .catch((error) => console.error("Error downloading resume:", error));
   };
 
+  console.log('userDataArray',userDataArray);
+
  
 
 
@@ -98,7 +100,7 @@ function Resume() {
       </div>
       <hr />
 
-      <div className=" flex justify-between items-center mt-[20px]">
+      { userDataArray?.cv_doc && <div className=" flex justify-between items-center mt-[20px]">
         <div className=" ">
           <p className=" mb-0 font-semibold">{userDataArray?.name}</p>
          
@@ -108,7 +110,7 @@ function Resume() {
           <img className="w-[30px] cursor-pointer " src={Download} alt="pen" />
         </div>
 
-      </div>
+      </div>}
       
       <div className=" w-full h-[130px] mt-[20px] border-1 border-dashed rounded-2xl border-gray-400 flex flex-col justify-center items-center">
         <label htmlFor="uploadResume" className="cursor-pointer text-[#81b29a] font-semibold hover:bg-[#81b29a] hover:text-white px-3 py-2 border-[2px] border-solid  rounded-3xl flex justify-center items-center">

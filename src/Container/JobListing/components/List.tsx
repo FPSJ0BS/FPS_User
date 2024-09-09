@@ -183,7 +183,7 @@ const List = ({
             <line x1="3" x2="21" y1="18" y2="18" />
           </svg>
 
-          <svg
+          {/* <svg
             onClick={() => handleListSetChange("listTwo")}
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -198,7 +198,7 @@ const List = ({
           >
             <rect width="18" height="18" x="3" y="3" rx="2" />
             <path d="M12 3v18" />
-          </svg>
+          </svg> */}
 
           <svg
             onClick={() => handleListSetChange("listThree")}

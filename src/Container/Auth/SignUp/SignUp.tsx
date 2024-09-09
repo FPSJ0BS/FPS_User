@@ -258,7 +258,7 @@ const SignUp = () => {
                   </div>
                 </div>
                 <form
-                  className=" w-[90%] lg:w-[50%] gap-2 grid grid-cols-2  bg-[#302f2f]  h-[95%] py-4 mr-3 rounded-xl px-3 overflow-y-auto"
+                  className=" w-[90%] lg:w-[50%] gap-2 sm:grid grid-cols-2  bg-[#302f2f]  h-[95%] py-4 mr-3 rounded-xl px-3 overflow-y-auto"
                   id="reg-form"
                   autoComplete="off"
                 >

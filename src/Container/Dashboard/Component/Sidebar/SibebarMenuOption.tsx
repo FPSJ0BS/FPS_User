@@ -28,11 +28,11 @@ export const menuOption = [
     navigate: AppRoute.Find_Jobs,
     isDropdown: true,
   },
-  {
-    name: "Resume",
-    icon: Resume,
-    navigate: AppRoute.Resume,
-  },
+  // {
+  //   name: "Resume",
+  //   icon: Resume,
+  //   navigate: AppRoute.Resume,
+  // },
   {
     name: "Saved Job",
     icon: Saved,

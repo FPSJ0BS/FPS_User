@@ -15,9 +15,11 @@ export const Querykeys = {
   salary: "salary",
   allJobsQuery: "allJobsQuery",
   stateList: "stateList",
+  allCityList: "allCityList",
   latestJobs: "latestJobs",
   blog:"blog",
   blogDetails:"blogDetails",
   resultType:"resultType",
-  educationType:"educationType"
+  educationType:"educationType",
+  subjects:"subjects"
 };

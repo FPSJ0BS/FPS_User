@@ -1,6 +1,6 @@
 import List from "@Container/JobListing/components/List";
 import useFilterCity from "@Hooks/Queries/useFilterCity";
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import Dropdown from "react-dropdown";
 import {
   useLocation,
@@ -25,6 +25,10 @@ import { CityInput } from "./input/CityInput";
 import useGetCityListNode from "@Hooks/Queries/useGetCityListNode";
 import { ExperienceInput } from "./input/ExperienceInput";
 import { SalaryInput } from "./input/SalaryInput";
+import useAllCityListNode from "@Hooks/Queries/useAllCityListNode";
+import { JobTypeInput } from "./input/JobTypeInput";
+import { SubjectsInput } from "./input/SubjectsInput";
+import useAllSubjectsListNode from "@Hooks/Queries/useAllSubjectsListNode";
 
 const jobType = [
   { value: "", label: "Select job type" },
@@ -49,7 +53,10 @@ const Sidebar = (props: any) => {
   // const { data: Experiences } = useExperiences({});
   const { data: Experiences } = useExperiencesNode({});
   // const { data: State } = useStatesList({});
-  const { data: State } = useStatesListNode({});
+
+  const { data: AllCityList } = useAllCityListNode({});
+  const { data: AllSubjectList } = useAllSubjectsListNode({});
+
 
   const [queryTwo, setQueryTwo] = useState({
     stateID: "",
@@ -111,6 +118,7 @@ const Sidebar = (props: any) => {
       salary_minimum: searchParams.get("salary_minimum") || "",
       min_experience: searchParams.get("min_experience") || "",
       state: searchParams.get("state") || "",
+      function: searchParams.get("function") || "",
     };
 
     setQuery((oldQuery) => ({
@@ -160,8 +168,8 @@ const Sidebar = (props: any) => {
     ];
 
   useEffect(() => {
-    const filterState = State?.data?.find((state) => {
-      return state.name === query.state;
+    const filterState = AllCityList?.data?.find((state) => {
+      return state.city === query.state;
     });
 
     const id = filterState?.id;
@@ -175,36 +183,71 @@ const Sidebar = (props: any) => {
   const _cities = cityStateList?.data &&
     cityStateList?.data?.length && [
       ...(cityStateList?.data || []).map((city) => {
-        return { id: city?.id, city: city?.name };
+        return { id: city?.id, city: city?.name, jobs: city?.jobs };
       }),
     ];
 
   const [showSidebar, setShowSidebar] = useState(false);
 
+  const [citySelect, setCitySelect] = useState("");
+
+  useEffect(()=>{
+
+  
+
+    setQuery((query) => ({
+      ...query,
+      city : citySelect,
+    }));
+
+    
+  },[citySelect])
+
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    console.log("Selected option:", e.target.value);
+    if (formRef.current) {
+      formRef.current.submit(); // Automatically submit the form
+    }
+  };
+  
+ 
+
   return (
-    <form onSubmit={(e) => findJob(e)} className="  h-[100vh] w-full flex items-center  ">
+    <form
+    ref={formRef}
+      onSubmit={(e) => findJob(e)}
+      className="  h-[100vh] w-full flex items-center  "
+    >
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
 
-      <div className={`  rounded-xl  absolute sm:relative  ${!showSidebar ? "block" : "hidden"} sm:block w-[80%] md:w-[40%] bg-white ml-3   lg:w-[15%] h-[100%] lg:h-[95%] p-[10px] overflow-y-auto postjobHandleScrollbar ${!showSidebar ? "pb-[30px] pt-[30px]" : "pt-[30px]"} `}>
+      <div
+        className={`  rounded-xl  absolute sm:relative  ${
+          !showSidebar ? "block" : "hidden"
+        } sm:block w-[80%] md:w-[40%] bg-white ml-3   lg:w-[15%] h-[100%] lg:h-[95%] p-[10px] overflow-y-auto postjobHandleScrollbar pb-5 ${
+          !showSidebar ? "pb-[30px] pt-[30px]" : "pt-[30px]"
+        } `}
+      >
         <div className=" w-full justify-end flex">
-          { !showSidebar && (<svg
-          onClick={() => setShowSidebar(true)}
-            xmlns="http://www.w3.org/2000/svg"
-            width="30"
-            height="30"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="lucide lucide-x cursor-pointer text-black sm:hidden block mb-2"
-          >
-            <path d="M18 6 6 18" />
-            <path d="m6 6 12 12" />
-          </svg>)
-
-         }
+          {!showSidebar && (
+            <svg
+              onClick={() => setShowSidebar(true)}
+              xmlns="http://www.w3.org/2000/svg"
+              width="30"
+              height="30"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="lucide lucide-x cursor-pointer text-black sm:hidden block mb-2"
+            >
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
+            </svg>
+          )}
         </div>
 
         <div className=" gap-4 flex flex-col w-full h-full  items-center px-[5px] 2xl:px-2">
@@ -219,14 +262,17 @@ const Sidebar = (props: any) => {
           </div>
 
           <JobTitle query={query} setQuery={setQuery} />
-          <StateInput query={query} setQuery={setQuery} State={State} />
+
+          <SubjectsInput query={query} setQuery={setQuery} State={AllSubjectList} formRef = {formRef}/>
+
+          <StateInput query={query} setQuery={setQuery} State={AllCityList} setCitySelect = {setCitySelect} />
           {/* <CityInput
             query={query}
             setQuery={setQuery}
             cityStateList={cityStateList}
           /> */}
 
-          <div className="w-full  flex flex-col justify-end items-start ">
+          {/* <div className="w-full  flex flex-col justify-end items-start ">
             <div className=" flex items-center gap-3 mb-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -259,6 +305,7 @@ const Sidebar = (props: any) => {
                 }));
               }}
               searchJob={query}
+              setQuery={setQuery}
               style={{
                 width: "100%",
                 border: "1px solid #D1D5DB",
@@ -273,7 +320,7 @@ const Sidebar = (props: any) => {
                 borderStyle: "solid",
               }}
             />
-          </div>
+          </div> */}
 
           <ExperienceInput
             query={query}
@@ -281,8 +328,9 @@ const Sidebar = (props: any) => {
             experiences={_experiences}
           />
           <SalaryInput query={query} setQuery={setQuery} salary={_salary} />
+          <JobTypeInput query={query} setQuery={setQuery} State={jobType}/>
 
-          <div className="w-full  bg-white flex flex-col justify-end  ">
+          {/* <div className="w-full  bg-white flex flex-col justify-end  ">
             <div className=" flex gap-2 mb-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -309,7 +357,7 @@ const Sidebar = (props: any) => {
             <Dropdown
               placeholder="Select Job Type"
               options={jobType || []}
-              className="  placeholder-black h-[30px] flex items-center react-dropdown select2 bg-white border-[1px] focus:border-[2px] border-gray-300  text-black text-[12px] 2xl:text-[14px] rounded-md shadow-sm focus:outline-none border-solid focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+              className="  h-[30px] flex items-center react-dropdown select2 bg-white border-[1px] focus:border-[2px] border-gray-300  text-[12px] 2xl:text-[14px] rounded-md shadow-sm focus:outline-none border-solid focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
               onChange={(value) => {
                 setQuery({
                   ...query,
@@ -318,7 +366,7 @@ const Sidebar = (props: any) => {
               }}
               value={query?.job_type}
             />
-          </div>
+          </div> */}
         </div>
       </div>
 
@@ -326,14 +374,13 @@ const Sidebar = (props: any) => {
 
       <div className="  w-[100%] sm:w-[85%] h-[100%] flex justify-center items-center flex-col overflow-y-auto pt-[20px] pb-[20px]">
         <List
-
           data={data}
           setQuery={setQuery}
           query={query}
           refetch={refetch}
           setSearchJob={setSearchJob}
           searchJob={searchJob}
-          setShowSidebar = {setShowSidebar}
+          setShowSidebar={setShowSidebar}
         />
       </div>
     </form>
