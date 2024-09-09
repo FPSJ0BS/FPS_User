@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 
-export const StateInput = ({ query, setQuery, State }) => {
+export const StateInput = ({ query, setQuery, State, setCitySelect }) => {
   const [inputValue, setInputValue] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const [filteredStates, setFilteredStates] = useState([]);
@@ -8,7 +8,23 @@ export const StateInput = ({ query, setQuery, State }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLUListElement>(null);
 
+  useEffect(()=>{
+
+
+
+    setCitySelect(inputValue)
+
+
+  },[inputValue])
+
+  
+  useEffect(()=>{
+    
+    console.log('query?.city',query?.city);
+  },[query?.city])
+
   useEffect(() => {
+
     if (State?.data) {
       setInitialStates(State.data.slice(0, 50));
       setFilteredStates(State.data);
@@ -31,21 +47,22 @@ export const StateInput = ({ query, setQuery, State }) => {
     setShowDropdown(true);
     setQuery({
       ...query,
-      state: value,
+      city: value,
     });
 
     const filtered = State?.data.filter((option) =>
-      option.name.toLowerCase().includes(value.toLowerCase())
+      option.city.toLowerCase().includes(value.toLowerCase())
     );
     setFilteredStates(filtered);
   };
 
   const handleOptionSelect = (option: string, id: number) => {
+ 
     setInputValue(option);
     setShowDropdown(false);
     setQuery({
       ...query,
-      state: option,
+      city: option,
     });
   };
 
@@ -96,18 +113,18 @@ export const StateInput = ({ query, setQuery, State }) => {
           htmlFor="EmployerPostJobState"
           className="postJobInputTitle block font-medium text-black"
         >
-          State
+          City
         </label>
       </div>
       <div className="relative">
         <input
-          placeholder="Search State..."
+          placeholder="Search City..."
           autoComplete="off"
           ref={inputRef}
           type="text"
           id="EmployerPostJobState"
           name="EmployerPostJobState"
-          value={query?.state}
+          value={query?.city}
           onChange={handleInputChange}
           onClick={openDropdown}
           className="h-[30px] mt-1 p-2 text-black placeholder-black w-full border-[1px] focus:border-[2px] border-gray-300 rounded-md shadow-sm focus:outline-none border-solid focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
@@ -120,22 +137,25 @@ export const StateInput = ({ query, setQuery, State }) => {
         >
           {inputValue
             ? filteredStates?.map((option: any, index: any) => (
-                <li
+                <div
                   key={index}
-                  className="cursor-pointer hover:bg-gray-100 py-1 px-3"
-                  onClick={() => handleOptionSelect(option.name, option.id)}
+                  className="cursor-pointer hover:bg-gray-100 py-1 px-3 flex justify-between w-full"
+                  onClick={() => handleOptionSelect(option.city, option.id)}
                 >
-                  {option.name}
-                </li>
+                 <p className="mb-0">{option.city}</p> 
+                 <p className="mb-0">({option.jobs})</p> 
+                  
+                </div>
               ))
             : initialStates?.map((option: any, index: any) => (
-                <li
+                <div
                   key={index}
-                  className="cursor-pointer hover:bg-gray-100 py-1 px-3"
-                  onClick={() => handleOptionSelect(option.name, option.id)}
+                  className="cursor-pointer hover:bg-gray-100 py-1 px-3 flex justify-between w-full"
+                  onClick={() => handleOptionSelect(option.city, option.id)}
                 >
-                  {option.name}
-                </li>
+                  <p className="mb-0">{option.city}</p> 
+                  <p className="mb-0">({option.jobs})</p> 
+                </div>
               ))}
         </ul>
       )}

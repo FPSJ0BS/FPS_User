@@ -54,7 +54,7 @@ const RelatedJobCard = (item: any) => {
     : "";
   return (
     <div
-      className="job-block cursor-pointer"
+      className="job-block cursor-pointe"
       onClick={() => navigate(createQueryBySlug(item, Category))}
     >
       <div className="inner-box">

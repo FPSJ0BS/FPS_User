@@ -44,7 +44,7 @@ function Breadcrumb({ title, className }: IProps) {
               </div>
 
               {showLogin && (
-                <div className="w-[25%]">
+                <div className="w-[25%] hidden sm:block ">
                   <p className=" text-[16px] font-semibold">
                     Already Registered?{" "}
                     <span

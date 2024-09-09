@@ -23,7 +23,6 @@ const BannerNew = () => {
   });
   const { data: cityList } = useFilterCity({});
 
-
   const openLink = () => {
     window.open("https://linkmix.co/24321549", "_blank");
   };

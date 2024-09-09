@@ -17,6 +17,7 @@ import FlatList from "@Components/FlatList/FlatLIst";
 import RelatedJobCard from "@Components/JobView/RelatedJobCard";
 import useSearchJobsQueryNode from "@Hooks/Queries/useSearchJobsQueryNode";
 
+
 const JobDescription = ({ data, id }: any) => {
   const { userData } = useGlobalContext();
   const [searchJob] = useState<any>({

@@ -135,13 +135,17 @@ function TopSection() {
       </div>
       <div className="flex flex-col md:flex-row justify-center items-center">
         <div className=" w-[100%] md:w-[30%]  h-full flex justify-center items-center">
-          <div className=" w-[100%] md:w-[12vw] h-[12vw] rounded-full flex justify-center items-center">
+
+        
+            
             <img
-              className=" w-[100px] md:w-[12vw] border-1 border-solid border-gray-300 rounded-full"
+              className=" w-[100px] h-[100px] md:w-[200px] md:h-[200px] border-1 border-solid border-gray-300 rounded-full"
               src={userDataArray?.image ? userDataArray?.image : dummyimage}
               alt="profileiamge"
             />
-          </div>
+
+          
+
         </div>
 
         <div className=" w-[100%] md:w-[70%] h-full py-4 ">

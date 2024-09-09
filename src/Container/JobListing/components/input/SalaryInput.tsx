@@ -9,10 +9,10 @@ export const SalaryInput = ({ query, setQuery, salary }) => {
   const dropdownRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
-    console.log("salary", salary);
+
     if (salary) {
       setInitialStates(salary.slice(0, 50));
-      // setFilteredStates(salary);
+
     }
   }, [salary]);
 

@@ -41,11 +41,6 @@ const JobHeading = ({ data, packType }: any) => {
     fetchApi();
   }, []);
 
-  useEffect(() => {
-    console.log("profileDetails", profileDetails);
-  }, [profileDetails]);
-
-
   const { mutateAsync: Favourite } = useFavourite({});
   const { mutateAsync: removeFavourite } = useRemoveFavourite({});
   const navigate = useNavigate();
