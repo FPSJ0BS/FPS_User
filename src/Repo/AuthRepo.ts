@@ -16,9 +16,10 @@ const getToken = (): string | null => {
   return loginToken;
 };
 
-export const loginwithEmail = async (req: ILoginWithEmailType) => {
-  const _req = { ...req, ip_address: "192.168.1.14" };
-  const res = await http.postRequestForm("login", _req);
+export const loginwithEmail = async (req) => {
+  // const _req = { ...req, ip_address: "192.168.1.14" };
+  // console.log('_req',_req);
+  const res = await httpNode.postRequestForm("user/authentication/emailLogin", req);
   return res;
 };
 
@@ -107,6 +108,12 @@ export const dogetStateListNode = async () => {
   const res = await httpNode.getRequest(`user/filter_stateList`);
   return res;
 };
+
+export const dogetStateListCountryNode = async () => {
+  const res = await httpNode.getRequest(`user/stateWithCountry`);
+  return res;
+};
+
 export const dogetAllCityListNode = async () => {
   const res = await httpNode.getRequest(`user/filter_allCities`);
   return res;

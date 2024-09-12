@@ -2,6 +2,8 @@ import { memo, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import React, { useEffect } from "react";
 import { AppRoute } from "@Navigator/AppRoute";
+import { openModalLogin } from "@/Redux/appliedJobSlice";
+import { useDispatch } from "react-redux";
 
 Breadcrumb.propTypes = {};
 
@@ -12,6 +14,7 @@ type IProps = {
 
 function Breadcrumb({ title, className }: IProps) {
   const location = useLocation();
+  const dispatch = useDispatch()
   const [showLogin, setShowLogin] = useState(false);
   const navigate = useNavigate();
 
@@ -44,11 +47,11 @@ function Breadcrumb({ title, className }: IProps) {
               </div>
 
               {showLogin && (
-                <div className="w-[25%] hidden sm:block ">
-                  <p className=" text-[16px] font-semibold">
+                <div className="w-[25%] hidden lg:block ">
+                  <p className=" text-[14px] 2xl:text-[16px] font-semibold">
                     Already Registered?{" "}
                     <span
-                      onClick={() => navigate(AppRoute.Login)}
+                      onClick={() => dispatch(openModalLogin())}
                       className=" cursor-pointer hover:underline text-[#355cec] font-semibold"
                     >
                       Login

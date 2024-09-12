@@ -662,3 +662,19 @@ export const getBankDetails = async () => {
     throw error;
   }
 };
+
+export const postSignInWithEmail = async (data) => {
+ 
+  
+  try {
+    const response = await axios.post(
+      `${BASE_URL_NODE}/user/authentication/emailLogin`,
+      data,
+      
+    );
+    return response;
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    throw error;
+  }
+};

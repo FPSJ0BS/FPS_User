@@ -32,10 +32,30 @@ const Countdown = ({
     return `${formattedMinutes}:${formattedSeconds}`;
   };
 
+  const [loginUrl, setLoginUrl] = useState("");
+
+  useEffect(() => {
+    // Extract the URL from the window.location object
+    const currentUrl = window.location.pathname;
+
+    // Store the URL in state
+    setLoginUrl(currentUrl);
+  }, []);
+
+
+
+  useEffect(() => {
+    console.log("loginUrl/", loginUrl);
+  }, [loginUrl]);
+
+
+
   return (
     <div className="d-flex flex-row justify-content-center mt-5 gap-1">
       <span
-        className={`text-white countdown  ${seconds !== 0 ? "" : "sendOtp"}`}
+        className={`${loginUrl === "/login" ? "text-white" : "text-black" }  border-2 border-solid w-[120px] h-[30px] flex items-center justify-center countdown rounded-lg  ${
+          seconds !== 0 ? "" : "sendOtp"
+        }`}
         onClick={
           seconds == 0
             ? async () => {
@@ -45,7 +65,7 @@ const Countdown = ({
             : () => {}
         }
       >{`${seconds !== 0 ? "Resend Otp in" : "Resend Otp"}`}</span>
-      <span className={`countdown`}>{` ${
+      <span className={`countdown flex items-center justify-center`}>{` ${
         seconds !== 0 ? `${formatTime(seconds)} ` : ""
       }`}</span>
     </div>
