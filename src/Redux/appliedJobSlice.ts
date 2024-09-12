@@ -12,6 +12,7 @@ interface AppliedJobValues {
 interface AppliedJobState {
   modalOpen: boolean;
   modalOpenMembership: boolean;
+  modalOpenmodalOpenLogin: boolean;
   modalOpenMembershipItemData: any;
   appliedJobValues: AppliedJobValues;
 }
@@ -20,6 +21,7 @@ interface AppliedJobState {
 const initialState: AppliedJobState = {
   modalOpen: false,
   modalOpenMembership: false,
+  modalOpenmodalOpenLogin: false,
   modalOpenMembershipItemData: null,
   appliedJobValues: {
     applyID: "",
@@ -49,6 +51,14 @@ const appliedJobSlice = createSlice({
     setModalOpenMembershipItemData: (state, action) => {
       state.modalOpenMembershipItemData = action.payload;
     },
+
+    openModalLogin(state) {
+      state.modalOpenmodalOpenLogin = true;
+    },
+    // Reducer to close the modal and reset applyID
+    closeModalLogin(state) {
+      state.modalOpenmodalOpenLogin = false;
+    },
     // Reducer to update applied job values
     updateAppliedJobValues(
       state,
@@ -70,6 +80,8 @@ export const {
   openModalMembership,
   closeModalMembership,
   setModalOpenMembershipItemData,
+  closeModalLogin,
+  openModalLogin,
 } = appliedJobSlice.actions;
 
 // Export the reducer

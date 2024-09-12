@@ -40,6 +40,16 @@ import useJobTitleNode from "@Hooks/Queries/useJobTitleNode";
 import GoogleAuth from "../Component/GoogleAuth";
 // import useExperiences from "@Hooks/Queries/useExperiences";
 import googleIcon from "@Assets/search.png";
+import regIconBlack from "@Assets/Icons/connection_x2C.png";
+import regIconWhite from "@Assets/Icons/connection_white.png";
+import useStatesListCountryNode from "@Hooks/Queries/useStatesListCountryNode";
+
+interface State {
+  id: string;
+  name: string;
+  code: string;
+}
+
 const SignUp = () => {
   const { setUserLoginData } = useGlobalContext();
   const [isOtpPage, setIsOtpPage] = useState(true);
@@ -57,7 +67,47 @@ const SignUp = () => {
   const [industry, setIndustry] = useState({
     industry_id: "",
   });
-  const { data: State } = useStatesListNode({});
+
+  // const { data: State } = useStatesListNode({});
+  const { data: StateCountry, isSuccess: isSuccessStateCountry } =
+    useStatesListCountryNode({});
+
+  const [allNewStatesData, setAllNewStatesData] = useState<State[]>([]); 
+
+  useEffect(() => {
+    const indiaData = StateCountry?.data[0]?.state;
+    const qatar = StateCountry?.data[1]?.state;
+    const uae = StateCountry?.data[2]?.state;
+
+    const updatedStatesIndia = indiaData?.map((state) => ({
+      ...state,
+      id: String(state.id),
+      code: "India",
+    }));
+
+    const updatedStatesQatar = qatar?.map((state) => ({
+      ...state,
+      id: String(state.id),
+      code: "Qatar",
+    }));
+
+    const updatedStatesUAE = uae?.map((state) => ({
+      ...state,
+      id: String(state.id),
+      code: "UAE",
+    }));
+
+    const allStates = [
+      ...(updatedStatesIndia || []),
+      ...(updatedStatesQatar || []),
+      ...(updatedStatesUAE || []),
+    ];
+
+    setAllNewStatesData(allStates); // This should now work without errors
+
+    console.log("Combined State Data:", allNewStatesData);
+  }, [isSuccessStateCountry]);
+
   const { data: cityList } = useGetCityListNode(
     { enabled: !!query.stateID },
     query
@@ -85,9 +135,9 @@ const SignUp = () => {
   const onSubmit: SubmitHandler<IRegType> = async (data) => {
     setMobileNumber(data?.mobile);
     const filterState =
-      State?.data &&
-      State?.data?.filter((item) => {
-        return item?.id === data.state;
+      allNewStatesData &&
+      allNewStatesData?.filter((item) => {
+        return Number(item?.id) === data.state;
       });
     const filterCity =
       cityList?.data &&
@@ -140,15 +190,11 @@ const SignUp = () => {
           Toast("success", res?.message);
           setIsOtpPage(false);
         } else {
-          const msg = 'This phone number already linked to another account...'
-          if(res?.message === msg){
-
+          const msg = "This phone number already linked to another account...";
+          if (res?.message === msg) {
             setTimeout(() => {
-
-              navigate(AppRoute.Login)
-              
+              navigate(AppRoute.Login);
             }, 3000);
-
           }
           Toast("error", res?.message);
         }
@@ -163,7 +209,7 @@ const SignUp = () => {
     { enabled: !!industry.industry_id },
     industry
   );
-  
+
   const onVerificationOtp: SubmitHandler<any> = (data) => {
     try {
       OtpCheck(data).then((res) => {
@@ -181,7 +227,6 @@ const SignUp = () => {
   const validTypes = ["application/pdf", "application/msword", "image/jpeg"];
 
   const auth = async () => {
-
     try {
       const res = await getGoogleAPI();
 
@@ -194,7 +239,6 @@ const SignUp = () => {
     } catch (error) {}
 
     // navigate(data?.data);
-
   };
 
   return (
@@ -213,57 +257,84 @@ const SignUp = () => {
         <div className=" w-full ">
           <div className=" flex w-full items-center justify-center gap-4 md:p-[30px] lg:p-[10px] 2xl:p-[30px] ">
             {isOtpPage ? (
-              <div className=" flex w-full bg-black justify-center md:mx-[5vw]  items-center gap-5 h-[74vh] rounded-lg">
-                <div className="hidden  mb-4 xl:flex justify-start items-start flex-col w-[35%]">
-                  <h6 className="fs-4 pt-4 fw-bolder text-left text-white">
+              <div className=" flex w-full  justify-center md:mx-[2vw]  items-start gap-5 h-[100vh] 2xl:h-[85vh] rounded-lg px-4">
+                <div className="hidden   xl:flex justify-start items-start flex-col gap-3 w-[55%] h-full">
+                  <h6 className=" text-[2.8vw] font-bold text-black text-left ">
                     {`Create your ${AppConst.LogoName} profile`}
                   </h6>
-                  <p className="mt-2 text-base text-white">
+                  <p className=" text-base text-black ml-2">
                     Search & apply to jobs from India's No.1 Job Site
                   </p>
 
-                  <div className=" grid grid-cols-2 2xl:grid-cols-1 gap-2">
-                    <div className="flex flex-col mt-4 gap-1">
-                      <img src={JOBMATCHING} className=" w-[40px]" alt="img" />
-                      <h3 className="text-white font-semibold text-[15px] mt-1">
-                        Personalized Job Matching
-                      </h3>
-                      <p className="text-white font-normal text-[12px]">
+                  <div className=" grid grid-cols-2 2xl:grid-cols-2 gap-4">
+                    <div className=" h-[15vw] w-[21vw] bg-white shadow-lg rounded-[20px] p-[30px] flex flex-col justify-center gap-2">
+                      <img
+                        src={regIconBlack}
+                        alt="reg-icon"
+                        className=" w-[2.3vw]"
+                      />
+                      <p className=" mb-0 font-bold text-black text-[1.3vw] leading-[1.4em]">
+                        Personalized Job
+                        <br /> Matching.
+                      </p>
+                      <p className=" mb-0 font-normal text-black text-[0.8vw] leading-[1.4em]">
                         Get matched with job openings that fit your skills and
                         preferences.
                       </p>
                     </div>
-
-                    <div className="flex flex-col mt-4 gap-1">
-                      <img src={AIICON} className=" w-[40px]" alt="img" />
-                      <h3 className="text-white font-semibold text-[15px] mt-1">
-                        AI-Powered Career Guidance
-                      </h3>
-                      <p className="text-white font-normal text-[12px]">
+                    <div className=" h-[15vw] w-[21vw] bg-[#c94f56] rounded-[20px] p-[30px] flex flex-col justify-center gap-2">
+                      <img
+                        src={regIconWhite}
+                        alt="reg-icon"
+                        className=" w-[2.3vw]"
+                      />
+                      <p className=" mb-0 font-bold text-white text-[1.3vw] leading-[1.4em]">
+                        AI-Powered Career Guidance.
+                      </p>
+                      <p className=" mb-0 font-normal text-white text-[0.8vw] leading-[1.4em]">
                         Receive expert advice and insights to help you grow in
                         your career.
                       </p>
                     </div>
-
-                    <div className="flex flex-col mt-4 gap-1">
-                      <img src={RESUMEICON} className=" w-[35px]" alt="img" />
-                      <h3 className="text-white font-semibold text-[15px] mt-1">
-                        Resume Builder
-                      </h3>
-                      <p className="text-white font-normal text-[12px]">
-                        Create a stunning resume that showcases
-                        your achievements
+                    <div className=" h-[15vw] w-[21vw] bg-[#c94f56] rounded-[20px] p-[30px] flex flex-col justify-center gap-2">
+                      <img
+                        src={regIconWhite}
+                        alt="reg-icon"
+                        className=" w-[2.3vw]"
+                      />
+                      <p className=" mb-0 font-bold text-white text-[1.3vw] leading-[1.4em]">
+                        AI- Based Resume <br />
+                        Builder.
+                      </p>
+                      <p className=" mb-0 font-normal text-white text-[0.8vw] leading-[1.4em]">
+                        Create a stunning resume that showcases your
+                        achievements.
+                      </p>
+                    </div>
+                    <div className=" h-[15vw] w-[21vw] bg-white shadow-lg rounded-[20px] p-[30px] flex flex-col justify-center gap-2">
+                      <img
+                        src={regIconBlack}
+                        alt="reg-icon"
+                        className=" w-[2.3vw]"
+                      />
+                      <p className=" mb-0 font-bold text-black text-[1.3vw] leading-[1.4em]">
+                        Professional <br />
+                        Networking
+                      </p>
+                      <p className=" mb-0 font-normal text-black text-[0.8vw] leading-[1.4em]">
+                        Connect with like-minded professionals and industry
+                        leaders.
                       </p>
                     </div>
                   </div>
                 </div>
                 <form
-                  className=" w-[90%] lg:w-[50%] gap-2 sm:grid grid-cols-2  bg-[#302f2f]  h-[95%] py-4 mr-3 rounded-xl px-3 overflow-y-auto"
+                  className=" xl:w-[45%] gap-2 sm:grid grid-cols-2 bg-white shadow-lg border-solid border-2 border-[#dee2e5] h-[100%] py-4 rounded-xl px-3 overflow-y-auto postjobHandleScrollbar"
                   id="reg-form"
                   autoComplete="off"
                 >
-                  <div className="d-flex  flex-column w-full col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2">
-                    <label className="fw-bolder text-white ">First Name</label>
+                  <div className="d-flex  flex-column w-full col-12 col-md-6 col-lg-4 mb-2 gap-2 px-md-2">
+                    <label className="fw-bolder text-black ">First Name</label>
                     <input
                       autoFocus={true}
                       {...register("first_name", {
@@ -277,7 +348,7 @@ const SignUp = () => {
                       placeholder="What is your First Name..."
                       aria-invalid="true"
                       type="text"
-                      className="p-2 border-1 text-white bg-transparent  placeholder-white"
+                      className="p-2 border-2 border-[#c3c6c7] text-black bg-transparent placeholder-black"
                       autoComplete="false"
                       style={{ paddingLeft: 10 }}
                     />
@@ -287,8 +358,8 @@ const SignUp = () => {
                       </small>
                     )}
                   </div>
-                  <div className="d-flex w-full  flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2 ">
-                    <label className="fw-bolder text-white">Last Name</label>
+                  <div className="d-flex w-full  flex-column col-12 col-md-6 col-lg-4 mb-2 gap-2 px-md-2 ">
+                    <label className="fw-bolder text-black">Last Name</label>
                     <input
                       {...register("last_name", {
                         required: "Last Name is required",
@@ -301,7 +372,7 @@ const SignUp = () => {
                       placeholder="What is your Last Name..."
                       aria-invalid="true"
                       type="text"
-                      className="p-2 border-1 text-white bg-transparent placeholder-white "
+                      className="p-2 border-2 border-[#c3c6c7] text-black bg-transparent placeholder-black "
                       autoComplete="false"
                       style={{ paddingLeft: 10 }}
                     />
@@ -311,8 +382,8 @@ const SignUp = () => {
                       </small>
                     )}
                   </div>
-                  <div className="d-flex w-full flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2">
-                    <label className="fw-bolder text-white ">Email</label>
+                  <div className="d-flex w-full flex-column col-12 col-md-6 col-lg-4 mb-2 gap-2 px-md-2">
+                    <label className="fw-bolder text-black ">Email</label>
                     <input
                       {...register("email", {
                         required: "Email is required",
@@ -325,7 +396,7 @@ const SignUp = () => {
                       placeholder="Tell us your Email Id..."
                       aria-invalid="true"
                       type="undefined"
-                      className="p-2 border-1 text-white bg-transparent placeholder-white "
+                      className="p-2 border-2 border-[#c3c6c7] text-black bg-transparent placeholder-black "
                       autoComplete="false"
                       style={{ paddingLeft: 10 }}
                     />
@@ -335,8 +406,8 @@ const SignUp = () => {
                       </small>
                     )}
                   </div>
-                  <div className="d-flex w-full flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2">
-                    <label className="fw-bolder text-white ">Mobile</label>
+                  <div className="d-flex w-full flex-column col-12 col-md-6 col-lg-4 mb-2 gap-2 px-md-2">
+                    <label className="fw-bolder text-black ">Mobile</label>
                     <input
                       {...register("mobile", {
                         required: "Mobile Number is required",
@@ -349,7 +420,7 @@ const SignUp = () => {
                       placeholder="Enter your Mobile Number"
                       aria-invalid="true"
                       type="text"
-                      className="p-2 border-1 text-white bg-transparent placeholder-white"
+                      className="p-2 border-2 border-[#c3c6c7] text-black bg-transparent placeholder-black"
                       autoComplete="false"
                       style={{ paddingLeft: 10 }}
                     />
@@ -359,10 +430,13 @@ const SignUp = () => {
                       </small>
                     )}
                   </div>
-                  <div className="d-flex w-full flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2 ">
-                    <label className="fw-bolder text-white">Password</label>
+                  <div className="d-flex w-full flex-column col-12 col-md-6 col-lg-4 mb-2 gap-2 px-md-2 col-span-2 ">
+                    <label className="fw-bolder text-black">Password</label>
 
-                    <p className=" text-white text-[10px]">Password must contain atleast 8 characters, including 1 UPPER, lowercase, special character and numbers</p>
+                    <p className=" text-black text-[10px]">
+                      Password must contain atleast 8 characters, including 1
+                      UPPER, lowercase, special character and numbers
+                    </p>
 
                     <Controller
                       name="password"
@@ -379,14 +453,14 @@ const SignUp = () => {
                           <input
                             name="password"
                             type={showPassOne ? "text" : "password"}
-                            className="p-2 border-1 text-white bg-transparent placeholder-white"
+                            className="p-2 border-2 border-[#c3c6c7] text-black bg-transparent placeholder-black"
                             placeholder="Please Enter your Password..."
                             id="password-input"
                             value={value}
                             onChange={onChange}
                           />
                           <Link
-                            className={`text-white password-addon ${
+                            className={`text-black password-addon ${
                               showPassOne ? "icon-eye" : "icon-eye-off"
                             }`}
                             id="password-addon"
@@ -407,11 +481,14 @@ const SignUp = () => {
                       </small>
                     )}
                   </div>
-                  <div className="d-flex w-full flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2">
-                    <label className="fw-bolder text-white">
+                  <div className="d-flex w-full flex-column col-12 col-md-6 col-lg-4 mb-2 gap-2 px-md-2 col-span-2">
+                    <label className="fw-bolder text-black">
                       Confirm Password
                     </label>
-                    <p className=" text-white text-[10px]">Password must contain atleast 8 characters, including 1 UPPER, lowercase, special character and numbers</p>
+                    <p className=" text-black text-[10px]">
+                      Password must contain atleast 8 characters, including 1
+                      UPPER, lowercase, special character and numbers
+                    </p>
 
                     <Controller
                       name="confirm_password"
@@ -426,14 +503,14 @@ const SignUp = () => {
                           <input
                             name="confirm_password"
                             type={showPass ? "text" : "password"}
-                            className="p-2 border-1 text-white bg-transparent placeholder-white"
+                            className="p-2 border-2 border-[#c3c6c7] text-black bg-transparent placeholder-black"
                             placeholder="Confirm your Password..."
                             id="password-input"
                             value={value}
                             onChange={onChange}
                           />
                           <Link
-                            className={`text-white password-addon ${
+                            className={`text-black password-addon ${
                               showPass ? "icon-eye" : "icon-eye-off"
                             }`}
                             id="password-addon"
@@ -455,8 +532,8 @@ const SignUp = () => {
                       </small>
                     )}
                   </div>
-                  <div className="d-flex w-full flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2">
-                    <label className="fw-bolder text-white">State</label>
+                  <div className="d-flex w-full flex-column col-12 col-md-6 col-lg-4 mb-2 gap-2 px-md-2">
+                    <label className="fw-bolder text-black">State</label>
                     <Controller
                       name="state"
                       control={control}
@@ -465,36 +542,56 @@ const SignUp = () => {
                       }}
                       render={({ field: { onChange, value } }) => (
                         <select
-                          name="state"
-                          className="select border-1 form-select border border-slate-100 text-white bg-transparent"
-                          value={value}
-                          onChange={(e) => {
-                            setQuery({
-                              ...query,
-                              stateID: e.target.value,
-                            });
-                            onChange(e);
-                          }}
-                          autoComplete="off"
-                        >
-                          <option className="text-black" value="">
-                            <span className="text-black">Please select your State...</span>
-                          </option>
-                          {State?.data &&
-                            State?.data?.map((item: any, index) => {
-                              return (
-                                <option
-                                  className="text-black"
-                                  value={item?.id}
-                                  key={index}
-                                >
-                                  <span className="text-black">
-                                    {item?.name}
-                                  </span>
-                                </option>
-                              );
-                            })}
-                        </select>
+  name="state"
+  className="select border-2 border-[#c3c6c7] form-select text-black bg-transparent postjobHandleScrollbar"
+  value={value}
+  onChange={(e) => {
+    setQuery({
+      ...query,
+      stateID: e.target.value,
+    });
+    onChange(e);
+  }}
+  autoComplete="off"
+>
+  <option className="text-black" value="">
+    <span className="text-black">Please select your State...</span>
+  </option>
+
+  {/* India States */}
+  <optgroup label="India" className="bg-gray-200">
+    {allNewStatesData
+      .filter((item) => item.code === "India") // Filter states for India
+      .map((item, index) => (
+        <option className="text-black" value={item.id} key={index}>
+          {item.name}
+        </option>
+      ))}
+  </optgroup>
+
+  {/* Qatar States */}
+  <optgroup label="Qatar" className="bg-gray-200">
+    {allNewStatesData
+      .filter((item) => item.code === "Qatar") // Filter states for Qatar
+      .map((item, index) => (
+        <option className="text-black" value={item.id} key={index}>
+          {item.name}
+        </option>
+      ))}
+  </optgroup>
+
+  {/* UAE States */}
+  <optgroup label="UAE" className="bg-gray-200">
+    {allNewStatesData
+      .filter((item) => item.code === "UAE") // Filter states for UAE
+      .map((item, index) => (
+        <option className="text-black" value={item.id} key={index}>
+          {item.name}
+        </option>
+      ))}
+  </optgroup>
+</select>
+
                       )}
                     />
 
@@ -504,18 +601,20 @@ const SignUp = () => {
                       </small>
                     )}
                   </div>
-                  <div className="d-flex w-full flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2 ">
-                    <label className="fw-bolder text-white ">City</label>
+                  <div className="d-flex w-full flex-column col-12 col-md-6 col-lg-4 mb-2 gap-2 px-md-2 ">
+                    <label className="fw-bolder text-black ">City</label>
                     <select
                       {...register("city", {
                         required: "City is required",
                       })}
                       name="city"
-                      className="select border-1 form-select border border-slate-100 text-white bg-transparent"
+                      className="select border-2  form-select   text-black bg-transparent postjobHandleScrollbar"
                       autoComplete="off"
                     >
                       <option className="text-black" value="">
-                        <span className="text-black">Please select your City...</span>
+                        <span className="text-black">
+                          Please select your City...
+                        </span>
                       </option>
                       {cityList?.data &&
                         cityList?.data.map((item, index) => {
@@ -538,8 +637,8 @@ const SignUp = () => {
                     )}
                   </div>
 
-                  <div className="d-flex w-full flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2">
-                    <label className="fw-bolder text-white ">
+                  <div className="d-flex w-full flex-column col-12 col-md-6 col-lg-4 mb-2 gap-2 px-md-2">
+                    <label className="fw-bolder text-black ">
                       Industry, looking for a job in?
                     </label>
                     <Controller
@@ -551,7 +650,7 @@ const SignUp = () => {
                       render={({ field: { onChange, value } }) => (
                         <select
                           name="industry"
-                          className="select border-1 form-select border border-slate-100 text-white bg-transparent"
+                          className="select border-2 border-[#c3c6c7] form-select  text-black bg-transparent"
                           value={value}
                           onChange={(e) => {
                             setIndustry({
@@ -590,18 +689,20 @@ const SignUp = () => {
                       </small>
                     )}
                   </div>
-                  <div className="d-flex w-full flex-column col-12 col-md-6 col-lg-4 mb-4 gap-2 px-md-2 ">
-                    <label className="fw-bolder text-white ">Job Title</label>
+                  <div className="d-flex w-full flex-column col-12 col-md-6 col-lg-4 mb-2 gap-2 px-md-2 ">
+                    <label className="fw-bolder text-black ">Job Title</label>
                     <select
                       {...register("subject", {
                         required: "Job Title is required",
                       })}
                       disabled={industry?.industry_id === ""}
                       name="subject"
-                      className="select border-1 form-select border border-slate-100 text-white bg-transparent"
+                      className="select border-2 border-[#c3c6c7] form-select  text-black bg-transparent"
                     >
                       <option className="text-black" value="">
-                        <span className="text-black">Please select Job Title...</span>
+                        <span className="text-black">
+                          Please select Job Title...
+                        </span>
                       </option>
                       {Jobs?.data &&
                         Jobs?.data.map((item, index) => {
@@ -618,7 +719,11 @@ const SignUp = () => {
                           );
                         })}
                     </select>
-                    {industry?.industry_id === "" && <p className=" mb-0 text-white font-semibold">*Please Select Industry First.</p>}
+                    {industry?.industry_id === "" && (
+                      <p className=" mb-0 text-black font-semibold">
+                        *Please Select Industry First.
+                      </p>
+                    )}
                     {errors.subject && (
                       <small className="text-danger">
                         {errors.subject.message}
@@ -629,16 +734,16 @@ const SignUp = () => {
                   <div className="d-flex w-full flex-column cols-span-2  px-2 col-span-2  ">
                     <label
                       htmlFor="formFile"
-                      className="form-label fw-bolder text-white"
+                      className="form-label fw-bolder text-black"
                     >
-                      Upload Resume
+                      Upload Resume (Optional)
                     </label>
 
                     <input
                       {...register("resume", {
                         required: false,
                       })}
-                      className="form-control border-1 w-full bg-transparent border-dashed text-white "
+                      className="form-control border-2 border-[#c3c6c7] w-full bg-transparent border-dashed text-black "
                       type="file"
                       id="formFile"
                       accept=".pdf,.doc,.docx,image/jpeg"
@@ -676,11 +781,10 @@ const SignUp = () => {
                         id="flexCheckDefault"
                       />
                       <label
-                        className="form-check-label w-lg-[50%] text-white"
+                        className="form-check-label w-lg-[50%] text-black"
                         htmlFor="flexCheckDefault"
                       >
-                        By submitting our webform, I
-                        agreed to the{" "}
+                        By submitting our webform, I agreed to the{" "}
                         <NavLink
                           to={AppRoute.Terms_of_use}
                           style={{ color: "#a73358" }}
@@ -706,7 +810,7 @@ const SignUp = () => {
                   <div className="flex flex-col xl:flex-row justify-center items-center mt-1  col-span-2 gap-4  ">
                     <button
                       onClick={handleSubmit(onSubmit)}
-                      className={`bg-black  text-[15px] font-bold  text-white reg w-full border-[1px] border-solid border-white ${
+                      className={`bg-black  text-[15px] font-bold  text-white reg w-full border-[1px] border-solid border-black ${
                         isPending &&
                         "d-flex w-full flex-row justify-content-center"
                       }`}
@@ -719,12 +823,12 @@ const SignUp = () => {
                       )}
                     </button>
 
-                    {/* <p className=" mb-0 text-white font-bold text-[18px]">OR</p>
+                    {/* <p className=" mb-0 text-black font-bold text-[18px]">OR</p>
 
                     <div
                       typeof="button"
                       onClick={() => auth()}
-                      className=" flex gap-2 items-center justify-center px-2 py-[10px] bg-white cursor-pointer rounded-[30px] w-[100%] xl:w-[50%]"
+                      className=" flex gap-2 items-center justify-center px-2 py-[10px] bg-black cursor-pointer rounded-[30px] w-[100%] xl:w-[50%]"
                     >
                       <img
                         src={googleIcon}
@@ -740,10 +844,10 @@ const SignUp = () => {
                     typeof="button"
                     className="sign-up text-center mt-2 flex justify-center items-center w-full col-span-2"
                   >
-                    <span className="fw-bolder text-white">
+                    <span className="fw-bolder text-black">
                       Already have an account?
                     </span>
-                    <NavLink to={AppRoute.Login} className="text-white">
+                    <NavLink to={AppRoute.Login} className="text-black">
                       &nbsp;Login
                     </NavLink>
                   </div>

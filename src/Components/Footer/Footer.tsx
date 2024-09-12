@@ -13,6 +13,9 @@ const Footer = () => {
   const { userData } = useGlobalContext();
   return (
     <footer className="footer bg-[#090c0f] ">
+      {/* <div className=" w-full h-[400px] ">
+
+      </div> */}
       <div className="top-footer">
         <div className="container">
           <div className="d-flex flex-row justify-content-between align-items-center flex-wrap">
