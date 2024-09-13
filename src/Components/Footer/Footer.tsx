@@ -9,13 +9,17 @@ import { AppConst } from "@/Enum/AppConst";
 import { StorageConst } from "@Const/StorageConst";
 import Imag from "@Components/Image/Image";
 import { memo } from "react";
+import SubjectsDynamic from "./components/SubjectsDynamic";
+import { useSelector } from "react-redux";
 const Footer = () => {
   const { userData } = useGlobalContext();
+  const { subjectText } = useSelector((state: any) => state.appliedJobSlice);
+
   return (
     <footer className="footer bg-[#090c0f] ">
-      {/* <div className=" w-full h-[400px] ">
 
-      </div> */}
+      { subjectText && <SubjectsDynamic />}
+      
       <div className="top-footer">
         <div className="container">
           <div className="d-flex flex-row justify-content-between align-items-center flex-wrap">

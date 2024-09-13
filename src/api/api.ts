@@ -664,7 +664,7 @@ export const getBankDetails = async () => {
 };
 
 export const postSignInWithEmail = async (data) => {
- 
+  
   
   try {
     const response = await axios.post(
@@ -678,3 +678,16 @@ export const postSignInWithEmail = async (data) => {
     throw error;
   }
 };
+
+
+  export const getSubjectsForFooter = async (subject) => {
+    try {
+      const response = await axios.get(
+        `${BASE_URL_NODE}/user/filterCatFuncationData?subject=${subject}`
+      );
+      return response;
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      throw error;
+    }
+  };

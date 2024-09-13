@@ -1,4 +1,6 @@
+import { setSubjectText } from "@/Redux/appliedJobSlice";
 import React, { useState, useRef, useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 export const SubjectsInput = ({ query, setQuery, State, formRef }) => {
   const [inputValue, setInputValue] = useState("");
@@ -7,6 +9,7 @@ export const SubjectsInput = ({ query, setQuery, State, formRef }) => {
   const [initialStates, setInitialStates] = useState([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLUListElement>(null);
+const dispatch = useDispatch()
 
   useEffect(() => {
     console.log("subjects data", State?.data);
@@ -52,6 +55,7 @@ export const SubjectsInput = ({ query, setQuery, State, formRef }) => {
       ...query,
       function: option,
     });
+    dispatch(setSubjectText(option))
     
   };
 

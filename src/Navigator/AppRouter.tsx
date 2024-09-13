@@ -1,5 +1,5 @@
 import { Navigate, Outlet, Route, Routes, useLocation } from "react-router-dom";
-import { Suspense, lazy, useEffect, useLayoutEffect } from "react";
+import { Suspense, lazy, useEffect, useLayoutEffect, useState } from "react";
 import { AppRoute } from "./AppRoute";
 import { useIsFetching, useIsMutating } from "@tanstack/react-query";
 import Preloader from "@Components/Loader";
@@ -168,6 +168,40 @@ const AppRouter = () => {
       console.log("No profile parameter found in the URL.");
     }
   }, [location]);
+
+
+  const [locationn, setLocationn] = useState({
+    latitude: null,
+    longitude: null,
+  });
+  useEffect(()=>{
+    console.log('locationn',locationn);
+
+  },[locationn])
+  const [errorMessage, setErrorMessage] = useState('');
+
+  // Automatically request location when the component mounts
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          console.log('Position successfully fetched');
+          console.log('position.coords.latitude', position.coords.latitude);
+          setLocationn({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          });
+          setErrorMessage('');
+        },
+        (error) => {
+          console.error('Error getting location', error); // Log the error to see if any issue arises
+          setErrorMessage(error.message); // Handle case where user denies location
+        }
+      );
+    } else {
+      setErrorMessage('Geolocation is not supported by this browser.');
+    }
+  }, []);
 
   return (
     <>
