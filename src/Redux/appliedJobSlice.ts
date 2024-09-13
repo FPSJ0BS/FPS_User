@@ -15,6 +15,7 @@ interface AppliedJobState {
   modalOpenmodalOpenLogin: boolean;
   modalOpenMembershipItemData: any;
   appliedJobValues: AppliedJobValues;
+  subjectText: String;
 }
 
 // Define the initial state for the slice
@@ -23,6 +24,7 @@ const initialState: AppliedJobState = {
   modalOpenMembership: false,
   modalOpenmodalOpenLogin: false,
   modalOpenMembershipItemData: null,
+  subjectText: "",
   appliedJobValues: {
     applyID: "",
   },
@@ -59,6 +61,11 @@ const appliedJobSlice = createSlice({
     closeModalLogin(state) {
       state.modalOpenmodalOpenLogin = false;
     },
+
+    setSubjectText: (state, action) => {
+      state.subjectText = action.payload;
+    },
+
     // Reducer to update applied job values
     updateAppliedJobValues(
       state,
@@ -82,6 +89,7 @@ export const {
   setModalOpenMembershipItemData,
   closeModalLogin,
   openModalLogin,
+  setSubjectText,
 } = appliedJobSlice.actions;
 
 // Export the reducer
