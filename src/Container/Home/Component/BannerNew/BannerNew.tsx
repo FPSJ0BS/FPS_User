@@ -157,7 +157,7 @@ const BannerNew = () => {
 
         <p className=" sm:block hidden text-white mt-[100px] font-normal">
           We create technologies so that employers
-          <br /> can quickly find a suitable emmployee <br /> applicants can
+          <br /> can quickly find a suitable employee and <br /> applicants can
           find a good job.
         </p>
 
