@@ -2,7 +2,8 @@ import { setSubjectText } from "@/Redux/appliedJobSlice";
 import React, { useState, useRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-export const SubjectsInput = ({ query, setQuery, State, formRef }) => {
+
+export const SubjectsInput = ({ query, setQuery, State }) => {
   const [inputValue, setInputValue] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const [filteredStates, setFilteredStates] = useState([]);

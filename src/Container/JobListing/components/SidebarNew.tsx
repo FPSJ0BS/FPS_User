@@ -1,42 +1,36 @@
-import List from "@Container/JobListing/components/List";
-import { memo, useEffect, useRef, useState } from "react";
-import {
-  useLocation,
-  useNavigate,
-  useParams,
-  useSearchParams,
-} from "react-router-dom";
-
-import { AppRoute } from "@Navigator/AppRoute";
+import useAllCityListNode from "@Hooks/Queries/useAllCityListNode";
+import useAllSubjectsListNode from "@Hooks/Queries/useAllSubjectsListNode";
 import useExperiencesNode from "@Hooks/Queries/useExperiencesNode";
-import useSalaryNode from "@Hooks/Queries/useSalaryNode";
-import { JobTitle } from "./input/JobTitle";
-import { StateInput } from "./input/StateInput";
 import useGetCityListNode from "@Hooks/Queries/useGetCityListNode";
+import useSalaryNode from "@Hooks/Queries/useSalaryNode";
+import { AppRoute } from "@Navigator/AppRoute";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { JobTitle } from "./input/JobTitle";
+import { SubjectsInput } from "./input/SubjectsInput";
+import { StateInput } from "./input/StateInput";
 import { ExperienceInput } from "./input/ExperienceInput";
 import { SalaryInput } from "./input/SalaryInput";
-import useAllCityListNode from "@Hooks/Queries/useAllCityListNode";
 import { JobTypeInput } from "./input/JobTypeInput";
-import { SubjectsInput } from "./input/SubjectsInput";
-import useAllSubjectsListNode from "@Hooks/Queries/useAllSubjectsListNode";
 
 const jobType = [
-  { value: "", label: "Select job type" },
-  { value: "Work From Office", label: "Work From Office" },
-  { value: "Hourly Basis", label: "Hourly Basis" },
-  { value: "Full Time", label: "Full Time" },
-  { value: "Part Time", label: "Part Time" },
-  { value: "Work From Home", label: "Work From Home" },
-];
+    { value: "", label: "Select job type" },
+    { value: "Work From Office", label: "Work From Office" },
+    { value: "Hourly Basis", label: "Hourly Basis" },
+    { value: "Full Time", label: "Full Time" },
+    { value: "Part Time", label: "Part Time" },
+    { value: "Work From Home", label: "Work From Home" },
+  ];
+  
 
-const Sidebar = (props: any) => {
-  const { data, searchJob, setSearchJob, refetch } = props;
+const SidebarNew = ({searchJob,setSearchJob, query, setQuery}) => {
+
 
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const { subjects, category } = useParams();
-  const [query, setQuery] = useState<any>({});
+
   // const { data: cityList } = useFilterCity({});
   // const { data: Salary } = useSalary({});
   const { data: Salary } = useSalaryNode({});
@@ -96,6 +90,7 @@ const Sidebar = (props: any) => {
     }
   };
 
+  
   useEffect(() => {
     const _query = {
       city: searchParams.get("city"),
@@ -179,39 +174,27 @@ const Sidebar = (props: any) => {
 
   useEffect(()=>{
 
+  
+
     setQuery((query) => ({
       ...query,
       city : citySelect,
     }));
 
+    
   },[citySelect])
 
-  const formRef = useRef<HTMLFormElement>(null);
 
-  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log("Selected option:", e.target.value);
-    if (formRef.current) {
-      formRef.current.submit(); // Automatically submit the form
-    }
-  };
-  
- 
 
   return (
     <form
-    ref={formRef}
+
       onSubmit={(e) => findJob(e)}
-      className="  h-[100vh] w-full flex items-center  "
+      className="   w-full flex flex-col items-center pb-[300px] "
     >
       {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
 
-      <div
-        className={`  rounded-xl  absolute sm:relative  ${
-          !showSidebar ? "block" : "hidden"
-        } sm:block w-[80%] md:w-[40%] bg-white ml-3   lg:w-[15%] h-[100%] lg:h-[95%] p-[10px] overflow-y-auto postjobHandleScrollbar pb-5 ${
-          !showSidebar ? "pb-[30px] pt-[30px]" : "pt-[30px]"
-        } `}
-      >
+      
         <div className=" w-full justify-end flex">
           {!showSidebar && (
             <svg
@@ -246,7 +229,7 @@ const Sidebar = (props: any) => {
 
           <JobTitle query={query} setQuery={setQuery} />
 
-          <SubjectsInput query={query} setQuery={setQuery} State={AllSubjectList} formRef = {formRef}/>
+          <SubjectsInput query={query} setQuery={setQuery} State={AllSubjectList} />
 
           <StateInput query={query} setQuery={setQuery} State={AllCityList} setCitySelect = {setCitySelect} />
 
@@ -261,23 +244,13 @@ const Sidebar = (props: any) => {
           <JobTypeInput query={query} setQuery={setQuery} State={jobType}/>
 
         </div>
-      </div>
+     
 
       {/* ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
 
-      {/* <div className="  w-[100%] sm:w-[85%] h-[100%] flex justify-center items-center flex-col overflow-y-auto pt-[20px] pb-[20px]">
-        <List
-          data={data}
-          setQuery={setQuery}
-          query={query}
-          refetch={refetch}
-          setSearchJob={setSearchJob}
-          searchJob={searchJob}
-          setShowSidebar={setShowSidebar}
-        />
-      </div> */}
+     
     </form>
-  );
-};
+  )
+}
 
-export default Sidebar;
+export default SidebarNew

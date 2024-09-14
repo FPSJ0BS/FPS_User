@@ -1,9 +1,13 @@
 import { getSubjectsForFooter } from "@/api/api";
+import { AppRoute } from "@Navigator/AppRoute";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { createSearchParams, useNavigate } from "react-router-dom";
 
 const SubjectsDynamic = () => {
   const { subjectText } = useSelector((state: any) => state.appliedJobSlice);
+const navigate = useNavigate()
+
 
   const [allData, setAllData] = useState({
     jobCount: "",
@@ -50,6 +54,23 @@ const SubjectsDynamic = () => {
     }
   }, [subjectText]);
 
+  const nav = (fun, city) => {
+
+    const main = {
+      function : fun,
+      city
+    }
+
+
+    navigate({
+      pathname: AppRoute.Find_Jobs,
+      search: createSearchParams(main).toString(),
+    });
+
+
+
+  }
+
   return (
     <div className=" w-full min-h-[400px] flex justify-center items-start ">
       <div className=" w-[800px] min-h-full p-5 border-2 border-solid flex flex-col gap-4 ">
@@ -74,7 +95,7 @@ const SubjectsDynamic = () => {
         <div className=" grid grid-cols-2 gap-3">
           {allData?.otherSubject?.map(({ function: fun, ID }) => {
             return (
-              <div key={ID} className="flex items-start gap-3">
+              <div onClick={() => nav(fun, allData?.cityName)} key={ID} className="flex items-start gap-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"

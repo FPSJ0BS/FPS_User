@@ -8,7 +8,6 @@ import useSearchJobsQueryNode from "@Hooks/Queries/useSearchJobsQueryNode";
 
 const JobListing = () => {
   const { userData } = useGlobalContext();
-  const { modalOpen } = useSelector((state: any) => state.appliedJobSlice);
 
   const [searchJob, setSearchJob] = useState<any>({
     facultyID: userData?.UID ? userData?.UID : 103082,
@@ -17,11 +16,6 @@ const JobListing = () => {
 
     limit: 12,
   });
-
-  // const { data: jobs, refetch } = useSearchJobsQuery(
-  //   { enabled: !!searchJob?.UID },
-  //   searchJob
-  // );
 
   const { data: jobs, refetch } = useSearchJobsQueryNode(
     { enabled: !!searchJob?.facultyID },

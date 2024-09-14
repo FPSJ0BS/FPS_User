@@ -18,6 +18,7 @@ import ReactGA from "react-ga4";
 import { getGoogleAPIOAuth } from "@/api/api";
 import { PaymentPopup } from "@Container/Dashboard/Container/Membership/components/PaymentPopup";
 import LoginPopup from "@Container/Auth/Login/components/LoginPopup";
+import { FilterJob } from "@Container/JobListing/FilterJob";
 ReactGA.initialize("G-41YD1SK57B");
 
 const BlogDetails = lazy(() => import("@Container/Blog/BlogDetails"));
@@ -60,7 +61,12 @@ const AccountSetting = lazy(
   () => import("@Container/Dashboard/Container/AccountSetting/AccountSetting")
 );
 const Home = lazy(() => import("../Container/Home/Home"));
-const JobListing = lazy(() => import("@Container/JobListing/JobListing"));
+
+
+// const JobListing = lazy(() => import("@Container/JobListing/JobListing"));
+const JobListing = lazy(() => import("@Container/JobListing/FilterJob"));
+
+
 const Login = lazy(() => import("@Container/Auth/Login/Login"));
 const SignUp = lazy(() => import("@Container/Auth/SignUp/SignUp"));
 const Layout = lazy(() => import("@Container/Layout/Layout"));
@@ -205,6 +211,7 @@ const AppRouter = () => {
 
   return (
     <>
+
       {/* {isFetching || isMutating ? <Preloader /> : null} */}
       <Nof />
       {modalOpen && <TrackPopup />}

@@ -118,6 +118,7 @@ export const JobTypeInput = ({ query, setQuery, State }) => {
         <ul
           ref={dropdownRef}
           className="postjobHandleScrollbar max-h-[300px] overflow-y-auto absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg"
+        
         >
           {inputValue
             ? filteredStates?.map((option: any, index: any) => (
