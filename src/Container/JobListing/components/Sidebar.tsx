@@ -118,7 +118,7 @@ const Sidebar = (props: any) => {
       salary_minimum: searchParams.get("salary_minimum") || "",
       min_experience: searchParams.get("min_experience") || "",
       state: searchParams.get("state") || "",
-      function: searchParams.get("function") || "",
+      job_function: searchParams.get("job_function") || "",
     };
 
     setQuery((oldQuery) => ({

@@ -27,7 +27,7 @@ const dispatch = useDispatch()
     setInputValue("");
     setQuery({
       ...query,
-      function: "",
+      job_function: "",
     });
   };
 
@@ -37,7 +37,7 @@ const dispatch = useDispatch()
     setShowDropdown(true);
     setQuery({
       ...query,
-      function: value,
+      job_function: value,
     });
 
     const filtered = State?.data?.filter((option) =>
@@ -53,7 +53,7 @@ const dispatch = useDispatch()
     setShowDropdown(false);
     setQuery({
       ...query,
-      function: option,
+      job_function: option,
     });
     dispatch(setSubjectText(option))
     
