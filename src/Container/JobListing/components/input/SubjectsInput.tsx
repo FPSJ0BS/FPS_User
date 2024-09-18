@@ -2,7 +2,6 @@ import { setSubjectText } from "@/Redux/appliedJobSlice";
 import React, { useState, useRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-
 export const SubjectsInput = ({ query, setQuery, State }) => {
   const [inputValue, setInputValue] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
@@ -10,11 +9,9 @@ export const SubjectsInput = ({ query, setQuery, State }) => {
   const [initialStates, setInitialStates] = useState([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLUListElement>(null);
-const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    console.log("subjects data", State?.data);
-  }, [State]);
+  const [val,setVal] = useState("");
 
   useEffect(() => {
     if (State) {
@@ -26,19 +23,21 @@ const dispatch = useDispatch()
   const openDropdown = () => {
     setShowDropdown(true);
     setInputValue("");
-    setQuery({
-      ...query,
-      function: "",
-    });
+    setVal("");
+    // setQuery({
+    //   ...query,
+    //   function: "",
+    // });
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
+    setVal(value);
     setInputValue(value);
     setShowDropdown(true);
     setQuery({
       ...query,
-      function: value,
+      job_function: value,
     });
 
     const filtered = State?.data?.filter((option) =>
@@ -52,12 +51,12 @@ const dispatch = useDispatch()
   const handleOptionSelect = (option: string) => {
     setInputValue(option);
     setShowDropdown(false);
+    setVal(option)
     setQuery({
       ...query,
-      function: option,
+      job_function: option,
     });
-    dispatch(setSubjectText(option))
-    
+    dispatch(setSubjectText(option));
   };
 
   useEffect(() => {
@@ -83,8 +82,8 @@ const dispatch = useDispatch()
       <div className="flex items-center gap-3 mb-1">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
+          width="21"
+          height="21"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -112,7 +111,7 @@ const dispatch = useDispatch()
           type="text"
           id="EmployerPostJobState"
           name="EmployerPostJobState"
-          value={query?.function}
+          value={val}
           onChange={handleInputChange}
           onClick={openDropdown}
           className="h-[30px] mt-1 p-2 text-black placeholder-black w-full border-[1px] focus:border-[2px] border-gray-300 rounded-md shadow-sm focus:outline-none border-solid focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
@@ -140,6 +139,7 @@ const dispatch = useDispatch()
                   onClick={() => handleOptionSelect(option.function)}
                 >
                   <p className="mb-0">{option.function}</p>
+                  <p className="mb-0">({option.jobs})</p>
                 </div>
               ))}
         </ul>

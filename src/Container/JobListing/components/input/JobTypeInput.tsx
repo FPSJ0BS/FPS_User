@@ -8,9 +8,7 @@ export const JobTypeInput = ({ query, setQuery, State }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLUListElement>(null);
 
-  useEffect(() => {
-    console.log("jobTypee", State);
-  }, [State]);
+
 
   useEffect(() => {
     if (State) {
@@ -22,10 +20,10 @@ export const JobTypeInput = ({ query, setQuery, State }) => {
   const openDropdown = () => {
     setShowDropdown(true);
     setInputValue("");
-    setQuery({
-      ...query,
-      state: "",
-    });
+    // setQuery({
+    //   ...query,
+    //   state: "",
+    // });
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -108,7 +106,7 @@ export const JobTypeInput = ({ query, setQuery, State }) => {
           type="text"
           id="EmployerPostJobState"
           name="EmployerPostJobState"
-          value={query?.job_type}
+          value={inputValue}
           onChange={handleInputChange}
           onClick={openDropdown}
           className="h-[30px] mt-1 p-2 text-black placeholder-black w-full border-[1px] focus:border-[2px] border-gray-300 rounded-md shadow-sm focus:outline-none border-solid focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"

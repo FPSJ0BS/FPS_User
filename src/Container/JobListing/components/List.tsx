@@ -124,9 +124,9 @@ const List = ({
   };
 
   const [listSet, setListSet] = useState({
-    listOne: false,
+    listOne: true,
     listTwo: false,
-    listThree: true,
+    listThree: false,
   });
 
   const handleListSetChange = (listName) => {

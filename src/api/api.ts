@@ -691,3 +691,15 @@ export const postSignInWithEmail = async (data) => {
       throw error;
     }
   };
+
+  export const getFiltetJobs = async (data) => {
+    try {
+      const response = await axios.get(
+        `user/filterJobs?${data?.queryKey?.[1] ? data?.queryKey?.[1] : {}}`, 
+      );
+      return response;
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      throw error;
+    }
+  };

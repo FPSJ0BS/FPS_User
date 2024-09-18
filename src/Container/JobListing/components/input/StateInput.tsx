@@ -18,10 +18,7 @@ export const StateInput = ({ query, setQuery, State, setCitySelect }) => {
   },[inputValue])
 
   
-  useEffect(()=>{
-    
-    console.log('query?.city',query?.city);
-  },[query?.city])
+
 
   useEffect(() => {
 
@@ -34,11 +31,11 @@ export const StateInput = ({ query, setQuery, State, setCitySelect }) => {
   const openDropdown = () => {
     setShowDropdown(true);
     setInputValue("");
-    setQuery({
-      ...query,
-      state: "",
-      city: "",
-    });
+    // setQuery({
+    //   ...query,
+    //   state: "",
+    //   city: "",
+    // });
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -124,7 +121,7 @@ export const StateInput = ({ query, setQuery, State, setCitySelect }) => {
           type="text"
           id="EmployerPostJobState"
           name="EmployerPostJobState"
-          value={query?.city}
+          value={inputValue}
           onChange={handleInputChange}
           onClick={openDropdown}
           className="h-[30px] mt-1 p-2 text-black placeholder-black w-full border-[1px] focus:border-[2px] border-gray-300 rounded-md shadow-sm focus:outline-none border-solid focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"

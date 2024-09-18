@@ -72,7 +72,7 @@ const SignUp = () => {
   const { data: StateCountry, isSuccess: isSuccessStateCountry } =
     useStatesListCountryNode({});
 
-  const [allNewStatesData, setAllNewStatesData] = useState<State[]>([]); 
+  const [allNewStatesData, setAllNewStatesData] = useState<State[]>([]);
 
   useEffect(() => {
     const indiaData = StateCountry?.data[0]?.state;
@@ -195,7 +195,7 @@ const SignUp = () => {
             setTimeout(() => {
               navigate(AppRoute.Login);
             }, 3000);
-          }
+          } else {}
           Toast("error", res?.message);
         }
       });
@@ -542,56 +542,69 @@ const SignUp = () => {
                       }}
                       render={({ field: { onChange, value } }) => (
                         <select
-  name="state"
-  className="select border-2 border-[#c3c6c7] form-select text-black bg-transparent postjobHandleScrollbar"
-  value={value}
-  onChange={(e) => {
-    setQuery({
-      ...query,
-      stateID: e.target.value,
-    });
-    onChange(e);
-  }}
-  autoComplete="off"
->
-  <option className="text-black" value="">
-    <span className="text-black">Please select your State...</span>
-  </option>
+                          name="state"
+                          className="select border-2 border-[#c3c6c7] form-select text-black bg-transparent postjobHandleScrollbar"
+                          value={value}
+                          onChange={(e) => {
+                            setQuery({
+                              ...query,
+                              stateID: e.target.value,
+                            });
+                            onChange(e);
+                          }}
+                          autoComplete="off"
+                        >
+                          <option className="text-black" value="">
+                            <span className="text-black">
+                              Please select your State...
+                            </span>
+                          </option>
 
-  {/* India States */}
-  <optgroup label="India" className="bg-gray-200">
-    {allNewStatesData
-      .filter((item) => item.code === "India") // Filter states for India
-      .map((item, index) => (
-        <option className="text-black" value={item.id} key={index}>
-          {item.name}
-        </option>
-      ))}
-  </optgroup>
+                          {/* India States */}
+                          <optgroup label="India" className="bg-gray-200">
+                            {allNewStatesData
+                              .filter((item) => item.code === "India") // Filter states for India
+                              .map((item, index) => (
+                                <option
+                                  className="text-black"
+                                  value={item.id}
+                                  key={index}
+                                >
+                                  {item.name}
+                                </option>
+                              ))}
+                          </optgroup>
 
-  {/* Qatar States */}
-  <optgroup label="Qatar" className="bg-gray-200">
-    {allNewStatesData
-      .filter((item) => item.code === "Qatar") // Filter states for Qatar
-      .map((item, index) => (
-        <option className="text-black" value={item.id} key={index}>
-          {item.name}
-        </option>
-      ))}
-  </optgroup>
+                          {/* Qatar States */}
+                          <optgroup label="Qatar" className="bg-gray-200">
+                            {allNewStatesData
+                              .filter((item) => item.code === "Qatar") // Filter states for Qatar
+                              .map((item, index) => (
+                                <option
+                                  className="text-black"
+                                  value={item.id}
+                                  key={index}
+                                >
+                                  {item.name}
+                                </option>
+                              ))}
+                          </optgroup>
 
-  {/* UAE States */}
-  <optgroup label="UAE" className="bg-gray-200">
-    {allNewStatesData
-      .filter((item) => item.code === "UAE") // Filter states for UAE
-      .map((item, index) => (
-        <option className="text-black" value={item.id} key={index}>
-          {item.name}
-        </option>
-      ))}
-  </optgroup>
-</select>
-
+                          {/* UAE States */}
+                          <optgroup label="UAE" className="bg-gray-200">
+                            {allNewStatesData
+                              .filter((item) => item.code === "UAE") // Filter states for UAE
+                              .map((item, index) => (
+                                <option
+                                  className="text-black"
+                                  value={item.id}
+                                  key={index}
+                                >
+                                  {item.name}
+                                </option>
+                              ))}
+                          </optgroup>
+                        </select>
                       )}
                     />
 

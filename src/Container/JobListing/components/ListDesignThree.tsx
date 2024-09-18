@@ -29,7 +29,7 @@ const ListDesignThree = ({
     return noHtmlTags.trim();
   };
   return (
-    <div  className="   grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3 gap-4 cursor-pointer place-items-center sm:place-items-stretch bg-[#f5f5f5]  ">
+    <div  className="   grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2 gap-4 cursor-pointer place-items-center sm:place-items-stretch bg-[#f5f5f5]  ">
       <div className="  sm:hidden flex w-full  justify-start pl-3  ">
         <svg
           onClick={() => setShowSidebar(false)}
@@ -55,7 +55,7 @@ const ListDesignThree = ({
           <div
             onClick={() => handleOpenInNewTab(item, Category)}
             key={index}
-            className="  w-[80vw] sm:w-[44vw] md:w-[45vw] lg:w-[35vw] xl:w-[25vw] 2xl:w-[24vw] gap-2 min-h-[300px]  bg-white rounded-[20px] p-[10px] flex flex-col items-start justify-start shadow-md border-1 border-solid border-[#e1e1df]"
+            className="  w-full gap-2 min-h-[300px]  bg-white rounded-[20px] p-[10px] flex flex-col items-start justify-start shadow-md border-1 border-solid border-[#e1e1df]"
           >
             <div className={`  h-[75%] rounded-2xl ${bgColor} p-[10px] w-full`}>
               <div className=" flex flex-col gap-3 w-full">
@@ -99,7 +99,7 @@ const ListDesignThree = ({
                     {item?.job_title}
                   </h2>
 
-                  {data?.data?.pack_type === "Prepaid" &&
+                  {data === "Prepaid" &&
                   userData?.UID !== undefined ? (
                     <h2 className="text-semibold font-bold mb-0 text-[12px] uppercase leading-[1.4em] line-clamp-2">
                       {item?.company_name}
@@ -182,7 +182,10 @@ const ListDesignThree = ({
                 </div>
               </div>
             </div>
+
+            
           </div>
+          
         );
       })}
     </div>

@@ -10,20 +10,44 @@ import { Toast } from "@Utils/Toast";
 import { useQueryClient } from "@tanstack/react-query";
 import useCategoryList from "@Hooks/Queries/useCategoryList";
 import { createQueryBySlug } from "@Utils/navigationquery";
+import ListDesignOne from "./components/ListDesignOne";
+import { getFiltetJobs } from "@/api/api";
 
-const colors = [
-  "bg-[#fae1cd]",
-  "bg-[#daf5ed]",
-  "bg-[#e0daf7]",
-  "bg-[#e2f2fd]",
-  "bg-[#f7e2f3]",
-  "bg-[#eceef3]",
+// const colors = [
+//   "bg-[#f9f9f9]",
+//   "bg-[#f9f9f9]",
+//   "bg-[#f9f9f9]",
+//   "bg-[#f9f9f9]",
+//   "bg-[#f9f9f9]",
+//   "bg-[#f9f9f9]",
+// ];
+const colors = ["bg-[#fdf3ea]", "bg-[#f1fbf8]", "bg-[#f5f3fe]", "bg-[#f1f8fe]"];
+const colorsStar = [
+  "bg-[#f5e1ce]",
+  "bg-[#def4ed]",
+  "bg-[#ded9f4]",
+  "bg-[#d2e9fd]",
 ];
+const colorsLineBreak = [
+  "border-[#efe6dd]",
+  "border-[#e4eeeb]",
+  "border-[#e8e5f0]",
+  "border-[#e4ecf1]",
+];
+// const colors = [
+//   "bg-[#fae1cd]",
+//   "bg-[#daf5ed]",
+//   "bg-[#e0daf7]",
+//   "bg-[#e2f2fd]",
+//   "bg-[#f7e2f3]",
+//   "bg-[#eceef3]",
+// ];
 
 const FilterJob = () => {
   const [showSidebar, setShowSidebar] = useState(false);
   const { userData } = useGlobalContext();
   const queryClient = useQueryClient();
+  const [citySelect, setCitySelect] = useState("");
 
   //   Infintie Scrolling start ->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>/ 2
 
@@ -83,7 +107,7 @@ const FilterJob = () => {
 
   const setJobFavourite = async (
     e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
-    id
+    id: number
   ) => {
     e.stopPropagation();
     try {
@@ -93,9 +117,16 @@ const FilterJob = () => {
       });
 
       if (res?.status) {
+        // Keep all previous jobs, and update only the job that matches the id
         queryClient.invalidateQueries({ queryKey: ["allFavourite"] });
         Toast("success", "Job added successfully to favourites");
+
         refetch();
+        setJobList((prevJobs) =>
+          prevJobs.map((job) =>
+            job.jobID === id ? { ...job, favourite: "1" } : job
+          )
+        );
       } else {
         Toast("error", res?.message);
       }
@@ -119,8 +150,14 @@ const FilterJob = () => {
         queryClient.invalidateQueries({ queryKey: ["allFavourite"] });
         Toast("success", "Job removed from favourites");
         refetch();
+        setJobList((prevJobs) =>
+          prevJobs.map((job) =>
+            job.jobID === id ? { ...job, favourite: "0" } : job
+          )
+        );
       } else {
         Toast("error", res?.message);
+        refetch();
       }
     } catch (error) {
       Toast("error", "Failed to remove job from favourites");
@@ -157,36 +194,65 @@ const FilterJob = () => {
     window.open(url, "_blank");
   };
 
-  const jobLists = jobs?.data?.jobsList;
-  console.log("jobLists", jobLists);
-  const data = "prepaid";
+  const data = jobs?.data?.pack_type;
 
   const [query, setQuery] = useState<any>({});
 
+  const [listSet, setListSet] = useState({
+    listOne: true,
+    listTwo: false,
+    listThree: false,
+  });
+
   return (
-    <div className=" min-h-screen w-full flex bg-[#f5f5f5]">
-      <div className="bg-white  h-[100vh] w-[20%] sticky top-20 p-4 overflow-y-auto postjobHandleScrollbar m-3 rounded-xl">
+    <div className=" min-h-screen w-full flex bg-[#f5f5f5] px-[50px] 2xl:px-[150px]">
+      <div className="bg-white  h-[100vh] w-[25%] sticky top-20 p-4 overflow-y-auto postjobHandleScrollbar m-3 rounded-xl">
         <SidebarNew
           searchJob={searchJob}
           setSearchJob={setSearchJob}
           query={query}
           setQuery={setQuery}
+          setJobList = {setJobList}
+          citySelect = {citySelect} 
+          setCitySelect = {setCitySelect}
         />
       </div>
-      <div className=" h-full w-[80%] p-[20px] min-h-[100vh] m-0 rounded-xl flex flex-col gap-3">
-        <SearchTopBar query={query} setQuery={setQuery} />
-
-        <ListDesignThree
-          jobsData={jobList}
-          data={data}
-          setJobFavourite={setJobFavourite}
-          setRemoveFavourite={setRemoveFavourite}
-          getRelativeTime={getRelativeTime}
-          handleOpenInNewTab={handleOpenInNewTab}
-          Category={Category}
-          colors={colors}
-          setShowSidebar={setShowSidebar}
+      <div className=" h-full w-[75%] p-[20px] min-h-[100vh] mr-5 rounded-xl flex flex-col gap-3 ">
+        <SearchTopBar
+          query={query}
+          setQuery={setQuery}
+          setListSet={setListSet}
         />
+
+        {listSet.listOne && (
+          <ListDesignOne
+            jobsData={jobList}
+            data={data}
+            setJobFavourite={setJobFavourite}
+            setRemoveFavourite={setRemoveFavourite}
+            getRelativeTime={getRelativeTime}
+            handleOpenInNewTab={handleOpenInNewTab}
+            Category={Category}
+            colors={colors}
+            colorsStar={colorsStar}
+            colorsLineBreak={colorsLineBreak}
+            setCitySelect = {setCitySelect}
+          />
+        )}
+
+        {listSet?.listThree && (
+          <ListDesignThree
+            jobsData={jobList}
+            data={data}
+            setJobFavourite={setJobFavourite}
+            setRemoveFavourite={setRemoveFavourite}
+            getRelativeTime={getRelativeTime}
+            handleOpenInNewTab={handleOpenInNewTab}
+            Category={Category}
+            colors={colors}
+            setShowSidebar={setShowSidebar}
+          />
+        )}
       </div>
     </div>
   );

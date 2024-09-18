@@ -1,11 +1,6 @@
-import { useState } from "react";
 
-const SearchTopBar = ({ query, setQuery }) => {
-  const [listSet, setListSet] = useState({
-    listOne: false,
-    listTwo: false,
-    listThree: true,
-  });
+const SearchTopBar = ({ query, setQuery, setListSet }) => {
+ 
 
   const handleListSetChange = (listName) => {
     setListSet({
