@@ -130,7 +130,7 @@ const SidebarNew = ({ searchJob, setSearchJob, query, setQuery, setJobList, city
   // Trigger findJob whenever the query state changes
   useEffect(() => {
     // Check if any of the fields in the query object have a value
-    const hasValue = Object.values(query).some(value => value && value.trim() !== "");
+    const hasValue = Object.values(query).some(value => value && value?.trim() !== "");
   
     if (hasValue) {
       findJob(); // Only execute findJob if there's a value in the query
