@@ -30,9 +30,9 @@ const ListDesignThree = ({
   };
   return (
     <div  className="   grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2 gap-4 cursor-pointer place-items-center sm:place-items-stretch bg-[#f5f5f5]  ">
-      <div className="  sm:hidden flex w-full  justify-start pl-3  ">
+      <div className="  lg:hidden flex w-full  justify-start pl-3  ">
         <svg
-          onClick={() => setShowSidebar(false)}
+          onClick={() => setShowSidebar(true)}
           xmlns="http://www.w3.org/2000/svg"
           width="30"
           height="30"

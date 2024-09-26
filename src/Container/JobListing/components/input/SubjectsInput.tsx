@@ -1,149 +1,82 @@
-import { setSubjectText } from "@/Redux/appliedJobSlice";
-import React, { useState, useRef, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  initializeSubjectData,
+  toggleSubjectSelection,
+  togglePopupSubjects,
+} from "@/Redux/FilterJobs/FilterJobs";
+import { RootState } from "@/store/store";
 
-export const SubjectsInput = ({ query, setQuery, State }) => {
-  const [inputValue, setInputValue] = useState("");
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [filteredStates, setFilteredStates] = useState([]);
-  const [initialStates, setInitialStates] = useState([]);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const dropdownRef = useRef<HTMLUListElement>(null);
+export const SubjectsInput = ({ State }) => {
+  console.log("State", State);
   const dispatch = useDispatch();
+  const { visibleSubjects, remainingSubjects, filterJobInputs } = useSelector(
+    (state: RootState) => state.filterJobsSlice
+  );
 
-  const [val,setVal] = useState("");
 
   useEffect(() => {
-    if (State) {
-      setInitialStates(State?.data);
-      setFilteredStates(State?.data);
+    if (State?.data) {
+      dispatch(initializeSubjectData(State.data));
     }
-  }, [State]);
-
-  const openDropdown = () => {
-    setShowDropdown(true);
-    setInputValue("");
-    setVal("");
-    // setQuery({
-    //   ...query,
-    //   function: "",
-    // });
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setVal(value);
-    setInputValue(value);
-    setShowDropdown(true);
-    setQuery({
-      ...query,
-      job_function: value,
-    });
-
-    const filtered = State?.data?.filter((option) =>
-      option.function.toLowerCase().includes(value.toLowerCase())
-    );
-
-    console.log("filteredStates", filtered);
-    setFilteredStates(filtered);
-  };
-
-  const handleOptionSelect = (option: string) => {
-    setInputValue(option);
-    setShowDropdown(false);
-    setVal(option)
-    setQuery({
-      ...query,
-      job_function: option,
-    });
-    dispatch(setSubjectText(option));
-  };
-
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (
-        inputRef.current &&
-        !inputRef.current.contains(e.target as Node) &&
-        dropdownRef.current &&
-        !dropdownRef.current.contains(e.target as Node)
-      ) {
-        setShowDropdown(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  }, [State, dispatch]);
 
   return (
     <div className="relative w-full">
-      <div className="flex items-center gap-3 mb-1">
+      <div className=" flex items-center gap-3 mb-1">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="21"
-          height="21"
+          width="20"
+          height="20"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          strokeWidth="2"
+          strokeWidth="1.5"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="lucide lucide-graduation-cap -mr-1"
+          className="lucide lucide-library-big"
         >
-          <path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" />
-          <path d="M22 10v6" />
-          <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" />
+          <rect width="8" height="18" x="3" y="3" rx="1" />
+          <path d="M7 3v18" />
+          <path d="M20.4 18.9c.2.5-.1 1.1-.6 1.3l-1.9.7c-.5.2-1.1-.1-1.3-.6L11.1 5.1c-.2-.5.1-1.1.6-1.3l1.9-.7c.5-.2 1.1.1 1.3.6Z" />
         </svg>
         <label
           htmlFor="EmployerPostJobState"
-          className="postJobInputTitle block font-medium text-black"
+          className="block font-medium text-black"
         >
           Subjects
         </label>
       </div>
-      <div className="relative">
-        <input
-          placeholder="Search Subjects..."
-          autoComplete="off"
-          ref={inputRef}
-          type="text"
-          id="EmployerPostJobState"
-          name="EmployerPostJobState"
-          value={val}
-          onChange={handleInputChange}
-          onClick={openDropdown}
-          className="h-[30px] mt-1 p-2 text-black placeholder-black w-full border-[1px] focus:border-[2px] border-gray-300 rounded-md shadow-sm focus:outline-none border-solid focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
-        />
-      </div>
-      {showDropdown && (
-        <ul
-          ref={dropdownRef}
-          className="postjobHandleScrollbar max-h-[300px] overflow-y-auto absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg"
+
+      {/* Visible Subjects with Checkboxes */}
+      {visibleSubjects.map((subject, index) => (
+        <div key={index} className="flex items-center mb-1 cursor-pointer">
+          <input
+            type="checkbox"
+            id={`city-checkbox-${subject.ID}`}
+            value={subject.function}
+            checked={filterJobInputs.subject.includes(subject.function)}
+            onChange={() => dispatch(toggleSubjectSelection(subject.function))}
+            className="mr-2 cursor-pointer"
+          />
+          <label className="cursor-pointer" htmlFor={`city-checkbox-${subject.ID}`}>
+            {subject.function}
+          </label>
+        </div>
+      ))}
+
+      {/* Show More Button */}
+      {remainingSubjects.length > 0 && (
+        <button
+          type="button"
+          onClick={() => dispatch(togglePopupSubjects())}
+          className="text-blue-600 border-none underline font-semibold cursor-pointer mt-2"
         >
-          {inputValue
-            ? filteredStates?.map((option: any, index: any) => (
-                <div
-                  key={index}
-                  className="cursor-pointer hover:bg-gray-100 py-1 px-3 flex justify-between w-full"
-                  onClick={() => handleOptionSelect(option.function)}
-                >
-                  <p className="mb-0">{option.function}</p>
-                </div>
-              ))
-            : initialStates?.map((option: any, index: any) => (
-                <div
-                  key={index}
-                  className="cursor-pointer hover:bg-gray-100 py-1 px-3 flex justify-between w-full"
-                  onClick={() => handleOptionSelect(option.function)}
-                >
-                  <p className="mb-0">{option.function}</p>
-                  <p className="mb-0">({option.jobs})</p>
-                </div>
-              ))}
-        </ul>
+          Show More Subjects
+        </button>
       )}
+
+      {/* Popup for remaining Subjects */}
     </div>
   );
 };

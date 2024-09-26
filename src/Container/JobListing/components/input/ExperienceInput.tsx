@@ -18,11 +18,15 @@ export const ExperienceInput = ({ query, setQuery, experiences }) => {
   const openDropdown = () => {
     setShowDropdown(true);
     setInputValue("");
-    // setQuery({
-    //   ...query,
-    //   min_experience: "",
-    // });
+    
+    if (query?.min_experience && query.min_experience !== "") {
+      setQuery({
+        ...query,
+        min_experience: "",
+      });
+    }
   };
+
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;

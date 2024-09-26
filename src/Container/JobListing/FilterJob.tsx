@@ -12,6 +12,8 @@ import useCategoryList from "@Hooks/Queries/useCategoryList";
 import { createQueryBySlug } from "@Utils/navigationquery";
 import ListDesignOne from "./components/ListDesignOne";
 import { getFiltetJobs } from "@/api/api";
+import Seo from "@Components/Seo/Seo";
+import { AppConst } from "@/Enum/AppConst";
 
 // const colors = [
 //   "bg-[#f9f9f9]",
@@ -44,7 +46,7 @@ const colorsLineBreak = [
 // ];
 
 const FilterJob = () => {
-  const [showSidebar, setShowSidebar] = useState(false);
+  const [showSidebar, setShowSidebar] = useState(true);
   const { userData } = useGlobalContext();
   const queryClient = useQueryClient();
   const [citySelect, setCitySelect] = useState("");
@@ -204,57 +206,115 @@ const FilterJob = () => {
     listThree: false,
   });
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        setListSet({
+          listOne: false,
+          listTwo: false,
+          listThree: true,
+        });
+      } else {
+        setListSet({
+          listOne: true,
+          listTwo: false,
+          listThree: false,
+        });
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
-    <div className=" min-h-screen w-full flex bg-[#f5f5f5] px-[50px] 2xl:px-[150px]">
-      <div className="bg-white  h-[100vh] w-[25%] sticky top-20 p-4 overflow-y-auto postjobHandleScrollbar m-3 rounded-xl">
-        <SidebarNew
-          searchJob={searchJob}
-          setSearchJob={setSearchJob}
-          query={query}
-          setQuery={setQuery}
-          setJobList = {setJobList}
-          citySelect = {citySelect} 
-          setCitySelect = {setCitySelect}
-        />
-      </div>
-      <div className=" h-full w-[75%] p-[20px] min-h-[100vh] mr-5 rounded-xl flex flex-col gap-3 ">
-        <SearchTopBar
-          query={query}
-          setQuery={setQuery}
-          setListSet={setListSet}
-        />
+    <>
+      <Seo
+        title={`Find Medical, school teaching & IT Jobs easily | ${AppConst.LogoName} `}
+        description={`Looking good job opportunity in educational field like Medical teaching, IIT, JEE NEET coaching job & IT Jobs like Web-app developer, UI/UX Designer. Explore  Tallento Now.`}
+        name={`${AppConst.LogoName}`}
+        canonicalUrl = {"https://tallento.ai/jobs"}
 
-        {listSet.listOne && (
-          <ListDesignOne
-            jobsData={jobList}
-            data={data}
-            setJobFavourite={setJobFavourite}
-            setRemoveFavourite={setRemoveFavourite}
-            getRelativeTime={getRelativeTime}
-            handleOpenInNewTab={handleOpenInNewTab}
-            Category={Category}
-            colors={colors}
-            colorsStar={colorsStar}
-            colorsLineBreak={colorsLineBreak}
-            setCitySelect = {setCitySelect}
+      />
+      <div className=" min-h-screen w-full flex bg-[#f5f5f5] lg:px-[50px] 2xl:px-[150px]">
+        <div
+          className={`bg-white  h-[100vh] w-[70%] sm:w-[30%] z-50 lg:w-[25%] ${
+            showSidebar ? "absolute" : "hidden"
+          } absolute lg:sticky top-20 p-4 overflow-y-auto postjobHandleScrollbar m-3 rounded-xl`}
+        >
+          <div className=" w-full lg:hidden flex justify-end items-center">
+            <svg
+              onClick={() => setShowSidebar(false)}
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="3"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="lucide lucide-x cursor-pointer"
+            >
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
+            </svg>
+          </div>
+          <SidebarNew
+            searchJob={searchJob}
+            setSearchJob={setSearchJob}
+            query={query}
+            setQuery={setQuery}
+            setJobList={setJobList}
+            citySelect={citySelect}
           />
-        )}
+        </div>
+        <div className=" h-full w-full lg:w-[75%] p-[20px] min-h-[100vh] mr-5 rounded-xl flex flex-col gap-3 ">
+          <SearchTopBar
+            query={query}
+            setQuery={setQuery}
+            setListSet={setListSet}
+          />
 
-        {listSet?.listThree && (
-          <ListDesignThree
-            jobsData={jobList}
-            data={data}
-            setJobFavourite={setJobFavourite}
-            setRemoveFavourite={setRemoveFavourite}
-            getRelativeTime={getRelativeTime}
-            handleOpenInNewTab={handleOpenInNewTab}
-            Category={Category}
-            colors={colors}
-            setShowSidebar={setShowSidebar}
-          />
-        )}
+          {listSet.listOne && (
+            <ListDesignOne
+              jobsData={jobList}
+              data={data}
+              setJobFavourite={setJobFavourite}
+              setRemoveFavourite={setRemoveFavourite}
+              getRelativeTime={getRelativeTime}
+              handleOpenInNewTab={handleOpenInNewTab}
+              Category={Category}
+              colors={colors}
+              colorsStar={colorsStar}
+              colorsLineBreak={colorsLineBreak}
+              setCitySelect={setCitySelect}
+              query={query}
+              setQuery={setQuery}
+            />
+          )}
+
+          {listSet?.listThree && (
+            <ListDesignThree
+              jobsData={jobList}
+              data={data}
+              setJobFavourite={setJobFavourite}
+              setRemoveFavourite={setRemoveFavourite}
+              getRelativeTime={getRelativeTime}
+              handleOpenInNewTab={handleOpenInNewTab}
+              Category={Category}
+              colors={colors}
+              setShowSidebar={setShowSidebar}
+            />
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

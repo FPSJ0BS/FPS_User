@@ -19,6 +19,9 @@ import { getGoogleAPIOAuth } from "@/api/api";
 import { PaymentPopup } from "@Container/Dashboard/Container/Membership/components/PaymentPopup";
 import LoginPopup from "@Container/Auth/Login/components/LoginPopup";
 import { FilterJob } from "@Container/JobListing/FilterJob";
+import CityPopup from "@Container/JobListing/components/popups/CityPopup";
+import { RootState } from "@/store/store";
+import SubjectsPopup from "@Container/JobListing/components/popups/SubjectsPopup";
 ReactGA.initialize("G-41YD1SK57B");
 
 const BlogDetails = lazy(() => import("@Container/Blog/BlogDetails"));
@@ -62,10 +65,8 @@ const AccountSetting = lazy(
 );
 const Home = lazy(() => import("../Container/Home/Home"));
 
-
 // const JobListing = lazy(() => import("@Container/JobListing/JobListing"));
 const JobListing = lazy(() => import("@Container/JobListing/FilterJob"));
-
 
 const Login = lazy(() => import("@Container/Auth/Login/Login"));
 const SignUp = lazy(() => import("@Container/Auth/SignUp/SignUp"));
@@ -131,7 +132,11 @@ const AppRouter = () => {
   });
   ScrollToTop();
 
-  const { modalOpen, modalOpenMembership, modalOpenmodalOpenLogin } = useSelector((state: any) => state.appliedJobSlice);
+  const { modalOpen, modalOpenMembership, modalOpenmodalOpenLogin } =
+    useSelector((state: any) => state.appliedJobSlice);
+  const { showPopup, showPopupSubjects } = useSelector(
+    (state: RootState) => state.filterJobsSlice
+  );
 
   useLayoutEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -143,7 +148,6 @@ const AppRouter = () => {
       try {
         // Decode and parse the profile parameter (assuming it's URL-encoded JSON)
         const profileData = JSON.parse(decodeURIComponent(profileParam));
-
 
         // Access the individual data within profileData if it exists
         if (profileData && profileData.userData) {
@@ -158,12 +162,10 @@ const AppRouter = () => {
           const main = {
             status,
             loginToken,
-            UID
-          }
+            UID,
+          };
 
-          localStorage.setItem('token:fpsjob',JSON.stringify(main))
-
-
+          localStorage.setItem("token:fpsjob", JSON.stringify(main));
         } else {
           console.log("Invalid profile data.");
         }
@@ -175,48 +177,67 @@ const AppRouter = () => {
     }
   }, [location]);
 
-
   const [locationn, setLocationn] = useState({
     latitude: null,
     longitude: null,
   });
-  useEffect(()=>{
-    console.log('locationn',locationn);
-
-  },[locationn])
-  const [errorMessage, setErrorMessage] = useState('');
+  useEffect(() => {
+    console.log("locationn", locationn);
+  }, [locationn]);
+  const [errorMessage, setErrorMessage] = useState("");
 
   // Automatically request location when the component mounts
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          console.log('Position successfully fetched');
-          console.log('position.coords.latitude', position.coords.latitude);
+          console.log("Position successfully fetched");
+          console.log("position.coords.latitude", position.coords.latitude);
           setLocationn({
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
           });
-          setErrorMessage('');
+          setErrorMessage("");
         },
         (error) => {
-          console.error('Error getting location', error); // Log the error to see if any issue arises
+          console.error("Error getting location", error); // Log the error to see if any issue arises
           setErrorMessage(error.message); // Handle case where user denies location
         }
       );
     } else {
-      setErrorMessage('Geolocation is not supported by this browser.');
+      setErrorMessage("Geolocation is not supported by this browser.");
     }
   }, []);
 
+  const articleStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Tallento.ai",
+    url: "https://tallento.ai/",
+    logo: "https://tallento.ai/assets/tallento%20white%20(1)-B-59H5Wc.png",
+    telephone: "9783143666",
+    sameAs: [
+      "https://www.facebook.com/fpsjobdeed/",
+      "https://cd.linkedin.com/company/fpsjobs",
+      "https://www.instagram.com/fpsjobs/",
+    ],
+  };
+
   return (
     <>
-
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(articleStructuredData),
+        }}
+      />
       {/* {isFetching || isMutating ? <Preloader /> : null} */}
       <Nof />
       {modalOpen && <TrackPopup />}
-      {modalOpenMembership &&  <PaymentPopup />}
-      { modalOpenmodalOpenLogin && <LoginPopup />}
+      {modalOpenMembership && <PaymentPopup />}
+      {modalOpenmodalOpenLogin && <LoginPopup />}
+      {showPopup && <CityPopup />}
+      {showPopupSubjects && <SubjectsPopup />}
       <Suspense fallback={<Preloader />}>
         <Routes>
           <Route path="/" element={<Layout />}>

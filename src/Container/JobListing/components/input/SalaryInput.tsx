@@ -19,10 +19,14 @@ export const SalaryInput = ({ query, setQuery, salary }) => {
   const openDropdown = () => {
     setShowDropdown(true);
     setInputValue("");
-    // setQuery({
-    //   ...query,
-    //   salary_minimum: "",
-    // });
+    
+
+    if (query?.salary_minimum && query.salary_minimum !== "") {
+      setQuery({
+        ...query,
+        salary_minimum: "",
+      });
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

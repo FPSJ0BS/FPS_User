@@ -5,16 +5,23 @@ import useExperiencesNode from "@Hooks/Queries/useExperiencesNode";
 import useGetCityListNode from "@Hooks/Queries/useGetCityListNode";
 import useSalaryNode from "@Hooks/Queries/useSalaryNode";
 import { AppRoute } from "@Navigator/AppRoute";
-import { useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import { JobTitle } from "./input/JobTitle";
 import { SubjectsInput } from "./input/SubjectsInput";
 import { StateInput } from "./input/StateInput";
 import { ExperienceInput } from "./input/ExperienceInput";
 import { SalaryInput } from "./input/SalaryInput";
 import { JobTypeInput } from "./input/JobTypeInput";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import { toggleCitySelection, uncheckAllCities, uncheckAllJobType, uncheckAllSubjects } from "@/Redux/FilterJobs/FilterJobs";
 
 const jobType = [
-  { value: "", label: "Select job type" },
   { value: "Work From Office", label: "Work From Office" },
   { value: "Hourly Basis", label: "Hourly Basis" },
   { value: "Full Time", label: "Full Time" },
@@ -22,53 +29,69 @@ const jobType = [
   { value: "Work From Home", label: "Work From Home" },
 ];
 
-const SidebarNew = ({ searchJob, setSearchJob, query, setQuery, setJobList, citySelect, setCitySelect }) => {
+const SidebarNew = ({
+  searchJob,
+  setSearchJob,
+  query,
+  setQuery,
+  setJobList,
+  citySelect,
+}) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
   const queryParams = new URLSearchParams(location.search);
   const { subjects, category } = useParams();
-  
+  const [showClearFilter, setShowClearFilter] = useState(false)
+
   const { data: Salary } = useSalaryNode({});
   const { data: Experiences } = useExperiencesNode({});
   const { data: AllCityList } = useAllCityListNode({});
   const { data: AllSubjectList } = useAllSubjectsListNode({});
+  const { filterJobInputs } = useSelector(
+    (state: RootState) => state.filterJobsSlice
+  );
 
   const [queryTwo, setQueryTwo] = useState({
     stateID: "",
   });
 
-  const { data: cityStateList } = useGetCityListNode(
-    { enabled: !!queryTwo.stateID },
-    queryTwo
-  );
+  // const { data: cityStateList } = useGetCityListNode(
+  //   { enabled: !!queryTwo.stateID },
+  //   queryTwo
+  // );
 
   let [searchParams, setSearchParams] = useSearchParams();
 
-  // This function triggers the search and updates the URL parameters
-  const findJob = () => {
-    // Clear the job list when the search is actually triggered, not immediately
-    // setJobList([]); -- Remove this line
+  useEffect(() => {
+    console.log("searchParams", searchParams);
+  }, [searchParams]);
+
   
+  const findJob = () => {
+ 
+
     setSearchParams((params) => {
       let queryParams = Object.keys(query);
-  
-      // Clear previous params
+      console.log("queryParams", queryParams);
+
+
       params.delete("EmployerPostJobState");
+
   
-      // Loop through each query param and update it if it has a value
       queryParams.forEach((param) => {
         const value = query[param];
-        
+
         if (value) {
           params.set(param, value);
         } else {
           params.delete(param);
         }
       });
-      
+
       return params;
     });
-  
+
     // Update route based on params if necessary
     if (subjects) {
       let queryParam = Object.keys(query);
@@ -78,18 +101,19 @@ const SidebarNew = ({ searchJob, setSearchJob, query, setQuery, setJobList, city
           queryParams.set(param, value);
         }
       });
-  
+
       navigate({
-        pathname: `${AppRoute.Find_Jobs}/${category}/${query?.title ? query?.title : subjects}`,
+        pathname: `${AppRoute.Find_Jobs}/${category}/${
+          query?.title ? query?.title : subjects
+        }`,
         search: queryParams.toString(),
       });
     }
-  
+
     // Now clear the list and trigger the search
+
     setJobList([]);
   };
-  
-  
 
   useEffect(() => {
     const _query = {
@@ -111,7 +135,9 @@ const SidebarNew = ({ searchJob, setSearchJob, query, setQuery, setJobList, city
       setSearchJob({
         ...searchJob,
         ..._query,
-        job_title: query?.job_title ? query?.job_title : subjects?.replaceAll("-", " "),
+        job_title: query?.job_title
+          ? query?.job_title
+          : subjects?.replaceAll("-", " "),
         city: query?.city,
         job_type: query?.job_type,
         salary_minimum: query?.salary_minimum,
@@ -130,13 +156,21 @@ const SidebarNew = ({ searchJob, setSearchJob, query, setQuery, setJobList, city
   // Trigger findJob whenever the query state changes
   useEffect(() => {
     // Check if any of the fields in the query object have a value
-    const hasValue = Object.values(query).some(value => value && value?.trim() !== "");
-  
-    if (hasValue) {
-      findJob(); // Only execute findJob if there's a value in the query
-    } 
+    const hasValue = Object.values(query).some((value) =>
+      typeof value === "string"
+        ? value.trim() !== ""
+        : value !== null && value !== undefined
+    );
+
+    findJob(); 
+
+    if(hasValue) {
+      setShowClearFilter(true);
+    } else {
+      setShowClearFilter(false);
+    }
+
   }, [query]);
-  
 
   const _experiences = [
     { value: "", label: "Select Experiences" },
@@ -156,7 +190,9 @@ const SidebarNew = ({ searchJob, setSearchJob, query, setQuery, setJobList, city
     ];
 
   useEffect(() => {
-    const filterState = AllCityList?.data?.find((state) => state.city === query.state);
+    const filterState = AllCityList?.data?.find(
+      (state) => state.city === query.state
+    );
     const id = filterState?.id;
     setQueryTwo({
       ...queryTwo,
@@ -164,15 +200,10 @@ const SidebarNew = ({ searchJob, setSearchJob, query, setQuery, setJobList, city
     });
   }, [query.state]);
 
-  const _cities = cityStateList?.data?.length && [
-    ...(cityStateList?.data || []).map((city) => ({
-      id: city?.id,
-      city: city?.name,
-      jobs: city?.jobs,
-    })),
-  ];
-
   const [showSidebar, setShowSidebar] = useState(false);
+
+  // City - >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 
   useEffect(() => {
     setQuery((query) => ({
@@ -181,11 +212,116 @@ const SidebarNew = ({ searchJob, setSearchJob, query, setQuery, setJobList, city
     }));
   }, [citySelect]);
 
+  useEffect(() => {
+    const cittyJoinData = filterJobInputs?.city?.join(",");
+
+    console.log("filterJobInputs?.city", cittyJoinData);
+
+    if (cittyJoinData) {
+      setQuery((query) => ({
+        ...query,
+        city: cittyJoinData,
+      }));
+    } else {
+      setSearchParams((params) => {
+        params.delete("city");
+        return params;
+      });
+    }
+
+
+  }, [filterJobInputs?.city]);
+
+  // City - >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+  // Subjects ->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+  useEffect(() => {
+    const subjectJoinData = filterJobInputs?.subject?.join(",");
+
+    // console.log("filterJobInputs?.city", subjectJoinData);
+
+    if (subjectJoinData) {
+      setQuery((query) => ({
+        ...query,
+        job_function: subjectJoinData,
+      }));
+    } else {
+      setSearchParams((params) => {
+        params.delete("job_function");
+        return params;
+      });
+    }
+
+
+  }, [filterJobInputs?.subject]);
+
+
+  // Subjects ->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+    // Job Type ->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+    useEffect(() => {
+      const subjectJoinData = filterJobInputs?.jobType?.join(",");
+  
+      // console.log("filterJobInputs?.city", subjectJoinData);
+  
+      if (subjectJoinData) {
+        setQuery((query) => ({
+          ...query,
+          job_type: subjectJoinData,
+        }));
+      } else {
+        setSearchParams((params) => {
+          params.delete("job_type");
+          return params;
+        });
+      }
+  
+   
+    }, [filterJobInputs?.jobType]);
+  
+  
+    // Job Type ->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+  useEffect(()=>{
+    dispatch(uncheckAllSubjects())
+    setQuery({
+      ...query,
+      
+      job_function: "",
+    });
+
+  },[]);
+
+
+  const clearAllValues = () => {
+    setQuery({
+      ...query,
+      city: "",
+      job_title: "",
+      job_type: "",
+      salary_minimum: "",
+      min_experience: "",
+      state: "",
+      job_function: "",
+    });
+    dispatch(uncheckAllCities());
+    dispatch(uncheckAllSubjects());
+    dispatch(uncheckAllJobType());
+  };
+
   return (
-    <form onSubmit={(e) => {
-      e.preventDefault();
-      findJob(); // Only trigger findJob when the form is submitted
-    }} className="w-full flex flex-col items-center pb-[300px]">
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        findJob(); // Only trigger findJob when the form is submitted
+      }}
+      className="w-full flex flex-col items-center pb-[200px]"
+    >
       {/* Sidebar Header */}
       <div className="w-full justify-end flex">
         {!showSidebar && (
@@ -210,18 +346,30 @@ const SidebarNew = ({ searchJob, setSearchJob, query, setQuery, setJobList, city
 
       {/* Sidebar Body */}
       <div className="gap-4 flex flex-col w-full h-full items-center px-[5px] 2xl:px-2">
-        <div className="col-span-2 w-full flex justify-center items-center">
-          <button className="h-[30px] w-full text-white bg-green-500 rounded-lg" type="submit" aria-label="Search for jobs">
-            Filter Jobs
+        { showClearFilter && <div className="col-span-2 w-full flex justify-center items-center">
+          <button
+          onClick={() => clearAllValues()}
+            className="h-[30px] w-full text-white bg-red-500 rounded-lg"
+            type="button"
+            aria-label="Search for jobs"
+          >
+            Clear Filter
           </button>
-        </div>
+        </div>}
 
         <JobTitle query={query} setQuery={setQuery} />
-        <SubjectsInput query={query} setQuery={setQuery} State={AllSubjectList} />
-        <StateInput query={query} setQuery={setQuery} State={AllCityList} setCitySelect={setCitySelect} />
-        <ExperienceInput query={query} setQuery={setQuery} experiences={_experiences} />
+        <SubjectsInput
+        
+          State={AllSubjectList}
+        />
+        <StateInput State={AllCityList} />
+        <JobTypeInput State={jobType} />
+        <ExperienceInput
+          query={query}
+          setQuery={setQuery}
+          experiences={_experiences}
+        />
         <SalaryInput query={query} setQuery={setQuery} salary={_salary} />
-        <JobTypeInput query={query} setQuery={setQuery} State={jobType} />
       </div>
     </form>
   );

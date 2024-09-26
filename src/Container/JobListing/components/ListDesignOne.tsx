@@ -3,6 +3,7 @@ import STAR from "@Assets/Icons/star.png";
 import HALFSTAR from "@Assets/Icons/halfstar.png";
 import { useGlobalContext } from "@Context/GlobalContextProvider";
 import JobsByLocation from "./InBetweenComponents/JobsByLocation";
+import JobsBySubject from "./InBetweenComponents/JobsBySubject";
 
 const ListDesignOne = ({
   jobsData,
@@ -15,7 +16,9 @@ const ListDesignOne = ({
   colors,
   colorsStar,
   colorsLineBreak,
-  setCitySelect
+  setCitySelect,
+  query,
+  setQuery,
 }) => {
   const { userData } = useGlobalContext();
 
@@ -211,22 +214,11 @@ const ListDesignOne = ({
                 </div>
               </div>
             </div>
-            {(index + 1) % 4 === 0 && (
-              <div className="w-full bg-blue-200 p-4 text-center rounded-[20px] ">
-                <h2 className="text-lg font-bold">
-                  Subscribe to our Newsletter!
-                </h2>
-                <p className="text-sm">
-                  Get the latest job updates and news delivered straight to your
-                  inbox.
-                </p>
-                <button className="bg-blue-500 text-white py-2 px-4 mt-2 rounded-md">
-                  Subscribe
-                </button>
-              </div>
+            {(index + 1) % 6 === 0 && (
+              <JobsByLocation setCitySelect={setCitySelect} />
             )}
-            {index === 0 && (
-              <JobsByLocation setCitySelect = {setCitySelect}/>
+            {(index + 1) % 4 === 0 && (
+              <JobsBySubject query={query} setQuery={setQuery} />
             )}
           </>
         );

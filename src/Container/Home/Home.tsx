@@ -173,20 +173,19 @@ const Home = () => {
     }
   }, []);
 
- 
 
-  
 
   return (
     <>
       <SEO
-        title={`Best Educational and Faculty Jobs in India | ${AppConst.LogoName} `}
-        description={`Discover online teaching opportunities for IIT JEE coaching, NEET coaching, Sales & marketing jobs work-from-home positions, and teaching vacancies near you with ${AppConst.LogoName}  in Education. Explore openings for English, Computers, Maths, Science, mother teacher, school principals, vice principal, academic head, academic director and more, spanning across Pre Schools, Schools, Colleges, and Private coaching. Part-time, remote, and full-time roles are available nationwide in India.`}
+        title={`Best Teaching & IT recruitment platform | ${AppConst.LogoName} `}
+        description={`Tallento: one of the best & trusted Job posting platform where you can find NEET faculty, Teaching faculty, medical faculty & IT Jobs easily. Visit the site and create your resume now.`}
         metaKeywords={
           "Education Jobs, Education Jobs in India, Education Jobs Portal, Educational Jobs, Educational Job Portal"
         }
         name={`${AppConst.LogoName}`}
         type={"Job Board"}
+        canonicalUrl = {"https://tallento.ai/"}
       />
       {/* <PopupHome /> */}
       <BannerMobile />
