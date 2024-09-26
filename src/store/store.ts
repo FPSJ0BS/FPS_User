@@ -3,12 +3,14 @@ import { configureStore } from '@reduxjs/toolkit';
 import appliedJobSlice from '@/Redux/appliedJobSlice';
 import myProfileEducationSlice from '@/Redux/Dashboard/MyProfile/Education/EducationSlice'
 import ResumeBuilderSlice from '@/Redux/Resume Builder/resumeBuilderSlice';
+import filterJobsSlice from '@/Redux/FilterJobs/FilterJobs'
 
 const store = configureStore({
   reducer: {
     appliedJobSlice,
     myProfileEducationSlice,
-    ResumeBuilderSlice
+    ResumeBuilderSlice,
+    filterJobsSlice
     // Add other reducers here if necessary
   },
 });

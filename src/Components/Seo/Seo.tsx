@@ -9,6 +9,7 @@ function SEO({
   metaKeywords,
   ogTitle,
   ogDescription,
+  canonicalUrl,
 }: any) {
   return (
     <HelmetProvider>
@@ -31,6 +32,8 @@ function SEO({
         <meta name="twitter:card" content={type} />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
+
+        { canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
       </Helmet>
     </HelmetProvider>
   );

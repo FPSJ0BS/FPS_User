@@ -98,11 +98,11 @@ function Testimonial() {
             <div className="col-lg-12">
               <div className="tf-title style-2">
                 <div className="flex md:flex-row flex-col ">
-                  <h1 className="  pr-[100px] xl:text-[30px] 2xltext-[40px] leading-[1.4em] text-left text-black ">
+                  <h2 className="  pr-[100px] xl:text-[30px] font-semibold leading-[1.4em] text-left text-black ">
                     Check Out User
                     <br /> Reviews About Our
                     <br /> Platform!
-                  </h1>
+                  </h2>
                   <div className=" flex flex-col items-start ">
                     <p className=" text-left text-black font-medium">
                       Tallento.ai is one of the largest platforms for the

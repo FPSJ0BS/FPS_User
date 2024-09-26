@@ -1,164 +1,83 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  initializeCityData,
+  togglePopup,
+  toggleCitySelection,
+  setSearchQuery,
+} from "@/Redux/FilterJobs/FilterJobs";
+import { RootState } from "@/store/store";
 
-export const StateInput = ({ query, setQuery, State, setCitySelect }) => {
-  const [inputValue, setInputValue] = useState("");
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [filteredStates, setFilteredStates] = useState([]);
-  const [initialStates, setInitialStates] = useState([]);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const dropdownRef = useRef<HTMLUListElement>(null);
+export const StateInput = ({ State }) => {
+  const dispatch = useDispatch();
+  const {
+    visibleCities,
+    remainingCities,
 
-  useEffect(()=>{
+    filterJobInputs,
 
+  } = useSelector((state: RootState) => state.filterJobsSlice);
 
-
-    setCitySelect(inputValue)
-
-
-  },[inputValue])
-
-  
-  useEffect(()=>{
-    
-    console.log('query?.city',query?.city);
-  },[query?.city])
 
   useEffect(() => {
-
     if (State?.data) {
-      setInitialStates(State.data.slice(0, 50));
-      setFilteredStates(State.data);
+      dispatch(initializeCityData(State.data));
     }
-  }, [State]);
-
-  const openDropdown = () => {
-    setShowDropdown(true);
-    setInputValue("");
-    setQuery({
-      ...query,
-      state: "",
-      city: "",
-    });
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setInputValue(value);
-    setShowDropdown(true);
-    setQuery({
-      ...query,
-      city: value,
-    });
-
-    const filtered = State?.data.filter((option) =>
-      option.city.toLowerCase().includes(value.toLowerCase())
-    );
-    setFilteredStates(filtered);
-  };
-
-  const handleOptionSelect = (option: string, id: number) => {
- 
-    setInputValue(option);
-    setShowDropdown(false);
-    setQuery({
-      ...query,
-      city: option,
-    });
-  };
-
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (
-        inputRef.current &&
-        !inputRef.current.contains(e.target as Node) &&
-        dropdownRef.current &&
-        !dropdownRef.current.contains(e.target as Node)
-      ) {
-        setShowDropdown(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  }, [State, dispatch]);
 
   return (
     <div className="relative w-full">
-      <div className="flex items-center gap-3 mb-1">
+      <div className=" flex items-center gap-3 mb-1">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="18"
-          height="18"
+          width="20"
+          height="20"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="lucide lucide-castle text-black"
+          className="lucide lucide-blend"
         >
-          <path d="M22 20v-9H2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2Z" />
-          <path d="M18 11V4H6v7" />
-          <path d="M15 22v-4a3 3 0 0 0-3-3a3 3 0 0 0-3 3v4" />
-          <path d="M22 11V9" />
-          <path d="M2 11V9" />
-          <path d="M6 4V2" />
-          <path d="M18 4V2" />
-          <path d="M10 4V2" />
-          <path d="M14 4V2" />
+          <circle cx="9" cy="9" r="7" />
+          <circle cx="15" cy="15" r="7" />
         </svg>
         <label
           htmlFor="EmployerPostJobState"
-          className="postJobInputTitle block font-medium text-black"
+          className="block font-medium text-black"
         >
           City
         </label>
       </div>
-      <div className="relative">
-        <input
-          placeholder="Search City..."
-          autoComplete="off"
-          ref={inputRef}
-          type="text"
-          id="EmployerPostJobState"
-          name="EmployerPostJobState"
-          value={query?.city}
-          onChange={handleInputChange}
-          onClick={openDropdown}
-          className="h-[30px] mt-1 p-2 text-black placeholder-black w-full border-[1px] focus:border-[2px] border-gray-300 rounded-md shadow-sm focus:outline-none border-solid focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
-        />
-      </div>
-      {showDropdown && (
-        <ul
-          ref={dropdownRef}
-          className="postjobHandleScrollbar max-h-[300px] overflow-y-auto absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg"
+
+  
+      {visibleCities.map((city, index) => (
+        <div key={index} className="flex items-center mb-1 cursor-pointer">
+          <input
+            type="checkbox"
+            id={`city-checkbox-${city.id}`}
+            value={city.city}
+            checked={filterJobInputs.city.includes(city.city)}
+            onChange={() => dispatch(toggleCitySelection(city.city))}
+            className="mr-2"
+          />
+          <label className=" cursor-pointer" htmlFor={`city-checkbox-${city.id}`}>{city.city}</label>
+        </div>
+      ))}
+
+
+      {remainingCities.length > 0 && (
+        <button
+          type="button"
+          onClick={() => dispatch(togglePopup())}
+          className="text-blue-600 border-none underline font-semibold cursor-pointer mt-2"
         >
-          {inputValue
-            ? filteredStates?.map((option: any, index: any) => (
-                <div
-                  key={index}
-                  className="cursor-pointer hover:bg-gray-100 py-1 px-3 flex justify-between w-full"
-                  onClick={() => handleOptionSelect(option.city, option.id)}
-                >
-                 <p className="mb-0">{option.city}</p> 
-                 <p className="mb-0">({option.jobs})</p> 
-                  
-                </div>
-              ))
-            : initialStates?.map((option: any, index: any) => (
-                <div
-                  key={index}
-                  className="cursor-pointer hover:bg-gray-100 py-1 px-3 flex justify-between w-full"
-                  onClick={() => handleOptionSelect(option.city, option.id)}
-                >
-                  <p className="mb-0">{option.city}</p> 
-                  <p className="mb-0">({option.jobs})</p> 
-                </div>
-              ))}
-        </ul>
+          Show More Cities
+        </button>
       )}
+
+
     </div>
   );
 };

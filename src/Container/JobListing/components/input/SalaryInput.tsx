@@ -19,10 +19,14 @@ export const SalaryInput = ({ query, setQuery, salary }) => {
   const openDropdown = () => {
     setShowDropdown(true);
     setInputValue("");
-    setQuery({
-      ...query,
-      salary_minimum: "",
-    });
+    
+
+    if (query?.salary_minimum && query.salary_minimum !== "") {
+      setQuery({
+        ...query,
+        salary_minimum: "",
+      });
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,8 +76,8 @@ export const SalaryInput = ({ query, setQuery, salary }) => {
       <div className="flex items-center gap-3 mb-1">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
+          width="19"
+          height="19"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -103,7 +107,7 @@ export const SalaryInput = ({ query, setQuery, salary }) => {
           type="text"
           id="EmployerPostJobState"
           name="EmployerPostJobState"
-          value={query?.salary_minimum}
+          value={inputValue}
           onChange={handleInputChange}
           onClick={openDropdown}
           className="h-[30px] mt-1 p-2 text-black placeholder-black w-full border-[1px] focus:border-[2px] border-gray-300 rounded-md shadow-sm focus:outline-none border-solid focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"

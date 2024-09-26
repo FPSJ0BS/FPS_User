@@ -1,27 +1,17 @@
 import List from "@Container/JobListing/components/List";
-import useFilterCity from "@Hooks/Queries/useFilterCity";
 import { memo, useEffect, useRef, useState } from "react";
-import Dropdown from "react-dropdown";
 import {
   useLocation,
   useNavigate,
   useParams,
   useSearchParams,
 } from "react-router-dom";
-import useExperiences from "@Hooks/Queries/useExperiences";
-import useSalary from "@Hooks/Queries/useSalary";
-import CustomSelect from "@Components/Dropdown";
-import CustomSelectTwo from "@Components/Dropdown/indexTwo";
 
 import { AppRoute } from "@Navigator/AppRoute";
-import useStatesList from "@Hooks/Queries/useStatesList";
-import useGetCityList from "@Hooks/Queries/useGetCityList";
 import useExperiencesNode from "@Hooks/Queries/useExperiencesNode";
 import useSalaryNode from "@Hooks/Queries/useSalaryNode";
-import useStatesListNode from "@Hooks/Queries/useStatesListNode";
 import { JobTitle } from "./input/JobTitle";
 import { StateInput } from "./input/StateInput";
-import { CityInput } from "./input/CityInput";
 import useGetCityListNode from "@Hooks/Queries/useGetCityListNode";
 import { ExperienceInput } from "./input/ExperienceInput";
 import { SalaryInput } from "./input/SalaryInput";
@@ -87,16 +77,13 @@ const Sidebar = (props: any) => {
           params.set(param, value);
         }
       });
-
       return params;
     });
 
     if (subjects) {
       let queryParam = Object.keys(query);
-
       queryParam.forEach((param) => {
         const value = query[param] || "";
-
         queryParams.set(param, value);
       });
 
@@ -104,7 +91,6 @@ const Sidebar = (props: any) => {
         pathname: `${AppRoute.Find_Jobs}/${category}/${
           query?.title ? query?.title : subjects
         }`,
-
         search: queryParams.toString(),
       });
     }
@@ -193,14 +179,11 @@ const Sidebar = (props: any) => {
 
   useEffect(()=>{
 
-  
-
     setQuery((query) => ({
       ...query,
       city : citySelect,
     }));
 
-    
   },[citySelect])
 
   const formRef = useRef<HTMLFormElement>(null);
@@ -266,113 +249,23 @@ const Sidebar = (props: any) => {
           <SubjectsInput query={query} setQuery={setQuery} State={AllSubjectList} formRef = {formRef}/>
 
           <StateInput query={query} setQuery={setQuery} State={AllCityList} setCitySelect = {setCitySelect} />
-          {/* <CityInput
-            query={query}
-            setQuery={setQuery}
-            cityStateList={cityStateList}
-          /> */}
-
-          {/* <div className="w-full  flex flex-col justify-end items-start ">
-            <div className=" flex items-center gap-3 mb-1">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="lucide lucide-land-plot text-black"
-              >
-                <path d="m12 8 6-3-6-3v10" />
-                <path d="m8 11.99-5.5 3.14a1 1 0 0 0 0 1.74l8.5 4.86a2 2 0 0 0 2 0l8.5-4.86a1 1 0 0 0 0-1.74L16 12" />
-                <path d="m6.49 12.85 11.02 6.3" />
-                <path d="M17.51 12.85 6.5 19.15" />
-              </svg>
-              <label className="title text-black text-[12px] 2xl:text-[14px]">
-                City
-              </label>
-            </div>
-
-            <CustomSelect
-              options={_cities || []}
-              setSearchJob={(city) => {
-                setQuery((query) => ({
-                  ...query,
-                  city,
-                }));
-              }}
-              searchJob={query}
-              setQuery={setQuery}
-              style={{
-                width: "100%",
-                border: "1px solid #D1D5DB",
-                color: "#000",
-                fontSize: "13px",
-                height: "30px",
-                borderRadius: "0.375rem",
-                boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
-                padding: "0.5rem",
-                marginTop: "0.25rem",
-                outline: "none",
-                borderStyle: "solid",
-              }}
-            />
-          </div> */}
 
           <ExperienceInput
             query={query}
             setQuery={setQuery}
             experiences={_experiences}
           />
+
           <SalaryInput query={query} setQuery={setQuery} salary={_salary} />
+
           <JobTypeInput query={query} setQuery={setQuery} State={jobType}/>
 
-          {/* <div className="w-full  bg-white flex flex-col justify-end  ">
-            <div className=" flex gap-2 mb-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="lucide lucide-backpack text-black"
-              >
-                <path d="M4 10a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z" />
-                <path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2" />
-                <path d="M8 21v-5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v5" />
-                <path d="M8 10h8" />
-                <path d="M8 18h8" />
-              </svg>
-              <label className=" text-black text-[12px] 2xl:text-[14px]">
-                Job Types
-              </label>
-            </div>
-            <Dropdown
-              placeholder="Select Job Type"
-              options={jobType || []}
-              className="  h-[30px] flex items-center react-dropdown select2 bg-white border-[1px] focus:border-[2px] border-gray-300  text-[12px] 2xl:text-[14px] rounded-md shadow-sm focus:outline-none border-solid focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
-              onChange={(value) => {
-                setQuery({
-                  ...query,
-                  job_type: value.value,
-                });
-              }}
-              value={query?.job_type}
-            />
-          </div> */}
         </div>
       </div>
 
       {/* ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
 
-      <div className="  w-[100%] sm:w-[85%] h-[100%] flex justify-center items-center flex-col overflow-y-auto pt-[20px] pb-[20px]">
+      {/* <div className="  w-[100%] sm:w-[85%] h-[100%] flex justify-center items-center flex-col overflow-y-auto pt-[20px] pb-[20px]">
         <List
           data={data}
           setQuery={setQuery}
@@ -382,7 +275,7 @@ const Sidebar = (props: any) => {
           searchJob={searchJob}
           setShowSidebar={setShowSidebar}
         />
-      </div>
+      </div> */}
     </form>
   );
 };

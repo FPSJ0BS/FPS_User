@@ -119,7 +119,7 @@ export const dogetAllCityListNode = async () => {
   return res;
 };
 export const dogetAllSubjects = async () => {
-  const res = await httpNode.getRequest(`user/subCategories`);
+  const res = await httpNode.getRequest(`user/filter_subCategories`);
   return res;
 };
 
