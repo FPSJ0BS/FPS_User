@@ -71,6 +71,18 @@ export const SalaryInput = ({ query, setQuery, salary }) => {
     };
   }, []);
 
+  useEffect(()=>{
+
+    if(query?.salary_minimum === ""){
+
+      setInputValue("")
+
+    }
+
+
+
+  }, [query?.salary_minimum])
+
   return (
     <div className="relative w-full">
       <div className="flex items-center gap-3 mb-1">

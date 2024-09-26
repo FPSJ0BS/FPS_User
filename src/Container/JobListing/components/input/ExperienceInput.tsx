@@ -70,6 +70,18 @@ export const ExperienceInput = ({ query, setQuery, experiences }) => {
     };
   }, []);
 
+  useEffect(()=>{
+
+    if(query?.min_experience === ""){
+
+      setInputValue("")
+
+    }
+
+
+
+  }, [query?.min_experience])
+
   return (
     <div className="relative w-full">
       <div className="flex items-center gap-3 mb-1">

@@ -77,7 +77,7 @@ const JobsBySubject = ({ query, setQuery }) => {
             placeholder="Search Subject"
             value={search}
             onChange={handleSearchChange}
-            className="h-[30px] w-full rounded-[30px] px-4 pr-10 bg-white" // Added pr-10 for padding-right
+            className="h-[30px] w-full rounded-[30px] px-4 pr-10 bg-white" 
           />
           {search && (
             <button
