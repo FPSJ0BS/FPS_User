@@ -71,13 +71,37 @@ const JobsBySubject = ({ query, setQuery }) => {
           <h2 className="font-bold text-[16px]">Filter Jobs By Subject</h2>
         </div>
 
-        <input
-          type="text"
-          placeholder="Search Subject"
-          value={search}
-          onChange={handleSearchChange}
-          className="h-[30px] w-[200px] rounded-[30px] px-4 bg-white"
-        />
+        <div className="relative w-[200px]">
+          <input
+            type="text"
+            placeholder="Search Subject"
+            value={search}
+            onChange={handleSearchChange}
+            className="h-[30px] w-full rounded-[30px] px-4 pr-10 bg-white" // Added pr-10 for padding-right
+          />
+          {search && (
+            <button
+              title="x"
+              onClick={() => setSearch("")}
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-200 rounded-full h-5 w-5 flex items-center justify-center"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+          )}
+        </div>
       </div>
 
       <div
