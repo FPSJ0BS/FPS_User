@@ -3,7 +3,7 @@ export const SINGLE_CHARACTER_ONLY = /^[^a-z]*([a-z]{1})[^a-z]*$/;
 export const DIGIT_REGEX = /^\d+$/;
 export const TEXT_EDITOR_REGEX = /<(.|\n)*?>/g;
 export const MOBILE_NUMBER_REGEX = /[^\d]/gi;
-export const NAME_REGEX = /[a-zA-Z]{3,}/;
+export const NAME_REGEX = /^(?=.*[a-zA-Z])[a-zA-Z]+$/;
 export const EMAIL_REGEX =
   /^(?=[^@]{3,}@)([\w\.-]*[a-zA-Z0-9_]@(?=.{3,}\.[^.]*$)[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z])$/;
 export const URL_REGEX =
