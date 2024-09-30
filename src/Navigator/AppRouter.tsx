@@ -1,4 +1,11 @@
-import { Navigate, Outlet, Route, Routes, useLocation } from "react-router-dom";
+import {
+  Navigate,
+  Outlet,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { Suspense, lazy, useEffect, useLayoutEffect, useState } from "react";
 import { AppRoute } from "./AppRoute";
 import { useIsFetching, useIsMutating } from "@tanstack/react-query";
@@ -93,6 +100,7 @@ const Privacypolicy = lazy(
 const RefundPolicy = lazy(() => import("@Container/RefundPolicy/RefundPolicy"));
 
 const AppRouter = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   useEffect(() => {
     ReactGA.send({
@@ -180,48 +188,54 @@ const AppRouter = () => {
 
     // let jobId
 
-    // const pathname = location.pathname; 
-    // const id = pathname.split("/").pop(); 
+    // const pathname = location.pathname;
+    // const id = pathname.split("/").pop();
     // if (id) {
     //   jobId = id
 
     // }
-    // console.log("Job ID:", id); 
-
+    // console.log("Job ID:", id);
 
     // const fetchJob = async () => {
 
     //   const facID = 125726;
-    
-
 
     //   try {
 
     //     const res = await getJobDetailById(facID,jobId)
 
     //     // const response = await axios.get(
-    //     //   `user/jobDetailID?facultyID=${facID}&jobID=${jobId}`, 
+    //     //   `user/jobDetailID?facultyID=${facID}&jobID=${jobId}`,
     //     // );
 
-      
-
     //     console.log('res job id', res?.data?.data);
-        
-    //   } catch (error) {
-        
-    //   }
 
+    //   } catch (error) {
+
+    //   }
 
     // }
 
     // fetchJob();
-  }, [location]);
+
+   
+  }, []);
+
+  useEffect(() => {
+    const basePath = location.pathname.split("&")[0];
+    const hasExtraParams = location.pathname.includes("/signup&");
+    if (basePath === "/signup" && hasExtraParams) {
+      navigate("/signup")
+      // window.location.href = "https://tallento.ai/signup";
+
+    }
+  }, [location, navigate]);
 
   const [locationn, setLocationn] = useState({
     latitude: null,
     longitude: null,
   });
-  
+
   const [errorMessage, setErrorMessage] = useState("");
 
   // Automatically request location when the component mounts

@@ -9,6 +9,7 @@ export const AppRoute = {
   ResumeMain:"resume-main",
   Info:"info",
   SignUp: "/signup",
+  SignUpAll: "/signup",
   Profile: "profile",
   Apply_job: "/apply-job",
   Thank_You: "/thank-you",
