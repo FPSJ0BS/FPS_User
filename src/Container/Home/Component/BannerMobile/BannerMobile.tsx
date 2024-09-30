@@ -24,12 +24,12 @@ const BannerMobile = () => {
       </h1>
 
       <p className=" text-white pt-3 text-[15px]">
-        Get the top 1% filtered candidates3x faster <br /> with
-        FPSJOBS+Tallento.ai. 
+        Get the top 1% filtered candidates3x faster <br /> with
+        FPSJOBS+Tallento.ai.
       </p>
 
       <div className=" flex w-full justify-center items-center mt-[50px]">
-        <img src={groupImage} alt="group" className=" w-[150px]" />
+        <img src={groupImage} alt="group" width="60%" />
       </div>
 
       <div className=" mt-[70px] flex gap-3">

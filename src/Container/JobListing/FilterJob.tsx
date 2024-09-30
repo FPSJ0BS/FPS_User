@@ -232,6 +232,13 @@ const FilterJob = () => {
     };
   }, []);
 
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth' 
+    });
+  };
+
   return (
     <>
       <Seo
@@ -241,13 +248,19 @@ const FilterJob = () => {
         canonicalUrl = {"https://tallento.ai/jobs"}
 
       />
-      <div className=" min-h-screen w-full flex bg-[#f5f5f5] lg:px-[50px] 2xl:px-[150px]">
+      <div 
+      onClick={() => {
+        if (window.innerWidth <= 768 && showSidebar) {
+          setShowSidebar(false);
+        }
+      }}
+      className=" min-h-screen w-full flex bg-[#f5f5f5] lg:px-[50px] 2xl:px-[150px]">
         <div
           className={`bg-white  h-[100vh] w-[70%] sm:w-[30%] z-50 lg:w-[25%] ${
             showSidebar ? "absolute" : "hidden"
           } absolute lg:sticky top-20 p-4 overflow-y-auto postjobHandleScrollbar m-3 rounded-xl`}
         >
-          <div className=" w-full lg:hidden flex justify-end items-center">
+          <div  className=" w-full lg:hidden flex justify-end items-center">
             <svg
               onClick={() => setShowSidebar(false)}
               xmlns="http://www.w3.org/2000/svg"
@@ -259,7 +272,7 @@ const FilterJob = () => {
               strokeWidth="3"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="lucide lucide-x cursor-pointer"
+              className="lucide lucide-x cursor-pointer "
             >
               <path d="M18 6 6 18" />
               <path d="m6 6 12 12" />
@@ -272,9 +285,12 @@ const FilterJob = () => {
             setQuery={setQuery}
             setJobList={setJobList}
             citySelect={citySelect}
+            scrollToTop = {scrollToTop}
           />
         </div>
-        <div className=" h-full w-full lg:w-[75%] p-[20px] min-h-[100vh] mr-5 rounded-xl flex flex-col gap-3 ">
+        <div 
+             
+              className=" h-full w-full lg:w-[75%] p-[20px] min-h-[100vh] mr-5 rounded-xl flex flex-col gap-3 ">
           <SearchTopBar
             query={query}
             setQuery={setQuery}
@@ -296,6 +312,7 @@ const FilterJob = () => {
               setCitySelect={setCitySelect}
               query={query}
               setQuery={setQuery}
+              
             />
           )}
 

@@ -8,7 +8,7 @@ import {
 import { RootState } from "@/store/store";
 
 export const SubjectsInput = ({ State }) => {
-  console.log("State", State);
+
   const dispatch = useDispatch();
   const { visibleSubjects, remainingSubjects, filterJobInputs } = useSelector(
     (state: RootState) => state.filterJobsSlice

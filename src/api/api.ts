@@ -703,3 +703,15 @@ export const postSignInWithEmail = async (data) => {
       throw error;
     }
   };
+
+  export const getJobDetailById = async (facID, jobID) => {
+    try {
+      const response = await axios.get(
+        `${BASE_URL_NODE}/user/jobDetailID?facultyID=${facID}&jobID=${jobID}`, 
+      );
+      return response;
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      throw error;
+    }
+  };
