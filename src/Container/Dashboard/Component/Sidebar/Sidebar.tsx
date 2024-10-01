@@ -13,9 +13,9 @@ import useWorkStatus from "@Hooks/Mutation/useWorkStatus";
 import { Toast } from "@Utils/Toast";
 import Switch from "react-switch";
 import Opentowork from "@Assets/dashboard-svg/open-to-work.png";
-import dummyiamge from '@Assets/Icons/Profile/user.png'
+import dummyiamge from "@Assets/Icons/Profile/user.png";
 import useProfileDetailsNode from "@Hooks/Queries/useProfileDetailsNode";
-import { getRefetchUserProfileData } from "@/api/api";
+import { getRefetchUserProfileData, postChangeWorkStatus } from "@/api/api";
 
 const Sidebar = ({
   className,
@@ -23,9 +23,7 @@ const Sidebar = ({
 }: {
   className: boolean;
   setShow: (value: boolean) => void;
-
 }) => {
-
   const { setIsModalshow, userData, setUserLoginData } = useGlobalContext();
   const [ischecked, setIsChecked] = useState(false);
   const [percentage, setPercentage] = useState<any>(0);
@@ -35,41 +33,37 @@ const Sidebar = ({
   //   facultyID: userId,
   // });
 
-  const [profileDetails, setProfileDetails] = useState([])
+  const [profileDetails, setProfileDetails] = useState([]);
 
-  useEffect(()=>{
 
+
+  useEffect(() => {
     const fetchApi = async () => {
-
-
       try {
-
         const res = await getRefetchUserProfileData(userId);
 
-        if(res?.status){
-
-  
-          setProfileDetails(res?.data?.data)
-
- 
-
+        if (res?.status) {
+          setProfileDetails(res?.data?.data);
         }
-
-
-        
       } catch (error) {
         console.log(error);
       }
+    };
 
+    fetchApi();
+  }, []);
 
+  const fetchApi = async () => {
+    try {
+      const res = await getRefetchUserProfileData(userId);
+
+      if (res?.status) {
+        setProfileDetails(res?.data?.data);
+      }
+    } catch (error) {
+      console.log(error);
     }
-
-    fetchApi()
-
-
-
-  },[])
-
+  };
 
   const user = profileDetails?.user;
   const [isDropdown, setIsDropDown] = useState(false);
@@ -86,16 +80,35 @@ const Sidebar = ({
   }, []);
 
   useEffect(() => {
-    setPercentage(calculation(user))
+    setPercentage(calculation(user));
   }, [user]);
   const { mutateAsync: workStatus } = useWorkStatus({});
   useEffect(() => {
-    if (profileDetails?.user?.work_status === "1") {
+    if (profileDetails?.user?.work_status === 1) {
       setIsChecked(true);
     } else {
       setIsChecked(false);
     }
   }, [profileDetails?.user?.work_status]);
+
+  const fetchWorkStatus = async () => {
+    const data = {
+      facultyID: userData?.UID,
+      status: !profileDetails?.user?.work_status,
+    };
+    try {
+      const res = await postChangeWorkStatus(data);
+
+      if (res?.status) {
+        setIsChecked(!ischecked);
+        fetchApi();
+      } else {
+        Toast("error", res?.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <aside className={`dash-aside-navbar ${className ? "show" : ""}`}>
@@ -122,13 +135,16 @@ const Sidebar = ({
               data-nimg={1}
               className="lazy-img"
               style={{ color: "transparent", height: "75px" }}
-              src={profileDetails?.user?.image ? profileDetails?.user?.image : dummyiamge}
+              src={
+                profileDetails?.user?.image
+                  ? profileDetails?.user?.image
+                  : dummyiamge
+              }
             />
-            {profileDetails?.user?.work_status === "1" && (
+            {profileDetails?.user?.work_status === 1 && (
               <img
                 src={Opentowork}
-                style={{ position: "absolute", top: "0px",width:"95px" }}
-
+                style={{ position: "absolute", top: "0px", width: "95px" }}
               />
             )}
           </div>
@@ -160,7 +176,7 @@ const Sidebar = ({
               >
                 <FlatList
                   data={menuOption}
-                  renderItem={(item:any) => {
+                  renderItem={(item: any) => {
                     return (
                       <li>
                         {item?.isDropdown && (
@@ -187,34 +203,39 @@ const Sidebar = ({
             <div
               className={`col-9  fs-6 font-bold border  rounded-full d-flex align-items-center py-2 justify-content-center`}
             >
-              {profileDetails?.user?.work_status === "1"
+              {profileDetails?.user?.work_status === 1
                 ? " Looking for job"
                 : "Not looking for job"}
             </div>
             <div className="col-3">
               <Switch
                 onChange={(checked) => {
-                  workStatus({ userId: userData?.UID }).then((res) => {
-                    if (res?.status) {
-                      setIsChecked(checked);
-                      refetchProfile();
-                    } else {
-                      Toast("error", res?.message);
-                    }
-                  });
+                  fetchWorkStatus();
+                  // workStatus({
+                  //   facultyID: userData?.UID,
+                  //   status: !profileDetails?.user?.work_status,
+                  // }).then((res) => {
+                  //   if (res?.status) {
+                  //     setIsChecked(checked);
+                  //     fetchApi();
+                  //     ;
+                  //   } else {
+                  //     Toast("error", res?.message);
+                  //   }
+                  // });
                 }}
                 offColor="#a73358"
                 checked={ischecked}
               />
             </div>
-            </div>
+          </div>
         </div>
 
         <nav className="dasboard-main-nav">
           <ul className="style-none">
             <FlatList
               data={menuOption}
-              renderItem={(item:any) => {
+              renderItem={(item: any) => {
                 return (
                   <li>
                     {item?.navigate ? (

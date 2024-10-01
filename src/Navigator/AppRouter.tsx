@@ -142,7 +142,7 @@ const AppRouter = () => {
   });
   ScrollToTop();
 
-  const { modalOpen, modalOpenMembership, modalOpenmodalOpenLogin } =
+  const { modalOpen, modalOpenMembership, modalOpenmodalOpenLogin,modalOpenReview } =
     useSelector((state: any) => state.appliedJobSlice);
   const { showPopup, showPopupSubjects } = useSelector(
     (state: RootState) => state.filterJobsSlice
@@ -290,7 +290,7 @@ const AppRouter = () => {
       {modalOpenmodalOpenLogin && <LoginPopup />}
       {showPopup && <CityPopup />}
       {showPopupSubjects && <SubjectsPopup />}
-      {/* <Review /> */}
+     {modalOpenReview &&  <Review />}
       <Suspense fallback={<Preloader />}>
         <Routes>
           <Route path="/" element={<Layout />}>

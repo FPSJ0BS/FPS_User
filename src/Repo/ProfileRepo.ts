@@ -303,11 +303,12 @@ export const doResumeBuy = async (data: any) => {
 
 export const doWorkStatus = async (data: any) => {
   const token = getToken();
-  const res = await http.postRequestForm("faculity/workStatus", data, {
+
+  const res = await httpNode.postRequest("user/facultyWorkStatus", data, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
-  } as any);
+  });
 
   return res;
 };

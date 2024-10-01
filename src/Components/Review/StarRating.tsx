@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaStar } from "react-icons/fa"; 
 
-export const StarRating = ({rating, setRating}) => {
+export const StarRating = ({setFormVal, formVal}) => {
   const [hoverValue, setHoverValue] = useState(undefined);
 
 
@@ -9,7 +9,11 @@ export const StarRating = ({rating, setRating}) => {
   const stars = Array(5).fill(0);
 
   const handleClick = (value) => {
-    setRating(value);
+    setFormVal({
+      ...formVal,
+      feedback : value
+    })
+
   };
 
   const handleMouseOver = (value) => {
@@ -33,7 +37,7 @@ export const StarRating = ({rating, setRating}) => {
               key={index}
               size={40}
               className="cursor-pointer"
-              color={(hoverValue || rating) >= starIndex ? "#ffc107" : "#e4e5e9"}
+              color={(hoverValue || formVal?.feedback) >= starIndex ? "#ffc107" : "#e4e5e9"}
               onClick={() => handleClick(starIndex)}
               onMouseOver={() => handleMouseOver(starIndex)}
               onMouseLeave={handleMouseLeave}
@@ -43,7 +47,7 @@ export const StarRating = ({rating, setRating}) => {
       </div>
 
       <p className="mt-4 text-center font-semibold">
-        {rating > 0 ? `You rated us ${rating} star${rating === 1 ? "" : "s"}` : "No ratings given"}
+        {formVal?.feedback > 0 ? `You rated us ${formVal?.feedback} star${formVal?.feedback === 1 ? "" : "s"}` : "No ratings given"}
       </p>
     </div>
   );

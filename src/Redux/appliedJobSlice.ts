@@ -13,6 +13,7 @@ interface AppliedJobState {
   modalOpen: boolean;
   modalOpenMembership: boolean;
   modalOpenmodalOpenLogin: boolean;
+  modalOpenReview: boolean;
   modalOpenMembershipItemData: any;
   appliedJobValues: AppliedJobValues;
   subjectText: String;
@@ -23,6 +24,7 @@ const initialState: AppliedJobState = {
   modalOpen: false,
   modalOpenMembership: false,
   modalOpenmodalOpenLogin: false,
+  modalOpenReview: false,
   modalOpenMembershipItemData: null,
   subjectText: "",
   appliedJobValues: {
@@ -61,6 +63,13 @@ const appliedJobSlice = createSlice({
     closeModalLogin(state) {
       state.modalOpenmodalOpenLogin = false;
     },
+    openModalReview(state) {
+      state.modalOpenReview = true;
+    },
+    // Reducer to close the modal and reset applyID
+    closeModalReview(state) {
+      state.modalOpenReview = false;
+    },
 
     setSubjectText: (state, action) => {
       state.subjectText = action.payload;
@@ -90,6 +99,8 @@ export const {
   closeModalLogin,
   openModalLogin,
   setSubjectText,
+  openModalReview,
+  closeModalReview,
 } = appliedJobSlice.actions;
 
 // Export the reducer

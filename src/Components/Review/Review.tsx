@@ -1,12 +1,42 @@
 import { useState } from "react";
 import { StarRating } from "./StarRating";
 import { ImCross } from "react-icons/im";
+import { postReviewForm } from "@/api/api";
+import { useGlobalContext } from "@Context/GlobalContextProvider";
+import { Toast } from "@Utils/Toast";
 
 const Review = () => {
-  const [rating, setRating] = useState(0);
-  const [description, setDescription] = useState("");
+  const { userData } = useGlobalContext();
+  const [error, setError] = useState(false);
+  const userId = userData?.UID;
+  const [formVal, setFormVal] = useState({
+    feedback: 0,
+    message: "",
+    device_type: "Web",
+    faculityID: userId,
+  });
   const handleDescriptionChange = (event) => {
-    setDescription(event.target.value);
+    setFormVal({
+      ...formVal,
+      message: event.target.value,
+    });
+  };
+
+  const postReview = async (e: any) => {
+    e.preventDefault();
+
+    if (formVal?.feedback === 0) {
+      setError(true);
+    } else {
+      try {
+        const res = await postReviewForm(formVal);
+
+        if (res?.status) {
+          console.log(res);
+          Toast("success", res?.data?.message);
+        }
+      } catch (error) {}
+    }
   };
 
   return (
@@ -19,25 +49,44 @@ const Review = () => {
           className=" absolute right-5 top-5 cursor-pointer "
         />
 
-        <h2 className=" text-[25px] sm:text-[28px] font-bold">Please Rate Us?</h2>
+        <h2 className=" text-[25px] sm:text-[28px] font-bold">
+          Please Rate Us?
+        </h2>
         <p className=" mb-0 text-center px-[20px] font-medium leading-[1.2em]">
           Your review will help us improve our services to help you better!
         </p>
 
-        <StarRating rating={rating} setRating={setRating} />
+        <StarRating setFormVal={setFormVal} formVal={formVal} />
+        {error && (
+          <div>
+            <p className=" text-red-500 text-[16px] font-bold">
+              Please rate us using Stars!
+            </p>
+          </div>
+        )}
 
-        <form className="flex flex-col w-full gap-3 justify-center items-center">
+        <form
+          onSubmit={(e) => postReview(e)}
+          className="flex flex-col w-full gap-3 justify-center items-center"
+        >
           <textarea
-          required
+            required
             id="description"
             className="w-full h-[100px] rounded-[20px] p-3 border border-gray-300  focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
             placeholder="Write your review here..."
-            value={description}
+            value={formVal?.message}
             onChange={handleDescriptionChange}
           />
-          <button type="submit" className=" w-full h-[40px] rounded-[10px] bg-[#235343] text-white font-semibold text-[15px]">Submit</button>
+          <button
+            type="submit"
+            className=" w-full h-[40px] rounded-[10px] bg-[#235343] text-white font-semibold text-[15px]"
+          >
+            Submit
+          </button>
         </form>
-        <p className=" mb-0 text-[#a5a5a5] font-semibold cursor-pointer">No, Thanks!</p>
+        <p className=" mb-0 text-[#a5a5a5] font-semibold cursor-pointer">
+          No, Thanks!
+        </p>
       </div>
     </div>
   );

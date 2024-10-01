@@ -609,9 +609,7 @@ export const getEmailVerifyInitiate = async (faculityID) => {
 
 export const getGoogleAPI = async () => {
   try {
-    const response = await axios.get(
-      `${BASE_URL_NODE}/request/request`
-    );
+    const response = await axios.get(`${BASE_URL_NODE}/request/request`);
     return response;
   } catch (error) {
     console.error("Error fetching user data:", error);
@@ -630,10 +628,9 @@ export const getGoogleAPIOAuth = async (code) => {
   }
 };
 
-
 export const postDbtandUpi = async (data) => {
   const token = getToken();
-  
+
   try {
     const response = await axios.post(
       `${BASE_URL_NODE}/user/packUpdate`,
@@ -653,9 +650,7 @@ export const postDbtandUpi = async (data) => {
 
 export const getBankDetails = async () => {
   try {
-    const response = await axios.get(
-      `${BASE_URL_NODE}/user/bankDetails`
-    );
+    const response = await axios.get(`${BASE_URL_NODE}/user/bankDetails`);
     return response;
   } catch (error) {
     console.error("Error fetching user data:", error);
@@ -664,13 +659,10 @@ export const getBankDetails = async () => {
 };
 
 export const postSignInWithEmail = async (data) => {
-  
-  
   try {
     const response = await axios.post(
       `${BASE_URL_NODE}/user/authentication/emailLogin`,
-      data,
-      
+      data
     );
     return response;
   } catch (error) {
@@ -679,39 +671,69 @@ export const postSignInWithEmail = async (data) => {
   }
 };
 
+export const getSubjectsForFooter = async (subject) => {
+  try {
+    const response = await axios.get(
+      `${BASE_URL_NODE}/user/filterCatFuncationData?subject=${subject}`
+    );
+    return response;
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    throw error;
+  }
+};
 
-  export const getSubjectsForFooter = async (subject) => {
-    try {
-      const response = await axios.get(
-        `${BASE_URL_NODE}/user/filterCatFuncationData?subject=${subject}`
-      );
-      return response;
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-      throw error;
-    }
-  };
+export const getFiltetJobs = async (data) => {
+  try {
+    const response = await axios.get(
+      `user/filterJobs?${data?.queryKey?.[1] ? data?.queryKey?.[1] : {}}`
+    );
+    return response;
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    throw error;
+  }
+};
 
-  export const getFiltetJobs = async (data) => {
-    try {
-      const response = await axios.get(
-        `user/filterJobs?${data?.queryKey?.[1] ? data?.queryKey?.[1] : {}}`, 
-      );
-      return response;
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-      throw error;
-    }
-  };
+export const getJobDetailById = async (facID, jobID) => {
+  try {
+    const response = await axios.get(
+      `${BASE_URL_NODE}/user/jobDetailID?facultyID=${facID}&jobID=${jobID}`
+    );
+    return response;
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    throw error;
+  }
+};
 
-  export const getJobDetailById = async (facID, jobID) => {
-    try {
-      const response = await axios.get(
-        `${BASE_URL_NODE}/user/jobDetailID?facultyID=${facID}&jobID=${jobID}`, 
-      );
-      return response;
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-      throw error;
-    }
-  };
+export const postReviewForm = async (data) => {
+  try {
+    const response = await axios.post(
+      `${BASE_URL_NODE}/user/appFeedback`,
+      data
+    );
+    return response;
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    throw error;
+  }
+};
+export const postChangeWorkStatus = async (data) => {
+  const token = getToken();
+  try {
+    const response = await axios.post(
+      `${BASE_URL_NODE}/user/facultyWorkStatus`,
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    throw error;
+  }
+};
