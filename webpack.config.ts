@@ -42,7 +42,7 @@ const serverConfig = {
   entry: './src/server.jsx',
   output: {
     path: path.resolve('dist'),
-    filename: 'server.cjs',
+    filename: 'server.ts',
   },
   module: babelLoader,
   plugins: [
@@ -64,7 +64,7 @@ const clientConfig = {
      * This is where Express is serving static files from
      */
     publicPath: '/static',
-    filename: 'client.js',
+    filename: 'client.ts',
   },
   module: babelLoader,
   plugins: [
