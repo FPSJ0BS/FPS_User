@@ -3,7 +3,7 @@ import Pen from "@Assets/Icons/pen.png";
 import { useDispatch, useSelector } from "react-redux";
 import { openModalUserDetailsModal } from "@/Redux/Dashboard/MyProfile/Education/EducationSlice";
 import dummyimage from "@Assets/Icons/Profile/user.png";
-import defaultBanner from "@Assets/1706638372435.jpeg";
+import defaultBanner from "@Assets/dummyImage.png";
 import { Toast } from "@Utils/Toast";
 import { toggleRefetchProfile } from "@/Redux/Resume Builder/resumeBuilderSlice";
 import { postOtherDetails } from "@/api/api";

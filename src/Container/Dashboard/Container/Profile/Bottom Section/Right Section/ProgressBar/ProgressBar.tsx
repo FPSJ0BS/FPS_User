@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleRefetchProfile } from "@/Redux/Dashboard/MyProfile/Education/EducationSlice";
 import { Toast } from "@Utils/Toast";
 import ProgressBarHori from "./Bar";
-import PROGRESSBANNER from "@Assets/Icons/Profile/Profile Interface-bro.svg";
+// import PROGRESSBANNER from "@Assets/Icons/Profile/Profile Interface-bro.svg";
 
 function ProgressBar() {
   const { userData } = useGlobalContext();
@@ -83,7 +83,7 @@ function ProgressBar() {
   return (
     <div className="bg-[#e8f0fc] rounded-[20px] min-h-[150px] w-full md:flex flex-col md:flex-row hidden ">
       <div className=" hidden  w-[20%]  h-[150px] md:flex justify-center items-center ">
-        <img src={PROGRESSBANNER} className="w-[95%]" alt="banner-profile" />
+        {/* <img src={PROGRESSBANNER} className="w-[95%]" alt="banner-profile" /> */}
       </div>
 
       <div className=" w-[60%]  h-[150px]  flex flex-col  items-start justify-center gap-2 pl-5">

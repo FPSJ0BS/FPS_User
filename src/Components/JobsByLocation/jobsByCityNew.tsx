@@ -1,4 +1,4 @@
-import CITYBGIMAGE from "@Assets/Icons/citybgimage.png";
+import CITYBGIMAGE from "../../assets/dummyImage.png";
 import image from "@Assets/Icons/Group 1000007302.png";
 import CustomSelectThree from "@Components/Dropdown/CustomSelectThree";
 import useFilterCity from "@Hooks/Queries/useFilterCity";

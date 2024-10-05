@@ -1,3 +1,4 @@
+
 .job-details__update {
   .slick-slider {
     position: relative;
@@ -14393,20 +14394,20 @@
     }
   }
 
-  .slick-loading .slick-list {
-    background: #fff url("$slick-loader-path + $url") center center no-repeat;
-  }
+  // .slick-loading .slick-list {
+  //   background: #fff url("$slick-loader-path + $url") center center no-repeat;
+  // }
 
-  @font-face {
-    font-family: slick;
-    src: url("$slick-font-path + $url");
-    src: url("$slick-font-path + $url") format("embedded-opentype"),
-      url("$slick-font-path + $url") format("woff"),
-      url("$slick-font-path + $url") format("truetype"),
-      url("$slick-font-path + $url") format("svg");
-    font-weight: 400;
-    font-style: normal;
-  }
+  // @font-face {
+  //   font-family: slick;
+  //   src: url("$slick-font-path + $url");
+  //   src: url("$slick-font-path + $url") format("embedded-opentype"),
+  //     url("$slick-font-path + $url") format("woff"),
+  //     url("$slick-font-path + $url") format("truetype"),
+  //     url("$slick-font-path + $url") format("svg");
+  //   font-weight: 400;
+  //   font-style: normal;
+  // }
 
   .slick-prev,
   .slick-next {

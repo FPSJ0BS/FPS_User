@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import logo from "../../../public/fps-logo.webp";
+// import logo from "../../../public/fps-logo.webp";
 import error from "@Assets/images/error.png";
 import { AppRoute } from "@Navigator/AppRoute";
 import { memo } from "react";
@@ -11,9 +11,9 @@ const Error = () => {
         <div className="grid grid-cols-1">
           <div className="flex flex-col min-h-screen justify-center md:px-10 py-10 px-4">
             <div className="text-center">
-              <Link to="/index">
+              {/* <Link to="/index">
                 <img src={logo} className="mx-auto h-10" alt="" />
-              </Link>
+              </Link> */}
             </div>
             <div className="title-heading text-center my-auto">
               <img src={error} className="mx-auto" alt="" />

@@ -1,6 +1,6 @@
 import {  memo } from "react";
 import { Outlet } from "react-router-dom";
-import "./ResumeBuilder.scss"
+import "./ResumeBuilder.css"
 
 function ResumeIndex() {
   

@@ -1,5 +1,5 @@
 import { AppRoute } from "@Navigator/AppRoute";
-import logo from "@Assets/tallentologodark.png";
+import logo from "../../assets/fixed/fixed.png";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
 import { navbar } from "@Const/fakeData/navbar";

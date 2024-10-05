@@ -15,7 +15,7 @@ import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import Breadcrumb from "@Components/Breadcrump";
 import SEO from "@Components/Seo/Seo";
 import { AppConst } from "@/Enum/AppConst";
-import LoginPage from "@Assets/images/login-page-image.svg";
+// import LoginPage from "@Assets/images/login-page-image.svg";
 const Login = () => {
   const [showPass, setShowPass] = useState(false);
   const [isOtp, setIsOtp] = useState(false);
@@ -129,11 +129,11 @@ const Login = () => {
         <div className="container ">
           <div className="d-flex flex-row justify-content-between gap-3 flex-wrap ">
             <div className="col-12 col-lg-5">
-              <img
+              {/* <img
                 alt="login"
                 src={LoginPage}
                 className="w-[465px] lg:block hidden"
-              />
+              /> */}
             </div>
             <div className="col-12 col-lg-5 bg-[#302f2f] py-5 mt-[-50px] rounded-xl px-4 relative">
               <p className=" mb-0 text-white absolute top-[2%] right-[2%]   font-semibold cursor-pointer border-2 border-solid px-2 py-1 rounded-md border-[#9a3c58]">
