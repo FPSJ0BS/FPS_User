@@ -52,7 +52,7 @@ function ReviewJob09({ className }: any) {
               {!userData?.UID && (
                 <div className="d-flex flex-row gap-2 justify-content-center">
                   <NavLink
-                    to="https://employer.tallento.ai/"
+                    to="https://employer.fpsjob.com/"
                     target={"_blank"}
                     className="videoButton"
                   >
@@ -60,7 +60,7 @@ function ReviewJob09({ className }: any) {
                   </NavLink>
 
                   <NavLink
-                    to={"https://employer.tallento.ai/register"}
+                    to={"https://employer.fpsjob.com/register"}
                     aria-label="Sign Up page"
                     className="videoButton"
                   >

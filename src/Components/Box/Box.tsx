@@ -59,7 +59,7 @@ function Box() {
 
                   {!userData?.UID && (
                     <NavLink
-                      to={"https://employer.tallento.ai/register"}
+                      to={"https://employer.fpsjob.com/register"}
                       aria-label="Sign Up page"
                       className="videoButton"
                     >
