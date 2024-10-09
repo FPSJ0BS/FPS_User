@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useEffect, useState } from "react";
 import Pen from "@Assets/Icons/pen.png";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -11,6 +11,16 @@ import Delete from "@Assets/Icons/delete.png";
 import EducationIcon from "@Assets/Icons/Profile/education.png";
 
 function Education() {
+  const [hydrated, setHydrated] = useState(false);
+	useEffect(() => {
+		// This forces a rerender, so the date is rendered
+		// the second time but not the first
+		setHydrated(true);
+	}, []);
+	if (!hydrated) {
+		// Returns null on first render, so the client and server match
+		return null;
+	}
   const { userDataArray } = useSelector(
     (state) => state.myProfileEducationSlice
   );

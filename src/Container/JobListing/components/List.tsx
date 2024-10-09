@@ -29,6 +29,16 @@ const List = ({
   searchJob,
   setShowSidebar,
 }) => {
+  const [hydrated, setHydrated] = useState(false);
+	useEffect(() => {
+		// This forces a rerender, so the date is rendered
+		// the second time but not the first
+		setHydrated(true);
+	}, []);
+	if (!hydrated) {
+		// Returns null on first render, so the client and server match
+		return null;
+	}
   const jobLists = data?.data?.jobsList;
   const { mutateAsync: removeFavourite } = useRemoveFavourite({});
   const { mutateAsync: Favourite } = useFavourite({});

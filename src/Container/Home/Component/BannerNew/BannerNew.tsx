@@ -16,6 +16,7 @@ import { AppRoute } from "../../../../Navigator/AppRoute";
 import { Toast } from "@Utils/Toast";
 
 const BannerNew = () => {
+  
   const navigate = useNavigate();
   const [searchJob, setSearchJob] = useState({
     city: "",

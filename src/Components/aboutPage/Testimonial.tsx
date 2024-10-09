@@ -154,7 +154,7 @@ function Testimonial() {
                           {item?.isMore ? "Less..." : "More..."}
                         </a> */}
 
-                        <div className={Style.poster}>
+                        <div className="text-center">
                           <span className="text-white pr-2 ">{item?.name}</span>
                           <span className='text-white'>
                             {item?.designation}

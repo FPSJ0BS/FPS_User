@@ -36,13 +36,15 @@ import { useGlobalContext } from "@Context/GlobalContextProvider";
 
 const Home = () => {
 
+ 
+
 
   useEffect(() => {
     const storeData = async () => {
       const urlParams = new URLSearchParams(window.location.search);
       const data = urlParams.get('data');
 
-      console.log('data->>>>>>>',data);
+
 
       if (data) {
         try {
@@ -177,7 +179,7 @@ const Home = () => {
 
   return (
     <>
-      <SEO
+      {/* <SEO
         title={`Best Teaching & IT recruitment platform | ${AppConst.LogoName} `}
         description={`Tallento: one of the best & trusted Job posting platform where you can find NEET faculty, Teaching faculty, medical faculty & IT Jobs easily. Visit the site and create your resume now.`}
         metaKeywords={
@@ -186,7 +188,7 @@ const Home = () => {
         name={`${AppConst.LogoName}`}
         type={"Job Board"}
         canonicalUrl = {"https://tallento.ai/"}
-      />
+      /> */}
       {/* <PopupHome /> */}
       <BannerMobile />
       <BannerNew />

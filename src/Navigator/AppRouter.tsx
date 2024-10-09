@@ -1,30 +1,17 @@
-import { Navigate, Outlet, Route, Routes, useLocation } from "react-router-dom";
-import { Suspense, lazy, useEffect, useLayoutEffect, useState } from "react";
+import { Navigate, Outlet, Route, Routes } from "react-router-dom";
+import { Suspense, lazy } from "react";
 import { AppRoute } from "./AppRoute";
-import { useIsFetching, useIsMutating } from "@tanstack/react-query";
+
 import Preloader from "@Components/Loader";
-import ScrollToTop from "@Hooks/useScrollTop";
-import { Querykeys } from "@Hooks/Queries/queryname";
+
 import ForgotPassword from "@Container/Auth/ForgotPassword/ForgotPassword";
 import RejectedJob from "@Container/Dashboard/Container/RejectedJob/RejectedJob";
 import AccptedJob from "@Container/Dashboard/Container/AccptedJob/AccptedJob";
 import Error from "@Container/Error/Error";
 import JobDetailsUpdate from "@Container/JobDetail/JobDetailsUpdate";
-import Nof from "@Components/Message";
 import ShareProfile from "@Container/Dashboard/Container/Profile/ShareProfile";
-import TrackPopup from "@Container/Dashboard/Container/Applied/Component/TrackPopup";
-import { useSelector } from "react-redux";
-import ReactGA from "react-ga4";
-import { getGoogleAPIOAuth, getJobDetailById } from "@/api/api";
-import { PaymentPopup } from "@Container/Dashboard/Container/Membership/components/PaymentPopup";
-import LoginPopup from "@Container/Auth/Login/components/LoginPopup";
-import { FilterJob } from "@Container/JobListing/FilterJob";
-import CityPopup from "@Container/JobListing/components/popups/CityPopup";
-import { RootState } from "@/store/store";
-import SubjectsPopup from "@Container/JobListing/components/popups/SubjectsPopup";
-import Review from "@Components/Review/Review";
-import axios from "axios";
-ReactGA.initialize("G-41YD1SK57B");
+
+
 
 const BlogDetails = lazy(() => import("@Container/Blog/BlogDetails"));
 
@@ -93,136 +80,108 @@ const Privacypolicy = lazy(
 const RefundPolicy = lazy(() => import("@Container/RefundPolicy/RefundPolicy"));
 
 const AppRouter = () => {
-  const location = useLocation();
-  useEffect(() => {
-    ReactGA.send({
-      hitType: "pageview",
-      page: location.pathname + location.search,
-      title: location.pathname,
-    });
-  }, [location]);
-
-  const isFetching = useIsFetching({
-    predicate: (query) => {
-      const notLoadingApisQueryKey = [
-        Querykeys.jobTitle,
-        Querykeys.cityList,
-        Querykeys.categoryList,
-        Querykeys.latestJobs,
-      ];
-      return !notLoadingApisQueryKey.includes(query.queryKey[0] as string);
-    },
-  });
-  const isMutating = useIsMutating({
-    predicate: (query: any) => {
-      const notLoadingApisQueryKey = [
-        "login-with-email",
-        "verificationOtp",
-        "sendOtp",
-        "resetPassword",
-        "otpCheck",
-        "mobileNumberCheck",
-        "forgotPassword",
-        "reg",
-        "workStatus",
-        "UploadCv",
-      ];
-      return !notLoadingApisQueryKey.includes(
-        query.options.mutationKey[0] as string
-      );
-    },
-  });
-  ScrollToTop();
-
-  const { modalOpen, modalOpenMembership, modalOpenmodalOpenLogin } =
-    useSelector((state: any) => state.appliedJobSlice);
-  const { showPopup, showPopupSubjects } = useSelector(
-    (state: RootState) => state.filterJobsSlice
-  );
-
-  useLayoutEffect(() => {
-    const params = new URLSearchParams(location.search);
-
-    // Extract the profile parameter from the URL
-    const profileParam = params.get("profile");
-
-    if (profileParam) {
-      try {
-        // Decode and parse the profile parameter (assuming it's URL-encoded JSON)
-        const profileData = JSON.parse(decodeURIComponent(profileParam));
-
-        // Access the individual data within profileData if it exists
-        if (profileData && profileData.userData) {
-          const { message } = profileData;
-          const { status, loginToken, UID } = profileData.userData;
-
-          console.log("Message:", message);
-          console.log("Status:", status);
-          console.log("Login Token:", loginToken);
-          console.log("UID:", UID);
-
-          const main = {
-            status,
-            loginToken,
-            UID,
-          };
-
-          localStorage.setItem("token:fpsjob", JSON.stringify(main));
-        } else {
-          console.log("Invalid profile data.");
-        }
-      } catch (error) {
-        console.error("Error decoding or parsing profile data:", error);
-      }
-    } else {
-      console.log("No profile parameter found in the URL.");
-    }
-
-    // let jobId
-
-    // const pathname = location.pathname; 
-    // const id = pathname.split("/").pop(); 
-    // if (id) {
-    //   jobId = id
-
-    // }
-    // console.log("Job ID:", id); 
+  
+  // const location = useLocation();
+  // useEffect(() => {
+  //   ReactGA.send({
+  //     hitType: "pageview",
+  //     page: location.pathname + location.search,
+  //     title: location.pathname,
+  //   });
+  // }, [location]);
 
 
-    // const fetchJob = async () => {
+  // ScrollToTop();
 
-    //   const facID = 125726;
+  // const { modalOpen, modalOpenMembership, modalOpenmodalOpenLogin } =
+  //   useSelector((state: any) => state.appliedJobSlice);
+  // const { showPopup, showPopupSubjects } = useSelector(
+  //   (state: RootState) => state.filterJobsSlice
+  // );
+
+  // useLayoutEffect(() => {
+  //   const params = new URLSearchParams(location.search);
+
+  //   // Extract the profile parameter from the URL
+  //   const profileParam = params.get("profile");
+
+  //   if (profileParam) {
+  //     try {
+  //       // Decode and parse the profile parameter (assuming it's URL-encoded JSON)
+  //       const profileData = JSON.parse(decodeURIComponent(profileParam));
+
+  //       // Access the individual data within profileData if it exists
+  //       if (profileData && profileData.userData) {
+  //         const { message } = profileData;
+  //         const { status, loginToken, UID } = profileData.userData;
+
+  //         console.log("Message:", message);
+  //         console.log("Status:", status);
+  //         console.log("Login Token:", loginToken);
+  //         console.log("UID:", UID);
+
+  //         const main = {
+  //           status,
+  //           loginToken,
+  //           UID,
+  //         };
+
+  //         localStorage.setItem("token:fpsjob", JSON.stringify(main));
+  //       } else {
+  //         console.log("Invalid profile data.");
+  //       }
+  //     } catch (error) {
+  //       console.error("Error decoding or parsing profile data:", error);
+  //     }
+  //   } else {
+  //     console.log("No profile parameter found in the URL.");
+  //   }
+
+  //   // let jobId
+
+  //   // const pathname = location.pathname; 
+  //   // const id = pathname.split("/").pop(); 
+  //   // if (id) {
+  //   //   jobId = id
+
+  //   // }
+  //   // console.log("Job ID:", id); 
+
+
+  //   // const fetchJob = async () => {
+
+  //   //   const facID = 125726;
     
 
 
-    //   try {
+  //   //   try {
 
-    //     const res = await getJobDetailById(facID,jobId)
+  //   //     const res = await getJobDetailById(facID,jobId)
 
-    //     // const response = await axios.get(
-    //     //   `user/jobDetailID?facultyID=${facID}&jobID=${jobId}`, 
-    //     // );
+  //   //     // const response = await axios.get(
+  //   //     //   `user/jobDetailID?facultyID=${facID}&jobID=${jobId}`, 
+  //   //     // );
 
       
 
-    //     console.log('res job id', res?.data?.data);
+  //   //     console.log('res job id', res?.data?.data);
         
-    //   } catch (error) {
+  //   //   } catch (error) {
         
-    //   }
+  //   //   }
 
 
-    // }
+  //   // }
 
-    // fetchJob();
-  }, [location]);
+  //   // fetchJob();
+  // }, [location]);
 
-  const [locationn, setLocationn] = useState({
-    latitude: null,
-    longitude: null,
-  });
+  // const [locationn, setLocationn] = useState({
+  //   latitude: null,
+  //   longitude: null,
+  // });
   
-  const [errorMessage, setErrorMessage] = useState("");
+  // const [errorMessage, setErrorMessage] = useState("");
 
   // Automatically request location when the component mounts
   // useEffect(() => {
@@ -247,37 +206,25 @@ const AppRouter = () => {
   //   }
   // }, []);
 
-  const articleStructuredData = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: "Tallento.ai",
-    url: "https://tallento.ai/",
-    logo: "https://tallento.ai/assets/tallento%20white%20(1)-B-59H5Wc.png",
-    telephone: "9783143666",
-    sameAs: [
-      "https://www.facebook.com/fpsjobdeed/",
-      "https://cd.linkedin.com/company/fpsjobs",
-      "https://www.instagram.com/fpsjobs/",
-    ],
-  };
+  // const articleStructuredData = {
+  //   "@context": "https://schema.org",
+  //   "@type": "Organization",
+  //   name: "Tallento.ai",
+  //   url: "https://tallento.ai/",
+  //   logo: "https://tallento.ai/assets/tallento%20white%20(1)-B-59H5Wc.png",
+  //   telephone: "9783143666",
+  //   sameAs: [
+  //     "https://www.facebook.com/fpsjobdeed/",
+  //     "https://cd.linkedin.com/company/fpsjobs",
+  //     "https://www.instagram.com/fpsjobs/",
+  //   ],
+  // };
 
   return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(articleStructuredData),
-        }}
-      />
-      {/* {isFetching || isMutating ? <Preloader /> : null} */}
-      <Nof />
-      {modalOpen && <TrackPopup />}
-      {modalOpenMembership && <PaymentPopup />}
-      {modalOpenmodalOpenLogin && <LoginPopup />}
-      {showPopup && <CityPopup />}
-      {showPopupSubjects && <SubjectsPopup />}
-      {/* <Review /> */}
+
+     
       <Suspense fallback={<Preloader />}>
+        
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route path="*" element={<Error />} />
@@ -398,7 +345,7 @@ const AppRouter = () => {
           </Route>
         </Routes>
       </Suspense>
-    </>
+
   );
 };
 

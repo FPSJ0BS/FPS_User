@@ -31,7 +31,7 @@ const navigate = useNavigate()
         const res = await getSubjectsForFooter(subjectText);
 
         if (res?.data?.status) {
-          console.log("res", res?.data?.data?.otherSubject);
+   
           const jobCount = res?.data?.data?.searchResults[0]?.jobs;
           const functionText = res?.data?.data?.searchResults[0]?.function;
           const allCity = res?.data?.data?.allCity;

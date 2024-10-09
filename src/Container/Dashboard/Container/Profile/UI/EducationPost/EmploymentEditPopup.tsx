@@ -29,6 +29,17 @@ import { EnddateEmploymentEdit } from "./inputs/EmploymentEditPopupInput/enddate
 import { CurrentlyEmploymentEdit } from "./inputs/EmploymentEditPopupInput/currentlyEmploymentEdit";
 
 function EmploymentEditPopup() {
+  const [hydrated, setHydrated] = useState(false);
+	useEffect(() => {
+		// This forces a rerender, so the date is rendered
+		// the second time but not the first
+		setHydrated(true);
+	}, []);
+	if (!hydrated) {
+		// Returns null on first render, so the client and server match
+		return null;
+	}
+ 
   const { userData } = useGlobalContext();
   const userId = userData?.UID;
   const dispatch = useDispatch();

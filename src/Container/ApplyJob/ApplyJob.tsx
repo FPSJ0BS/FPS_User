@@ -16,9 +16,19 @@ import { differenceInDays } from "date-fns";
 import Breadcrumb from "@Components/Breadcrump";
 import SEO from "@Components/Seo/Seo";
 import { AppConst } from "@/Enum/AppConst";
-import { memo, useEffect, useRef } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 
 const ApplyJob = () => {
+  const [hydrated, setHydrated] = useState(false);
+	useEffect(() => {
+		// This forces a rerender, so the date is rendered
+		// the second time but not the first
+		setHydrated(true);
+	}, []);
+	if (!hydrated) {
+		// Returns null on first render, so the client and server match
+		return null;
+	}
   const { state } = useLocation();
   const navigate = useNavigate();
   const navType: NavigationType = useNavigationType();

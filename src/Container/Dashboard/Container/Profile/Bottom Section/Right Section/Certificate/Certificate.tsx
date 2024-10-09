@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Pen from "@Assets/Icons/pen.png";
 import {
@@ -13,6 +13,16 @@ import Delete from "@Assets/Icons/delete.png";
 import CertificateIcon from "@Assets/Icons/Profile/certifcate.png";
 
 function Certificate() {
+  const [hydrated, setHydrated] = useState(false);
+	useEffect(() => {
+		// This forces a rerender, so the date is rendered
+		// the second time but not the first
+		setHydrated(true);
+	}, []);
+	if (!hydrated) {
+		// Returns null on first render, so the client and server match
+		return null;
+	}
   const dispatch = useDispatch();
 
   const { userDataArray } = useSelector(

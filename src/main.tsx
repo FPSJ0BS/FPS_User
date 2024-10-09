@@ -12,6 +12,7 @@ import "react-calendar/dist/Calendar.css";
 import { Provider } from "react-redux";
 import { AccessTokenProvider } from "@Context/AccessTokenContextProvider.tsx";
 import store from "./store/store.ts";
+import React from "react";
 
 // Create a new QueryClient instance
 const queryClient = new QueryClient({
@@ -42,7 +43,7 @@ if (rootElement) {
         </QueryClientProvider>
       </Provider>
     </BrowserRouter>
-    // </React.StrictMode>
+   
   );
 } else {
   console.error("Root element not found. Unable to hydrate.");

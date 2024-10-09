@@ -44,11 +44,48 @@ const serverConfig = {
   entry: './server/server.tsx', 
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'server.js', 
+    filename: 'server.cjs', 
   },
   module: {
     rules: [
       babelLoader, 
+      {
+        test: /\.(png|jpe?g|gif|svg|webp)$/i, 
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[path][name].[ext]',
+            },
+          },
+        ],
+      },
+      {
+        test: /\.css$/, 
+        use: [
+          'style-loader',
+          'css-loader', 
+          {
+            loader: 'postcss-loader', // Adds Tailwind CSS support
+            options: {
+              postcssOptions: {
+                plugins: [
+                  require('tailwindcss'),
+                  require('autoprefixer'),
+                ],
+              },
+            },
+          },
+        ],
+      },
+      {
+        test: /\.scss$/, 
+        use: [
+          'style-loader', // Injects styles into the DOM
+          'css-loader',   // Resolves CSS imports
+          'sass-loader',  // Compiles SCSS to CSS
+        ],
+      },
     ],
   },
   plugins: [
@@ -65,7 +102,7 @@ const clientConfig = {
   entry: './src/main.tsx', 
   output: {
     path: path.resolve(__dirname, 'dist'), 
-    publicPath: '/static', 
+    publicPath: '/static/', 
     filename: 'client.js', 
   },
   module: {
@@ -102,15 +139,11 @@ const clientConfig = {
 
       // Rule for image files
       {
-        test: /\.(png|jpe?g|gif|svg|webp)$/i, 
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: '[path][name].[ext]', 
-            },
-          },
-        ],
+        test: /\.(png|jpe?g|gif|svg|webp)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: '[path][name].[ext]',
+        },
       },
     ],
   },

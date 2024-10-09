@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import {
   Document,
   Page,
@@ -19,6 +19,16 @@ import AddressLight from "@Assets/Icons/Resume/address light.png";
 import { useSelector } from "react-redux";
 
 function ResumeFour({ handlePayment }) {
+  const [hydrated, setHydrated] = useState(false);
+	useEffect(() => {
+		// This forces a rerender, so the date is rendered
+		// the second time but not the first
+		setHydrated(true);
+	}, []);
+	if (!hydrated) {
+		// Returns null on first render, so the client and server match
+		return null;
+	}
   const { resumeDataArray, paymentStatus } = useSelector(
     (state: any) => state.ResumeBuilderSlice
   );

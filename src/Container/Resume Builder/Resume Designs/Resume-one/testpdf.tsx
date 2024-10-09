@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import {
   Document,
   Page,
@@ -15,6 +15,16 @@ import WATERMARK from "@Assets/images/watermark/watermark.png";
 import { useSelector } from "react-redux";
 
 function Testpdf({handlePayment}) {
+  const [hydrated, setHydrated] = useState(false);
+	useEffect(() => {
+		// This forces a rerender, so the date is rendered
+		// the second time but not the first
+		setHydrated(true);
+	}, []);
+	if (!hydrated) {
+		// Returns null on first render, so the client and server match
+		return null;
+	}
   const { resumeDataArray } = useSelector(
     (state: any) => state.ResumeBuilderSlice
   );

@@ -116,7 +116,7 @@ const Footer = () => {
                   </div>
                 </div>
                 <p className="text-white font-light text-[13px]">
-                  <p className="text-white font-extrabold text-[15px] ">Find Jobs or Hire Candidates with Tallento.ai</p>
+                  <span className="text-white font-extrabold text-[15px] ">Find Jobs or Hire Candidates with Tallento.ai</span>
                   {` 
 Discover Tallento.ai, the innovative online educational job portal for IIT JEE, NEET, schools, colleges, universities, and other educational institutes. Connect with top talent and premier educational opportunities effortlessly.`}
                 </p>

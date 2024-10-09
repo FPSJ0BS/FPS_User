@@ -13,6 +13,16 @@ import Loader from "@Container/Dashboard/Loader/laoder";
 import "./Trackpopup.scss";
 
 function TrackPopup() {
+  const [hydrated, setHydrated] = useState(false);
+	useEffect(() => {
+		// This forces a rerender, so the date is rendered
+		// the second time but not the first
+		setHydrated(true);
+	}, []);
+	if (!hydrated) {
+		// Returns null on first render, so the client and server match
+		return null;
+	}
   const dispatch = useDispatch();
   const { appliedJobValues } = useSelector(
     (state: RootState) => state.appliedJobSlice

@@ -23,6 +23,16 @@ import { SpecializationEducationEdit } from "./inputs/EducationEditPopupInput/sp
 import Loader from "@Container/Dashboard/Loader/laoder";
 
 function EducationEditPopup() {
+  const [hydrated, setHydrated] = useState(false);
+	useEffect(() => {
+		// This forces a rerender, so the date is rendered
+		// the second time but not the first
+		setHydrated(true);
+	}, []);
+	if (!hydrated) {
+		// Returns null on first render, so the client and server match
+		return null;
+	}
   const { userData } = useGlobalContext();
   const userId = userData?.UID;
   const dispatch = useDispatch();

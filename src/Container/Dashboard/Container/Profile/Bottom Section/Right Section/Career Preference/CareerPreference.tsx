@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useEffect, useState } from "react";
 import Pen from "@Assets/Icons/pen.png";
 import {
   editEducationDataJobValues,
@@ -13,6 +13,16 @@ import Delete from "@Assets/Icons/delete.png";
 import CareerPreferenceIcon from "@Assets/Icons/Profile/CITY_PREFERENCES.png";
 
 function CareerPreference() {
+  const [hydrated, setHydrated] = useState(false);
+	useEffect(() => {
+		// This forces a rerender, so the date is rendered
+		// the second time but not the first
+		setHydrated(true);
+	}, []);
+	if (!hydrated) {
+		// Returns null on first render, so the client and server match
+		return null;
+	}
   const { userDataArray } = useSelector(
     (state: any) => state.myProfileEducationSlice
   );
