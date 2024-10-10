@@ -737,3 +737,16 @@ export const postChangeWorkStatus = async (data) => {
     throw error;
   }
 };
+
+
+export const getContactDetails = async () => {
+  try {
+    const response = await axios.get(
+      `${BASE_URL_NODE}/user/contact_info`
+    );
+    return response;
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    throw error;
+  }
+};

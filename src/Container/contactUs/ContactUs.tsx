@@ -7,12 +7,26 @@ import useContactUs from "@Hooks/Mutation/useContactUs";
 import { IContactUs } from "@Type/ProfileType";
 import { Toast } from "@Utils/Toast";
 import { EMAIL_REGEX } from "@Utils/Validate";
-import { memo, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { NavLink } from "react-router-dom";
 import PHONEICON from "@Assets/Icons/phone.png";
+import { getContactDetails } from "@/api/api";
 
 const ContactUs = () => {
+  const [conDetails, setConDetails] = useState([]);
+  useEffect(() => {
+    const fetchContactDetails = async () => {
+      try {
+        const res = await getContactDetails();
+        setConDetails(res?.data?.data[0]);
+
+        // console.log("res contact", conDetails);
+      } catch (error) {}
+    };
+
+    fetchContactDetails();
+  }, []);
   const { userData } = useGlobalContext();
 
   const {
@@ -40,7 +54,10 @@ const ContactUs = () => {
 
   const onSubmitData = (event) => {
     event.preventDefault();
-    const _data = { ...formDataValues, UID: userData?.UID ? userData?.UID : 103082 };
+    const _data = {
+      ...formDataValues,
+      UID: userData?.UID ? userData?.UID : 103082,
+    };
     mutateAsync(_data).then((res) => {
       if (res?.status === "success") {
         Toast("succes", res?.message);
@@ -52,7 +69,6 @@ const ContactUs = () => {
 
   return (
     <>
-
       <SEO
         title={`Contact Us | ${AppConst.LogoName} `}
         description={`If you are a job seeker and would like to contact us visit our official website ${AppConst.LogoName}`}
@@ -89,12 +105,10 @@ const ContactUs = () => {
                   <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
                 </svg>
                 <div className=" flex flex-col w-[70%]">
-                  <p className=" font-semibold text-white">
-                    {AppConst.MobileNumberOne}
-                  </p>
-                  <p className=" font-semibold text-white">
-                    {AppConst.MobileNumberSecond}
-                  </p>
+                  {conDetails?.mobile_number?.map((item) => {
+                    return <p className=" font-semibold text-white">{item}</p>;
+                  })}
+                
                 </div>
               </div>
 
@@ -114,7 +128,12 @@ const ContactUs = () => {
                   <rect width="20" height="16" x="2" y="4" rx="2" />
                   <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
                 </svg>
-                <p className=" break-all flex w-[70%] font-semibold text-white">{AppConst.Email}</p>
+                <div className=" flex flex-col w-[70%]">
+                  {conDetails?.email?.map((item) => {
+                    return <p className=" font-semibold text-white">{item}</p>;
+                  })}
+                
+                </div>
               </div>
 
               <div className=" flex gap-4 w-full ">
@@ -133,8 +152,9 @@ const ContactUs = () => {
                   <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
                   <circle cx="12" cy="10" r="3" />
                 </svg>
-                <p className=" z-50 font-semibold text-white w-[70%]">{AppConst.Address}</p>
-
+                <p className=" z-50 font-semibold text-white w-[70%]">
+                  {conDetails?.address}
+                </p>
               </div>
             </div>
             <div className=" mt-[80px] flex gap-5">
@@ -208,9 +228,12 @@ const ContactUs = () => {
           </div>
 
           <div className=" md:w-[60%]  bg-white rounded-[20px] p-[30px]">
-            <form onSubmit={onSubmitData} className="grid  md:grid-cols-2 gap-x-5 gap-y-10">
+            <form
+              onSubmit={onSubmitData}
+              className="grid  md:grid-cols-2 gap-x-5 gap-y-10"
+            >
               <input
-              required
+                required
                 type="text"
                 name="name"
                 placeholder="Enter Full Name"
@@ -219,7 +242,7 @@ const ContactUs = () => {
                 className="border-1 border-solid border-black rounded-[5px] md:col-span-1 col-span-2"
               />
               <input
-              required
+                required
                 type="email"
                 name="email"
                 placeholder="Enter Email"
@@ -228,7 +251,7 @@ const ContactUs = () => {
                 className="border-1 border-solid border-black rounded-[5px] md:col-span-1 col-span-2"
               />
               <input
-              required
+                required
                 type="text"
                 name="number"
                 placeholder="Enter Number"
@@ -237,7 +260,7 @@ const ContactUs = () => {
                 className="border-1 border-solid border-black rounded-[5px] md:col-span-1 col-span-2"
               />
               <textarea
-              required
+                required
                 name="message"
                 placeholder="Enter Message"
                 value={formDataValues.message}
