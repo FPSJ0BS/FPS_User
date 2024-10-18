@@ -144,7 +144,7 @@ function Employment() {
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <p className=" mb-0 capitalize text-gray-400 font-medium">
+                  <p className=" mb-0 capitalize text-gray-400 font-medium underline">
                     {parseInt(currently) === 1 ? "Currently Working" : ""}
                   </p>
                 </div>

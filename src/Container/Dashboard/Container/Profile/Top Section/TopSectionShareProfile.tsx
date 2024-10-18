@@ -43,10 +43,8 @@ function TopSectionShareProfile() {
     dispatch(openModalUserDetailsModal());
   };
   return (
-    <div className="w-full flex bg-white border-black border-solid border-2 h-[250px] rounded-[20px] p-[15px] gap-3 ">
-      <div className="w-[30%]">
-
-      </div>
+    <div className="w-full flex bg-white border-black border-solid border-2 h-[250px] rounded-[20px] p-[15px] gap-3 items-start justify-start ">
+     
       <div className=" w-[20%]  h-full flex justify-center items-center">
         <div className="  w-[12vw] h-[12vw] rounded-full flex justify-center items-center">
           <img

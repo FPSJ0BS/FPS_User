@@ -10,8 +10,17 @@ import useCategoryList from "@Hooks/Queries/useCategoryList";
 import { AppRoute } from "@Navigator/AppRoute";
 import { getRefetchUserProfileData } from "@/api/api";
 import { Toast } from "@Utils/Toast";
+import { openModal, updateAppliedJobValues } from "@/Redux/appliedJobSlice";
+import { useDispatch } from "react-redux";
+import { FaLocationDot } from "react-icons/fa6";
+import { AiFillAlert } from "react-icons/ai";
+import { TbHourglassFilled } from "react-icons/tb";
+import { AiFillProfile } from "react-icons/ai";
+import { SiLevelsdotfyi } from "react-icons/si";
+import { IoIosTime } from "react-icons/io";
 
 const JobDetailsUpdate = () => {
+  const dispatch = useDispatch();
   const { id } = useParams();
   const { userData } = useGlobalContext();
   const { data: Category } = useCategoryList({});
@@ -32,7 +41,6 @@ const JobDetailsUpdate = () => {
     }
   );
   const jobWhole = jobsDetails?.data?.job;
-  console.log("jobWhole", jobWhole);
   const [searchJob] = useState<any>({
     facultyID: userData?.UID ? userData?.UID : 103082,
     page: 0,
@@ -48,7 +56,6 @@ const JobDetailsUpdate = () => {
       return item?.catID === jobWhole?.catID && item?.slug !== id;
     });
 
-  console.log("jobWhole", jobWhole);
   const navigate = useNavigate();
 
   const [profileDetails, setProfileDetails] = useState(null);
@@ -57,8 +64,6 @@ const JobDetailsUpdate = () => {
     const fetchApi = async () => {
       try {
         const res = await getRefetchUserProfileData(userData?.UID);
-
-        console.log("res", res?.data);
 
         if (res?.data?.status) {
           setProfileDetails(res?.data?.data?.user);
@@ -73,7 +78,41 @@ const JobDetailsUpdate = () => {
     fetchApi();
   }, []);
 
+  const openingModal = async (applyID) => {
+    await dispatch(
+      updateAppliedJobValues({
+        applyID,
+      })
+    );
+    await dispatch(openModal());
+  };
+
   // const job = jobsDetails?.job;
+
+  const getRelativeTime = (dateString) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const differenceInTime = now.getTime() - date.getTime();
+    const differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
+    const differenceInMonths = Math.floor(differenceInDays / 30);
+    const differenceInYears = Math.floor(differenceInDays / 365);
+
+    if (differenceInDays === 0) {
+      return "Today";
+    } else if (differenceInDays === 1) {
+      return "1 day ago";
+    } else if (differenceInDays < 30) {
+      return `${differenceInDays} days ago`;
+    } else if (differenceInMonths === 1) {
+      return "1 month ago";
+    } else if (differenceInMonths < 12) {
+      return `${differenceInMonths} months ago`;
+    } else if (differenceInYears === 1) {
+      return "1 year ago";
+    } else {
+      return `${differenceInYears} years ago`;
+    }
+  };
 
   return (
     <div className="container cursor-default">
@@ -106,7 +145,7 @@ const JobDetailsUpdate = () => {
           </div>
 
           <div className="flex flex-col gap-3 cursor-default">
-            {relatedJob?.slice(0,8)?.map((item, index) => {
+            {relatedJob?.slice(0, 8)?.map((item, index) => {
               const isLast = index === relatedJob.length - 1;
               return (
                 <div
@@ -287,12 +326,20 @@ const JobDetailsUpdate = () => {
                   </span>
                 </div>
               </div>
-              <div className=" flex gap-2">
-                
+              <div className=" flex gap-2 items-center">
+                {!(jobWhole?.appliedStatus === "0") && (
+                  <div
+                    onClick={() => openingModal(jobWhole?.applyID)}
+                    className="bg-[#f9dcc4]  text-[14px] px-4  h-[30px]  md:h-[35px]  rounded-[30px] font-bold text-black flex items-center justify-center cursor-pointer "
+                  >
+                    Track
+                  </div>
+                )}
+
                 <div className=" bg-[#c94f56] text-[14px] w-[150px] h-[30px]  md:w-[150px] md:h-[35px]  rounded-[30px] font-semibold text-white flex items-center justify-center cursor-pointer">
                   {jobWhole?.appliedStatus === "Applied" && userData?.UID ? (
                     <span>
-                      <span className="d-inline-flex align-items-center text-success fs-6 justify-content-end">
+                      <span className="d-inline-flex align-items-center text-success fs-6 justify-content-end text-white">
                         <i className="icon-check mr-1" />
                         Applied
                       </span>
@@ -348,21 +395,7 @@ const JobDetailsUpdate = () => {
             <div className=" grid md:grid-cols-3 lg:grid-cols-4 gap-3">
               <div className=" bg-[#f9eeef] min-h-[50px] min-w-[150px] rounded-lg p-2 flex flex-col gap-1">
                 <div className="flex items-center gap-1">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="lucide lucide-map-pin"
-                  >
-                    <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
-                    <circle cx="12" cy="10" r="3" />
-                  </svg>
+                  <FaLocationDot size={20} className=" " />
                   <p className=" mb-0 text-[13px] font-semibold">Location:</p>
                 </div>
                 <p className=" text-[#c94f56] font-bold">
@@ -373,21 +406,7 @@ const JobDetailsUpdate = () => {
               {jobWhole?.selection_process && (
                 <div className=" bg-[#f9eeef] min-h-[50px] min-w-[150px] rounded-lg p-2 flex flex-col gap-1">
                   <div className="flex items-center gap-1">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="lucide lucide-map-pin"
-                    >
-                      <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
-                      <circle cx="12" cy="10" r="3" />
-                    </svg>
+                    <AiFillAlert size={22}/>
                     <p className=" mb-0 text-[13px] font-semibold">
                       Selection Process:
                     </p>
@@ -400,21 +419,7 @@ const JobDetailsUpdate = () => {
 
               <div className=" bg-[#f9eeef] min-h-[50px] min-w-[150px] rounded-lg p-2 flex flex-col gap-1">
                 <div className="flex items-center gap-1">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="lucide lucide-map-pin"
-                  >
-                    <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
-                    <circle cx="12" cy="10" r="3" />
-                  </svg>
+                  <TbHourglassFilled size={20}/>
                   <p className=" mb-0 text-[13px] font-semibold">
                     Experience Required:
                   </p>
@@ -426,21 +431,7 @@ const JobDetailsUpdate = () => {
               {jobWhole?.job_type && (
                 <div className=" bg-[#f9eeef] min-h-[50px] min-w-[150px] rounded-lg p-2 flex flex-col gap-1">
                   <div className="flex items-center gap-1">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="lucide lucide-map-pin"
-                    >
-                      <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
-                      <circle cx="12" cy="10" r="3" />
-                    </svg>
+                    <AiFillProfile size={20} />
                     <p className=" mb-0 text-[13px] font-semibold">Job Type:</p>
                   </div>
                   <p className=" text-[#c94f56] font-bold">
@@ -452,27 +443,27 @@ const JobDetailsUpdate = () => {
               {jobWhole?.job_level && (
                 <div className=" bg-[#f9eeef] min-h-[50px] min-w-[150px] rounded-lg p-2 flex flex-col gap-1">
                   <div className="flex items-center gap-1">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="lucide lucide-map-pin"
-                    >
-                      <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
-                      <circle cx="12" cy="10" r="3" />
-                    </svg>
+                    <SiLevelsdotfyi size={18} />
                     <p className=" mb-0 text-[13px] font-semibold">
                       Job Level:
                     </p>
                   </div>
                   <p className=" text-[#c94f56] font-bold">
                     {jobWhole?.job_level}
+                  </p>
+                </div>
+              )}
+
+              {jobWhole?.created_at && (
+                <div className=" bg-[#f9eeef] min-h-[50px] min-w-[150px] rounded-lg p-2 flex flex-col gap-1">
+                  <div className="flex items-center gap-1">
+                    <IoIosTime  size={20}/>
+                    <p className=" mb-0 text-[13px] font-semibold">
+                      Job Posted:
+                    </p>
+                  </div>
+                  <p className=" text-[#c94f56] font-bold">
+                    {getRelativeTime(jobWhole?.created_at)}
                   </p>
                 </div>
               )}

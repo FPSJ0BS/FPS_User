@@ -103,6 +103,7 @@ interface AppliedJobState {
   careerPreferenceDataArray: SkillData[];
   idCounter: number;
   refetchProfile: boolean;
+  shareprofileUID:string
 }
 
 const initialState: AppliedJobState = {
@@ -153,6 +154,7 @@ const initialState: AppliedJobState = {
     result: "",
     resultType: "",
     specialization: "",
+    currently: 0,
   },
 
   editEmploymentData: {
@@ -180,6 +182,7 @@ const initialState: AppliedJobState = {
   editLanguageData: {
     languageId: null,
   },
+  shareprofileUID : ""
 };
 
 const myProfileEducationSlice = createSlice({
@@ -502,6 +505,10 @@ const myProfileEducationSlice = createSlice({
         refetchProfile: !state.refetchProfile,
       };
     },
+
+    addShareProfileUID: (state, action) => {
+      state.shareprofileUID = action.payload;
+    },
   },
 });
 
@@ -559,6 +566,7 @@ export const {
   deleteSkill,
   addMultipleSkillsFromAPI,
   toggleRefetchProfile, // Export the new reducer
+  addShareProfileUID
 } = myProfileEducationSlice.actions;
 
 export default myProfileEducationSlice.reducer;

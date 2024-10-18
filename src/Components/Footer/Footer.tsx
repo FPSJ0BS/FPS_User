@@ -17,9 +17,8 @@ const Footer = () => {
 
   return (
     <footer className="footer bg-[#090c0f] ">
+      {subjectText && <SubjectsDynamic />}
 
-      { subjectText && <SubjectsDynamic />}
-      
       <div className="top-footer">
         <div className="container">
           <div className="d-flex flex-row justify-content-between align-items-center flex-wrap">
@@ -116,7 +115,9 @@ const Footer = () => {
                   </div>
                 </div>
                 <p className="text-white font-light text-[13px]">
-                  <p className="text-white font-extrabold text-[15px] ">Find Jobs or Hire Candidates with Tallento.ai</p>
+                  <p className="text-white font-extrabold text-[15px] ">
+                    Find Jobs or Hire Candidates with Tallento.ai
+                  </p>
                   {` 
 Discover Tallento.ai, the innovative online educational job portal for IIT JEE, NEET, schools, colleges, universities, and other educational institutes. Connect with top talent and premier educational opportunities effortlessly.`}
                 </p>
@@ -223,7 +224,7 @@ Discover Tallento.ai, the innovative online educational job portal for IIT JEE, 
                       to={StorageConst.APP_STORE_LINK}
                     >
                       <img
-                      className=" border-1 border-solid "
+                        className=" border-1 border-solid "
                         src={AppleStore}
                         alt="images"
                         // width={"106px"}
@@ -236,7 +237,11 @@ Discover Tallento.ai, the innovative online educational job portal for IIT JEE, 
                       className={`text-white`}
                       to={StorageConst.PLAY_STORE_LINK}
                     >
-                      <img className="border-1 border-solid" src={GoogleAppleStore} alt="images" />
+                      <img
+                        className="border-1 border-solid"
+                        src={GoogleAppleStore}
+                        alt="images"
+                      />
                     </NavLink>
                   </li>
                 </ul>

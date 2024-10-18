@@ -100,7 +100,7 @@ function EmploymentEditPopup() {
           designation: editEmploymentData.designation,
           responsibilities: editEmploymentData.responsibilities,
           start_date: editEmploymentData.startDate,
-          end_date: editEmploymentData.endDate,
+          end_date: editEmploymentData.endDate ? editEmploymentData.endDate : null,
           currently: editEmploymentData.currently,
         },
       );
@@ -111,8 +111,6 @@ function EmploymentEditPopup() {
         Toast("success", res?.data?.message);
         setButtonLoad(false);
       } else {
-       
-
         Toast("error", res?.data?.message);
         setButtonLoad(false);
         await dispatch(closeModalEmploymentEditModal());
@@ -127,6 +125,22 @@ function EmploymentEditPopup() {
   const popupCloseFunc = async () => {
     await dispatch(closeModalEmploymentEditModal());
   };
+
+  useEffect(() => {
+    if (editEmploymentData.currently === 1) {
+      dispatch(
+        editEmploymentDataJobValues({
+          endDate: "",
+        })
+      );
+    } else{
+      dispatch(
+        editEmploymentDataJobValues({
+          endDate: "",
+        })
+      );
+    }
+  }, [editEmploymentData.currently]);
 
   return (
     <div className="TrackPopup h-full w-[100vw] md:w-[65vw] right-0 z-50 flex justify-end fixed">
@@ -156,7 +170,7 @@ function EmploymentEditPopup() {
               <DesignationEmploymentEdit />
               <ResponsibilitiesEmploymentEdit />
               <StartdateEmploymentEdit />
-              <EnddateEmploymentEdit />
+              { editEmploymentData.currently === 0 && <EnddateEmploymentEdit />}
               <CurrentlyEmploymentEdit />
 
               <button

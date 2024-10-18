@@ -22,7 +22,7 @@ export const CurrentlyEmploymentEdit = () => {
         htmlFor="currentlyEmploymentEdit"
         className="postJobInputTitle font-semibold text-black"
       >
-        Currently Pursuing *
+        Currently Working *
       </label>
       <input
         type="checkbox"

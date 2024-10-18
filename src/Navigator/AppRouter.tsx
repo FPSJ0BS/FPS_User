@@ -20,9 +20,13 @@ import JobDetailsUpdate from "@Container/JobDetail/JobDetailsUpdate";
 import Nof from "@Components/Message";
 import ShareProfile from "@Container/Dashboard/Container/Profile/ShareProfile";
 import TrackPopup from "@Container/Dashboard/Container/Applied/Component/TrackPopup";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ReactGA from "react-ga4";
-import { getGoogleAPIOAuth, getJobDetailById } from "@/api/api";
+import {
+  getGoogleAPIOAuth,
+  getJobDetailById,
+  postVerifyToken,
+} from "@/api/api";
 import { PaymentPopup } from "@Container/Dashboard/Container/Membership/components/PaymentPopup";
 import LoginPopup from "@Container/Auth/Login/components/LoginPopup";
 import { FilterJob } from "@Container/JobListing/FilterJob";
@@ -31,6 +35,9 @@ import { RootState } from "@/store/store";
 import SubjectsPopup from "@Container/JobListing/components/popups/SubjectsPopup";
 import Review from "@Components/Review/Review";
 import axios from "axios";
+import { useGlobalContext } from "@Context/GlobalContextProvider";
+import BannerPopup from "@Components/Modal/BannerPopup";
+import { addShareProfileUID } from "@/Redux/Dashboard/MyProfile/Education/EducationSlice";
 ReactGA.initialize("G-41YD1SK57B");
 
 const BlogDetails = lazy(() => import("@Container/Blog/BlogDetails"));
@@ -100,6 +107,8 @@ const Privacypolicy = lazy(
 const RefundPolicy = lazy(() => import("@Container/RefundPolicy/RefundPolicy"));
 
 const AppRouter = () => {
+  const dispatch = useDispatch();
+  const { userData } = useGlobalContext();
   const navigate = useNavigate();
   const location = useLocation();
   useEffect(() => {
@@ -109,6 +118,10 @@ const AppRouter = () => {
       title: location.pathname,
     });
   }, [location]);
+
+  const { shareprofileUID } = useSelector(
+    (state: any) => state.myProfileEducationSlice
+  );
 
   const isFetching = useIsFetching({
     predicate: (query) => {
@@ -142,8 +155,12 @@ const AppRouter = () => {
   });
   ScrollToTop();
 
-  const { modalOpen, modalOpenMembership, modalOpenmodalOpenLogin,modalOpenReview } =
-    useSelector((state: any) => state.appliedJobSlice);
+  const {
+    modalOpen,
+    modalOpenMembership,
+    modalOpenmodalOpenLogin,
+    modalOpenReview,
+  } = useSelector((state: any) => state.appliedJobSlice);
   const { showPopup, showPopupSubjects } = useSelector(
     (state: RootState) => state.filterJobsSlice
   );
@@ -186,48 +203,103 @@ const AppRouter = () => {
       console.log("No profile parameter found in the URL.");
     }
 
-    // let jobId
-
-    // const pathname = location.pathname;
-    // const id = pathname.split("/").pop();
-    // if (id) {
-    //   jobId = id
-
-    // }
-    // console.log("Job ID:", id);
-
-    // const fetchJob = async () => {
-
-    //   const facID = 125726;
-
-    //   try {
-
-    //     const res = await getJobDetailById(facID,jobId)
-
-    //     // const response = await axios.get(
-    //     //   `user/jobDetailID?facultyID=${facID}&jobID=${jobId}`,
-    //     // );
-
-    //     console.log('res job id', res?.data?.data);
-
-    //   } catch (error) {
-
-    //   }
-
-    // }
-
-    // fetchJob();
-
    
   }, []);
+
+  useEffect(() => {
+    const headerData = localStorage.getItem("token:fpsjob");
+  
+    if (!headerData) return; // Early return if headerData is null
+  
+    // Now it's safe to parse since we've checked it's not null
+    const main = JSON.parse(headerData);
+    console.log("-<><><><><><><>", main?.loginToken);
+  
+    // Check if userData?.UID exists before proceeding
+    if (!userData?.UID) return;
+  
+   
+  
+    const checkToken = async () => {
+      const data = {
+        facultyID: userData?.UID,
+        login_token: main,
+      };
+      try {
+        const res = await postVerifyToken(data);
+        if (res?.status) {
+          console.log("restoken ->>>>>>>>>>>>>>>>>>>>>>>", res);
+        } else {
+          console.log("restoken fail ->>>>>>>>>>>>>>>>>>>>>>>", res);
+        }
+      } catch (error) {
+        console.error("Error verifying token:", error);
+      }
+    };
+  
+    checkToken();
+  }, []);
+  
+
+  // useEffect(()=>{
+
+  //   const headerData = JSON.parse(localStorage.getItem("header"));
+
+  //   console.log('headerDataheaderDataheaderDataheaderDataheaderDataheaderDatav',headerData);
+  //   if (!headerData) return;
+  //   if (!userData?.UID) return;
+
+  //   const checkToken = async () => {
+  //     const data = {
+  //       facultyID: userData?.UID,
+  //       login_token: headerData,
+  //     };
+  //     try {
+  //       const res = await postVerifyToken(data);
+  //       if(res?.status){
+
+  //         console.log('restoken ->>>>>>>>>>>>>>>>>>>>>>>', res);
+
+  //       } else{
+  //         console.log('restoken ->>>>>>>>>>>>>>>>>>>>>>>', res);
+
+  //       }
+  //     } catch (error) {}
+  //   };
+
+  //   checkToken();
+
+  // },[userData?.UID])
+
+  // useEffect(() => {
+  //   const headerData = localStorage.getItem("header");
+  //   if (!headerData) return;
+  //   if (!userData?.UID) return;
+
+  //   const checkToken = async () => {
+  //     const data = {
+  //       facultyID: userData?.UID,
+  //       login_token: headerData,
+  //     };
+  //     try {
+  //       const res = await postVerifyToken(data);
+  //       if(res?.status){
+
+  //         console.log('restoken ->>>>>>>>>>>>>>>>>>>>>>>', res);
+
+  //       }
+  //     } catch (error) {}
+  //   };
+
+  //   checkToken();
+  // }, []);
 
   useEffect(() => {
     const basePath = location.pathname.split("&")[0];
     const hasExtraParams = location.pathname.includes("/signup&");
     if (basePath === "/signup" && hasExtraParams) {
-      navigate("/signup")
+      navigate("/signup");
       // window.location.href = "https://tallento.ai/signup";
-
     }
   }, [location, navigate]);
 
@@ -275,6 +347,54 @@ const AppRouter = () => {
     ],
   };
 
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const lastShown = localStorage.getItem("lastPopupShown");
+    const now = new Date().getTime();
+
+    // Check if the popup was shown in the last 24 hours
+    if (!lastShown || now - lastShown > 24 * 60 * 60 * 1000) {
+      setIsVisible(true);
+      localStorage.setItem("lastPopupShown", now);
+    }
+
+    // Auto close after 5 seconds
+    const timer = setTimeout(() => {
+      setIsVisible(false);
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  const setpopupTime = () => {
+    const now = new Date().getTime();
+    localStorage.setItem("lastPopupShown", now);
+    setIsVisible(false);
+  };
+
+  const extractUserId = (url) => {
+    const regex = /\/user\/([A-Za-z0-9]+)$/;
+    const match = url.match(regex);
+    return match ? match[1] : null;
+  };
+
+  useEffect(() => {
+    // Example usage
+    const url = window.location.href; // Change this as needed
+    const userId = extractUserId(url);
+
+    if (userId) {
+      console.log("User ID:", userId); // Log the user ID
+      dispatch(addShareProfileUID(userId));
+      navigate("/share-profile");
+    } else if (url.includes("/user") && !userId) {
+      console.log("User segment found, but no user ID present.");
+      navigate("/"); // Navigate to home if /user exists but no ID
+    }
+  }, []);
+
+
   return (
     <>
       <script
@@ -290,7 +410,9 @@ const AppRouter = () => {
       {modalOpenmodalOpenLogin && <LoginPopup />}
       {showPopup && <CityPopup />}
       {showPopupSubjects && <SubjectsPopup />}
-     {modalOpenReview &&  <Review />}
+      {modalOpenReview && <Review />}
+      {/* {isVisible && <BannerPopup setpopupTime = {setpopupTime} />} */}
+
       <Suspense fallback={<Preloader />}>
         <Routes>
           <Route path="/" element={<Layout />}>
@@ -305,6 +427,16 @@ const AppRouter = () => {
             <Route path={AppRoute.Contact_Us} element={<ContactUs />} />
             <Route path={AppRoute.Refund_Policy} element={<RefundPolicy />} />
             <Route path={AppRoute.Blog} element={<Blog />} />
+
+            {shareprofileUID ? (
+              <Route path={AppRoute.ShareProfile} element={<ShareProfile />} />
+            ) : (
+              <Route
+                path={AppRoute.ShareProfile}
+                element={<Navigate to="/" />}
+              />
+            )}
+
             {/* <Route path={AppRoute.Careers} element={<Careers />} /> */}
             <Route
               path={`${AppRoute.Blog}/:title/:id`}
@@ -358,8 +490,6 @@ const AppRouter = () => {
                 </PrivateRoute>
               }
             >
-              <Route path={AppRoute.ShareProfile} element={<ShareProfile />} />
-
               <Route path={AppRoute.Thank_You} element={<Thankyou />} />
 
               <Route path={AppRoute.Dashboard} element={<DashboardLayout />}>

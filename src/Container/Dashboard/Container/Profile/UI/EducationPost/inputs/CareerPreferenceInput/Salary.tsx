@@ -62,7 +62,7 @@ export const Salary = ({setSelectedSalary}) => {
         htmlFor="EmployerPostJobState"
         className="postJobInputTitle pb-1 block font-medium text-gray-700"
       >
-        Preferred salary *
+        Expected salary *
       </label>
       <div className="relative">
         <input

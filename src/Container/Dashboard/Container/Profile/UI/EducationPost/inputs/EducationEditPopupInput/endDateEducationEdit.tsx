@@ -1,17 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { editEducationDataJobValues } from "@/Redux/Dashboard/MyProfile/Education/EducationSlice";
-import { TextInputValidEmployer } from "@Container/Dashboard/Container/functions/functions";
 
 export const EndDateEducationEdit = () => {
   const { editEducationData } = useSelector(
     (state: any) => state.myProfileEducationSlice
   );
   const dispatch = useDispatch();
+  const [error, setError] = useState(""); 
 
   const handleDateChange = (e: any) => {
     const inputValue = e.target.value;
-    if (inputValue) {
+    const startDate = editEducationData.startDate;
+
+    // Check if start date exists and compare with the end date
+    if (startDate && inputValue <= startDate) {
+      setError("End date must be after the start date."); // Set error if the end date is before or equal to start date
+      dispatch(
+        editEducationDataJobValues({
+          endDate: "", // Clear the end date in the state
+        })
+      );
+    } else {
+      setError(""); // Clear the error if valid
       dispatch(
         editEducationDataJobValues({
           endDate: inputValue,
@@ -26,7 +37,7 @@ export const EndDateEducationEdit = () => {
         htmlFor="endDate"
         className="block mb-2 text-sm font-semibold text-black"
       >
-        End Date
+        End Date *
       </label>
       <input
         required
@@ -37,6 +48,7 @@ export const EndDateEducationEdit = () => {
         value={editEducationData.endDate || ""}
         onChange={handleDateChange}
       />
+      {error && <span className="text-red-500 text-sm mt-1">{error}</span>}
     </div>
   );
 };

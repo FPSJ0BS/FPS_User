@@ -12,9 +12,11 @@ import EducationIcon from "@Assets/Icons/Profile/education.png";
 
 function Education() {
   const { userDataArray } = useSelector(
-    (state) => state.myProfileEducationSlice
+    (state : any) => state.myProfileEducationSlice
   );
   const educationData = userDataArray?.education_data;
+
+  console.log("educationData",educationData);
 
   const dispatch = useDispatch();
 
@@ -42,6 +44,13 @@ function Education() {
 
     dispatch(openModalEducationDeleteModal());
   };
+
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    const options = { year: "numeric", month: "long" };
+    return date.toLocaleDateString("en-US", options);
+  }
+
 
   return (
     <div className="bg-white rounded-[20px]  p-[20px] min-h-[200px] w-full education">
@@ -89,11 +98,25 @@ function Education() {
               <p className=" font-medium mb-[-10px] capitalize ">
                 {edu?.institute_name}
               </p>
-              <p className=" text-gray-400 mb-[-12px] font-medium">
-                {getYearFromDate(edu?.start_date)} - {getYearFromDate(edu?.end_date)} |{" "}
-                {edu?.education_type}
-              </p>
-              <p className=" mb-0 text-gray-400 font-medium">
+              
+              <div className="flex items-center gap-2 mb-[-10px]">
+                  <p className=" mb-0 capitalize text-gray-400 font-medium">
+                    {parseInt(edu?.currently) === 1 ? (
+                      <>
+                        {formatDate(edu?.start_date)}{" "}
+                        <span className="normal-case">to Present</span> |{" "}
+                        {edu?.education_type}
+                        {/* {getDuration(start_date, end_date)} */}
+                      </>
+                    ) : (
+                      <>
+                        {formatDate(edu?.start_date)} - {formatDate(edu?.end_date)} |{" "}
+                        {edu?.education_type}
+                      </>
+                    )}
+                  </p>
+                </div>
+              <p className=" mb-0 text-gray-400 font-medium underline">
                 {parseInt(edu?.currently) === 1 ? "Pursuing" : ""}
               </p>
             </div>

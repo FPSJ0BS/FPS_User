@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useRef, useState } from "react";
 import CloseIcon from "@Assets/Icons/remove.png";
-import { closeModalEducationModal, closeModalEmploymentAddModal, toggleRefetchProfile } from "@/Redux/Dashboard/MyProfile/Education/EducationSlice";
+import { closeModalEducationModal, toggleRefetchProfile } from "@/Redux/Dashboard/MyProfile/Education/EducationSlice";
 import { postSubmitEducationDetails } from "@/api/api";
 import useProfileEducationPost from "@Hooks/Mutation/useProfileEducationPost";
 import { Toast } from "@Utils/Toast";
@@ -18,15 +18,15 @@ function EducationPost() {
 
   const { qualificationDataArray, resultDataArray, educationDataArray } = useSelector((state: any) => state.myProfileEducationSlice);
 
-
   const inputRef = useRef(null);
-
 
   const {
     register,
     control,
-    handleSubmit, 
+    handleSubmit,
     formState: { errors },
+    setValue,
+    watch,
   } = useForm({
     resolver: zodResolver(educationSchema),
     defaultValues: {
@@ -60,15 +60,15 @@ function EducationPost() {
       type: Number(item.type),
       course: Number(item.course),
       currently: item.currently ? 1 : 0,
+      end_date : item?.end_date ? item?.end_date : null,
     }));
 
     try {
       const res = await postSubmitEducationDetails(educationData);
       if (res?.data?.status) {
-        dispatch(toggleRefetchProfile())
+        dispatch(toggleRefetchProfile());
         await dispatch(closeModalEducationModal());
         Toast("success", res?.data?.message);
-
       } else {
         Toast("error", res?.data?.message);
       }
@@ -83,6 +83,9 @@ function EducationPost() {
     await dispatch(closeModalEducationModal());
   };
 
+  // Watch for changes in start date and currently pursuing
+  const educationFields = watch("education");
+
   return (
     <div className="TrackPopup h-full w-[100vw] lg:w-[65vw] right-0 z-50 flex justify-end fixed">
       <img
@@ -96,125 +99,135 @@ function EducationPost() {
         <h4 className="font-bold underline border-solid border-b-[1px]">Add Education Details</h4>
         <div className="w-full border-b-[1.5px] border-dashed border-[#4a4e69] mt-6"></div>
         <div className="w-full overflow-y-auto px-5 py-4 handleScrollbarMain">
-          <form onSubmit={handleSubmit(onSubmitData)} className="space-y-6 ">
-            {fields.map((item, index) => (
-              <div key={item.id} className="space-y-4 border p-4 rounded-md">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-semibold text-black">University/Institute Name</label>
-                    <input
-                      placeholder="Enter University/Institute Name..."
-                      {...register(`education.${index}.institute_name`)}
-                      className="h-[50px] mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:ring-blue-300"
-                    />
-                    {errors.education?.[index]?.institute_name && (
-                      <span className="text-red-500 text-sm">{errors.education?.[index]?.institute_name?.message}</span>
-                    )}
-                  </div>
-                  <div>
-                    <label className="block text-sm font-semibold text-black">Course</label>
-                    <div className="flex flex-col md:flex-row items-center gap-2">
-                      <select
-                        {...register(`education.${index}.course`)}
-                        className="mt-1 block h-[50px] w-[100%] p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:ring-blue-300"
-                      >
-                        <option value="" disabled selected>Graduation, Post Graduation ...</option>
-                        {qualificationDataArray?.map((qual) => (
-                          <option key={qual.ID} value={qual?.ID}>{qual?.qualification}</option>
-                        ))}
-                      </select>
-                      <select
-                        {...register(`education.${index}.type`)}
-                        className="mt-1 block h-[50px] w-[100%] md:w-[45%] p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:ring-blue-300"
-                      >
-                        <option value="" disabled selected>Enter Type ...</option>
-                        {educationDataArray.map((type) => (
-                          <option key={type?.id} value={type?.id}>{type?.type}</option>
-                        ))}
-                      </select>
-                    </div>
-                    {errors.education?.[index]?.course && (
-                      <span className="text-red-500 text-sm">{errors.education?.[index]?.course?.message}</span>
-                    )}
-                  </div>
-                  <div>
-                    <label className="block text-sm font-semibold text-black edu-start-date">Start Date</label>
-                    <input
-                    
-                      type="date"
-                      {...register(`education.${index}.start_date`)}
-                      className="mt-1 h-[50px] block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:ring-blue-300"
-                    />
-                    {errors.education?.[index]?.start_date && (
-                      <span className="text-red-500 text-sm">{errors.education?.[index]?.start_date?.message}</span>
-                    )}
-                  </div>
-                  <div>
-                    <label className="block text-sm font-semibold text-black">End Date</label>
-                    <input
-                      type="date"
-                      {...register(`education.${index}.end_date`)}
-                      className="mt-1 h-[50px] block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:ring-blue-300"
-                    />
-                    {errors.education?.[index]?.end_date && (
-                      <span className="text-red-500 text-sm">{errors.education?.[index]?.end_date?.message}</span>
-                    )}
-                  </div>
-                  <div>
-                    <label className="block text-sm font-semibold text-black">Result</label>
-                    <div className="flex flex-col md:flex-row items-center gap-2">
+          <form onSubmit={handleSubmit(onSubmitData)} className="space-y-6">
+            {fields.map((item, index) => {
+              const currentlyPursuing = educationFields[index]?.currently;
+
+              return (
+                <div key={item.id} className="space-y-4 border p-4 rounded-md">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-semibold text-black">University/Institute Name</label>
                       <input
-                        placeholder="Enter Result..."
-                        {...register(`education.${index}.result`)}
-                        className="mt-1 h-[50px] block w-[100%] md:w-[60%] p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:ring-blue-300"
+                        placeholder="Enter University/Institute Name..."
+                        {...register(`education.${index}.institute_name`)}
+                        className="h-[50px] mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:ring-blue-300"
                       />
-                      <select
-                        {...register(`education.${index}.result_type`)}
-                        className="mt-1 h-[50px] block w-[100%] md:w-[40%] p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:ring-blue-300"
-                      >
-                        <option value="" disabled selected>Enter Type ...</option>
-                        {resultDataArray?.map((type) => (
-                          <option key={type?.id} value={type?.id}>{type?.type}</option>
-                        ))}
-                      </select>
+                      {errors.education?.[index]?.institute_name && (
+                        <span className="text-red-500 text-sm">{errors.education?.[index]?.institute_name?.message}</span>
+                      )}
                     </div>
-                    {errors.education?.[index]?.result && (
-                      <span className="text-red-500 text-sm">{errors.education?.[index]?.result?.message}</span>
+                    <div>
+                      <label className="block text-sm font-semibold text-black">Course</label>
+                      <div className="flex flex-col md:flex-row items-center gap-2">
+                        <select
+                          {...register(`education.${index}.course`)}
+                          className="mt-1 block h-[50px] w-[100%] p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:ring-blue-300"
+                        >
+                          <option value="" disabled selected>Graduation, Post Graduation ...</option>
+                          {qualificationDataArray?.map((qual) => (
+                            <option key={qual.ID} value={qual?.ID}>{qual?.qualification}</option>
+                          ))}
+                        </select>
+                        <select
+                          {...register(`education.${index}.type`)}
+                          className="mt-1 block h-[50px] w-[100%] md:w-[45%] p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:ring-blue-300"
+                        >
+                          <option value="" disabled selected>Enter Type ...</option>
+                          {educationDataArray.map((type) => (
+                            <option key={type?.id} value={type?.id}>{type?.type}</option>
+                          ))}
+                        </select>
+                      </div>
+                      {errors.education?.[index]?.course && (
+                        <span className="text-red-500 text-sm">{errors.education?.[index]?.course?.message}</span>
+                      )}
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold text-black">Start Date</label>
+                      <input
+                        type="date"
+                        {...register(`education.${index}.start_date`)}
+                        className="mt-1 h-[50px] block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:ring-blue-300"
+                      />
+                      {errors.education?.[index]?.start_date && (
+                        <span className="text-red-500 text-sm">{errors.education?.[index]?.start_date?.message}</span>
+                      )}
+                    </div>
+                    {!currentlyPursuing && (
+                      <div>
+                        <label className="block text-sm font-semibold text-black">End Date</label>
+                        <input
+                          type="date"
+                          {...register(`education.${index}.end_date`, {
+                            validate: (value) => {
+                              const startDate = educationFields[index]?.start_date;
+                              return !startDate || value > startDate || "End Date must be after Start Date";
+                            }
+                          })}
+                          className="mt-1 h-[50px] block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:ring-blue-300"
+                        />
+                        {errors.education?.[index]?.end_date && (
+                          <span className="text-red-500 text-sm">{errors.education?.[index]?.end_date?.message}</span>
+                        )}
+                      </div>
                     )}
+                    <div>
+                      <label className="block text-sm font-semibold text-black">Result</label>
+                      <div className="flex flex-col md:flex-row items-center gap-2">
+                        <input
+                          placeholder="Enter Result..."
+                          {...register(`education.${index}.result`)}
+                          className="mt-1 h-[50px] block w-[100%] md:w-[60%] p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:ring-blue-300"
+                        />
+                        <select
+                          {...register(`education.${index}.result_type`)}
+                          className="mt-1 h-[50px] block w-[100%] md:w-[40%] p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:ring-blue-300"
+                        >
+                          <option value="" disabled selected>Enter Type ...</option>
+                          {resultDataArray?.map((type) => (
+                            <option key={type?.id} value={type?.id}>{type?.type}</option>
+                          ))}
+                        </select>
+                      </div>
+                      {errors.education?.[index]?.result && (
+                        <span className="text-red-500 text-sm">{errors.education?.[index]?.result?.message}</span>
+                      )}
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold text-black">Specialization</label>
+                      <input
+                        placeholder="Enter specialization (Agriculture, Biology etc ...)"
+                        {...register(`education.${index}.specialization`)}
+                        className="mt-1 h-[50px] block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:ring-blue-300"
+                      />
+                      {errors.education?.[index]?.specialization && (
+                        <span className="text-red-500 text-sm">{errors.education?.[index]?.specialization?.message}</span>
+                      )}
+                    </div>
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold text-black">Specialization</label>
+                    <label className="block text-sm font-semibold text-black">Currently Pursuing?</label>
                     <input
-                      placeholder="Enter specialization (Agriculture, Biology etc ...)"
-                      {...register(`education.${index}.specialization`)}
-                      className="mt-1 h-[50px] block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:ring-blue-300"
+                      type="checkbox"
+                      {...register(`education.${index}.currently`)}
+                      className="mt-1 block p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:ring-blue-300"
                     />
-                    {errors.education?.[index]?.specialization && (
-                      <span className="text-red-500 text-sm">{errors.education?.[index]?.specialization?.message}</span>
-                    )}
                   </div>
+                  {index > 0 && (
+                    <div className="w-full flex justify-end">
+                      <button
+                        type="button"
+                        onClick={() => remove(index)}
+                        className="mt-2 w-[30%] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  )}
                 </div>
-                <div>
-                  <label className="block text-sm font-semibold text-black">Currently Pursuing?</label>
-                  <input
-                    type="checkbox"
-                    {...register(`education.${index}.currently`, { setValueAs: (v) => (v ? 1 : 0) })}
-                    className="mt-1 block p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:ring-blue-300"
-                  />
-                </div>
-                {index > 0 && (
-                  <div className="w-full flex justify-end">
-                    <button
-                      type="button"
-                      onClick={() => remove(index)}
-                      className="mt-2 w-[30%] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                )}
-              </div>
-            ))}
+              );
+            })}
             <div className="flex flex-col md:flex-row md:gap-2">
               <button
                 type="button"

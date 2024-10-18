@@ -1,13 +1,9 @@
-import Button from "@Components/Button/Button";
-import FlatList from "@Components/FlatList/FlatLIst";
-import Imag from "@Components/Image/Image";
+
 import useCategoryList from "@Hooks/Queries/useCategoryList";
-import { AppRoute } from "@Navigator/AppRoute";
 import { HTMLAttributes, memo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../BannerNew/banner.scss";
 import { useGlobalContext } from "@Context/GlobalContextProvider";
-import catbg from "@Assets/Home/bgcat.svg";
 import CATONE from "@Assets/Home/categories/Frame 18-1.png";
 import CATTWO from "@Assets/Home/categories/Frame 18-2.png";
 import CATTHREE from "@Assets/Home/categories/Frame 18-3.png";
@@ -43,7 +39,7 @@ const CategoryNew = (props: IProps) => {
 
   const navigate = useNavigate();
   return (
-    <div className="   border-none md:mt-[-2vh]  border-t-2 md:border-solid border-white flex pt-[40px] gap-5 flex-col  min-h-[600px] items-start justify-center px-[20px] md:pl-[50px] lg:pl-[100px] mb-[50px] bg-[#090909] md:bg-[url('@Assets/Home/bgcat.svg')] bg-cover bg-no-repeat">
+    <div className="   border-none md:mt-[-2vh]  border-t-2 md:border-solid border-white flex pt-[40px] gap-5 flex-col  min-h-[600px] items-start justify-center px-[20px] md:pl-[50px] lg:pl-[100px] mb-[50px] bg-[#0b0b0b]  bg-cover bg-no-repeat">
       <div className=" flex flex-col gap-3">
         <h2 className=" text-white text-[40px] font-bold">Browse By Category</h2>
         <p className=" pr-5 block md:hidden mb-0 text-[14px] text-[#cccccc]">
@@ -111,9 +107,6 @@ const CategoryNew = (props: IProps) => {
             </div>
           );
         })}
-
-        
-        
       </div>
     </div>
   );

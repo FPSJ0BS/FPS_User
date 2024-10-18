@@ -2,6 +2,8 @@ import INFOVERIFIED from "@Assets/approved.png";
 import STAR from "@Assets/Icons/star.png";
 import HALFSTAR from "@Assets/Icons/halfstar.png";
 import { useGlobalContext } from "@Context/GlobalContextProvider";
+import { useDispatch } from "react-redux";
+import { openModal, updateAppliedJobValues } from "@/Redux/appliedJobSlice";
 
 const ListDesignThree = ({
   jobsData,
@@ -15,7 +17,7 @@ const ListDesignThree = ({
   setShowSidebar,
 }) => {
   const { userData } = useGlobalContext();
-
+const dispatch = useDispatch();
   const removeSpecificTextAndTags = (htmlContent) => {
     let cleanedContent = htmlContent.replace(
       /<h3>Job Description:\s*(.*)<\/h3>/i,
@@ -27,6 +29,15 @@ const ListDesignThree = ({
     );
     const noHtmlTags = cleanedContent.replace(/<\/?[^>]+(>|$)/g, "");
     return noHtmlTags.trim();
+  };
+
+  const openingModal = async (applyID) => {
+    await dispatch(
+      updateAppliedJobValues({
+        applyID,
+      })
+    );
+    await dispatch(openModal());
   };
   return (
     <div  className="   grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2 gap-4 cursor-pointer place-items-center sm:place-items-stretch bg-[#f5f5f5]  ">
@@ -157,9 +168,22 @@ const ListDesignThree = ({
                 </p>
               </div>
 
-              <div className=" bg-black flex justify-center items-center text-[12px] text-white rounded-[30px] px-3 h-[25px] ">
-                Apply
-              </div>
+              <div className="flex flex-col gap-2 items-center">
+                  {item?.applied_job && (
+                    <div
+                      onClick={(e) => {
+                        e.stopPropagation(); 
+                        openingModal(item?.applyID);
+                      }}
+                      className="w-[120px] font-semibold bg-[#335c67] flex justify-center items-center text-[14px] text-white rounded-[30px]  h-[25px]"
+                    >
+                      Track Status
+                    </div>
+                  )}
+                  <div className={`${item?.applied_job ? "w-[120px] " : "px-3"} font-semibold bg-black flex justify-center items-center text-[14px] text-white rounded-[30px]  h-[25px] cursor-default`}>
+                    {item?.applied_job ? item?.applied_job : "Apply"}
+                  </div>
+                </div>
             </div>
 
             <div className=" border-[1px] border-solid border-gray-300 w-full"></div>

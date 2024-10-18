@@ -66,7 +66,7 @@ function ResultEducationEdit() {
       </div>
       <div className=" w-[100%] md:w-[40%] ">
         <label className="block mb-2 text-sm font-semibold text-black">
-          Select Result Type
+          Select Result Type *
         </label>
         <select
           required

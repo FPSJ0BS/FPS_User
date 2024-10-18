@@ -26,7 +26,7 @@ export const StartDateEducationEdit = () => {
         htmlFor="startDate"
         className="block mb-2 text-sm font-semibold text-black"
       >
-        Start Date
+        Start Date *
       </label>
       <input
       required

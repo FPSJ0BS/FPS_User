@@ -4,6 +4,8 @@ import HALFSTAR from "@Assets/Icons/halfstar.png";
 import { useGlobalContext } from "@Context/GlobalContextProvider";
 import JobsByLocation from "./InBetweenComponents/JobsByLocation";
 import JobsBySubject from "./InBetweenComponents/JobsBySubject";
+import { useDispatch } from "react-redux";
+import { openModal, updateAppliedJobValues } from "@/Redux/appliedJobSlice";
 
 const ListDesignOne = ({
   jobsData,
@@ -20,6 +22,8 @@ const ListDesignOne = ({
   query,
   setQuery,
 }) => {
+  console.log("jobsData ->>>>>>>>>>>>>>>>>>>>>>>>", jobsData);
+  const dispatch = useDispatch();
   const { userData } = useGlobalContext();
 
   const removeSpecificTextAndTags = (htmlContent) => {
@@ -33,6 +37,15 @@ const ListDesignOne = ({
     );
     const noHtmlTags = cleanedContent.replace(/<\/?[^>]+(>|$)/g, "");
     return noHtmlTags.trim();
+  };
+
+  const openingModal = async (applyID) => {
+    await dispatch(
+      updateAppliedJobValues({
+        applyID,
+      })
+    );
+    await dispatch(openModal());
   };
 
   return (
@@ -209,8 +222,21 @@ const ListDesignOne = ({
                     </div>
                   )}
                 </div>
-                <div className=" bg-black flex justify-center items-center text-[14px] text-white rounded-[30px] px-3 h-[25px] ">
-                  Apply
+                <div className="flex gap-2 items-center">
+                  {item?.applied_job && (
+                    <div
+                      onClick={(e) => {
+                        e.stopPropagation(); 
+                        openingModal(item?.applyID);
+                      }}
+                      className="font-semibold bg-[#335c67] flex justify-center items-center text-[14px] text-white rounded-[30px] px-3 h-[25px]"
+                    >
+                      Track Status
+                    </div>
+                  )}
+                  <div className="font-semibold bg-black flex justify-center items-center text-[14px] text-white rounded-[30px] px-3 h-[25px] cursor-default">
+                    {item?.applied_job ? item?.applied_job : "Apply"}
+                  </div>
                 </div>
               </div>
             </div>

@@ -21,6 +21,7 @@ import EndDateEducationEdit from "./inputs/EducationEditPopupInput/endDateEducat
 import ResultEducationEdit from "./inputs/EducationEditPopupInput/resultEducationEdit";
 import { SpecializationEducationEdit } from "./inputs/EducationEditPopupInput/specializationEducationEdit";
 import Loader from "@Container/Dashboard/Loader/laoder";
+import { CurrentlyEducationEdit } from "./inputs/EducationEditPopupInput/currentlyEducationEdit";
 
 function EducationEditPopup() {
   const { userData } = useGlobalContext();
@@ -51,6 +52,7 @@ function EducationEditPopup() {
 
         if (res?.data?.status) {
           const data = await res?.data?.data[0];
+          console.log("data", data);
 
           await dispatch(
             editEducationDataJobValues({
@@ -62,6 +64,7 @@ function EducationEditPopup() {
               result: data?.result,
               resultType: data?.result_type,
               specialization: data?.specialization,
+              currently: data?.currently,
             })
           );
 
@@ -91,8 +94,8 @@ function EducationEditPopup() {
         institute_name: editEducationData.instituteName,
         course: parseInt(editEducationData.course),
         start_date: editEducationData.startDate,
-        end_date: editEducationData.endDate,
-        currently: 0,
+        end_date: editEducationData.endDate ? editEducationData.endDate : null,
+        currently: editEducationData.currently,
         result: editEducationData.result,
         type: parseInt(editEducationData.courseType),
         result_type: parseInt(editEducationData.resultType),
@@ -118,6 +121,22 @@ function EducationEditPopup() {
   const popupCloseFunc = async () => {
     await dispatch(closeModalEducationEditModal());
   };
+
+  useEffect(() => {
+    if (editEducationData.currently === 1) {
+      dispatch(
+        editEducationDataJobValues({
+          endDate: "",
+        })
+      );
+    } else {
+      dispatch(
+        editEducationDataJobValues({
+          endDate: "",
+        })
+      );
+    }
+  }, [editEducationData.currently]);
 
   return (
     <div className="TrackPopup h-full w-[100vw] md:w-[65vw] right-0 z-50 flex justify-end fixed">
@@ -146,9 +165,10 @@ function EducationEditPopup() {
               <InstituteNameEducationEdit />
               <CourseEducationEdit />
               <StartDateEducationEdit />
-              <EndDateEducationEdit />
+              {editEducationData.currently === 0 && <EndDateEducationEdit />}
               <ResultEducationEdit />
               <SpecializationEducationEdit />
+              <CurrentlyEducationEdit />
 
               <button
                 type="submit"

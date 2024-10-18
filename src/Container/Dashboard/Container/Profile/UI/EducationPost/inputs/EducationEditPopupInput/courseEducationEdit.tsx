@@ -38,7 +38,7 @@ function CourseEducationEdit() {
     <div className="flex flex-col md:flex-row w-full gap-2 md:gap-0">
       <div className=" md:w-3/5 ">
         <label className="block mb-2 text-sm font-semibold text-black">
-          Select a course
+          Select a course *
         </label>
         <select
           required

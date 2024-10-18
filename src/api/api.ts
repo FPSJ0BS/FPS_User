@@ -750,3 +750,51 @@ export const getContactDetails = async () => {
     throw error;
   }
 };
+
+export const postVerifyToken = async (data) => {
+  const token = getToken();
+  try {
+    const response = await axios.post(
+      `${BASE_URL_NODE}/user/verifyToken`,
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    throw error;
+  }
+};
+
+export const getGenerateShareLink = async (facID) => {
+  try {
+    const response = await axios.get(
+      `${BASE_URL_NODE}/user/generateProfileLink?facultyID=${facID}`
+    );
+    return response;
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    throw error;
+  }
+};
+export const getShareProfileData = async (facID) => {
+  const token = getToken();
+  try {
+    const response = await axios.get(
+      `${BASE_URL_NODE}/user/getSharedProfile?facultyID=${facID}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    throw error;
+  }
+};

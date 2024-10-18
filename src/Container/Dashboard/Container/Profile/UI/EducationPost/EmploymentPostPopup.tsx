@@ -5,7 +5,6 @@ import {
   closeModalEmploymentAddModal,
   toggleRefetchProfile,
 } from "@/Redux/Dashboard/MyProfile/Education/EducationSlice";
-import useProfileEducationPost from "@Hooks/Mutation/useProfileEducationPost";
 import { Toast } from "@Utils/Toast";
 import { useGlobalContext } from "@Context/GlobalContextProvider";
 import { postSubmitEmploymentDetails } from "@/api/api";
@@ -14,8 +13,6 @@ function EmploymentPostPopup() {
   const { userData } = useGlobalContext();
   const dispatch = useDispatch();
   const [buttonLoad, setButtonLoad] = useState(false);
-
- 
 
   const [employmentDetails, setEmploymentDetails] = useState([
     {
@@ -28,6 +25,8 @@ function EmploymentPostPopup() {
       currently: 0,
     },
   ]);
+
+  const [errors, setErrors] = useState<string[]>([]); // Track date errors for each entry
 
   const handleAddMore = () => {
     setEmploymentDetails([
@@ -42,37 +41,84 @@ function EmploymentPostPopup() {
         currently: 0,
       },
     ]);
+    setErrors([...errors, ""]);
   };
 
   const handleDelete = (index) => {
     setEmploymentDetails(employmentDetails.filter((_, i) => i !== index));
+    setErrors(errors.filter((_, i) => i !== index));
   };
 
   const handleChange = (index, e) => {
     const { name, value, type, checked } = e.target;
-    const updatedEmploymentDetails = employmentDetails.map((detail, i) =>
-      i === index
-        ? { ...detail, [name]: type === "checkbox" ? (checked ? 1 : 0) : value }
-        : detail
-    );
+    const updatedEmploymentDetails = employmentDetails.map((detail, i) => {
+      // Handle the change for the specific employment detail
+      if (i === index) {
+        const updatedDetail = {
+          ...detail,
+          [name]: type === "checkbox" ? (checked ? 1 : 0) : value,
+        };
+
+        // Date validation when either date changes
+        const { start_date, end_date } = updatedDetail;
+        if (
+          (name === "start_date" && end_date && start_date > end_date) ||
+          (name === "end_date" && start_date && end_date < start_date)
+        ) {
+          // Clear the end_date if start_date is greater
+          updatedDetail.end_date = ""; // Clear end_date on error
+          setErrors((prevErrors) => {
+            const updatedErrors = [...prevErrors];
+            updatedErrors[index] = "Start date must be before end date.";
+            return updatedErrors;
+          });
+        } else {
+          setErrors((prevErrors) => {
+            const updatedErrors = [...prevErrors];
+            updatedErrors[index] = ""; // Clear error if the dates are valid
+            return updatedErrors;
+          });
+        }
+
+        return updatedDetail;
+      }
+      return detail; // Return unchanged detail
+    });
+
     setEmploymentDetails(updatedEmploymentDetails);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Check for any errors before submitting
+    if (errors.some((error) => error !== "")) {
+      Toast("error", "Please fix the errors before submitting.");
+      return;
+    }
+
+    console.log('employmentdetails',employmentDetails);
+
+    const updatedEmploymentDetails = employmentDetails.map((detail) => {
+      return {
+        ...detail,
+        end_date: detail.end_date === "" ? null : detail.end_date, // Replace empty string with null
+      };
+    });
+
     setButtonLoad(true);
     try {
-      const res = await postSubmitEmploymentDetails(employmentDetails);
+      const res = await postSubmitEmploymentDetails(updatedEmploymentDetails);
       if (res?.data?.status) {
         await popupCloseFunc();
         Toast("success", res?.data?.message);
         dispatch(toggleRefetchProfile());
       } else {
         await popupCloseFunc();
-
         Toast("error", res?.data?.message);
       }
     } catch (error) {
+      Toast("error", "An error occurred while submitting.");
     } finally {
       setButtonLoad(false);
     }
@@ -101,9 +147,9 @@ function EmploymentPostPopup() {
             {employmentDetails.map((detail, index) => (
               <div
                 key={index}
-                className=" border-1 border-solid p-4 border-gray-300 rounded-lg relative grid grid-cols-1 md:grid-cols-2 gap-4"
+                className="border-1 border-solid p-4 border-gray-300 rounded-lg relative grid grid-cols-1 md:grid-cols-2 gap-4"
               >
-                <div className=" flex flex-col gap-2 col-span-2 md:col-span-1">
+                <div className="flex flex-col gap-2 col-span-2 md:col-span-1">
                   <label
                     htmlFor="orgId"
                     className="block text-sm font-semibold text-black"
@@ -121,7 +167,7 @@ function EmploymentPostPopup() {
                     className="mt-1 block p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:ring-blue-300"
                   />
                 </div>
-                <div className=" flex flex-col gap-2 col-span-2 md:col-span-1">
+                <div className="flex flex-col gap-2 col-span-2 md:col-span-1">
                   <label
                     htmlFor="DesgID"
                     className="block text-sm font-semibold text-black"
@@ -140,7 +186,7 @@ function EmploymentPostPopup() {
                   />
                 </div>
 
-                <div className=" flex flex-col gap-2 col-span-2 md:col-span-1">
+                <div className="flex flex-col gap-2 col-span-2 md:col-span-1">
                   <label
                     htmlFor="ResId"
                     className="block text-sm font-semibold text-black"
@@ -159,7 +205,7 @@ function EmploymentPostPopup() {
                   />
                 </div>
 
-                <div className=" flex flex-col gap-2 col-span-2 md:col-span-1">
+                <div className="flex flex-col gap-2 col-span-2 md:col-span-1">
                   <label
                     htmlFor="DateId"
                     className="block text-sm font-semibold text-black"
@@ -178,23 +224,31 @@ function EmploymentPostPopup() {
                   />
                 </div>
 
-                {detail.currently === 0 && <div className=" flex flex-col gap-2 col-span-2 md:col-span-1">
-                  <label
-                    htmlFor="endDateid"
-                    className="block text-sm font-semibold text-black"
-                  >
-                    End Date
-                  </label>
-                  <input
-                    id="endDateid"
-                    type="date"
-                    name="end_date"
-                    value={detail.end_date}
-                    onChange={(e) => handleChange(index, e)}
-                    placeholder="End Date"
-                    className="mt-1 block p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:ring-blue-300"
-                  />
-                </div>}
+                {detail.currently === 0 && (
+                  <div className="flex flex-col gap-2 col-span-2 md:col-span-1">
+                    <label
+                      htmlFor="endDateid"
+                      className="block text-sm font-semibold text-black"
+                    >
+                      End Date
+                    </label>
+                    <input
+                      required
+                      id="endDateid"
+                      type="date"
+                      name="end_date"
+                      value={detail.end_date}
+                      onChange={(e) => handleChange(index, e)}
+                      placeholder="End Date"
+                      className="mt-1 block p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:ring-blue-300"
+                    />
+                    {errors[index] && (
+                      <span className="text-red-500 text-sm mt-1">
+                        {errors[index]}
+                      </span>
+                    )}
+                  </div>
+                )}
 
                 <label className="flex items-center col-span-2">
                   <input
@@ -206,12 +260,12 @@ function EmploymentPostPopup() {
                   />
                   Currently Working
                 </label>
-                <div className=" flex justify-end w-full col-span-2">
+                <div className="flex justify-end w-full col-span-2">
                   {index !== 0 && (
                     <button
                       type="button"
                       onClick={() => handleDelete(index)}
-                      className=" w-[30%] mt-5  p-2 bg-red-500 text-white rounded-lg"
+                      className="w-[30%] mt-5 p-2 bg-red-500 text-white rounded-lg"
                     >
                       Delete
                     </button>

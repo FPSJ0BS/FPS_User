@@ -1,20 +1,14 @@
 import { useSelector, useDispatch } from "react-redux";
-import {  useState } from "react";
+import { useState } from "react";
 import CloseIcon from "@Assets/Icons/remove.png";
 import {
- 
   closeModalSocialMediaModal,
-
   toggleRefetchProfile,
 } from "@/Redux/Dashboard/MyProfile/Education/EducationSlice";
-import {
-
-  postSubmitSocialMediaLinksDetails,
-} from "@/api/api";
+import { postSubmitSocialMediaLinksDetails } from "@/api/api";
 import { Toast } from "@Utils/Toast";
 
 import { useGlobalContext } from "@Context/GlobalContextProvider";
-
 
 function SocialMediaPopup() {
   const { userData } = useGlobalContext();
@@ -26,25 +20,47 @@ function SocialMediaPopup() {
 
   const [buttonLoad, setButtonLoad] = useState(false);
 
-
   const popupCloseFunc = async () => {
     await dispatch(closeModalSocialMediaModal());
   };
 
-  const initialData = {
-    facultyID: userId,
-    social_link: {
-      Facebook: userDataArray?.social_link?.Facebook,
-      Linkedin: userDataArray?.social_link?.linkedin,
-      Instagram: userDataArray?.social_link?.Instagram,
-      Github: userDataArray?.social_link?.Github,
-      Naukri: userDataArray?.social_link?.Naukri,
-      Indeed: userDataArray?.social_link?.Indeed,
-      Pinterest: userDataArray?.social_link?.Pinterest,
-    },
+  const createInitialData = (userId, userDataArray) => {
+    // Create a mapping for each platform
+    const platformMap = {
+      Facebook: "Facebook",
+      linkedin: "linkedin",
+      Instagram: "Instagram",
+      Github: "Github",
+      Naukri: "Naukri",
+      Indeed: "Indeed",
+      Pinterest: "Pinterest",
+    };
+
+    // Initialize social_links object
+    const socialLinks = {};
+
+    // Check if social_link exists in userDataArray and map it to socialLinks
+    if (userDataArray?.social_link) {
+      userDataArray.social_link.forEach((link) => {
+        const platform = platformMap[link.platform]; // Get the platform key from the mapping
+        if (platform) {
+          socialLinks[platform] = link.value; // Assign the value to the corresponding platform key
+        }
+      });
+    }
+
+    // Create the initialData object
+    const initialData = {
+      facultyID: userId,
+      social_link: socialLinks,
+    };
+
+    return initialData;
   };
 
-  const [formData, setFormData] = useState(initialData);
+  const [formData, setFormData] = useState(
+    createInitialData(userId, userDataArray)
+  );
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -57,8 +73,6 @@ function SocialMediaPopup() {
     }));
   };
 
-  
-
   const preventHashInput = (e) => {
     if (e.key === "#") {
       e.preventDefault();
@@ -68,18 +82,15 @@ function SocialMediaPopup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-
     const finArray = {
       ...formData,
       social_link: Object.entries(formData.social_link)
         .filter(([_, value]) => value) // Filter out entries with empty values
         .map(([key, value]) => ({
-          [key]: value
-        }))
-    }
-    
+          [key]: value,
+        })),
+    };
 
-    
     // Post the form data to the API
     try {
       setButtonLoad(true);
@@ -100,11 +111,7 @@ function SocialMediaPopup() {
       setButtonLoad(false);
     }
     // Example: postDataToAPI(formData);
-
   };
-
-  
-  
 
   return (
     <div className="TrackPopup h-full w-[100vw] md:w-[65vw] right-0 z-50 flex justify-end fixed">
@@ -126,13 +133,10 @@ function SocialMediaPopup() {
             onSubmit={handleSubmit}
           >
             <div className="w-full flex flex-col">
-              <label  className="block  text-sm font-semibold text-black ">
+              <label className="block  text-sm font-semibold text-black ">
                 Facebook:
-                <input 
-                onKeyDown={preventHashInput}
-
-                
-              
+                <input
+                  onKeyDown={preventHashInput}
                   className="w-[100%] mb-2 p-2 border-[1px] focus:border-[2px] border-gray-300 rounded-md shadow-sm focus:outline-none border-solid focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
                   type="text"
                   name="Facebook"
@@ -143,104 +147,97 @@ function SocialMediaPopup() {
               </label>
             </div>
             <div className=" w-full flex flex-col">
-              <label  className="block  text-sm font-semibold text-black ">
+              <label className="block  text-sm font-semibold text-black ">
                 LinkedIn:
-                <input 
-                onKeyDown={preventHashInput}
-
+                <input
+                  onKeyDown={preventHashInput}
                   className="w-[100%] mb-2 p-2 border-[1px] focus:border-[2px] border-gray-300 rounded-md shadow-sm focus:outline-none border-solid focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
                   type="text"
                   name="linkedin"
                   value={formData.social_link.linkedin}
                   onChange={handleInputChange}
                   placeholder="Enter LinkedIn URL ..."
-
                 />
               </label>
             </div>
             <div className="w-full flex flex-col">
-              <label  className="block  text-sm font-semibold text-black ">
+              <label className="block  text-sm font-semibold text-black ">
                 Instagram:
-                <input 
-                onKeyDown={preventHashInput}
-
+                <input
+                  onKeyDown={preventHashInput}
                   className="w-[100%] mb-2 p-2 border-[1px] focus:border-[2px] border-gray-300 rounded-md shadow-sm focus:outline-none border-solid focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
                   type="text"
                   name="Instagram"
                   value={formData.social_link.Instagram}
                   onChange={handleInputChange}
                   placeholder="Enter Instagram URL ..."
-
                 />
               </label>
             </div>
             <div className="w-full flex flex-col">
-              <label  className="block  text-sm font-semibold text-black ">
+              <label className="block  text-sm font-semibold text-black ">
                 Github:
-                <input 
-                onKeyDown={preventHashInput}
-
+                <input
+                  onKeyDown={preventHashInput}
                   className="w-[100%] mb-2 p-2 border-[1px] focus:border-[2px] border-gray-300 rounded-md shadow-sm focus:outline-none border-solid focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
                   type="text"
                   name="Github"
                   value={formData.social_link.Github}
                   onChange={handleInputChange}
                   placeholder="Enter Github URL ..."
-
                 />
               </label>
             </div>
             <div className="w-full flex flex-col">
-              <label  className="block  text-sm font-semibold text-black ">
+              <label className="block  text-sm font-semibold text-black ">
                 Naukri:
-                <input 
-                onKeyDown={preventHashInput}
-
+                <input
+                  onKeyDown={preventHashInput}
                   className="w-[100%] mb-2 p-2 border-[1px] focus:border-[2px] border-gray-300 rounded-md shadow-sm focus:outline-none border-solid focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
                   type="text"
                   name="Naukri"
                   value={formData.social_link.Naukri}
                   onChange={handleInputChange}
                   placeholder="Enter Naukri URL ..."
-
                 />
               </label>
             </div>
             <div className="w-full flex flex-col">
-              <label  className="block  text-sm font-semibold text-black ">
+              <label className="block  text-sm font-semibold text-black ">
                 Indeed:
-                <input 
-                onKeyDown={preventHashInput}
-
+                <input
+                  onKeyDown={preventHashInput}
                   className="w-[100%] mb-2 p-2 border-[1px] focus:border-[2px] border-gray-300 rounded-md shadow-sm focus:outline-none border-solid focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
                   type="text"
                   name="Indeed"
                   value={formData.social_link.Indeed}
                   onChange={handleInputChange}
                   placeholder="Enter Indeed URL ..."
-
                 />
               </label>
             </div>
             <div className="w-full flex flex-col">
-              <label  className="block  text-sm font-semibold text-black ">
+              <label className="block  text-sm font-semibold text-black ">
                 Pinterest:
-                <input 
-                onKeyDown={preventHashInput}
-
+                <input
+                  onKeyDown={preventHashInput}
                   className=" w-[100%] mb-2 p-2 border-[1px] focus:border-[2px] border-gray-300 rounded-md shadow-sm focus:outline-none border-solid focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
                   type="text"
                   name="Pinterest"
                   value={formData.social_link.Pinterest}
                   onChange={handleInputChange}
                   placeholder="Enter Pinterest URL ..."
-
                 />
               </label>
             </div>
             <div className=" col-span-2">
-              <button className=" bg-green-600 px-5 py-2 text-white rounded-lg" type="submit">
-                {buttonLoad ? "Submitting Social Media Links" : "Submit Social Media Links"}
+              <button
+                className=" bg-green-600 px-5 py-2 text-white rounded-lg"
+                type="submit"
+              >
+                {buttonLoad
+                  ? "Submitting Social Media Links"
+                  : "Submit Social Media Links"}
               </button>
             </div>
           </form>

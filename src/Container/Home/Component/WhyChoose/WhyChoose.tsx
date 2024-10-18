@@ -1,4 +1,3 @@
-import React from "react";
 import AI from "@Assets/Icons/Why Choose/AI.png";
 import SAFETY from "@Assets/Icons/Why Choose/Safety.png";
 import EXPERT from "@Assets/Icons/Why Choose/expert.png";

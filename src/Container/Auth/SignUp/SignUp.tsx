@@ -103,9 +103,9 @@ const SignUp = () => {
       ...(updatedStatesUAE || []),
     ];
 
-    setAllNewStatesData(allStates); // This should now work without errors
+    setAllNewStatesData(allStates); 
 
-    console.log("Combined State Data:", allNewStatesData);
+
   }, [isSuccessStateCountry]);
 
   const { data: cityList } = useGetCityListNode(

@@ -1,32 +1,35 @@
-import { editEducationDataJobValues, editEmploymentDataJobValues } from "@/Redux/Dashboard/MyProfile/Education/EducationSlice";
-import { TextInputValidEmployer } from "@Container/Dashboard/Container/functions/functions";
+import { editEmploymentDataJobValues } from "@/Redux/Dashboard/MyProfile/Education/EducationSlice";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-
 export const EnddateEmploymentEdit = () => {
-  const { editEmploymentData } = useSelector((state: any) => state.myProfileEducationSlice);
-
+  const { editEmploymentData } = useSelector(
+    (state: any) => state.myProfileEducationSlice
+  );
 
   const dispatch = useDispatch();
+  const [error, setError] = useState("");
 
   const handleChange = (e: any) => {
     const inputValue = e.target.value;
+    const startDate = editEmploymentData.startDate;
 
-
-      if (inputValue ?? false) {
-        dispatch(
-          editEmploymentDataJobValues({
-            endDate: inputValue,
-          })
-        );
-      } else {
-        dispatch(
-          editEmploymentDataJobValues({
-            endDate: "",
-          })
-        );
-      }
-    
+    // Check if start date exists and compare with the end date
+    if (startDate && inputValue <= startDate) {
+      setError("End date must be after the start date."); // Set error if the end date is before or equal to start date
+      dispatch(
+        editEmploymentDataJobValues({
+          endDate: "", // Clear the end date in the state
+        })
+      );
+    } else {
+      setError(""); // Clear the error if valid
+      dispatch(
+        editEmploymentDataJobValues({
+          endDate: inputValue,
+        })
+      );
+    }
   };
 
   return (
@@ -38,8 +41,8 @@ export const EnddateEmploymentEdit = () => {
         End Date *
       </label>
       <input
-      autoComplete="off"
-      placeholder="Enter endDate..."
+        autoComplete="off"
+        placeholder="Enter endDate..."
         required
         onChange={(e) => handleChange(e)}
         type="date"
@@ -48,6 +51,7 @@ export const EnddateEmploymentEdit = () => {
         className=" p-2  sm:w-[100%] border-[1px] focus:border-[2px] border-gray-300 rounded-md shadow-sm focus:outline-none border-solid focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
         value={editEmploymentData.endDate}
       />
+      {error && <span className="text-red-500 text-sm mt-1">{error}</span>}
     </div>
   );
 };
