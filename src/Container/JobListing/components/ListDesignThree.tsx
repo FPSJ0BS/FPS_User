@@ -39,6 +39,7 @@ const dispatch = useDispatch();
     );
     await dispatch(openModal());
   };
+  
   return (
     <div  className="   grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2 gap-4 cursor-pointer place-items-center sm:place-items-stretch bg-[#f5f5f5]  ">
       <div className="  lg:hidden flex w-full  justify-start pl-3  ">
@@ -60,6 +61,7 @@ const dispatch = useDispatch();
           <line x1="4" x2="20" y1="18" y2="18" />
         </svg>
       </div>
+
       {jobsData?.map((item, index) => {
         const bgColor = colors[index % colors.length];
         return (

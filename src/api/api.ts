@@ -798,3 +798,38 @@ export const getShareProfileData = async (facID) => {
     throw error;
   }
 };
+
+export const getKeywordSuggestion = async (keyword) => {
+  const token = getToken();
+  try {
+    const response = await axios.get(
+      `${BASE_URL_NODE}/user/keywordSuggestion?keyword=${keyword}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    throw error;
+  }
+};
+export const getBannerImages = async (keyword) => {
+  const token = getToken();
+  try {
+    const response = await axios.get(
+      `${BASE_URL_NODE}/user/getBnneerByType?banner_type=${keyword}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    throw error;
+  }
+};

@@ -18,21 +18,21 @@ const BannerMobile = () => {
     window.open("https://linkmix.co/24321549", "_blank");
   };
   return (
-    <div className=" block md:hidden min-h-[100vh]  bg-black p-[25px]">
-      <h1 className=" text-white text-[35px] pt-[20px] font-semibold leading-[1.4em]">
-        Finding jobs <br /> made super easy
+    <div className=" block md:hidden min-h-[100vh]  bg-black p-[20px]">
+      <h1 className=" text-white text-[35px] pt-[0px] font-semibold leading-[1.2em]">
+      Find your dream job Now.
       </h1>
 
-      <p className=" text-white pt-3 text-[15px]">
-        Get the top 1% filtered candidates3x faster <br /> with
+      <p className=" text-white pt-2 text-[15px]">
+        Get the top 1% filtered candidates3x faster  with
         FPSJOBS+Tallento.ai.
       </p>
 
-      <div className=" flex w-full justify-center items-center mt-[50px]">
-        <img src={groupImage} alt="group" width="60%" />
+      <div className=" flex w-full justify-center items-center mt-[20px]">
+        <img src={groupImage} alt="group" width="50%" />
       </div>
 
-      <div className=" mt-[70px] flex gap-3">
+      <div className=" mt-[50px] flex gap-3">
         <img alt="aakash" src={Aakash} className=" w-[60px]" />
         <img alt="aakash" src={Allen} className=" w-[60px]" />
         <img alt="aakash" src={Gurukripa} className=" w-[60px]" />

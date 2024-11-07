@@ -88,7 +88,7 @@ export const dogetSubjectCategory = async (req: any) => {
 };
 
 export const dogetJobTitle = async (data) => {
-  console.log('data.queryKey[1]?.industry_id',data.queryKey[1]?.industry_id);
+
   const res = await http.postRequest(`v3/job-title`, {
     industry_id: data.queryKey[1]?.industry_id,
   });

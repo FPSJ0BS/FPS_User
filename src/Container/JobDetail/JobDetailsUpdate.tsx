@@ -41,6 +41,7 @@ const JobDetailsUpdate = () => {
     }
   );
   const jobWhole = jobsDetails?.data?.job;
+  console.log("jobWholejobWhole", jobWhole);
   const [searchJob] = useState<any>({
     facultyID: userData?.UID ? userData?.UID : 103082,
     page: 0,
@@ -406,7 +407,7 @@ const JobDetailsUpdate = () => {
               {jobWhole?.selection_process && (
                 <div className=" bg-[#f9eeef] min-h-[50px] min-w-[150px] rounded-lg p-2 flex flex-col gap-1">
                   <div className="flex items-center gap-1">
-                    <AiFillAlert size={22}/>
+                    <AiFillAlert size={22} />
                     <p className=" mb-0 text-[13px] font-semibold">
                       Selection Process:
                     </p>
@@ -419,7 +420,7 @@ const JobDetailsUpdate = () => {
 
               <div className=" bg-[#f9eeef] min-h-[50px] min-w-[150px] rounded-lg p-2 flex flex-col gap-1">
                 <div className="flex items-center gap-1">
-                  <TbHourglassFilled size={20}/>
+                  <TbHourglassFilled size={20} />
                   <p className=" mb-0 text-[13px] font-semibold">
                     Experience Required:
                   </p>
@@ -457,7 +458,7 @@ const JobDetailsUpdate = () => {
               {jobWhole?.created_at && (
                 <div className=" bg-[#f9eeef] min-h-[50px] min-w-[150px] rounded-lg p-2 flex flex-col gap-1">
                   <div className="flex items-center gap-1">
-                    <IoIosTime  size={20}/>
+                    <IoIosTime size={20} />
                     <p className=" mb-0 text-[13px] font-semibold">
                       Job Posted:
                     </p>
@@ -469,6 +470,41 @@ const JobDetailsUpdate = () => {
               )}
             </div>
           </div>
+
+          {jobsDetails?.data?.benefits.length > 0 && (
+            <div className=" min-h-[20vh] w-full bg-white shadow-lg rounded-md p-4 flex flex-col gap-3">
+              <div className="flex flex-col gap-2">
+                <h3 className=" text-[18px] font-semibold ">Benefits</h3>
+
+                <hr />
+              </div>
+
+              <div className=" grid md:grid-cols-3 lg:grid-cols-4 gap-3">
+                {jobsDetails?.data?.benefits?.map(({ title, icon }, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className=" bg-[#f9eeef] min-h-[50px] min-w-[150px] rounded-lg p-2 flex flex-col gap-1"
+                    >
+                      <div className="flex items-center gap-1">
+                        <img
+                          src={icon}
+                          alt={`${title}${icon}`}
+                          className="w-[30px]"
+                        />
+                        <p className=" mb-0 text-[13px] font-semibold">
+                          {title}
+                        </p>
+                      </div>
+                      <p className=" text-[#c94f56] font-bold">
+                        {title}, {title}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
           <div className=" min-h-[35vh] w-full bg-white shadow-lg rounded-md p-4 flex flex-col gap-3">
             <div className="flex flex-col gap-2">

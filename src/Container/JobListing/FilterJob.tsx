@@ -120,15 +120,21 @@ const FilterJob = () => {
 
       if (res?.status) {
         // Keep all previous jobs, and update only the job that matches the id
+        
         queryClient.invalidateQueries({ queryKey: ["allFavourite"] });
+
         Toast("success", "Job added successfully to favourites");
 
         refetch();
+
+
         setJobList((prevJobs) =>
           prevJobs.map((job) =>
             job.jobID === id ? { ...job, favourite: "1" } : job
           )
         );
+
+
       } else {
         Toast("error", res?.message);
       }
@@ -235,7 +241,7 @@ const FilterJob = () => {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth' 
+      behavior: "smooth",
     });
   };
 
@@ -245,22 +251,22 @@ const FilterJob = () => {
         title={`Find Medical, school teaching & IT Jobs easily | ${AppConst.LogoName} `}
         description={`Looking good job opportunity in educational field like Medical teaching, IIT, JEE NEET coaching job & IT Jobs like Web-app developer, UI/UX Designer. Explore  Tallento Now.`}
         name={`${AppConst.LogoName}`}
-        canonicalUrl = {"https://tallento.ai/jobs"}
-
+        canonicalUrl={"https://tallento.ai/jobs"}
       />
-      <div 
-      onClick={() => {
-        if (window.innerWidth <= 768 && showSidebar) {
-          setShowSidebar(false);
-        }
-      }}
-      className=" min-h-screen w-full flex bg-[#f5f5f5] lg:px-[50px] 2xl:px-[150px]">
+      <div
+        onClick={() => {
+          if (window.innerWidth <= 768 && showSidebar) {
+            setShowSidebar(false);
+          }
+        }}
+        className=" min-h-screen w-full flex bg-[#f5f5f5] lg:px-[50px] 2xl:px-[150px]"
+      >
         <div
           className={`bg-white  h-[100vh] w-[70%] sm:w-[30%] z-50 lg:w-[25%] ${
             showSidebar ? "absolute" : "hidden"
           } absolute lg:sticky top-20 p-4 overflow-y-auto postjobHandleScrollbar m-3 rounded-xl`}
         >
-          <div  className=" w-full lg:hidden flex justify-end items-center">
+          <div className=" w-full lg:hidden flex justify-end items-center">
             <svg
               onClick={() => setShowSidebar(false)}
               xmlns="http://www.w3.org/2000/svg"
@@ -285,12 +291,10 @@ const FilterJob = () => {
             setQuery={setQuery}
             setJobList={setJobList}
             citySelect={citySelect}
-            scrollToTop = {scrollToTop}
+            scrollToTop={scrollToTop}
           />
         </div>
-        <div 
-             
-              className=" h-full w-full lg:w-[75%] p-[20px] min-h-[100vh] mr-5 rounded-xl flex flex-col gap-3 ">
+        <div className=" h-full w-full lg:w-[75%] p-[20px] min-h-[100vh] mr-5 rounded-xl flex flex-col gap-3 ">
           <SearchTopBar
             query={query}
             setQuery={setQuery}
@@ -312,7 +316,6 @@ const FilterJob = () => {
               setCitySelect={setCitySelect}
               query={query}
               setQuery={setQuery}
-              
             />
           )}
 

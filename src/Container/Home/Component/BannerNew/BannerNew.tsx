@@ -8,12 +8,13 @@ import BANNERIMAGE from "@Assets/Home/BannerNew/bgmainlow.png";
 import CARD from "@Assets/Home/BannerNew/card.png";
 import STACK from "@Assets/Home/Stack.png";
 import CustomSelect from "@Components/Dropdown";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useFilterCity from "@Hooks/Queries/useFilterCity";
 import PHONEIMAGE from "@Assets/Icons/32768014_responsive_device_64 1.png";
 import { useNavigate, createSearchParams } from "react-router-dom";
 import { AppRoute } from "../../../../Navigator/AppRoute";
 import { Toast } from "@Utils/Toast";
+import { getKeywordSuggestion } from "@/api/api";
 
 const BannerNew = () => {
   const navigate = useNavigate();
@@ -27,14 +28,65 @@ const BannerNew = () => {
     window.open("https://linkmix.co/24321549", "_blank");
   };
 
+
+  const [listData, setListData] = useState([]);
+  const [listDataShow, setListDataShow] = useState(false);
+  const [typingTimeout, setTypingTimeout] = useState(null);
+
+  // Function to fetch keyword suggestions
+  const getKeyWord = async () => {
+    try {
+      const res = await getKeywordSuggestion(searchJob.job_title);
+      if (res?.status) {
+        const data = res?.data?.data;
+        setListData(data);
+        setListDataShow(true);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // UseEffect to watch for job title input change
+  useEffect(() => {
+    // Clear any existing timeout
+    if (typingTimeout) {
+      clearTimeout(typingTimeout);
+    }
+
+    // Only make the API call if the user has typed something
+    if (searchJob.job_title) {
+      // Set a delay of 500ms before making the API call
+      const newTimeout = setTimeout(() => {
+        getKeyWord();
+      }, 500);
+      setTypingTimeout(newTimeout);
+    } else {
+      // If the input is cleared, hide the suggestion list
+      setListDataShow(false);
+      setListData([]);
+    }
+
+    // Cleanup function to clear timeout when unmounting or on new input
+    return () => clearTimeout(typingTimeout);
+  }, [searchJob.job_title]);
+
+  // Function to handle item selection
+  const onSelectFunc = (item) => {
+    setSearchJob({
+      ...searchJob,
+      job_title: item,
+    });
+    setListDataShow(false); // Hide the suggestion list after selecting an item
+  };
+
   return (
     <div className=" pt-5  banner-new bg-[url('@Assets/Home/BannerNew/bgmain.png')] bg-contain bg-no-repeat min-h-[100vh]  bg-[#090909] overflow-hidden hidden md:block">
       <div className="h-[50vh]  px-[15vw] flex items-start justify-center flex-col gap-5 relative">
         {/* <div className="   md:top-[8vw] md:left-[12vw]   lg:top-[2vw] lg:left-[13vw] absolute rounded-full w-[110px] h-[110px] border-2 border-solid border-[#606367]"></div> */}
 
         <h1 className="text-white text-[25px] sm:text-[4vw] font-bold leading-[1.2em] z-50">
-          Find your dream job
-          <br /> in education
+          Find your dream job Now
         </h1>
         <img
           onClick={() => navigate(`${AppRoute.Find_Jobs}`)}
@@ -56,7 +108,7 @@ const BannerNew = () => {
           }}
           className="w-[70%] flex z-50 text-black rounded-[30px]  border-white border-2 border-solid "
         >
-          <div className=" flex w-[100%] rounded-l-[30px]  justify-center items-center   bg-[#191919] px-2">
+          <div className="flex w-[100%] rounded-l-[30px] justify-center items-center bg-[#191919] px-2 relative">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -67,15 +119,17 @@ const BannerNew = () => {
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="lucide lucide-search text-white "
+              className="lucide lucide-search text-white"
             >
               <circle cx="11" cy="11" r="8" />
               <path d="m21 21-4.3-4.3" />
             </svg>
+
             <input
-              className=" text-white border-none placeholder-white "
+              className="text-white border-none placeholder-white"
               type="text"
               placeholder="Job, company or skills"
+              value={searchJob.job_title}
               onChange={(e) => {
                 setSearchJob({
                   ...searchJob,
@@ -83,6 +137,22 @@ const BannerNew = () => {
                 });
               }}
             />
+
+            {(listDataShow && listData.length > 0) && (
+              <div className="absolute top-12 h-[200px] w-[250px] bg-white rounded-lg p-3 flex flex-col gap-2 overflow-y-auto cursor-pointer">
+                {listData?.map((item, index) => {
+                  return (
+                    <p
+                      onClick={() => onSelectFunc(item)}
+                      className="hover:bg-gray-300 p-1 rounded-lg"
+                      key={index}
+                    >
+                      {item}
+                    </p>
+                  );
+                })}
+              </div>
+            )}
           </div>
           <div className=" h-full  flex justify-center items-center">
             <div className=" h-[50%] border-solid border-white border-1 flex justify-center items-center"></div>

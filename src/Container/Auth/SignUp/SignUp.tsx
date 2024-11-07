@@ -1,11 +1,7 @@
 import useReg from "@Hooks/Mutation/useReg";
-import useGetCityList from "@Hooks/Queries/useGetCityList";
-import useIndustryList from "@Hooks/Queries/useIndustryList";
-import useStatesList from "@Hooks/Queries/useStatesList";
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import useJobTitle from "@Hooks/Queries/useJobTitle";
 import useVerificationOtp from "@Hooks/Mutation/useVerificationOtp";
 import {
   EMAIL_REGEX,
@@ -15,8 +11,6 @@ import {
   STRONG_PASSWORD_MESSAGE,
 } from "@Utils/Validate";
 import { FormDataAppend } from "@Utils/FormDataAppend";
-
-import Otp from "../Component/Otp";
 import { Toast } from "@Utils/Toast";
 import { IRegType } from "@Type/LoginType";
 import { AppRoute } from "@Navigator/AppRoute";
@@ -26,9 +20,6 @@ import { useGlobalContext } from "@Context/GlobalContextProvider";
 import { AppConst } from "@/Enum/AppConst";
 
 import SignUpSecondModal from "./SignUpSecondModal";
-import JOBMATCHING from "@Assets/Icons/jobmatching.png";
-import AIICON from "@Assets/Icons/ai.png";
-import RESUMEICON from "@Assets/Icons/resume.png";
 import OtpSignUp from "../Component/OtpSignUp";
 import useSendOtp from "@Hooks/Mutation/useSendOtp";
 import useOtpCheck from "@Hooks/Mutation/useOtpCheck";
@@ -43,6 +34,7 @@ import googleIcon from "@Assets/search.png";
 import regIconBlack from "@Assets/Icons/connection_x2C.png";
 import regIconWhite from "@Assets/Icons/connection_white.png";
 import useStatesListCountryNode from "@Hooks/Queries/useStatesListCountryNode";
+import ResumeProgressBar from "./component/ResumeProgressBar";
 
 interface State {
   id: string;
@@ -103,9 +95,7 @@ const SignUp = () => {
       ...(updatedStatesUAE || []),
     ];
 
-    setAllNewStatesData(allStates); 
-
-
+    setAllNewStatesData(allStates);
   }, [isSuccessStateCountry]);
 
   const { data: cityList } = useGetCityListNode(
@@ -120,6 +110,26 @@ const SignUp = () => {
     setValue,
     formState: { errors },
   } = useForm<IRegType>();
+  const nameValue = watch("first_name");
+  const lastName = watch("last_name");
+  const [err, setErr] = useState(false);
+  const [errLn, setErrLn] = useState(false);
+
+  useEffect(() => {
+    if (nameValue && /^\s|\s$|\s{2,}/.test(nameValue)) {
+      setErr(true);
+    } else {
+      setErr(false);
+    }
+  }, [nameValue]);
+  useEffect(() => {
+    if (lastName && /^\s|\s$|\s{2,}/.test(lastName)) {
+      setErrLn(true);
+    } else {
+      setErrLn(false);
+    }
+  }, [lastName]);
+
   const { mutateAsync: reg, isPending } = useReg({});
   const { mutateAsync: verify, isPending: isSendOtp } = useVerificationOtp({});
   const { mutateAsync: sendOtp, isPending: isSendOtpLoader } = useSendOtp({});
@@ -131,6 +141,7 @@ const SignUp = () => {
   const [otpSendData, setOtpSendData] = useState({});
 
   let pwd = watch("password");
+  let resumewatch = watch("resume");
 
   const onSubmit: SubmitHandler<IRegType> = async (data) => {
     setMobileNumber(data?.mobile);
@@ -150,7 +161,10 @@ const SignUp = () => {
       state: filterState?.[0]?.name,
       added_by: "web",
     };
+    console.log('_data_data_data_data_data',_data);
     const formData: any = FormDataAppend(_data);
+
+ 
     try {
       await reg(formData).then((res) => {
         if (res?.statusCode === 200) {
@@ -195,7 +209,8 @@ const SignUp = () => {
             setTimeout(() => {
               navigate(AppRoute.Login);
             }, 3000);
-          } else {}
+          } else {
+          }
           Toast("error", res?.message);
         }
       });
@@ -215,7 +230,7 @@ const SignUp = () => {
       OtpCheck(data).then((res) => {
         if (res?.statusCode === 200) {
           setUserLoginData(res?.data);
-          navigate(AppRoute.Dashboard);
+          navigate(AppRoute.Profile);
           Toast("success", "Login successful! Enjoy your experience.");
         } else {
           Toast("error", res?.message);
@@ -239,6 +254,72 @@ const SignUp = () => {
     } catch (error) {}
 
     // navigate(data?.data);
+  };
+
+  const [progress, setProgress] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const [fileName, setFileName] = useState("");
+  const fileInputRef = useRef(null);
+
+  useEffect(()=>{
+    console.log('resumewatchresumewatchresumewatch',resumewatch);          // Reset progress bar to 0 for new file
+
+  },[resumewatch])
+
+  const handleFileUpload = (file) => {
+    console.log('cosoleofmf',file[0]);
+    const validTypes = [
+      "application/pdf",
+      "application/msword",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "image/jpeg",
+    ];
+    
+    if (file[0] && validTypes.includes(file[0].type)) {
+      setFileName(file[0].name);  // Set the file name
+      setProgress(0);
+      console.log('filefilefile',file);          // Reset progress bar to 0 for new file
+      // Simulate file upload progress for demo purposes
+      setValue("resume", file);
+      const interval = setInterval(() => {
+        setProgress((prev) => {
+          if (prev < 100) {
+            return prev + 1;
+          } else {
+            clearInterval(interval);
+            return 100;
+          }
+        });
+      }, 50);
+    } else {
+      setValue("resume", "");
+      Toast("error", "File type not supported. Please upload a valid PDF, Word document, or JPEG image.");
+    }
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setIsDragging(false);
+    const file = e.dataTransfer.files;
+    handleFileUpload(file);
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = () => {
+    setIsDragging(false);
+  };
+
+  const handleFileChange = (e) => {
+    const File = e.target.files[0];
+    const FileList = {
+      0 : File,
+      length : 1
+    }
+    handleFileUpload(FileList);
   };
 
   return (
@@ -357,6 +438,9 @@ const SignUp = () => {
                         {errors.first_name.message?.toString() || ""}
                       </small>
                     )}
+                    {err && (
+                      <p className=" text-red-500">Please do not add space.</p>
+                    )}
                   </div>
                   <div className="d-flex w-full  flex-column col-12 col-md-6 col-lg-4 mb-2 gap-2 px-md-2 ">
                     <label className="fw-bolder text-black">Last Name</label>
@@ -380,6 +464,9 @@ const SignUp = () => {
                       <small className="text-danger">
                         {errors.last_name.message}
                       </small>
+                    )}
+                    {errLn && (
+                      <p className=" text-red-500">Please do not add space.</p>
                     )}
                   </div>
                   <div className="d-flex w-full flex-column col-12 col-md-6 col-lg-4 mb-2 gap-2 px-md-2">
@@ -744,44 +831,51 @@ const SignUp = () => {
                     )}
                   </div>
 
-                  <div className="d-flex w-full flex-column cols-span-2  px-2 col-span-2  ">
+                  <div className="d-flex w-full flex-column cols-span-2 px-2 col-span-2">
                     <label
                       htmlFor="formFile"
                       className="form-label fw-bolder text-black"
                     >
-                      Upload Resume (Optional)
+                      Upload Resume (Optional) (Drag & Drop)
                     </label>
 
+                    <div
+                      className={`form-control border-2 border-dashed w-full bg-transparent text-black ${
+                        isDragging
+                          ? "border-blue-500 bg-blue-100"
+                          : "border-gray-300"
+                      }`}
+                      style={{
+                        height: "100px",
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                      onDrop={handleDrop}
+                      onDragOver={handleDragOver}
+                      onDragLeave={handleDragLeave}
+                      onClick={() => fileInputRef.current.click()}
+                    >
+                      {isDragging
+                        ? "Drop your file here"
+                        : fileName
+                        ? fileName
+                        : "Drag and drop a file, or click to select"}
+                    </div>
+
                     <input
-                      {...register("resume", {
-                        required: false,
-                      })}
-                      className="form-control border-2 border-[#c3c6c7] w-full bg-transparent border-dashed text-black "
+                      {...register("resume", { required: false })}
+                      ref={fileInputRef}
+                      className="hidden"
                       type="file"
                       id="formFile"
                       accept=".pdf,.doc,.docx,image/jpeg"
                       name="resume"
-                      style={{ height: "100px", width: "100%" }}
-                      onChange={(e: any) => {
-                        const file = e.target.files[0];
-                        const validTypes = [
-                          "application/pdf",
-                          "application/msword",
-                          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                          "image/jpeg",
-                        ];
-
-                        if (file && validTypes.includes(file.type)) {
-                          // File is valid, do something with the file
-                        } else {
-                          setValue("resume", "");
-                          Toast(
-                            "error",
-                            "File type not supported. Please upload a valid PDF, Word document, or JPEG image."
-                          );
-                        }
-                      }}
+                      onChange={handleFileChange}
                     />
+
+                    {fileName && <ResumeProgressBar progress = {progress} setProgress = {setProgress} />}
                   </div>
 
                   <div className="flex flex-col align-items-center mt-2 col-12 mb-2 col-span-2 ">

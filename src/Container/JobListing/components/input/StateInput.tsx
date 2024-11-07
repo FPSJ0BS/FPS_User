@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import  { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   initializeCityData,
@@ -13,9 +13,7 @@ export const StateInput = ({ State }) => {
   const {
     visibleCities,
     remainingCities,
-
     filterJobInputs,
-
   } = useSelector((state: RootState) => state.filterJobsSlice);
 
 

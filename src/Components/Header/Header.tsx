@@ -553,7 +553,7 @@ const Header = ({ clname = "", handleMobile }: any) => {
                   {!userData?.UID && (
                     <div className="header-customize-item button border-white border-1 border-solid  ">
                       <NavLink
-                        to="https://employer.fpsjob.com/"
+                        to="https://employer.tallento.ai/"
                         target={"_blank"}
                         aria-label="Sign Up page"
                       >

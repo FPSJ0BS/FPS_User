@@ -22,7 +22,6 @@ const ListDesignOne = ({
   query,
   setQuery,
 }) => {
-  console.log("jobsData ->>>>>>>>>>>>>>>>>>>>>>>>", jobsData);
   const dispatch = useDispatch();
   const { userData } = useGlobalContext();
 

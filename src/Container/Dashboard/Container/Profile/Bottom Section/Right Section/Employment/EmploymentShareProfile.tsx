@@ -113,9 +113,17 @@ function EmploymentShareProfile() {
 
                 <div className="flex items-center gap-2 mb-[-10px]">
                   <p className=" mb-0 capitalize text-gray-400 font-medium">
-                    {formatDate(start_date)}{" "}
-                    <span className=" normal-case">to Present -</span>{" "}
-                    {getDuration(start_date, end_date)}
+                    {parseInt(currently) === 1 ? (
+                      <>
+                        {formatDate(start_date)}{" "}
+                        <span className="normal-case">to Present</span>
+                        {/* {getDuration(start_date, end_date)} */}
+                      </>
+                    ) : (
+                      <>
+                        {formatDate(start_date)} - {formatDate(end_date)}
+                      </>
+                    )}
                   </p>
                 </div>
 

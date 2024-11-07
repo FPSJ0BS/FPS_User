@@ -411,7 +411,8 @@ const AppRouter = () => {
       {showPopup && <CityPopup />}
       {showPopupSubjects && <SubjectsPopup />}
       {modalOpenReview && <Review />}
-      {/* {isVisible && <BannerPopup setpopupTime = {setpopupTime} />} */}
+      
+      <BannerPopup imageType = {"Web Home Banner Popup"}/>
 
       <Suspense fallback={<Preloader />}>
         <Routes>

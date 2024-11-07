@@ -4,14 +4,14 @@ import { Querykeys } from "./queryname";
 import { doGetBlogDetails } from "@Repo/ProfileRepo";
 
 type IProps = IQuery<UseQueryOptions<any, Error, any, QueryKey>> & {
-  blog_id: any;
+  blogId: any;
 };
 
 function useBlogDetails(props: IProps) {
-  const { blog_id, ...prop } = props;
+  const { blogId, ...prop } = props;
   return useQuery({
-    queryKey: [Querykeys.blogDetails, blog_id],
-    queryFn: () => doGetBlogDetails({blog_id}),
+    queryKey: [Querykeys.blogDetails, blogId],
+    queryFn: () => doGetBlogDetails({blogId}),
     ...prop,
   });
 }

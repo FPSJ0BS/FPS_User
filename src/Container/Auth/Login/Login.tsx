@@ -292,7 +292,7 @@ const Login = () => {
                                 OtpCheck(query).then((res) => {
                                   if (res?.statusCode === 200) {
                                     setUserLoginData(res?.data);
-                                    navigate(AppRoute.Dashboard);
+                                    navigate(AppRoute.Profile);
                                     Toast(
                                       "success",
                                       "Login successful! Enjoy your experience."

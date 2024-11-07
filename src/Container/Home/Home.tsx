@@ -1,91 +1,68 @@
 import { AppConst } from "@/Enum/AppConst";
-import Banner from "@Components/Banner/Banner";
-import Box from "@Components/Box/Box";
-import Category from "@Components/Category/Category";
 import Couter from "@Components/Couter/Couter";
-import GetApp from "@Components/GetApp/GetApp";
 import JobsByLocation from "@Components/JobsByLocation/JobsByLocation";
-
-import Partner from "@Components/Partner/Partner";
-import ReviewJob from "@Components/ReviewJob/ReviewJob";
 import SEO from "@Components/Seo/Seo";
 import Testimonial from "@Components/aboutPage/Testimonial";
 import SignUPModal from "@Container/Auth/SignUp/SignUPModal";
 import useFeaturedCity from "@Hooks/Queries/useFeaturedCity";
 import Modal from "@Container/Home/Component/Modal/Modal";
-import { memo, useEffect, useLayoutEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAccessTokenGenerate from "@Hooks/Mutation/useAccessTokenGenerate";
 import { useAccessTokenContext } from "@Context/AccessTokenContextProvider";
 import useLinkedinProfile from "@Hooks/Queries/useLinkedinProfile";
 import BannerNew from "./Component/BannerNew/BannerNew";
 import CategoryNew from "./Component/CategoryNew/CategoryNew";
-import Jobs from "@Components/Jobs/Jobs";
 import BannerMobile from "./Component/BannerMobile/BannerMobile";
 import RESUMEBANNER from "@Assets/Home/craft resume.svg";
-import GetAppNew from "@Components/GetApp/GetAppNew";
 import JobsByCityNew from "@Components/JobsByLocation/jobsByCityNew";
 import WhyChoose from "./Component/WhyChoose/WhyChoose";
 import { AppRoute } from "@Navigator/AppRoute";
-import PopupHome from "./Component/PopupHome/PopupHome";
-import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { getEmailVerify } from "@/api/api";
 import { Toast } from "@Utils/Toast";
-import { useGlobalContext } from "@Context/GlobalContextProvider";
+import DiwaliCTA from "@Assets/Home/BannerNew/Diwali CTA.png"
+import HomeCta from "./Component/HomeCta/HomeCta";
 
 const Home = () => {
-
-
   useEffect(() => {
     const storeData = async () => {
       const urlParams = new URLSearchParams(window.location.search);
-      const data = urlParams.get('data');
+      const data = urlParams.get("data");
 
-      console.log('data->>>>>>>',data);
+      console.log("data->>>>>>>", data);
 
       if (data) {
         try {
-        
-    
           const parsedData = await JSON.parse(data);
 
           const userData = await parsedData.userData;
 
- 
-          console.log('User Data:', userData);
+          console.log("User Data:", userData);
 
-       
-          await localStorage.setItem('token:fpsjob', JSON.stringify(userData));
-
-        
+          await localStorage.setItem("token:fpsjob", JSON.stringify(userData));
 
           Toast("success", "Registration Successful, redirecting...");
-          
 
           setTimeout(() => {
             window.location.href = "http://localhost:5173/dashboard/profile";
-        }, 2000);
-        
+          }, 2000);
         } catch (error) {
-          console.error('Error parsing data:', error);
+          console.error("Error parsing data:", error);
         }
       } else {
-        console.log('No data found in query parameters.');
+        console.log("No data found in query parameters.");
       }
     };
 
     storeData();
   }, []);
 
-
-
   const { authorization, setUserLoginData } = useAccessTokenContext();
   const navigate = useNavigate();
   let accessToken;
 
   const { data: cityList } = useFeaturedCity({});
-
 
   const [isModal, setIsModal] = useState(false);
   const { mutateAsync: GenerateToken } = useAccessTokenGenerate({});
@@ -173,8 +150,6 @@ const Home = () => {
     }
   }, []);
 
-
-
   return (
     <>
       <SEO
@@ -185,9 +160,11 @@ const Home = () => {
         }
         name={`${AppConst.LogoName}`}
         type={"Job Board"}
-        canonicalUrl = {"https://tallento.ai/"}
+        canonicalUrl={"https://tallento.ai/"}
       />
       {/* <PopupHome /> */}
+     <HomeCta imageType = {"Web Home Cta One"}/>
+     
       <BannerMobile />
       <BannerNew />
 

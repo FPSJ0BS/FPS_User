@@ -19,9 +19,11 @@ const BlogDetails = () => {
   const { id } = useParams();
   const { data: blogDetails } = useBlogDetails({
     enabled: !!id,
-    blog_id: atob(id || ""),
+    blogId: atob(id || ""),
   });
   const blog_details = blogDetails?.data?.[0];
+  console.log("blog_details", blog_details);
+  console.log("blog", blog);
 
   return (
     <>
@@ -33,12 +35,12 @@ const BlogDetails = () => {
                 <img
                   src={
                     blog_details?.blogimage
-                      ? `${blog?.data?.img_base_url}/${blog_details?.blogimage}`
+                      ? `${blog_details?.blogimage}`
                       : singleJob
                   }
-                  className="img-fluid rounded-top"
-                  style={{ objectFit: "cover" }}
-                  alt=""
+                  className=" h-[200px] object-cover object-top"
+                 
+                  alt="Blog Image"
                 />
                 <div className="card-body">
                   <h6 className="mb-3">
@@ -90,7 +92,7 @@ const BlogDetails = () => {
                                 <div style={{ width: "75px", height: "45px" }}>
                                   <Imag
                                     alt="img"
-                                    src={`${blog?.data?.img_base_url}${item?.blogimage}`}
+                                    src={`https://admin.fpsjob.com/sources/upload/${item?.blogimage}`}
                                     className=" rounded"
                                     style={{
                                       width: "100%",

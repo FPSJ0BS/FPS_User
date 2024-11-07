@@ -10,7 +10,6 @@ export const AppRoute = {
   Info:"info",
   SignUp: "/signup",
   SignUpAll: "/signup",
-  Profile: "profile",
   Apply_job: "/apply-job",
   Thank_You: "/thank-you",
   Contact_Us: "/contact-us",
@@ -34,5 +33,6 @@ export const AppRoute = {
   services:"resume-builder",
   resume:"resume-builder",
   ShareProfile:"share-profile",
+  Profile:"/dashboard/profile",
   
 };

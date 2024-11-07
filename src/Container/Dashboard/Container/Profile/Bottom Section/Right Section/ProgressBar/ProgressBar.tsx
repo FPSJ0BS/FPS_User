@@ -94,7 +94,7 @@ function ProgressBar() {
       }
  
       const shareLink = res.data?.data?.url; 
-      console.log('shareLink',shareLink);
+
   
 
       await navigator.clipboard.writeText(shareLink);

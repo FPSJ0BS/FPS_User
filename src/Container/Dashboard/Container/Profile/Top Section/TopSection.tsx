@@ -22,7 +22,7 @@ function TopSection() {
     ? userDataArray.other_details.banner
     : defaultBanner;
 
-  console.log(banner);
+
 
   function formatDate(inputDate) {
     const months = [
@@ -64,7 +64,6 @@ function TopSection() {
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
 
-    console.log(file);
 
     const formdata = new FormData();
     formdata.append("banner", file);

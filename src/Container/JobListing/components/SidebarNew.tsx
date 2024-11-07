@@ -79,7 +79,7 @@ const SidebarNew = ({
     scrollToTop();
     await setSearchParams((params) => {
       let queryParams = Object.keys(query);
-      console.log("queryParams", queryParams);
+
 
       // params.delete("EmployerPostJobState");
 
@@ -113,8 +113,6 @@ const SidebarNew = ({
         search: queryParams.toString(),
       });
     }
-
-    // Now clear the list and trigger the search
     
   };
 
@@ -300,9 +298,7 @@ const SidebarNew = ({
     dispatch(uncheckAllJobType());
   };
 
-  useEffect(() => {
-    console.log("query ->>>>>>>>>>>>>>>>>>", query);
-  }, [query]);
+
 
   return (
     <form

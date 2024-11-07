@@ -91,7 +91,7 @@ export const doGetBlog = async (data) => {
 // //////////////////////////////////
 
 export const doGetBlogDetails = async (data) => {
-  const res = await http.postRequestForm(`blog/blog_details`, data);
+  const res = await httpNode.postRequest(`user/blogDetail`, data);
   return res;
 };
 

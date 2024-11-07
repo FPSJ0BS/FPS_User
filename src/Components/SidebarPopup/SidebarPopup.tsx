@@ -138,7 +138,7 @@ const SidebarPopup = ({ handleMobile }: any) => {
         <div className="mobile-footer">
           {!userData?.UID && (
             <div className="header-customize-item button mb-5">
-              <NavLink to="https://employer.fpsjob.com/" target={"_blank"}>
+              <NavLink to="https://employer.tallento.ai/" target={"_blank"}>
                 Post Job
               </NavLink>
             </div>
