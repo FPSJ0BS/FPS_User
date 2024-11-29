@@ -146,6 +146,8 @@ const Profile = () => {
       const educationtData = await EducationTypeData?.data;
       // const fullUserData = useData?.data?.user;
       const skillsDataFull = skillsData?.data;
+
+      console.log('skillsDataFullskillsDataFullskillsDataFullskillsDataFullskillsDataFullskillsDataFullskillsDataFullskillsDataFull',skillsDataFull);
       const skillsDataFullTwo = skillsData?.data.map((skill) => {
         return {
           ...skill,

@@ -188,7 +188,7 @@ function ResumeTwo({handlePayment}) {
     return `${month} ${year}`;
   };
 
-  const getYearFromDate = (dateString) => dateString.split("-")[0];
+  const getYearFromDate = (dateString) => dateString?.split("-")[0];
 
   const Doc = () => (
     <Document>

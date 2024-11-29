@@ -1,4 +1,3 @@
-
 import useCategoryList from "@Hooks/Queries/useCategoryList";
 import { HTMLAttributes, memo, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -35,17 +34,18 @@ const CategoryNew = (props: IProps) => {
     text: " Recruitment made easy for candidates searching for IIT JEE, NEET Coaching jobs, Edtech jobs, School teacher jobs & Other Education Sector Jobs",
   });
   const { data: Category } = useCategoryList({});
-  
 
   const navigate = useNavigate();
   return (
     <div className="   border-none md:mt-[-2vh]  border-t-2 md:border-solid border-white flex pt-[40px] gap-5 flex-col  min-h-[600px] items-start justify-center px-[20px] md:pl-[50px] lg:pl-[100px] mb-[50px] bg-[#0b0b0b]  bg-cover bg-no-repeat">
       <div className=" flex flex-col gap-3">
-        <h2 className=" text-white text-[40px] font-bold">Browse By Category</h2>
+        <h2 className=" text-white text-[40px] font-bold">
+          Browse By Category
+        </h2>
         <p className=" pr-5 block md:hidden mb-0 text-[14px] text-[#cccccc]">
           Recruitment made easy for candidates searching for IIT JEE, NEET
-          Coaching jobs, Edtech jobs, School teacher
-          jobs & Other Education Sector Jobs
+          Coaching jobs, Edtech jobs, School teacher jobs & Other Education
+          Sector Jobs
         </p>
         <p className=" hidden md:block mb-0 text-[14px] text-[#cccccc]">
           Recruitment made easy for candidates searching for IIT JEE, NEET
@@ -54,59 +54,60 @@ const CategoryNew = (props: IProps) => {
         </p>
       </div>
       <div className=" flex flex-wrap gap-10  pb-[100px] cursor-pointer">
-        {Category?.data?.filter(item => item.status === "1").map((idx, index) => {
-          
-          return (
-            <div
-              key={index}
-              className={` gap-3 `}
-              onClick={() => {
-                setCategoryData(idx);
+        {Category?.data
+          ?.filter((item) => item.status === "1")
+          .map((idx, index) => {
+            return (
+              <div
+                key={index}
+                className={` gap-3 `}
+                onClick={() => {
+                  setCategoryData(idx);
 
-                navigate(
-                  `/${idx?.category
-                    .trim()
-                    .replaceAll(" ", "-")
-                    .toLowerCase()}/${idx?.ID}`,
-                  {
-                    state: idx?.ID,
-                  }
-                );
-              }}
-            >
-              {/* <div className="categorycard "></div> */}
+                  navigate(
+                    `/${idx?.category
+                      .trim()
+                      .replaceAll(" ", "-")
+                      .toLowerCase()}/${idx?.ID}`,
+                    {
+                      state: idx?.ID,
+                    }
+                  );
+                }}
+              >
+                {/* <div className="categorycard "></div> */}
 
-              <div className=" flex w-[300px] px-[20px] h-[60px] bg-[#0e0e0e] border-solid border-2 border-[#2a2a2a] rounded-2xl">
-                <div className=" w-[20%] flex justify-center items-center h-full">
-                  <img
-                    className="w-[60%]"
-                    src={icons[index + 1]}
-                    alt={`${idx.category} icon`}
-                  />
-                </div>
-                <div className=" w-[70%] flex justify-start items-center">
-                  <h4 className=" text-white">{idx.category}</h4>
-                </div>
-                <div className=" w-[10%] flex justify-start items-center">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="lucide lucide-chevron-right text-white"
-                  >
-                    <path d="m9 18 6-6-6-6" />
-                  </svg>
+                <div className=" flex w-[300px] px-[20px] h-[60px] bg-[#0e0e0e] border-solid border-2 border-[#2a2a2a] rounded-2xl">
+                  <div className=" w-[20%] flex justify-center items-center h-full">
+                    <img
+                      className="w-[60%]"
+                      src={icons[index + 1]}
+                      alt={`${idx.category} icon`}
+                    />
+                  </div>
+                  <div className=" w-[70%] flex justify-start items-center">
+                    <h4 className=" text-white">{idx.category}</h4>
+                  </div>
+                  <div className=" w-[10%] flex justify-start items-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="lucide lucide-chevron-right text-white"
+                    >
+                      <path d="m9 18 6-6-6-6" />
+                    </svg>
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
       </div>
     </div>
   );

@@ -12,7 +12,7 @@ import { getRefetchUserProfileData } from "@/api/api";
 import { Toast } from "@Utils/Toast";
 import { openModal, updateAppliedJobValues } from "@/Redux/appliedJobSlice";
 import { useDispatch } from "react-redux";
-import { FaLocationDot } from "react-icons/fa6";
+import { FaBusinessTime, FaCalendarDays, FaLocationDot } from "react-icons/fa6";
 import { AiFillAlert } from "react-icons/ai";
 import { TbHourglassFilled } from "react-icons/tb";
 import { AiFillProfile } from "react-icons/ai";
@@ -22,6 +22,7 @@ import { IoIosTime } from "react-icons/io";
 const JobDetailsUpdate = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
+  console.log('idididididid',id);
   const { userData } = useGlobalContext();
   const { data: Category } = useCategoryList({});
   const uid = userData?.UID ? userData?.UID : 103082;
@@ -41,7 +42,7 @@ const JobDetailsUpdate = () => {
     }
   );
   const jobWhole = jobsDetails?.data?.job;
-  console.log("jobWholejobWhole", jobWhole);
+
   const [searchJob] = useState<any>({
     facultyID: userData?.UID ? userData?.UID : 103082,
     page: 0,
@@ -114,6 +115,21 @@ const JobDetailsUpdate = () => {
       return `${differenceInYears} years ago`;
     }
   };
+
+  const convertToAmPm = (timeStr) => {
+    // Create a Date object from the time string
+    const [hours, minutes, seconds] = timeStr.split(':');
+    
+    // Convert to 12-hour format and determine AM/PM
+    let hour = parseInt(hours, 10); // Convert the hour to an integer
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    
+    // Convert hour from 24-hour to 12-hour format
+    hour = hour % 12;
+    hour = hour ? hour : 12; // the hour '0' should be '12' (midnight case)
+    
+    return `${hour} ${ampm}`;
+  }
 
   return (
     <div className="container cursor-default">
@@ -465,6 +481,32 @@ const JobDetailsUpdate = () => {
                   </div>
                   <p className=" text-[#c94f56] font-bold">
                     {getRelativeTime(jobWhole?.created_at)}
+                  </p>
+                </div>
+              )}
+              {(jobWhole?.shift_start && jobWhole?.shift_end) && (
+                <div className=" bg-[#f9eeef] min-h-[50px] min-w-[150px] rounded-lg p-2 flex flex-col gap-1">
+                  <div className="flex items-center gap-1">
+                    <FaBusinessTime size={20} />
+                    <p className=" mb-0 text-[13px] font-semibold">
+                      Shift Timings:
+                    </p>
+                  </div>
+                  <p className=" text-[#c94f56] font-bold">
+                    {convertToAmPm(jobWhole?.shift_start)} - {convertToAmPm(jobWhole?.shift_end)}
+                  </p>
+                </div>
+              )}
+               {jobWhole?.working_days && (
+                <div className=" bg-[#f9eeef] min-h-[50px] min-w-[150px] rounded-lg p-2 flex flex-col gap-1">
+                  <div className="flex items-center gap-1">
+                    <FaCalendarDays size={18} />
+                    <p className=" mb-0 text-[13px] font-semibold">
+                      Working Days:
+                    </p>
+                  </div>
+                  <p className=" text-[#c94f56] font-bold">
+                    {jobWhole?.working_days}
                   </p>
                 </div>
               )}

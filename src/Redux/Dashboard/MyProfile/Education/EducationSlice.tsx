@@ -103,7 +103,7 @@ interface AppliedJobState {
   careerPreferenceDataArray: SkillData[];
   idCounter: number;
   refetchProfile: boolean;
-  shareprofileUID:string
+  shareprofileUID: string;
 }
 
 const initialState: AppliedJobState = {
@@ -182,7 +182,7 @@ const initialState: AppliedJobState = {
   editLanguageData: {
     languageId: null,
   },
-  shareprofileUID : ""
+  shareprofileUID: "",
 };
 
 const myProfileEducationSlice = createSlice({
@@ -413,51 +413,52 @@ const myProfileEducationSlice = createSlice({
     addSkill: (state, action) => {
       const { skillId, skill } = action.payload;
       const existingSkill = state.skillsDataAddArray.find(
-          (skill) => skill.skillId === skillId
+        (skill) => skill.skillId === skillId
       );
-  
+
       if (existingSkill) {
-          existingSkill.active = 1;
+        existingSkill.active = 1;
       } else {
-          const newSkill = {
-              id: state.idCounter,
-              skill: skill,
-              skillId: skillId,
-              active: 1,
-              created_at: new Date().toISOString(),
-          };
-          state.skillsDataAddArray.push(newSkill);
-          state.idCounter += 1;
+        const newSkill = {
+          id: state.idCounter,
+          skill: skill,
+          skillId: skillId,
+          active: 1,
+          created_at: new Date().toISOString(),
+        };
+        state.skillsDataAddArray.push(newSkill);
+        state.idCounter += 1;
       }
-  
-      const combinedSkills = [...state.skillsDataArrayAfter, ...state.skillsDataAddArray];
-  
+
+      const combinedSkills = [
+        ...state.skillsDataArrayAfter,
+        ...state.skillsDataAddArray,
+      ];
+
       const uniqueSkillsMap = new Map();
-      combinedSkills.forEach(skill => {
-          if (skill.active === 1) {
-              uniqueSkillsMap.set(skill.skillId, skill);
-          }
+      combinedSkills.forEach((skill) => {
+        if (skill.active === 1) {
+          uniqueSkillsMap.set(skill.skillId, skill);
+        }
       });
-  
+
       state.skillsDataArrayAfter = Array.from(uniqueSkillsMap.values());
-  },
-  
+    },
 
-  deleteSkill: (state, action) => {
-    const skillIdToDelete = action.payload;
-    const skillToDelete = state.skillsDataAddArray.find(
+    deleteSkill: (state, action) => {
+      const skillIdToDelete = action.payload;
+      const skillToDelete = state.skillsDataAddArray.find(
         (skill) => skill.skillId === skillIdToDelete
-    );
+      );
 
-    if (skillToDelete) {
+      if (skillToDelete) {
         skillToDelete.active = 0;
-    }
+      }
 
-    state.skillsDataArrayAfter = state.skillsDataArrayAfter.filter(
+      state.skillsDataArrayAfter = state.skillsDataArrayAfter.filter(
         (skill) => skill.skillId !== skillIdToDelete
-    );
-},
-
+      );
+    },
 
     addMultipleSkillsFromAPI: (state, action: PayloadAction<SkillData[]>) => {
       const newSkills = action.payload.map((skill, index) => ({
@@ -468,9 +469,7 @@ const myProfileEducationSlice = createSlice({
         created_at: skill.created_at,
       }));
 
-  
       state.skillsDataAddArray = newSkills;
-
 
       state.idCounter += newSkills.length;
 
@@ -487,13 +486,13 @@ const myProfileEducationSlice = createSlice({
       // Combine existing skills with new skills
       const combinedSkills = [...state.skillsDataArrayAfter, ...newSkillsAdd];
       const uniqueSkillsMap = new Map();
-      combinedSkills.forEach(skill => {
-          uniqueSkillsMap.set(skill.skillId, skill);
+      combinedSkills.forEach((skill) => {
+        uniqueSkillsMap.set(skill.skillId, skill);
       });
-  
+
       // Convert the Map back to an array to get unique skills
       const uniqueSkillsArray = Array.from(uniqueSkillsMap.values());
-  
+
       // Update the state with the unique skills
       state.skillsDataArrayAfter = uniqueSkillsArray;
     },
@@ -566,7 +565,7 @@ export const {
   deleteSkill,
   addMultipleSkillsFromAPI,
   toggleRefetchProfile, // Export the new reducer
-  addShareProfileUID
+  addShareProfileUID,
 } = myProfileEducationSlice.actions;
 
 export default myProfileEducationSlice.reducer;

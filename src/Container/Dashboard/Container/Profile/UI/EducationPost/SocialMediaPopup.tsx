@@ -85,7 +85,7 @@ function SocialMediaPopup() {
     const finArray = {
       ...formData,
       social_link: Object.entries(formData.social_link)
-        .filter(([_, value]) => value) // Filter out entries with empty values
+        .filter(([_, value]) => value)
         .map(([key, value]) => ({
           [key]: value,
         })),

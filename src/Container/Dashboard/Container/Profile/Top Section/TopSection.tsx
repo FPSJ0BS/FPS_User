@@ -22,8 +22,6 @@ function TopSection() {
     ? userDataArray.other_details.banner
     : defaultBanner;
 
-
-
   function formatDate(inputDate) {
     const months = [
       "Jan",
@@ -64,10 +62,9 @@ function TopSection() {
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
 
-
     const formdata = new FormData();
     formdata.append("banner", file);
-    formdata.append("faculityID", userId);
+    formdata.append("facultyID", userId);
 
     try {
       const res = await postOtherDetails(formdata);
@@ -134,17 +131,11 @@ function TopSection() {
       </div>
       <div className="flex flex-col md:flex-row justify-center items-center">
         <div className=" w-[100%] md:w-[30%]  h-full flex justify-center items-center">
-
-        
-            
-            <img
-              className=" w-[100px] h-[100px] md:w-[200px] md:h-[200px] border-1 border-solid border-gray-300 rounded-full"
-              src={userDataArray?.image ? userDataArray?.image : dummyimage}
-              alt="profileiamge"
-            />
-
-          
-
+          <img
+            className=" w-[100px] h-[100px] md:w-[200px] md:h-[200px] border-1 border-solid border-gray-300 rounded-full"
+            src={userDataArray?.image ? userDataArray?.image : dummyimage}
+            alt="profileiamge"
+          />
         </div>
 
         <div className=" w-[100%] md:w-[70%] h-full py-4 ">

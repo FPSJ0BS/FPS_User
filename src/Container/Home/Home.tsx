@@ -163,6 +163,7 @@ const Home = () => {
         canonicalUrl={"https://tallento.ai/"}
       />
       {/* <PopupHome /> */}
+      
      <HomeCta imageType = {"Web Home Cta One"}/>
      
       <BannerMobile />

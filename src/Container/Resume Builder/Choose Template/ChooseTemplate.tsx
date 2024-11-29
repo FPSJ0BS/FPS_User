@@ -27,15 +27,7 @@ function ChooseTemplate() {
     dispatch(addNumberToTemplateNumber(null));
   }, []);
 
-  const extractNumberFromPath = (path) => {
-    const regex = /Resume (\d+)/;
-    const match = path.match(regex);
-    if (match && match[1]) {
-      return parseInt(match[1], 10);
-    } else {
-      return "No number found in the string.";
-    }
-  };
+  
 
   const handlePreviewClick = (imgData) => {
     setSelectedImageUrl(imgData);
@@ -53,8 +45,6 @@ function ChooseTemplate() {
   
 
   function convertDataToArray(data) {
-    // Extract the base URL separately
-    const baseURL = data.base_url;
 
     // Filter out the base URL key and convert the rest of the data to an array
     const resultArray = Object.keys(data)

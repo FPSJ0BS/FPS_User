@@ -18,21 +18,17 @@ import Breadcrumb from "@Components/Breadcrump";
 import SEO from "@Components/Seo/Seo";
 import { useGlobalContext } from "@Context/GlobalContextProvider";
 import { AppConst } from "@/Enum/AppConst";
-
 import SignUpSecondModal from "./SignUpSecondModal";
 import OtpSignUp from "../Component/OtpSignUp";
 import useSendOtp from "@Hooks/Mutation/useSendOtp";
 import useOtpCheck from "@Hooks/Mutation/useOtpCheck";
-import useStatesListNode from "@Hooks/Queries/useStatesListNode";
 import { getEmailVerifyInitiate, getGoogleAPI } from "@/api/api";
 import useGetCityListNode from "@Hooks/Queries/useGetCityListNode";
 import useIndustryListNode from "@Hooks/Queries/useIndustryListNode";
 import useJobTitleNode from "@Hooks/Queries/useJobTitleNode";
-import GoogleAuth from "../Component/GoogleAuth";
 // import useExperiences from "@Hooks/Queries/useExperiences";
-import googleIcon from "@Assets/search.png";
-import regIconBlack from "@Assets/Icons/connection_x2C.png";
 import regIconWhite from "@Assets/Icons/connection_white.png";
+import regIconBlack from "@Assets/Icons/connection_x2C.png";
 import useStatesListCountryNode from "@Hooks/Queries/useStatesListCountryNode";
 import ResumeProgressBar from "./component/ResumeProgressBar";
 
@@ -836,7 +832,7 @@ const SignUp = () => {
                       htmlFor="formFile"
                       className="form-label fw-bolder text-black"
                     >
-                      Upload Resume (Optional) (Drag & Drop)
+                      Upload Resume (Optional)
                     </label>
 
                     <div

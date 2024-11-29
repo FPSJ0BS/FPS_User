@@ -3,18 +3,11 @@ import { useEffect, useState } from "react";
 import CloseIcon from "@Assets/Icons/remove.png";
 import {
   addSkill,
- 
   closeModalSkillsAddModal,
   deleteSkill,
-
   toggleRefetchProfile,
 } from "@/Redux/Dashboard/MyProfile/Education/EducationSlice";
-import {
-
-  getSelectedListSkill,
-
-  postSubmitSkillsData,
-} from "@/api/api";
+import { getSelectedListSkill, postSubmitSkillsData } from "@/api/api";
 import { Toast } from "@Utils/Toast";
 import { useGlobalContext } from "@Context/GlobalContextProvider";
 
@@ -27,12 +20,9 @@ function SkillsPopup() {
 
   const [buttonLoad, setButtonLoad] = useState(false);
 
-
-  const {  skillsDataAddArray,  skillsDataArrayAfter } = useSelector(
+  const { skillsDataAddArray, skillsDataArrayAfter } = useSelector(
     (state: any) => state.myProfileEducationSlice
   );
-
-
 
   const popupCloseFunc = async () => {
     await dispatch(closeModalSkillsAddModal());
@@ -42,29 +32,24 @@ function SkillsPopup() {
     dispatch(deleteSkill(id));
   };
 
-
-
   const handleSubmitSkill = async () => {
-  
     const commaSkills = await getCommaSeparatedSkillIds();
- 
 
     try {
       setButtonLoad(true);
-      const res = await postSubmitSkillsData([{
-        faculityID: userId,
-        skill: commaSkills,
-      }]);
+      const res = await postSubmitSkillsData([
+        {
+          faculityID: userId,
+          skill: commaSkills,
+        },
+      ]);
 
       if (res?.data?.status) {
         await popupCloseFunc();
         await Toast("success", res?.data?.message);
         await setButtonLoad(false);
-    
-          dispatch(toggleRefetchProfile())
 
-        
-       
+        dispatch(toggleRefetchProfile());
       } else {
         popupCloseFunc;
         Toast("error", res?.data?.message);
@@ -92,21 +77,15 @@ function SkillsPopup() {
     dispatch(addSkill(newSkill));
   };
 
-
-
-
-
   const [selectedSkill, setSelectedSkill] = useState([]);
-
 
   const selectList = async () => {
     try {
       const res = await getSelectedListSkill(userId);
 
       if (res?.data?.status) {
-        const skill = await res?.data?.data
-        await setSelectedSkill(skill)
-      
+        const skill = await res?.data?.data;
+        await setSelectedSkill(skill);
       }
     } catch (error) {
       console.log(error);
@@ -129,21 +108,22 @@ function SkillsPopup() {
         <div className="w-full border-b-[1.5px] border-dashed border-[#4a4e69] mt-6"></div>
         <div className="w-full h-full pl-[30px] pr-[10px] py-2 md:pl-[50px] md:pr-[50px] md:mt-[20px]">
           <div className=" h-[80%] md:h-[75%] w-full border-1 border-solid border-gray-200 p-3 rounded-xl overflow-y-auto handleScrollbarMain">
-
-
             <div
               className={` w-full  flex gap-3 flex-wrap ${
                 skillsDataAddArray.length > 0 ? "mb-[30px] " : ""
               } `}
             >
               {skillsDataArrayAfter
-                ?.filter((item) => item.active === 1)?.map(({ skill, id, skillId }) => {
+                ?.filter((item) => item.active === 1)
+                ?.map(({ skill, id, skillId }) => {
                   return (
                     <div
                       key={id}
                       className=" flex gap-2 items-center justify-center bg-[#1d3557] text-white px-3 rounded-[30px] cursor-default"
                     >
-                      <p className=" capitalize mb-0 leading-[1.2em] py-2">{skill}</p>
+                      <p className=" capitalize mb-0 leading-[1.2em] py-2">
+                        {skill}
+                      </p>
                       <svg
                         onClick={() => deletSkillFunc(skillId)}
                         xmlns="http://www.w3.org/2000/svg"
@@ -163,14 +143,13 @@ function SkillsPopup() {
                     </div>
                   );
                 })}
-
-
-                
             </div>
 
-            <AddSkills selectList={selectList}/>
+            <AddSkills selectList={selectList} />
 
-            <div className={` w-full flex gap-3  flex-wrap mt-30  handleScrollbarMain`}>
+            <div
+              className={` w-full flex gap-3  flex-wrap mt-30  handleScrollbarMain`}
+            >
               {skillsDataAddArray
                 ?.filter((item) => item.active === 0)
                 ?.map(({ skill, skillId }) => {
@@ -180,7 +159,9 @@ function SkillsPopup() {
                       key={skillId}
                       className="   flex gap-2  items-center justify-center bg-[#e7e7f0] text-black px-3 rounded-[30px] cursor-pointer hover:animate-pulse  "
                     >
-                      <p className=" capitalize mb-0 leading-[1.2em] py-2 ">{skill}</p>
+                      <p className=" capitalize mb-0 leading-[1.2em] py-2 ">
+                        {skill}
+                      </p>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="20"

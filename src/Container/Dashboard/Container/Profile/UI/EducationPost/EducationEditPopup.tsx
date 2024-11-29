@@ -162,6 +162,7 @@ function EducationEditPopup() {
               onSubmit={(e) => onSubmitData(e)}
               className=" grid grid-cols-1 md:grid-cols-2 gap-4 border-1 border-solid border-[#eff0f2] rounded-lg p-3 m-4 place-content-center place-items-start"
             >
+              
               <InstituteNameEducationEdit />
               <CourseEducationEdit />
               <StartDateEducationEdit />

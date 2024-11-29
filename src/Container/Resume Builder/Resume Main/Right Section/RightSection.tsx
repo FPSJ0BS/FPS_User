@@ -24,8 +24,6 @@ function RightSection() {
   );
   const [Razorpay] = useRazorpay();
 
- 
-
   const { mutateAsync: createOrder } = useCreateOrder({});
 
   const { mutateAsync: reusmeBuy } = useResumeBuy({});
