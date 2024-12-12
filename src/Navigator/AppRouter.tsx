@@ -38,6 +38,7 @@ import axios from "axios";
 import { useGlobalContext } from "@Context/GlobalContextProvider";
 import BannerPopup from "@Components/Modal/BannerPopup";
 import { addShareProfileUID } from "@/Redux/Dashboard/MyProfile/Education/EducationSlice";
+import TermsAndConditionsPopup from "@Components/TermsAndConditions/TermsAndConditionsPopup";
 ReactGA.initialize("G-41YD1SK57B");
 
 const BlogDetails = lazy(() => import("@Container/Blog/BlogDetails"));
@@ -105,6 +106,7 @@ const Privacypolicy = lazy(
   () => import("@Container/privacypolicy/Privacypolicy")
 );
 const RefundPolicy = lazy(() => import("@Container/RefundPolicy/RefundPolicy"));
+const TermsAndConditions = lazy(() => import("@Container/TermsAndConditions/TermsAndConditions"));
 
 const AppRouter = () => {
   const dispatch = useDispatch();
@@ -160,6 +162,7 @@ const AppRouter = () => {
     modalOpenMembership,
     modalOpenmodalOpenLogin,
     modalOpenReview,
+    modalOpenTermsAndConditions
   } = useSelector((state: any) => state.appliedJobSlice);
   const { showPopup, showPopupSubjects } = useSelector(
     (state: RootState) => state.filterJobsSlice
@@ -208,18 +211,11 @@ const AppRouter = () => {
 
   useEffect(() => {
     const headerData = localStorage.getItem("token:fpsjob");
-  
-    if (!headerData) return; // Early return if headerData is null
-  
-    // Now it's safe to parse since we've checked it's not null
+
+    if (!headerData) return; 
     const main = JSON.parse(headerData);
-    console.log("-<><><><><><><>", main?.loginToken);
-  
-    // Check if userData?.UID exists before proceeding
     if (!userData?.UID) return;
-  
-   
-  
+
     const checkToken = async () => {
       const data = {
         facultyID: userData?.UID,
@@ -380,6 +376,7 @@ const AppRouter = () => {
   };
 
   useEffect(() => {
+    
     // Example usage
     const url = window.location.href; // Change this as needed
     const userId = extractUserId(url);
@@ -392,6 +389,7 @@ const AppRouter = () => {
       console.log("User segment found, but no user ID present.");
       navigate("/"); // Navigate to home if /user exists but no ID
     }
+
   }, []);
 
 
@@ -411,6 +409,7 @@ const AppRouter = () => {
       {showPopup && <CityPopup />}
       {showPopupSubjects && <SubjectsPopup />}
       {modalOpenReview && <Review />}
+      {modalOpenTermsAndConditions && <TermsAndConditionsPopup />}
       
       <BannerPopup imageType = {"Web Home Banner Popup"}/>
 
@@ -427,6 +426,7 @@ const AppRouter = () => {
             <Route path={AppRoute.Privacy_Policy} element={<Privacypolicy />} />
             <Route path={AppRoute.Contact_Us} element={<ContactUs />} />
             <Route path={AppRoute.Refund_Policy} element={<RefundPolicy />} />
+            <Route path={AppRoute.TermsAndConditions} element={<TermsAndConditions />} />
             <Route path={AppRoute.Blog} element={<Blog />} />
 
             {shareprofileUID ? (

@@ -133,7 +133,7 @@ function TrackPopup() {
               <div className=" w-full justify-start items-start">
                 {jobTrackData
                   ?.filter((item: any) => item?.label === "Interview scheduled")
-                  .map((item: any, index) => {
+                  ?.map((item: any, index) => {
                     return (
                       <div
                         key={index}
@@ -175,7 +175,7 @@ function TrackPopup() {
               <Loader />
             </div>
           ) : (
-            jobTrackData.map((item: any, index) => {
+            jobTrackData?.map((item: any, index) => {
               let iconSrc = Process;
 
               if (item?.completed === 1) {

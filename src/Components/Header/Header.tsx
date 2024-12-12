@@ -551,15 +551,15 @@ const Header = ({ clname = "", handleMobile }: any) => {
                     </div>
                   )}
                   {!userData?.UID && (
-                    <div className="header-customize-item button border-white border-1 border-solid  ">
+                    <button className="text-white px-2 py-[5px] font-semibold bg-[#9a3c58] shadow-md border-none rounded-[5px] cursor-pointer">
                       <NavLink
                         to="https://employer.tallento.ai/"
                         target={"_blank"}
                         aria-label="Sign Up page"
                       >
-                        Post Job
+                        Hire / Post a Job
                       </NavLink>
-                    </div>
+                    </button>
                   )}
                   <div className="nav-filter" onClick={handleMobile}>
                     <div className="nav-mobile">

@@ -12,6 +12,7 @@ import { Toast } from "@Utils/Toast";
 import { useGlobalContext } from "@Context/GlobalContextProvider";
 
 import AddSkills from "./inputs/skills/addSkills";
+import Skills from "../../Bottom Section/Right Section/Skills/Skills";
 
 function SkillsPopup() {
   const { userData } = useGlobalContext();
@@ -37,12 +38,12 @@ function SkillsPopup() {
 
     try {
       setButtonLoad(true);
-      const res = await postSubmitSkillsData([
+      const res = await postSubmitSkillsData(
         {
           faculityID: userId,
-          skill: commaSkills,
+          skills: commaSkills,
         },
-      ]);
+      );
 
       if (res?.data?.status) {
         await popupCloseFunc();
@@ -64,7 +65,7 @@ function SkillsPopup() {
     return skillsDataArrayAfter
       ?.filter((item) => item.active === 1)
       ?.map((skill) => skill.skillId)
-      .join(",");
+      
   };
 
   const handleAddDataToSkillArray = async (skill) => {

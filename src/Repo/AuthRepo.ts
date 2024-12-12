@@ -232,7 +232,7 @@ export const doEducationType = async () => {
 
 export const getPackages = async (UID: string): Promise<Package[]> => {
   const token = getToken();
-  const res = await http.getRequest("v2/packages?UID=" + UID, {
+  const res = await httpNode.getRequest("user/packages?facultyID=" + UID, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

@@ -18,9 +18,9 @@ function TopSection() {
     (state) => state.myProfileEducationSlice
   );
 
-  const banner = userDataArray?.other_details?.banner
-    ? userDataArray.other_details.banner
-    : defaultBanner;
+  const banner = userDataArray?.other_details?.banner || defaultBanner
+
+    console.log('userDataArray?.other_details?.banner',userDataArray?.other_details?.banner);
 
   function formatDate(inputDate) {
     const months = [
@@ -99,7 +99,7 @@ function TopSection() {
     <div className="py-5 md:py-0 w-full  bg-white min-h-[250px] rounded-[20px] p-[15px] gap-3 col">
       <div
         className="h-[200px] rounded-[20px] bg-cover bg-no-repeat relative "
-        style={{ backgroundImage: `url(${banner})` }}
+        style={{ backgroundImage: `url('${banner}')` }}
         onDrop={handleDrop}
         onDragOver={handleDragOver}
       >

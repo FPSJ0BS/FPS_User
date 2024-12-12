@@ -17,8 +17,15 @@ import { NavLink, useNavigate } from "react-router-dom";
 import useCreateOrder from "@Hooks/Mutation/useCreateOrder";
 import usePackUpdate from "@Hooks/Mutation/usePackUpdate";
 import { getRefetchUserProfileData } from "@/api/api";
-import { useDispatch } from "react-redux";
-import { openModalMembership, setModalOpenMembershipItemData } from "@/Redux/appliedJobSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  openModalMembership,
+  openModalTermsAndConditions,
+  setMembershipButtonPopup,
+  setMembershipItem,
+  setMembershipTypeText,
+  setModalOpenMembershipItemData,
+} from "@/Redux/appliedJobSlice";
 const Membership = () => {
   const { userData } = useGlobalContext();
   const [isMore, setIsMore] = useState(false);
@@ -26,24 +33,21 @@ const Membership = () => {
     uid: userData?.UID,
     enabled: !!userData?.UID,
   });
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  
   // const { data: profileDetails } = useProfileDetails({
   //   UID: userData?.UID,
   // });
 
-  const [profileDetails, setProfileDetails] = useState(null)
+  const [profileDetails, setProfileDetails] = useState(null);
 
   useEffect(() => {
     const fetchApi = async () => {
       try {
         const res = await getRefetchUserProfileData(userData?.UID);
 
-        
         if (res?.data?.status) {
-          setProfileDetails(res?.data?.data)
-          console.log('res',profileDetails?.user?.packID);
+          setProfileDetails(res?.data?.data);
         } else {
           console.log(res);
         }
@@ -55,18 +59,16 @@ const Membership = () => {
     fetchApi();
   }, []);
 
-
-
   const navigate = useNavigate();
   const { mutateAsync: packUpdate } = usePackUpdate({});
   const { mutateAsync: createOrder } = useCreateOrder({});
   const queryClient = useQueryClient();
-  const currentPlan = packageData?.packages?.filter((item) => {
-    return item.packID === String(profileDetails?.user?.packID);
+  const currentPlan = packageData?.data?.packages?.filter((item) => {
+    return item.packID === profileDetails?.user?.packID;
   });
 
-  console.log('currentPlan',currentPlan);
   const _currentPlan = currentPlan?.[0];
+
   const currentPlanDetails = _currentPlan?.details.split(" ");
   const { mutateAsync: PackCancel } = usePackCancel({});
   const [Razorpay] = useRazorpay();
@@ -156,26 +158,8 @@ const Membership = () => {
     }
   };
 
-  function calculateAmountWith18Percent(amount) {
-    const numericAmount = parseFloat(amount);
-
-    const percentage = 18 / 100;
-    const result = numericAmount * percentage;
-    return result.toFixed(2);
-  }
-
-  function calculateAmountWith18PercentIncluded(amount) {
-    const numericAmount = parseFloat(amount);
-
-    const percentage = 18 / 100;
-    const result = numericAmount + numericAmount * percentage;
-    return result.toFixed(2); // Format the result to 2 decimal places
-  }
-
   const openingmembershipModalAndData = (item) => {
-
-    if(item?.type === "Postpaid"){
-
+    if (item?.type === "Postpaid") {
       if (confirm("Do you really want to choose postpaid package") === true) {
         packUpdate({
           facultyID: userData?.UID,
@@ -193,18 +177,23 @@ const Membership = () => {
           }
         });
       }
+    } else {
+      dispatch(setModalOpenMembershipItemData(item));
 
-    } else{
-
-      dispatch(setModalOpenMembershipItemData(item))
-  
-      dispatch(openModalMembership())
+      dispatch(openModalMembership());
     }
+  };
 
+  const { isChecked, membershipButtonPopup, membershipStoreItem } = useSelector(
+    (state: any) => state.appliedJobSlice
+  );
 
-
-
-  }
+  useEffect(() => {
+    console.log("membershipButtonPopup", membershipButtonPopup);
+    if (membershipButtonPopup) {
+      openingmembershipModalAndData(membershipStoreItem);
+    }
+  }, [membershipButtonPopup]);
 
   return (
     <>
@@ -304,11 +293,11 @@ const Membership = () => {
       <section className="pricing-section">
         <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-7  ">
           <FlatList
-            data={packageData?.packages}
+            data={packageData?.data?.packages}
             renderItem={(item: any) => {
               const isPriceNumber = !isNaN(Number(item?.price));
               const isCategory = new Set(item?.categories).has(
-                packageData?.data?.category
+                packageData?.data?.catID
               );
               const isCurrentPlan =
                 item.packID === profileDetails?.user?.packID;
@@ -344,29 +333,30 @@ const Membership = () => {
                             </p>
 
                             <p className=" mb-0 text-[16px] font-semibold">
-                              ₹{" "}
-                              {item?.gst}
+                              ₹ {item?.gst}
                             </p>
                             <p className=" mb-0">(18% GST)</p>
                           </div>
                         )}
                       </div>
-                      {isPriceNumber && <div className=" flex justify-center">
-                        {isPriceNumber && (
-                          <p className=" mb-0 mt-2 mr-2 font-semibold text-[15px]">
-                            ₹
+                      {isPriceNumber && (
+                        <div className=" flex justify-center">
+                          {isPriceNumber && (
+                            <p className=" mb-0 mt-2 mr-2 font-semibold text-[15px]">
+                              ₹
+                            </p>
+                          )}
+                          <p
+                            className={`${
+                              !isPriceNumber
+                                ? "text-[16px] my-3 mb-3 leading-[1.2em]"
+                                : "text-[35px]"
+                            } mb-0  font-semibold`}
+                          >
+                            {item?.price_label}
                           </p>
-                        )}
-                        <p
-                          className={`${
-                            !isPriceNumber
-                              ? "text-[16px] my-3 mb-3 leading-[1.2em]"
-                              : "text-[35px]"
-                          } mb-0  font-semibold`}
-                        >
-                          {item?.price_label}
-                        </p>
-                      </div>}
+                        </div>
+                      )}
                       {/* <div
                         className={`price fw-500 ${
                           !isPriceNumber && "price-less"
@@ -380,10 +370,71 @@ const Membership = () => {
                         <li>{`${item?.no_of_jobs} job Apply `}</li>
                         <li> Days: {item?.days}</li>
                       </ul>
+
+                      {
+                        <div
+                          className={`flex justify-center w-full items-center gap-2 ${
+                            item?.type === "Postpaid" && !isChecked
+                              ? " "
+                              : "pb-0 "
+                          }`}
+                        >
+                          <p className=" leading-[1.2em] text-sm font-semibold">
+                            {" "}
+                            {` ${
+                              item?.type === "Postpaid"
+                                ? "Please view and check"
+                                : ""
+                            }`}
+                            <br />
+                            <span
+                              onClick={() => {
+                                const membershipText =
+                                  item?.type === "Prepaid"
+                                    ? "Prepaid"
+                                    : "Postpaid";
+                                console.log(
+                                  "Dispatching membership type text:",
+                                  membershipText
+                                );
+                                dispatch(setMembershipTypeText(membershipText));
+                                dispatch(setMembershipButtonPopup(false));
+                                dispatch(openModalTermsAndConditions());
+                              }}
+                              className="text-[#9a3c58] text-sm font-semibold cursor-pointer hover:underline"
+                            >
+                              Terms & Conditions
+                            </span>{" "}
+                            {` ${
+                              item?.type === "Postpaid" ? "to proceed" : ""
+                            }`}
+                          </p>
+                        </div>
+                      }
+
                       <div className="d-flex flex-row justify-content-center">
                         <button
-                          className="get-plan-btn tran3s w-100 mt-30 videoButton"
-                          onClick={() => openingmembershipModalAndData(item)}
+                          className={`get-plan-btn tran3s w-100  videoButton ${
+                            item?.type === "Postpaid" && !isChecked ? "" : ""
+                          }`}
+                          onClick={() => {
+                            if (item?.type === "Postpaid") {
+                              const membershipText =
+                                item?.type === "Prepaid"
+                                  ? "Prepaid"
+                                  : "Postpaid";
+                              console.log(
+                                "Dispatching membership type text:",
+                                membershipText
+                              );
+                              dispatch(setMembershipTypeText(membershipText));
+                              dispatch(setMembershipItem(item));
+                              dispatch(openModalTermsAndConditions());
+                              dispatch(setMembershipButtonPopup(false));
+                            } else {
+                              openingmembershipModalAndData(item);
+                            }
+                          }}
                         >
                           Choose Plan
                         </button>

@@ -83,7 +83,6 @@ export const doProfileEducation = async (data) => {
 
 export const doGetBlog = async (data) => {
 
-  console.log('data beta',data?.page_num);
   const res = await httpNode.getRequest(`user/blogs?page=${data?.page_num}`);
   return res;
 };

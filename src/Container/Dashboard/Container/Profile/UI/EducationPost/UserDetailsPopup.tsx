@@ -100,7 +100,7 @@ function UserDetailsPopup() {
     ProfileUpdate(_data).then((res) => {
       if (res.status) {
         dispatch(toggleRefetchProfile());
-        navigate(`${AppRoute.Dashboard}/${AppRoute.Profile}`);
+        navigate(`${AppRoute.Profile}`);
         Toast("success", res?.message);
         popupCloseFunc();
       } else {

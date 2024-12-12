@@ -17,6 +17,7 @@ const BlogDetails = () => {
   const { data: blog } = useBlog({ query });
   const navigate = useNavigate();
   const { id } = useParams();
+ 
   const { data: blogDetails } = useBlogDetails({
     enabled: !!id,
     blogId: atob(id || ""),

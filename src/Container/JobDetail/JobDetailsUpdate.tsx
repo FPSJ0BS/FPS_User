@@ -12,17 +12,24 @@ import { getRefetchUserProfileData } from "@/api/api";
 import { Toast } from "@Utils/Toast";
 import { openModal, updateAppliedJobValues } from "@/Redux/appliedJobSlice";
 import { useDispatch } from "react-redux";
-import { FaBusinessTime, FaCalendarDays, FaLocationDot } from "react-icons/fa6";
+import {
+  FaBusinessTime,
+  FaCalendarDays,
+  FaLanguage,
+  FaLocationDot,
+} from "react-icons/fa6";
 import { AiFillAlert } from "react-icons/ai";
 import { TbHourglassFilled } from "react-icons/tb";
 import { AiFillProfile } from "react-icons/ai";
 import { SiLevelsdotfyi } from "react-icons/si";
 import { IoIosTime } from "react-icons/io";
+import { LuLanguages } from "react-icons/lu";
+import { DiCssdeck } from "react-icons/di";
 
 const JobDetailsUpdate = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
-  console.log('idididididid',id);
+  console.log("idididididid", id);
   const { userData } = useGlobalContext();
   const { data: Category } = useCategoryList({});
   const uid = userData?.UID ? userData?.UID : 103082;
@@ -42,6 +49,7 @@ const JobDetailsUpdate = () => {
     }
   );
   const jobWhole = jobsDetails?.data?.job;
+  console.log("jobWhole,jobWhole", jobWhole);
 
   const [searchJob] = useState<any>({
     facultyID: userData?.UID ? userData?.UID : 103082,
@@ -118,18 +126,18 @@ const JobDetailsUpdate = () => {
 
   const convertToAmPm = (timeStr) => {
     // Create a Date object from the time string
-    const [hours, minutes, seconds] = timeStr.split(':');
-    
+    const [hours, minutes, seconds] = timeStr.split(":");
+
     // Convert to 12-hour format and determine AM/PM
     let hour = parseInt(hours, 10); // Convert the hour to an integer
-    const ampm = hour >= 12 ? 'PM' : 'AM';
-    
+    const ampm = hour >= 12 ? "PM" : "AM";
+
     // Convert hour from 24-hour to 12-hour format
     hour = hour % 12;
     hour = hour ? hour : 12; // the hour '0' should be '12' (midnight case)
-    
+
     return `${hour} ${ampm}`;
-  }
+  };
 
   return (
     <div className="container cursor-default">
@@ -484,7 +492,7 @@ const JobDetailsUpdate = () => {
                   </p>
                 </div>
               )}
-              {(jobWhole?.shift_start && jobWhole?.shift_end) && (
+              {jobWhole?.shift_start && jobWhole?.shift_end && (
                 <div className=" bg-[#f9eeef] min-h-[50px] min-w-[150px] rounded-lg p-2 flex flex-col gap-1">
                   <div className="flex items-center gap-1">
                     <FaBusinessTime size={20} />
@@ -493,11 +501,12 @@ const JobDetailsUpdate = () => {
                     </p>
                   </div>
                   <p className=" text-[#c94f56] font-bold">
-                    {convertToAmPm(jobWhole?.shift_start)} - {convertToAmPm(jobWhole?.shift_end)}
+                    {convertToAmPm(jobWhole?.shift_start)} -{" "}
+                    {convertToAmPm(jobWhole?.shift_end)}
                   </p>
                 </div>
               )}
-               {jobWhole?.working_days && (
+              {jobWhole?.working_days && (
                 <div className=" bg-[#f9eeef] min-h-[50px] min-w-[150px] rounded-lg p-2 flex flex-col gap-1">
                   <div className="flex items-center gap-1">
                     <FaCalendarDays size={18} />
@@ -507,6 +516,17 @@ const JobDetailsUpdate = () => {
                   </div>
                   <p className=" text-[#c94f56] font-bold">
                     {jobWhole?.working_days}
+                  </p>
+                </div>
+              )}
+              {jobWhole?.process_language && (
+                <div className=" bg-[#f9eeef] min-h-[50px] min-w-[150px] rounded-lg p-2 flex flex-col gap-1">
+                  <div className="flex items-center gap-1">
+                    <FaLanguage size={25} />
+                    <p className=" mb-0 text-[13px] font-semibold">Language:</p>
+                  </div>
+                  <p className=" text-[#c94f56] font-bold">
+                    {jobWhole?.process_language}
                   </p>
                 </div>
               )}
@@ -529,18 +549,22 @@ const JobDetailsUpdate = () => {
                       className=" bg-[#f9eeef] min-h-[50px] min-w-[150px] rounded-lg p-2 flex flex-col gap-1"
                     >
                       <div className="flex items-center gap-1">
-                        <img
-                          src={icon}
-                          alt={`${title}${icon}`}
-                          className="w-[30px]"
-                        />
+                        {icon ? (
+                          <img
+                            src={icon}
+                            alt={`${title}${icon}`}
+                            className="w-[30px]"
+                          />
+                        ) : (
+                          <DiCssdeck size={30} />
+                        )}
                         <p className=" mb-0 text-[13px] font-semibold">
                           {title}
                         </p>
                       </div>
-                      <p className=" text-[#c94f56] font-bold">
+                      {/* <p className=" text-[#c94f56] font-bold">
                         {title}, {title}
-                      </p>
+                      </p> */}
                     </div>
                   );
                 })}

@@ -12,17 +12,23 @@ interface AppliedJobValues {
 interface AppliedJobState {
   modalOpen: boolean;
   modalOpenMembership: boolean;
+  modalOpenTermsAndConditions: boolean;
   modalOpenmodalOpenLogin: boolean;
   modalOpenReview: boolean;
+  isChecked:  boolean;
+  membershipButtonPopup:  boolean;
   modalOpenMembershipItemData: any;
   appliedJobValues: AppliedJobValues;
   subjectText: String;
+  membershipTypeText: String;
+  membershipStoreItem: String[];
 }
 
 // Define the initial state for the slice
 const initialState: AppliedJobState = {
   modalOpen: false,
   modalOpenMembership: false,
+  modalOpenTermsAndConditions: false,
   modalOpenmodalOpenLogin: false,
   modalOpenReview: false,
   modalOpenMembershipItemData: null,
@@ -30,6 +36,10 @@ const initialState: AppliedJobState = {
   appliedJobValues: {
     applyID: "",
   },
+  isChecked: false,
+  membershipButtonPopup: false,
+  membershipTypeText: "",
+  membershipStoreItem: [],
 };
 
 // Create the slice
@@ -52,6 +62,17 @@ const appliedJobSlice = createSlice({
     closeModalMembership(state) {
       state.modalOpenMembership = false;
     },
+
+
+    openModalTermsAndConditions(state) {
+      state.modalOpenTermsAndConditions = true;
+    },
+    // Reducer to close the modal and reset applyID
+    closeModalTermsAndConditions(state) {
+      state.modalOpenTermsAndConditions = false;
+    },
+
+
     setModalOpenMembershipItemData: (state, action) => {
       state.modalOpenMembershipItemData = action.payload;
     },
@@ -74,7 +95,7 @@ const appliedJobSlice = createSlice({
     setSubjectText: (state, action) => {
       state.subjectText = action.payload;
     },
-
+    
     // Reducer to update applied job values
     updateAppliedJobValues(
       state,
@@ -84,6 +105,21 @@ const appliedJobSlice = createSlice({
         ...state.appliedJobValues,
         ...action.payload,
       };
+    },
+
+    setToggleMembershipTnCCheck: (state) => {
+      state.isChecked = !state.isChecked; 
+    },
+
+    setMembershipTypeText: (state, action) => {
+      state.membershipTypeText = action.payload;
+    },
+    setMembershipButtonPopup: (state, action) => {
+      console.log('action.payloadaction.payload',action.payload);
+      state.membershipButtonPopup = action.payload;
+    },
+    setMembershipItem: (state, action) => {
+      state.membershipStoreItem = action.payload;
     },
   },
 });
@@ -101,6 +137,12 @@ export const {
   setSubjectText,
   openModalReview,
   closeModalReview,
+  openModalTermsAndConditions,
+  closeModalTermsAndConditions,
+  setToggleMembershipTnCCheck,
+  setMembershipTypeText,
+  setMembershipButtonPopup,
+  setMembershipItem
 } = appliedJobSlice.actions;
 
 // Export the reducer

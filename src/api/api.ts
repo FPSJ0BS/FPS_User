@@ -2,6 +2,7 @@ import axios from "axios";
 
 const BASE_URL = "https://admin.fpsjob.com/api";
 const BASE_URL_NODE = "https://empapi.fpsjob.com";
+// const BASE_URL_NODE = "http://localhost:3000";
 
 const getToken = (): string | null => {
   const tokenString = localStorage.getItem("token:fpsjob");
@@ -32,6 +33,24 @@ export const getTrackingData = async (applyID) => {
 };
 
 export const postSubmitEducationDetails = async (postData) => {
+  const token = getToken();
+  try {
+    const response = await axios.post(
+      `${BASE_URL_NODE}/user/facultyEducationSave`,
+      postData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    throw error;
+  }
+};
+export const postSubmitskills = async (postData) => {
   const token = getToken();
   try {
     const response = await axios.post(
@@ -111,7 +130,7 @@ export const postSubmitSkillsData = async (postData) => {
   const token = getToken();
   try {
     const response = await axios.post(
-      `${BASE_URL}/Faculity/skill_edit`,
+      `${BASE_URL_NODE}/user/facultySkillSave`,
       postData,
       {
         headers: {

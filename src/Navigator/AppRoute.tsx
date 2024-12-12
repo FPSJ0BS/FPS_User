@@ -20,6 +20,7 @@ export const AppRoute = {
   Blog: "/blog",
   Privacy_Policy: "/privacy-policy",
   Refund_Policy: "/refund-policy",
+  TermsAndConditions: "/terms-and-conditions",
   Dashboard: "/dashboard",
   User_Dashboard: "user-dashboard",
   Resume: "resume",
